@@ -1,0 +1,37 @@
+package com.dsquare.hibour.utils;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+
+/**
+ * Created by Android Dsquare on 12/29/2015.
+ */
+public class Hibour {
+    private static Hibour mInstance;  // class instance
+    private static Context context;
+    private SharedPreferences sharedPreferences; // for shared preferences
+    private SharedPreferences.Editor editor;  // preferences editor
+    /*set context*/
+    private Hibour(Context context){
+        this.context  = context;
+    }
+    /* initialize Hibour if not initialized*/
+    public static synchronized Hibour getInstance(Context context){
+        if(mInstance==null){
+            mInstance = new Hibour(context);
+        }
+        return mInstance;
+    }
+    /*initialize shared preferences if not already initialized*/
+    private void initializeSharedPrefs(){
+        if(sharedPreferences==null){
+            sharedPreferences = context.getSharedPreferences(Constants.PREFERENCE_FILE_NAME
+                    ,Context.MODE_PRIVATE);
+        }
+    }
+    /*get user id from preferences*/
+    private String getUserId(){
+        initializeSharedPrefs();
+        return sharedPreferences.getString(Constants.PREFERENCE_USER_ID,"");
+    }
+}

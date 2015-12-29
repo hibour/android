@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="brand">#9077B1</color>
+    <color name="brand_status_bar">#7E57C2</color>
+    <color name="black_button">#40403E</color>
+    <color name="green_dot">#94CF39</color>
+</resources>
