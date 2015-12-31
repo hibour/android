@@ -29,4 +29,6 @@
     <string name="title_activity_choose_location">ChooseLocation</string>
 
     <string name="loc_text">Pin Your Home Location</string>
+    <string name="loc_current_loc_text">Current Location - </string>
+    <string name="loc_search_text">SEARCH</string>
 </resources>
