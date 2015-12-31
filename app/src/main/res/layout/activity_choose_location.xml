@@ -46,6 +46,15 @@
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/button_text_size"/>
         </LinearLayout>
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/map"
+            android:layout_below="@id/location_toolbar"
+            tools:context="com.dsquare.hibour.activities.ChooseLocation"
+            android:layout_above="@id/location_button_bar"
+            android:name="com.google.android.gms.maps.SupportMapFragment" />
 
     </RelativeLayout>
     <android.support.design.widget.FloatingActionButton
