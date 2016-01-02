@@ -31,4 +31,24 @@
     <string name="loc_text">Pin Your Home Location</string>
     <string name="loc_current_loc_text">Current Location - </string>
     <string name="loc_search_text">SEARCH</string>
+    <string name="title_activity_home">Home</string>
+
+    <!-- nav drawer items-->
+    <string-array name="drawerItems">
+        <item>HOME</item>
+        <item>MESSAGES</item>
+        <item>SOCIALIZE</item>
+        <item>GROUPS</item>
+        <item>ABOUT US</item>
+        <item>PRODUCT TOUR</item>
+        <item>SETTINGS</item>
+        <item>LOGOUT</item>
+    </string-array>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="home_fragment_title">hi\'bour</string>
+    <string name="posts_share_text">SHARE</string>
+
 </resources>
