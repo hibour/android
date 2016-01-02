@@ -92,6 +92,7 @@
                 android:layout_width="@dimen/post_icons_size"
                 android:layout_height="@dimen/post_icons_size"
                 android:src="@drawable/ic_like_red"
+                android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/post_comments"
                 android:layout_marginLeft="@dimen/dp_5"/>
         </RelativeLayout>
@@ -114,8 +115,13 @@
                 android:layout_width="@dimen/post_icons_size"
                 android:layout_height="@dimen/post_icons_size"
                 android:src="@drawable/ic_like_red"
+                android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/post_likes"
                 android:layout_marginLeft="@dimen/dp_5"/>
         </RelativeLayout>
     </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/horiz_line_height"
+        android:background="@color/gray"/>
 </LinearLayout>

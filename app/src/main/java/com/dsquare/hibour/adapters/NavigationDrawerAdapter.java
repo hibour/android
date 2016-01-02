@@ -67,53 +67,28 @@ public class NavigationDrawerAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         try{
-            /*if(getItem(position).equals("Pill Remainder") ||
-                    getItem(position).equals("About Only Health")){
-                RelativeLayout bottomLine=(RelativeLayout)convertView.
-                        findViewById(R.id.nav_drawer_bottom_line);
-                bottomLine.setVisibility(View.GONE);
-                LinearLayout topLayout=(LinearLayout)convertView.findViewById(R.id.nav_linear);
-                ViewGroup.LayoutParams params=topLayout.getLayoutParams();
-                int height= (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80,
-                        context.getResources().getDisplayMetrics());
-                params.height=height;
-                holder.notifIcon.setBackgroundResource(menuIcons.getResourceId(position, -1));
-                holder.notifDesc.setText((String) getItem(position));
-            }else if(getItem(position)=="Home"){
-
-                LinearLayout topLayout=(LinearLayout)convertView.findViewById(R.id.nav_linear);
-                ViewGroup.LayoutParams params=topLayout.getLayoutParams();
-                int height= (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,80,
-                        context.getResources().getDisplayMetrics());
-                params.height=height;
-                RelativeLayout nav=(RelativeLayout)convertView.findViewById(R.id.nav_layout);
-                int padding= (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,80,
-                        context.getResources().getDisplayMetrics());
-                nav.setPadding(padding,0,0,0);
-                holder.notifIcon.setBackgroundResource(menuIcons.getResourceId(position, -1));
-                holder.notifDesc.setText((String) getItem(position));
-            }else if(getItem(position).equals("Signout")){
-                LinearLayout layout = (LinearLayout)convertView.findViewById(R.id.nav_bottom_line);
-                layout.setVisibility(View.GONE);
-                holder.notifIcon.setBackgroundResource(menuIcons.getResourceId(position, -1));
-                holder.notifDesc.setText((String) getItem(position));
-            }else if(getItem(position).equals("Product Tour")){
-                RelativeLayout.LayoutParams params =
-                        new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                                ViewGroup.LayoutParams.WRAP_CONTENT);
-                int padding= (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,16,
-                        context.getResources().getDisplayMetrics());
-                params.setMargins(padding,0,0,0);
-                holder.notifIcon.setBackgroundResource(menuIcons.getResourceId(position, -1));
-                holder.notifIcon.requestLayout();
-                holder.notifIcon.setLayoutParams(params);
-                holder.notifIcon.getLayoutParams().height = 30;
-                holder.notifIcon.getLayoutParams().width=30;
-                holder.notifDesc.setText((String) getItem(position));
-            }else{*/
-                holder.notifDesc.setText((String) getItem(position));
-            //}
-
+            if(getItem(position).equals("GROUPS")){
+                RelativeLayout layout = (RelativeLayout)convertView.findViewById(R.id.nav_bottom_layout);
+                layout.setVisibility(View.VISIBLE);
+                RelativeLayout l = (RelativeLayout)convertView.findViewById(R.id.nav_drawer_bottom_line1);
+                l.setVisibility(View.VISIBLE);
+                RelativeLayout navBottomLine = (RelativeLayout)convertView.findViewById(R.id.nav_drawer_bottom_line);
+                navBottomLine.setVisibility(View.GONE);
+            }else if(getItem(position).equals("HOME")){
+                RelativeLayout topLayout=(RelativeLayout)convertView.findViewById(R.id.nav_drawer_row_layout);
+                topLayout.setVisibility(View.VISIBLE);
+            }else if(getItem(position).equals("LOGOUT")){
+                RelativeLayout topLayout=(RelativeLayout)convertView.findViewById(R.id.nav_drawer_row_layout);
+                topLayout.setVisibility(View.VISIBLE);
+                RelativeLayout navBottomLine = (RelativeLayout)convertView.findViewById(R.id.nav_drawer_bottom_line);
+                navBottomLine.setVisibility(View.GONE);
+                RelativeLayout bottomLayout = (RelativeLayout)convertView.findViewById(R.id.nav_logout_layout);
+                bottomLayout.setVisibility(View.VISIBLE);
+            } else if(getItem(position).equals("SETTINGS")){
+                RelativeLayout navBottomLine = (RelativeLayout)convertView.findViewById(R.id.nav_drawer_bottom_line);
+                navBottomLine.setVisibility(View.GONE);
+            }
+            holder.notifDesc.setText((String)getItem(position));
         }catch (Exception e){
             e.printStackTrace();
         }

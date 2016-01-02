@@ -2,7 +2,8 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="button_elevation">2dp</dimen>
+    <dimen name="button_elevation">0dp</dimen>
+    <dimen name="dp_1">1dp</dimen>
     <dimen name="dp_5">5dp</dimen>
     <dimen name="dp_10">10dp</dimen>
     <dimen name="dp_20">20dp</dimen>
@@ -13,6 +14,7 @@
     <dimen name="dp_70">70dp</dimen>
     <dimen name="dp_75">75dp</dimen>
     <dimen name="dp_80">80dp</dimen>
+    <dimen name="dp_100">100dp</dimen>
 
     <dimen name="sp_16">16sp</dimen>
 
@@ -36,15 +38,17 @@
     <dimen name="app_bar_title_text_size">18sp</dimen>
 
     <dimen name="home_tabs_height">48dp</dimen>
-    <dimen name="home_posts_height">180dp</dimen>
+    <dimen name="home_posts_height">160dp</dimen>
     <dimen name="posts_date_text_size">12sp</dimen>
     <dimen name="posts_image_size">50dp</dimen>
     <dimen name="post_user_name_margin_left">10dp</dimen>
-    <dimen name="post_user_name_text_size">15sp</dimen>
-    <dimen name="post_description_size">14sp</dimen>
-    <dimen name="post_category_name_text_size">14sp</dimen>
+    <dimen name="post_user_name_text_size">14sp</dimen>
+    <dimen name="post_description_size">13sp</dimen>
+    <dimen name="post_category_name_text_size">13sp</dimen>
     <dimen name="post_category_name_padding">5dp</dimen>
     <dimen name="post_comment_margin_right">10dp</dimen>
     <dimen name="post_like_margin_right">5dp</dimen>
-    <dimen name="post_icons_size">20dp</dimen>
+    <dimen name="post_icons_size">15dp</dimen>
+    <dimen name="horiz_line_height">0.8dp</dimen>
+    <dimen name="nav_bottom_line_height">1dp</dimen>
 </resources>

@@ -48,7 +48,7 @@ public class Posts extends Fragment {
         for(int i=0;i<10;i++){
             String[] data = new String[6];
             data[0] = "Ashok Madduru";
-            data[1] = "02 Jan 2015";
+            data[1] = "2 Jan 2015";
             data[2] = "Planning to start a chinese restaraunt near jubilee hills check post, anyone there to partner with me?";
             data[3] = "category name";
             data[4] = "250";
