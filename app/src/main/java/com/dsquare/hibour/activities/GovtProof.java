@@ -1,17 +1,18 @@
 package com.dsquare.hibour.activities;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -25,7 +26,10 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
 
     private Spinner cardsSpinner;
     private List<String> cardsList=new ArrayList<>();
-    private Button next;
+    private Button next,previous;
+    private EditText cardnum;
+    private TextInputLayout inputcardnum;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +42,11 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
     private void initializeViews(){
         next = (Button)findViewById(R.id.govt_next_button);
         cardsSpinner = (Spinner)findViewById(R.id.govt_cards_spinner);
+        previous = (Button)findViewById(R.id.govt_prev_button);
+        cardsSpinner = (Spinner)findViewById(R.id.govt_cards_spinner);
+        cardnum = (EditText)findViewById(R.id.govt_card_number_edittext);
+        inputcardnum = (TextInputLayout)findViewById(R.id.govt_cardnumber_inputlayout);
+        cardnum.addTextChangedListener(new MyTextWatcher(cardnum));
         prepareCardsList();
         ArrayAdapter<String> cardsAdapter = new ArrayAdapter<String>(this
                 ,android.R.layout.simple_dropdown_item_1line,cardsList);
@@ -64,6 +73,7 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
     /*initialize event listeners*/
     private void initializeEventListeners(){
         next.setOnClickListener(this);
+        previous.setOnClickListener(this);
         //cardsSpinner.setOnItemSelectedListener(this);
     }
     /*prepare cards list*/
@@ -79,6 +89,9 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
         switch(v.getId()){
             case R.id.govt_next_button:
                 openLocationActivity();
+                break;
+            case R.id.govt_prev_button:
+                openPreviousActivity();
                 break;
         }
     }
@@ -97,5 +110,31 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
     private void openLocationActivity(){
         Intent locationIntent = new Intent(this,ChooseLocation.class);
         startActivity(locationIntent);
+    }
+
+    /* open signup activity*/
+    private void openPreviousActivity(){
+        Intent signUpIntent = new Intent(this,SignUp.class);
+        startActivity(signUpIntent);
+        finish();
+    }
+
+    private class MyTextWatcher implements TextWatcher {
+
+        private View view;
+
+        private MyTextWatcher(View view) {
+            this.view = view;
+        }
+
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        public void afterTextChanged(Editable editable) {
+
+        }
     }
 }

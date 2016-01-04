@@ -6,11 +6,9 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
@@ -47,7 +45,7 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
         ,OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
     private static final LatLngBounds BOUNDS_INDIA =new LatLngBounds(new LatLng(8.4,37.6),new LatLng(68.7,97.25)) ;
-    private Button next;
+    private Button next,previous;
     protected GoogleApiClient mGoogleApiClient;
     private SupportMapFragment mapFragment;
     private TextView locationDisplayTextView;
@@ -144,6 +142,7 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
     /*initialize views*/
     private void initializeViews(){
         next = (Button)findViewById(R.id.location_next_button);
+        previous = (Button)findViewById(R.id.location_prev_button);
         locationDisplayTextView = (TextView)findViewById(R.id.loc_curr_loc_textview);
         autoCompleteTextView = (AutoCompleteTextView)findViewById(R.id.loc_search_autocomplete);
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -165,6 +164,7 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
     /* initialize event listeners*/
     private void initializeEventListeners(){
         next.setOnClickListener(this);
+        previous.setOnClickListener(this);
     }
 
     @Override
@@ -173,6 +173,9 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
             case R.id.location_next_button:
                 openSocializeActivity();
                 break;
+            case R.id.location_prev_button:
+                openPreviousActivity();
+                break;
         }
     }
 
@@ -180,6 +183,12 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
     private void openSocializeActivity(){
         Intent socialIntent = new Intent(this,SocialCategories.class);
         startActivity(socialIntent);
+    }
+    /* open govtproof activity*/
+    private void openPreviousActivity(){
+        Intent proofIntent = new Intent(this,GovtProof.class);
+        startActivity(proofIntent);
+        finish();
     }
 
     @Override
