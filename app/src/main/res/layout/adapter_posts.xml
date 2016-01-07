@@ -44,7 +44,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:textSize="@dimen/post_description_size"
-        android:textColor="@color/shady_black1"
+        android:textColor="@color/black_1"
         android:id="@+id/post_description_text"
         android:text="Planning to start a chinese restaraunt near jubilee hills check post, anyone there to partner with me?">
     </TextView>
@@ -87,7 +87,7 @@
                 android:text="100"
                 android:id="@+id/post_comments"
                 android:layout_centerVertical="true"
-                android:textColor="@color/shady_black1"/>
+                android:textColor="@color/black_1"/>
             <ImageView
                 android:layout_width="@dimen/post_icons_size"
                 android:layout_height="@dimen/post_icons_size"
@@ -110,7 +110,7 @@
                 android:text="200"
                 android:id="@+id/post_likes"
                 android:layout_centerVertical="true"
-                android:textColor="@color/shady_black1"/>
+                android:textColor="@color/black_1"/>
             <ImageView
                 android:layout_width="@dimen/post_icons_size"
                 android:layout_height="@dimen/post_icons_size"

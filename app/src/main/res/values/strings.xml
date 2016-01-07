@@ -51,4 +51,7 @@
     <string name="home_fragment_title">hi\'bour</string>
     <string name="posts_share_text">SHARE</string>
 
+    <string name="signin_button">Sign in</string>
+    <string name="signin_signup_text">Don\'t have an account? join here.</string>
+
 </resources>

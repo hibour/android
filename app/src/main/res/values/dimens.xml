@@ -51,4 +51,14 @@
     <dimen name="post_icons_size">15dp</dimen>
     <dimen name="horiz_line_height">0.8dp</dimen>
     <dimen name="nav_bottom_line_height">1dp</dimen>
+
+    <dimen name="text_size_level1">20sp</dimen>
+    <dimen name="text_size_level2">18sp</dimen>
+    <dimen name="text_size_level3">16sp</dimen>
+    <dimen name="text_size_level4">15sp</dimen>
+    <dimen name="text_Size_level5">14sp</dimen>
+    <dimen name="text_size_level6">13sp</dimen>
+    <dimen name="text_size_level7">12sp</dimen>
+
+
 </resources>
