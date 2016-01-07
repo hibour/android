@@ -48,6 +48,10 @@
             android:name=".activities.Home"
             android:label="@string/title_activity_home" >
         </activity>
+        <activity
+            android:name=".activities.TermsAndConditions"
+            android:label="@string/title_activity_terms_and_conditions" >
+        </activity>
     </application>
 
 </manifest>

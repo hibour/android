@@ -23,15 +23,21 @@ public class Hibour {
         return mInstance;
     }
     /*initialize shared preferences if not already initialized*/
-    private void initializeSharedPrefs(){
+    public void initializeSharedPrefs(){
         if(sharedPreferences==null){
             sharedPreferences = context.getSharedPreferences(Constants.PREFERENCE_FILE_NAME
                     ,Context.MODE_PRIVATE);
         }
     }
     /*get user id from preferences*/
-    private String getUserId(){
+    public String getUserId(){
         initializeSharedPrefs();
         return sharedPreferences.getString(Constants.PREFERENCE_USER_ID,"");
+    }
+    /* validate email*/
+    public boolean validateEmail(String mail){
+        if(!mail.contains("@")&& !mail.contains(" "))
+            return false;
+        return true;
     }
 }
