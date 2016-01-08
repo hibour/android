@@ -14,6 +14,8 @@ public class Constants {
     public static final String URL_PREFS_ALL=URL_DOMAIN+"Preferences";
     public static final String URL_PREFS_INSERT=URL_DOMAIN+"Userpreferences/create?";
     public static final String URL_LOC_INSERT=URL_DOMAIN+"";
+    public static final String URL_GET_ALL_POSTS = URL_DOMAIN+"Userposts/";
+    public static final String URL_GET_ABOUT_US=URL_DOMAIN+"";
 
     /*user constants*/
     public static final String KEYWORD_USER_NAME="Username";

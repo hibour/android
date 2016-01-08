@@ -1,15 +1,12 @@
 package com.dsquare.hibour.activities;
 
-import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -17,6 +14,7 @@ import android.widget.Toast;
 
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.adapters.NavigationDrawerAdapter;
+import com.dsquare.hibour.fragments.AboutUs;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
 
 public class Home extends AppCompatActivity implements NavDrawerCallback, AdapterView.OnItemClickListener{
@@ -83,6 +81,10 @@ public class Home extends AppCompatActivity implements NavDrawerCallback, Adapte
             case 0:
                 isHome = true;
                 transaction.replace(R.id.content_frame, new com.dsquare.hibour.fragments.Home());
+                break;
+            case 4:
+                isHome = false;
+                transaction.replace(R.id.content_frame,new AboutUs());
                 break;
         }
         transaction.commit();

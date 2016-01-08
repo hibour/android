@@ -1,0 +1,57 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context="com.dsquare.hibour.fragments.AboutUs">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="?android:actionBarSize"
+            android:background="@color/brand"
+            android:id="@+id/about_us_app_bar">
+            <ImageView
+                android:layout_width="@dimen/app_bar_icon_size"
+                android:layout_height="@dimen/app_bar_icon_size"
+                android:padding="@dimen/app_bar_icon_padding"
+                android:src="@drawable/ic_menu_white"
+                android:id="@+id/about_us_menu_icon"
+                android:layout_centerVertical="true"/>
+            <com.dsquare.hibour.utils.Avenir
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/about_hibour"
+                android:textColor="@android:color/white"
+                android:layout_centerInParent="true"
+                android:textSize="@dimen/app_bar_title_text_size"/>
+            <ImageView
+                android:layout_width="@dimen/app_bar_icon_size"
+                android:layout_height="@dimen/app_bar_icon_size"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_notifcations_white"
+                android:layout_centerVertical="true"
+                android:id="@+id/about_us_notif_icon"/>
+        </RelativeLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_below="@id/about_us_app_bar">
+            <com.dsquare.hibour.utils.Avenir
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_Size_level5"
+                android:textColor="@color/black_1"
+                android:id="@+id/about_us_text"
+                android:layout_marginTop="@dimen/dp_20"/>
+            </ScrollView>
+
+
+    </RelativeLayout>
+
+
+
+</FrameLayout>
