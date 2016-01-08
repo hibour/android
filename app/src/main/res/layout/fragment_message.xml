@@ -1,0 +1,51 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context="com.dsquare.hibour.fragments.Message">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="?android:actionBarSize"
+            android:background="@color/brand"
+            android:id="@+id/messages_app_bar">
+            <ImageView
+                android:layout_width="@dimen/app_bar_icon_size"
+                android:layout_height="@dimen/app_bar_icon_size"
+                android:padding="@dimen/app_bar_icon_padding"
+                android:src="@drawable/ic_menu_white"
+                android:id="@+id/messages_menu_icon"
+                android:layout_centerVertical="true"/>
+            <com.dsquare.hibour.utils.Avenir
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/messages_title"
+                android:textColor="@android:color/white"
+                android:layout_centerInParent="true"
+                android:textSize="@dimen/app_bar_title_text_size"/>
+            <ImageView
+                android:layout_width="@dimen/app_bar_icon_size"
+                android:layout_height="@dimen/app_bar_icon_size"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_notifcations_white"
+                android:layout_centerVertical="true"
+                android:id="@+id/messages_notif_icon"/>
+        </RelativeLayout>
+        <android.support.v7.widget.RecyclerView
+            android:scrollbars="vertical"
+            android:background="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/messages_neighbours_list"
+            android:layout_below="@id/messages_app_bar">
+        </android.support.v7.widget.RecyclerView>
+
+
+    </RelativeLayout>
+
+
+
+</FrameLayout>

@@ -55,4 +55,6 @@
     <string name="about_hibour">About hi\'bour</string>
     <string name="title_activity_post_comments">PostComments</string>
 
+    <string name="messages_title">Neighbours</string>
+
 </resources>
