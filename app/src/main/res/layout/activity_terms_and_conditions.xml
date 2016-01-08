@@ -21,14 +21,27 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <com.dsquare.hibour.utils.Avenir
-                android:text="@string/signup_terms_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black_1"
-                android:textSize="@dimen/text_size_level3"
-                android:layout_marginTop="@dimen/dp_20"
-                android:layout_gravity="center_horizontal"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.dsquare.hibour.utils.Avenir
+                    android:text="@string/signup_terms_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black_1"
+                    android:textSize="@dimen/text_size_level3"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:layout_centerInParent="true"/>
+                <ImageView
+                    android:layout_width="@dimen/app_bar_icon_size"
+                    android:layout_height="@dimen/app_bar_icon_size"
+                    android:padding="@dimen/app_bar_icon_padding"
+                    android:src="@drawable/ic_close_black"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/terms_close_icon"
+                    android:layout_alignParentRight="true"/>
+                </RelativeLayout>
+
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

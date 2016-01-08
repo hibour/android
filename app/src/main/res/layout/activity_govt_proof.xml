@@ -13,10 +13,11 @@
             android:layout_height="@dimen/extended_toolbar_height"
             android:id="@+id/govt_proof_toolbar"
             android:background="@color/brand">
-            <TextView
+            <com.dsquare.hibour.utils.Avenir
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:lineSpacingExtra="@dimen/dp_1"
                 android:text="@string/govt_proof_text"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/extended_tool_bar_text_size"/>
@@ -49,6 +50,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:layout_below="@id/govt_proof_toolbar"
             android:layout_above="@id/govt_proof_button_bar">
             <LinearLayout
@@ -77,6 +80,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/govt_cardnumber_inputlayout"
                     android:layout_marginTop="@dimen/dp_20"
+                    app:hintTextAppearance="@style/ThemeTextInputLayout"
                     android:layout_centerHorizontal="true">
                     <EditText
                         android:layout_width="match_parent"
@@ -98,13 +102,29 @@
                     android:background="@color/gray"
                     android:layout_marginTop="@dimen/dp_5"></View>
 
-               <TextView
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:textColor="@color/gray"
-                   android:textSize="@dimen/edit_text_size"
-                   android:text="@string/govt_card_upload_text"
-                   android:layout_marginTop="@dimen/dp_20"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_20">
+                    <com.dsquare.hibour.utils.Avenir
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/gray"
+                        android:textSize="@dimen/edit_text_size"
+                        android:id="@+id/govt_proof_image_text"
+                        android:text="@string/govt_card_upload_text"
+                        android:layout_centerVertical="true"/>
+                    <ImageView
+                        android:layout_width="@dimen/dp_30"
+                        android:layout_height="@dimen/dp_30"
+                        android:src="@drawable/ic_ok"
+                        android:layout_toRightOf="@id/govt_proof_image_text"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_centerVertical="true"
+                        android:visibility="gone"
+                        android:id="@+id/proof_uploaded"/>
+                    </RelativeLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/edit_text_bottom_line_height"

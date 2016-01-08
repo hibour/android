@@ -21,4 +21,9 @@
     <style name="LauncherTheme" parent="AppTheme">
         <item name="android:windowBackground">@drawable/launch_screen</item>
     </style>
+    <style name="ThemeTextInputLayout" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
 </resources>
