@@ -2,6 +2,7 @@ package com.dsquare.hibour.adapters;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,8 +36,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_posts,parent
                 ,false);
         final ViewHolder holder = new ViewHolder(v);
-        holder.itemView.setOnClickListener(this);
-        holder.itemView.setTag(holder);
         return holder;
     }
 
@@ -48,6 +47,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>
         holder.categoryName.setText(listItems.get(position)[3]);
         holder.likes.setText(listItems.get(position)[4]);
         holder.comments.setText(listItems.get(position)[5]);
+
+        holder.share.setOnClickListener(this);
+        holder.share.setTag(holder);
 
     }
 
@@ -61,11 +63,16 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>
     public void onClick(View v) {
         final ViewHolder viewHolder = (ViewHolder)v.getTag();
         final int position = viewHolder.getAdapterPosition();
+        switch (v.getId()){
+            case R.id.post_share:
+                sharePost(listItems.get(position)[2]);
+                break;
+        }
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView userName,date,description,categoryName,likes
-                ,comments;
+                ,comments,share;
         private ImageView userImage;
 
         public ViewHolder(View itemView) {
@@ -77,8 +84,16 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>
             categoryName = (TextView)itemView.findViewById(R.id.post_category_name);
             likes = (TextView)itemView.findViewById(R.id.post_likes);
             comments = (TextView)itemView.findViewById(R.id.post_comments);
+            share = (TextView)itemView.findViewById(R.id.post_share);
         }
     }
 
-    /**/
+    /*share post*/
+    private void sharePost(String postMessage){
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+        sendIntent.setType("text/plain");
+        context.startActivity(sendIntent);
+    }
 }
