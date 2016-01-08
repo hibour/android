@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.activities.PostComments;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +53,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>
         holder.share.setOnClickListener(this);
         holder.share.setTag(holder);
 
+        holder.commentsLayout.setOnClickListener(this);
+        holder.commentsLayout.setTag(holder);
+
     }
 
     @Override
@@ -67,6 +72,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>
             case R.id.post_share:
                 sharePost(listItems.get(position)[2]);
                 break;
+            case R.id.post_comments_layout:
+                openCommentsDialog();
+                break;
         }
     }
 
@@ -74,6 +82,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>
         private TextView userName,date,description,categoryName,likes
                 ,comments,share;
         private ImageView userImage;
+        private RelativeLayout commentsLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -85,6 +94,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>
             likes = (TextView)itemView.findViewById(R.id.post_likes);
             comments = (TextView)itemView.findViewById(R.id.post_comments);
             share = (TextView)itemView.findViewById(R.id.post_share);
+            commentsLayout = (RelativeLayout)itemView.findViewById(R.id.post_comments_layout);
         }
     }
 
@@ -95,5 +105,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>
         sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
         sendIntent.setType("text/plain");
         context.startActivity(sendIntent);
+    }
+    /* open post comments*/
+    private void openCommentsDialog(){
+        Intent commentsIntent = new Intent(context, PostComments.class);
+        context.startActivity(commentsIntent);
     }
 }

@@ -52,7 +52,7 @@
     <string name="title_activity_terms_and_conditions">TermsAndConditions</string>
     <string name="signup_signin_text">Already have an account! enter here</string>
     <string name="dilaog_image_chooser_title">Choose image from</string>
-
     <string name="about_hibour">About hi\'bour</string>
+    <string name="title_activity_post_comments">PostComments</string>
 
 </resources>

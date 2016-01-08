@@ -16,6 +16,7 @@ public class Constants {
     public static final String URL_LOC_INSERT=URL_DOMAIN+"";
     public static final String URL_GET_ALL_POSTS = URL_DOMAIN+"Userposts/";
     public static final String URL_GET_ABOUT_US=URL_DOMAIN+"";
+    public static final String URL_POST_COMMENT = URL_DOMAIN+"Commentpost/create?";
 
     /*user constants*/
     public static final String KEYWORD_USER_NAME="Username";
@@ -31,6 +32,9 @@ public class Constants {
     public static final String KEYWORD_LAT="latitude";
     public static final String KEYWORD_LON="longitude";
     public static final String KEYWORD_ADDRESS="address";
+    public static final String KEYWORD_USER_ID="Userid";
+    public static final String KEYWORD_POST_ID="Postid";
+    public static final String KEYWORD_POST_COMMENT="Commentmessage";
 
 
     public static final String PREFERENCE_FILE_NAME="Hibour";
