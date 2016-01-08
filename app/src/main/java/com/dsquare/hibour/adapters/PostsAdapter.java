@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dsquare.hibour.R;
-import com.dsquare.hibour.network.NetworkDetector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,4 +79,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>
             comments = (TextView)itemView.findViewById(R.id.post_comments);
         }
     }
+
+    /**/
 }

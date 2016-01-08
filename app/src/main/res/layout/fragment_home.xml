@@ -19,72 +19,80 @@
                 android:src="@drawable/ic_menu_white"
                 android:id="@+id/home_menu_icon"
                 android:layout_centerVertical="true"/>
-            <TextView
+            <com.dsquare.hibour.utils.Avenir
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/home_fragment_title"
                 android:textColor="@android:color/white"
                 android:layout_centerInParent="true"
                 android:textSize="@dimen/app_bar_title_text_size"/>
-            <!-- <ImageView
+             <ImageView
                  android:layout_width="@dimen/app_bar_icon_size"
                  android:layout_height="@dimen/app_bar_icon_size"
                  android:layout_alignParentRight="true"
                  android:src="@drawable/ic_notifcations_white"
                  android:layout_centerVertical="true"
                  android:id="@+id/home_notif_icon"/>
-             <ImageView
-                 android:layout_width="@dimen/app_bar_icon_size"
-                 android:layout_height="@dimen/app_bar_icon_size"
-                 android:src="@drawable/ic_edit_post_white"
-                 android:layout_centerVertical="true"
-                 android:layout_toLeftOf="@id/home_notif_icon"
-                 android:id="@+id/home_edit_post_icon"/>
-             <ImageView
-                 android:layout_width="@dimen/app_bar_icon_size"
-                 android:layout_height="@dimen/app_bar_icon_size"
-                 android:src="@drawable/ic_search_white"
-                 android:layout_centerVertical="true"
-                 android:layout_toLeftOf="@id/home_edit_post_icon"/>-->
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/home_tabs_container"
+       </RelativeLayout>
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/home_tabs_height"
-            android:layout_below="@id/home_app_bar">
+            android:layout_height="?android:actionBarSize"
+            android:background="@color/brand"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:id="@+id/home_bottom_menu">
+            <ImageView
+                android:layout_width="@dimen/app_bar_icon_size"
+                android:layout_height="@dimen/app_bar_icon_size"
+                android:padding="@dimen/app_bar_icon_padding"
+                android:src="@drawable/ic_menu_white"
+                android:layout_weight="1"
+                android:id="@+id/home_new_post"
+                android:layout_gravity="center_vertical"/>
 
-            <TabHost
-                android:id="@+id/home_tabhost"
-                android:layout_width="match_parent"
-                android:background="@android:color/white"
-                android:layout_height="match_parent">
-
-                <TabWidget
-                    android:id="@android:id/tabs"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"></TabWidget>
-
-                <FrameLayout
-                    android:id="@android:id/tabcontent"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="@dimen/home_tabs_height"></FrameLayout>
-            </TabHost>
-        </RelativeLayout>
-        <android.support.v4.view.ViewPager
-            android:id="@+id/home_pager"
+            <ImageView
+                android:layout_width="@dimen/app_bar_icon_size"
+                android:layout_height="@dimen/app_bar_icon_size"
+                android:layout_alignParentRight="true"
+                android:layout_weight="1"
+                android:id="@+id/home_posts_icon"
+                android:src="@drawable/ic_notifcations_white"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"/>
+            <ImageView
+                android:layout_width="@dimen/app_bar_icon_size"
+                android:layout_height="@dimen/app_bar_icon_size"
+                android:layout_alignParentRight="true"
+                android:layout_weight="1"
+                android:id="@+id/home_suggestions_icon"
+                android:src="@drawable/ic_notifcations_white"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"/>
+            <ImageView
+                android:layout_width="@dimen/app_bar_icon_size"
+                android:layout_height="@dimen/app_bar_icon_size"
+                android:layout_alignParentRight="true"
+                android:layout_weight="1"
+                android:id="@+id/home_classifieds_icon"
+                android:src="@drawable/ic_notifcations_white"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"/>
+            <ImageView
+                android:layout_width="@dimen/app_bar_icon_size"
+                android:layout_height="@dimen/app_bar_icon_size"
+                android:layout_alignParentRight="true"
+                android:layout_weight="1"
+                android:id="@+id/home_socialize_icon"
+                android:src="@drawable/ic_notifcations_white"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"/>
+        </LinearLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/home_tabs_container"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/white">
-
-        </android.support.v4.view.ViewPager>
-      <!--  <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/home_tabs_container"
-            android:id="@+id/home_frame_container"></FrameLayout>-->
+            android:layout_below="@id/home_app_bar"
+            android:layout_above="@id/home_bottom_menu"
+            android:id="@+id/home_fragment_container"></FrameLayout>
     </RelativeLayout>
 
 
