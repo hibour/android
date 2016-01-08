@@ -2,6 +2,7 @@ package com.dsquare.hibour.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -16,8 +17,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.adapters.PlaceAutoCompleteAdapter;
+import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
+import com.dsquare.hibour.network.AccountsClient;
+import com.dsquare.hibour.network.NetworkDetector;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -35,6 +40,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -63,6 +70,10 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
     private String locAddress;
     private LatLng latLng;
     private boolean markerDrag = false;
+    private Typeface avenir;
+    private ProgressDialog locInsertDialog;
+    private NetworkDetector networkDetector;
+    private AccountsClient accountsClient;
     private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
             = new ResultCallback<PlaceBuffer>() {
         @Override
@@ -87,8 +98,6 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
             if (place == null)
                 Toast.makeText(ChooseLocation.this, "Location Not Changed", Toast.LENGTH_SHORT).show();
             else {
-              //  latitude=latLng.latitude;
-               // longitude = latLng.longitude;
                 Log.d("lat and long",latLng.latitude+" "+latLng.longitude);
                 locationDisplayTextView.setText("");
                 Double[] params=new Double[2];
@@ -145,6 +154,9 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
         previous = (Button)findViewById(R.id.location_prev_button);
         locationDisplayTextView = (TextView)findViewById(R.id.loc_curr_loc_textview);
         autoCompleteTextView = (AutoCompleteTextView)findViewById(R.id.loc_search_autocomplete);
+        avenir = Typeface.createFromAsset(getAssets(),"fonts/AvenirLTStd-Book.otf");
+        networkDetector = new NetworkDetector(this);
+        accountsClient = new AccountsClient(this);
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         filterTypes.add(Place.TYPE_GEOCODE);
@@ -159,7 +171,9 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
         placeAutoCompleteAdapter = new PlaceAutoCompleteAdapter(this,android.R.layout.simple_list_item_1,
                 mGoogleApiClient, BOUNDS_INDIA, AutocompleteFilter.create(filterTypes));
         autoCompleteTextView.setAdapter(placeAutoCompleteAdapter);
-
+        next.setTypeface(avenir);
+        previous.setTypeface(avenir);
+        autoCompleteTextView.setTypeface(avenir);
     }
     /* initialize event listeners*/
     private void initializeEventListeners(){
@@ -319,7 +333,8 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
                             +" "+address.getAddressLine(2);
                     Log.d("address",address.toString());
                     Log.d("address",address.getLocality()+" "+address.getSubLocality());
-                    locAddress = ad;
+                   // locAddress = ad;
+                    locAddress = address.getAddressLine(1);
                     latitude=params[0];
                     longitude = params[1];
                     //autoLoc = address.getLocality();
@@ -344,4 +359,40 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
         locationDisplayTextView.setText(locAddress);
     }
 
+    /* validate data*/
+    /*send loc data to server*/
+    private void sendLocData(String userId,String lat,String lon,String address){
+        if(networkDetector.isConnected()){
+            locInsertDialog = ProgressDialog.show(this,""
+                    ,getResources().getString(R.string.progress_dialog_text));
+            accountsClient.inserUserLocation(userId,lat,lon,address,new WebServiceResponseCallback() {
+                @Override
+                public void onSuccess(JSONObject jsonObject) {
+                    parseLocDetails(jsonObject);
+                    closeLocDialog();
+                }
+
+                @Override
+                public void onFailure(VolleyError error) {
+                    Log.d("loc",error.toString());
+                    closeLocDialog();
+                }
+            });
+        }else{
+            Toast.makeText(this,"Network error",Toast.LENGTH_LONG).show();
+        }
+    }
+    /* parse loc data*/
+    private void parseLocDetails(JSONObject jsonObject){
+
+    }
+    /* close loc dialog*/
+    private void closeLocDialog(){
+        if(locInsertDialog!=null){
+            if(locInsertDialog.isShowing()){
+                locInsertDialog.dismiss();
+                locInsertDialog=null;
+            }
+        }
+    }
 }

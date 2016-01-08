@@ -248,4 +248,6 @@ public class AccountsClient {
                 +Constants.KEYWORD_ADDRESS+"="+address;
         return address;
     }
+
+    /* get all social prefs*/
 }
