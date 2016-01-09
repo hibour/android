@@ -1,0 +1,113 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@android:color/white"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?android:actionBarSize"
+        android:background="@color/brand"
+        android:id="@+id/settings_app_bar">
+        <ImageView
+            android:layout_width="@dimen/app_bar_icon_size"
+            android:layout_height="@dimen/app_bar_icon_size"
+            android:padding="@dimen/app_bar_icon_padding"
+            android:src="@drawable/ic_menu_white"
+            android:id="@+id/settings_menu_icon"
+            android:layout_centerVertical="true"/>
+        <com.dsquare.hibour.utils.Avenir
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_settings_fragment"
+            android:textColor="@android:color/white"
+            android:layout_centerInParent="true"
+            android:textSize="@dimen/app_bar_title_text_size"/>
+        <ImageView
+            android:layout_width="@dimen/app_bar_icon_size"
+            android:layout_height="@dimen/app_bar_icon_size"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_notifcations_white"
+            android:layout_centerVertical="true"
+            android:id="@+id/settings_notif_icon"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/dp_30"
+        android:layout_below="@id/settings_app_bar">
+
+        <ImageView
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_100"
+            android:src="@drawable/avatar1"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/input_image"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_name"
+            android:layout_width="200dp"
+            app:hintTextAppearance="@style/ThemeTextInputLayout"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/input_name"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="Full Name" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_email"
+            android:layout_width="200dp"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_gravity="center_horizontal"
+            app:hintTextAppearance="@style/ThemeTextInputLayout"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/input_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:hint="Email" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_password"
+            android:layout_width="200dp"
+            android:layout_marginTop="@dimen/dp_20"
+            app:hintTextAppearance="@style/ThemeTextInputLayout"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/input_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="Password" />
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:layout_width="110dp"
+            android:layout_height="30dp"
+            android:text="Submit"
+            android:layout_gravity="center_horizontal"
+            android:textAllCaps="false"
+            android:background="@color/brand"
+            android:layout_marginTop="50dp"
+            android:id="@+id/settings_submit"
+            android:textColor="@android:color/white"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
+

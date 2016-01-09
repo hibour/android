@@ -60,5 +60,10 @@
 
     <string name="title_groups_fragment">Groups</string>
     <string name="title_activity_group_posts">GroupPosts</string>
+    <string name="title_settings_fragment">Settings</string>
+
+    <string name="err_msg_name">Enter your full name</string>
+    <string name="err_msg_email">Enter valid email address</string>
+    <string name="err_msg_password">Enter the password</string>
 
 </resources>
