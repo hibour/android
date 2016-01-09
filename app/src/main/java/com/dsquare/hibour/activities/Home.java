@@ -1,5 +1,6 @@
 package com.dsquare.hibour.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
@@ -18,6 +19,7 @@ import com.dsquare.hibour.fragments.AboutUs;
 import com.dsquare.hibour.fragments.Groups;
 import com.dsquare.hibour.fragments.Message;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
+import com.dsquare.hibour.utils.Hibour;
 
 public class Home extends AppCompatActivity implements NavDrawerCallback, AdapterView.OnItemClickListener{
 
@@ -27,6 +29,7 @@ public class Home extends AppCompatActivity implements NavDrawerCallback, Adapte
     private ListView drawerList;
     private boolean isHome = true;
     boolean doubleBackToExitPressedOnce = false;
+    private Hibour application;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +45,7 @@ public class Home extends AppCompatActivity implements NavDrawerCallback, Adapte
         drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
         manager = getSupportFragmentManager();
         drawerList = (ListView)findViewById(R.id.left_drawer);
+        application = Hibour.getInstance(this);
     }
 
     private void loadDefaultFragment(){
@@ -96,6 +100,12 @@ public class Home extends AppCompatActivity implements NavDrawerCallback, Adapte
                 isHome = false;
                 transaction.replace(R.id.content_frame,new AboutUs());
                 break;
+            case 7:
+                isHome= false;
+                application.removeUserDetails();
+                Intent signInIntent = new Intent(this,SignIn.class);
+                startActivity(signInIntent);
+                this.finish();
         }
         transaction.commit();
         hideDrawer();

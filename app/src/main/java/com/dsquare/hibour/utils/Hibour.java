@@ -27,12 +27,18 @@ public class Hibour {
         if(sharedPreferences==null){
             sharedPreferences = context.getSharedPreferences(Constants.PREFERENCE_FILE_NAME
                     ,Context.MODE_PRIVATE);
+            editor = sharedPreferences.edit();
         }
     }
     /*get user id from preferences*/
     public String getUserId(){
         initializeSharedPrefs();
         return sharedPreferences.getString(Constants.PREFERENCE_USER_ID,"");
+    }
+    /* remove user id*/
+    public void removeUserDetails(){
+        initializeSharedPrefs();
+        editor.remove(Constants.PREFERENCE_USER_ID);
     }
     /* validate email*/
     public boolean validateEmail(String mail){
