@@ -1,0 +1,37 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    tools:context="com.dsquare.hibour.activities.GroupPosts">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/brand">
+        <ImageView
+            android:layout_width="@dimen/app_bar_icon_size"
+            android:layout_height="@dimen/app_bar_icon_size"
+            android:src="@drawable/ic_arrow_back_white"
+            android:padding="@dimen/app_bar_icon_padding"
+            android:id="@+id/group_posts_back_icon"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Bhanu Elite"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/app_bar_title_text_size"
+            android:id="@+id/group_posts_group_name"/>
+        </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:scrollbars="vertical"
+        android:background="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/group_posts_list">
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>

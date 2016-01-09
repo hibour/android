@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.adapters.NavigationDrawerAdapter;
 import com.dsquare.hibour.fragments.AboutUs;
+import com.dsquare.hibour.fragments.Groups;
 import com.dsquare.hibour.fragments.Message;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
 
@@ -86,6 +87,10 @@ public class Home extends AppCompatActivity implements NavDrawerCallback, Adapte
             case 1:
                 isHome = false;
                 transaction.replace(R.id.content_frame,new Message());
+                break;
+            case 3:
+                isHome = false;
+                transaction.replace(R.id.content_frame,new Groups());
                 break;
             case 4:
                 isHome = false;

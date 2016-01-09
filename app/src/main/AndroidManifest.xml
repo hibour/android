@@ -58,6 +58,22 @@
             android:name=".activities.PostComments"
             android:label="@string/title_activity_post_comments" >
         </activity>
+        <activity
+            android:name=".activities.SelectArea"
+            android:label="@string/title_activity_select_area" >
+
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
+        </activity>
+        <activity
+            android:name=".activities.GroupPosts"
+            android:label="@string/title_activity_group_posts" >
+        </activity>
     </application>
 
 </manifest>
