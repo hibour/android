@@ -93,7 +93,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener{
     }
     /* open Home Activity*/
     private void openHomeActivity(){
-        Intent homeIntent = new Intent(this,Home.class);
+        Intent homeIntent = new Intent(this,GovtProof.class);
         startActivity(homeIntent);
         this.finish();
     }

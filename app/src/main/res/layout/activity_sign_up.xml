@@ -14,6 +14,23 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_100"
+                android:background="@color/brand">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_50"
+                    android:layout_centerVertical="true"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:background="@drawable/logo"/>
+
+            </RelativeLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -22,7 +39,7 @@
                 android:orientation="horizontal"
                 android:layout_gravity="center_horizontal"
                 android:id="@+id/signup_icons_layout"
-                android:layout_marginTop="@dimen/dp_30">
+                android:layout_marginTop="@dimen/dp_20">
                 <ImageView
                     android:layout_width="@dimen/dp_80"
                     android:layout_height="@dimen/dp_80"
@@ -154,15 +171,16 @@
 
             </LinearLayout>
             <Button
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50"
-                android:layout_marginTop="@dimen/dp_40"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginTop="@dimen/dp_20"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_gravity="center"
                 android:text="@string/signup_button"
                 android:elevation="@dimen/button_elevation"
                 android:textAllCaps="false"
-                android:background="@color/green"
+                android:background="@color/brand"
                 android:textColor="@android:color/white"
                 android:id="@+id/signup_signup_button"/>
             <com.dsquare.hibour.utils.Avenir

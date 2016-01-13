@@ -35,7 +35,7 @@ public class GroupPostsAdapter extends RecyclerView.Adapter<GroupPostsAdapter.Vi
 
     @Override
     public GroupPostsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_group_posts,parent
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_group_post,parent
                 ,false);
         final ViewHolder holder = new ViewHolder(v);
         return holder;
@@ -46,11 +46,14 @@ public class GroupPostsAdapter extends RecyclerView.Adapter<GroupPostsAdapter.Vi
         holder.userName.setText(listItems.get(position)[0]);
         holder.date.setText(listItems.get(position)[1]);
         holder.description.setText(listItems.get(position)[2]);
-        holder.likes.setText(listItems.get(position)[3]);
-        holder.comments.setText(listItems.get(position)[4]);
-
-        holder.commentsLayout.setOnClickListener(this);
-        holder.commentsLayout.setTag(holder);
+        holder.userName1.setText(listItems.get(position)[3]);
+        holder.date1.setText(listItems.get(position)[4]);
+        holder.description1.setText(listItems.get(position)[5]);
+//        holder.likes.setText(listItems.get(position)[3]);
+//        holder.comments.setText(listItems.get(position)[4]);
+//
+//        holder.commentsLayout.setOnClickListener(this);
+//        holder.commentsLayout.setTag(holder);
 
     }
 
@@ -72,8 +75,8 @@ public class GroupPostsAdapter extends RecyclerView.Adapter<GroupPostsAdapter.Vi
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView userName,date,description,likes,comments;
-        private ImageView userImage;
+        private TextView userName,date,description,likes,comments,userName1,date1,description1;
+        private ImageView userImage,userImage1;
         private RelativeLayout commentsLayout,likesLayout;
 
         public ViewHolder(View itemView) {
@@ -82,9 +85,13 @@ public class GroupPostsAdapter extends RecyclerView.Adapter<GroupPostsAdapter.Vi
             userImage = (ImageView) itemView.findViewById(R.id.group_post_user_image);
             date = (TextView)itemView.findViewById(R.id.adapter_group_post_date);
             description = (TextView)itemView.findViewById(R.id.adapter_group_post_description_text);
-            likes = (TextView)itemView.findViewById(R.id.post_likes);
-            comments = (TextView)itemView.findViewById(R.id.post_comments);
-            commentsLayout = (RelativeLayout)itemView.findViewById(R.id.adapter_group_posts_comments_layout);
+            userName1 = (TextView) itemView.findViewById(R.id.group_post_user_name1);
+            userImage1 = (ImageView) itemView.findViewById(R.id.group_post_user_image1);
+            date1 = (TextView)itemView.findViewById(R.id.adapter_group_post_date1);
+            description1 = (TextView)itemView.findViewById(R.id.adapter_group_post_description_text1);
+//            likes = (TextView)itemView.findViewById(R.id.post_likes);
+//            comments = (TextView)itemView.findViewById(R.id.post_comments);
+//            commentsLayout = (RelativeLayout)itemView.findViewById(R.id.adapter_group_posts_comments_layout);
         }
     }
 

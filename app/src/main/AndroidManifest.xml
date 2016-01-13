@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme" >
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyADw717Ym1UfhGFIXE9euxwOONS698za-4" />
+            android:value="AIzaSyABAKvrZl3rm1oPvUtrPGah6Dm6_FhWqyA" />
 
         <activity
             android:name=".activities.SignIn"
@@ -31,6 +31,7 @@
         <activity
             android:name=".activities.SignUp"
             android:label="@string/title_activity_sign_up"
+            android:configChanges="keyboardHidden|orientation|screenLayout"
             android:theme="@style/FullScreenTheme" >
         </activity>
         <activity

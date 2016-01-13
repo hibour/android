@@ -16,7 +16,12 @@ import com.dsquare.hibour.adapters.PreferencesAdapter;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
+import com.dsquare.hibour.pojos.preference.Datum;
+import com.dsquare.hibour.pojos.preference.Preference;
+import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.GridLayoutSpacing;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import org.json.JSONObject;
 
@@ -32,10 +37,15 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
     private NetworkDetector networkDetector;
     private AccountsClient accountsClient;
     private ProgressDialog dialog;
+    private Gson gson;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_social_categories);
+        accountsClient = new AccountsClient(this);
+        networkDetector = new NetworkDetector(this);
+        gson = new Gson();
+//        getAllPrefs();
         preparePrefs();
         initializeViews();
         initializeEventListeners();
@@ -46,8 +56,8 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
         doneButton = (Button)findViewById(R.id.socialize_done_button);
         previous = (Button)findViewById(R.id.socialize_prev_button);
         prefsRecycler = (RecyclerView)findViewById(R.id.social_prefs_list);
-        prefsRecycler.setLayoutManager(new GridLayoutManager(this, 2));
-        prefsRecycler.addItemDecoration(new GridLayoutSpacing(2,5, true));
+        prefsRecycler.setLayoutManager(new GridLayoutManager(this, 3));
+        prefsRecycler.addItemDecoration(new GridLayoutSpacing(3, 5, true));
         prefsRecycler.setHasFixedSize(true);
         adapter = new PreferencesAdapter(this,prefsList);
         prefsRecycler.setAdapter(adapter);
@@ -86,7 +96,7 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
         startActivity(homeIntent);
     }
     private void openPreviousActivity(){
-        Intent locationIntent = new Intent(this,ChooseLocation.class);
+        Intent locationIntent = new Intent(this,GovtProof.class);
         startActivity(locationIntent);
         finish();
     }
@@ -116,7 +126,7 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
         if(networkDetector.isConnected()){
             dialog = ProgressDialog.show(this,"",getResources()
                     .getString(R.string.progress_dialog_text));
-            accountsClient.insertUserPrefs(userId,userPrefs,new WebServiceResponseCallback() {
+            accountsClient.insertUserPrefs(userId, userPrefs, new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parseUserPrefs(jsonObject);
@@ -134,12 +144,25 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
     }
     /* parse all prefs*/
     private void parseAllPrefs(JSONObject jsonObject){
+        try {
+            Preference preference = gson.fromJson(jsonObject.toString(), Preference.class);
+            List<Datum> data = preference.getData();
+            setAdapters(data);
+            } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+
 
     }
     /* parse user prefs*/
     private void parseUserPrefs(JSONObject jsonObject){
 
     }
+
+    private void setAdapters(List<Datum> data){
+//        prefsRecycler.setAdapter(new PreferencesAdapter(this,data));
+    }
+
     /* close dialog*/
     private void closeDialog(){
         if(dialog!=null){

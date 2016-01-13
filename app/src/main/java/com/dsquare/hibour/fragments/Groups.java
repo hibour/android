@@ -56,7 +56,6 @@ public class Groups extends Fragment implements View.OnClickListener{
             String[] data = new String[6];
             data[0] = "Bhanu Elite";
             data[1] = "120 Members";
-            data[2] = "Planning to start a chinese restaraunt near jubilee hills check post, anyone there to partner with me?";
             groupsList.add(data);
         }
         groupsAdapter = new GroupsAdapter(getActivity(),groupsList);

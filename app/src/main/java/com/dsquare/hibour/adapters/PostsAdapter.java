@@ -50,8 +50,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>
         holder.likes.setText(listItems.get(position)[4]);
         holder.comments.setText(listItems.get(position)[5]);
 
-        holder.share.setOnClickListener(this);
-        holder.share.setTag(holder);
+        holder.shareImage.setOnClickListener(this);
+        holder.shareImage.setTag(holder);
 
         holder.commentsLayout.setOnClickListener(this);
         holder.commentsLayout.setTag(holder);
@@ -69,7 +69,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>
         final ViewHolder viewHolder = (ViewHolder)v.getTag();
         final int position = viewHolder.getAdapterPosition();
         switch (v.getId()){
-            case R.id.post_share:
+            case R.id.post_share_image:
                 sharePost(listItems.get(position)[2]);
                 break;
             case R.id.post_comments_layout:
@@ -80,8 +80,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView userName,date,description,categoryName,likes
-                ,comments,share;
-        private ImageView userImage;
+                ,comments;
+        private ImageView userImage,shareImage;
         private RelativeLayout commentsLayout;
 
         public ViewHolder(View itemView) {
@@ -93,7 +93,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>
             categoryName = (TextView)itemView.findViewById(R.id.post_category_name);
             likes = (TextView)itemView.findViewById(R.id.post_likes);
             comments = (TextView)itemView.findViewById(R.id.post_comments);
-            share = (TextView)itemView.findViewById(R.id.post_share);
+            shareImage = (ImageView)itemView.findViewById(R.id.post_share_image);
             commentsLayout = (RelativeLayout)itemView.findViewById(R.id.post_comments_layout);
         }
     }

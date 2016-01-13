@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:background="@android:color/white"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:orientation="horizontal"
+        android:id="@+id/group_icons_layout"
+        android:layout_marginTop="@dimen/dp_5">
+        <ImageView
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            android:layout_weight="1"
+            android:layout_marginRight="@dimen/dp_5"
+            android:id="@+id/group_first_icon"
+            android:src="@drawable/avatar1"/>
+        <ImageView
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            android:layout_weight="1"
+            android:id="@+id/group_second_icon"
+            android:layout_marginRight="@dimen/dp_5"
+            android:src="@drawable/avatar2"/>
+        <ImageView
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            android:layout_marginRight="@dimen/dp_5"
+            android:layout_weight="1"
+            android:id="@+id/group_third_icon"
+            android:src="@drawable/avatar3"/>
+        <ImageView
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            android:layout_weight="1"
+            android:id="@+id/group_fourth_icon"
+            android:src="@drawable/avatar4"/>
+    </LinearLayout>
+    <com.dsquare.hibour.utils.Avenir
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_level3"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/dp_5"
+        android:id="@+id/adapter_group_name"
+        android:layout_below="@+id/group_icons_layout"
+        android:textColor="@color/black_1"
+        android:layout_centerVertical="true"
+        android:text="Bhanu Elite"/>
+    <com.dsquare.hibour.utils.Avenir
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="120 Members"
+        android:textColor="@color/black_1"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/dp_5"
+        android:textSize="@dimen/text_size_level6"
+        android:id="@+id/adapter_group_members"
+        android:layout_below="@+id/adapter_group_name"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="@color/gray"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_below="@+id/adapter_group_members"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <ImageView
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_50"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp_5"
+        android:layout_marginTop="@dimen/dp_30"
+        android:layout_centerVertical="true"
+        android:src="@drawable/avatar1"/>
+    </RelativeLayout>
+
+</RelativeLayout>

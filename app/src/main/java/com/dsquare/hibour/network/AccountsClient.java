@@ -1,6 +1,7 @@
 package com.dsquare.hibour.network;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -102,8 +103,9 @@ public class AccountsClient {
     /* get signup url string*/
     private String getSignUpUrl(String userName,String email,String regType,String password){
         String url = Constants.URL_SIGN_UP+Constants.KEYWORD_USER_NAME+"="+userName+"&"
-                +Constants.KEYWORD_EMAIL+"="+email+"&"+Constants.KEYWORD_PASSWORD+"="+password+"&"
-                +Constants.KEYWORD_SIGNUP_TYPE+"="+regType;
+                +Constants.KEYWORD_EMAIL+"="+email+"&"+Constants.KEYWORD_SIGNUP_TYPE+"="+regType+"&"
+                +Constants.KEYWORD_SIGNATURE+"="+Constants.SIGNATURE_VALUE;
+        Log.d("url",url);
         return url;
     }
 
@@ -252,7 +254,8 @@ public class AccountsClient {
     /* get all social prefs*/
     public void getAllSocialPrefs(final WebServiceResponseCallback callback){
         try {
-            String urlStr = Constants.URL_PREFS_ALL;
+            String urlStr = Constants.URL_PREFS_ALL+Constants.KEYWORD_SIGNATURE+"="+Constants.SIGNATURE_VALUE;
+            ;
             URL url = new URL(urlStr);
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
                     , url.getPath(), url.getQuery(), url.getRef());

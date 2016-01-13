@@ -34,7 +34,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
 
     @Override
     public GroupsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_groups
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_group
                 ,parent,false);
         final ViewHolder holder = new ViewHolder(v);
         holder.itemView.setOnClickListener(this);
@@ -46,7 +46,6 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.groupName.setText(listItems.get(position)[0]);
         holder.groupMembers.setText(listItems.get(position)[1]);
-        holder.groupDesc.setText(listItems.get(position)[2]);
     }
 
     @Override
@@ -62,7 +61,6 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
             super(itemView);
             groupName = (TextView) itemView.findViewById(R.id.adapter_group_name);
             groupMembers = (TextView)itemView.findViewById(R.id.adapter_group_members);
-            groupDesc = (TextView)itemView.findViewById(R.id.adapter_group_description);
 
         }
     }

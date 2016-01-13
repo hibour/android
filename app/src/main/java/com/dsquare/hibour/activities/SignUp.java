@@ -18,9 +18,15 @@ import com.dsquare.hibour.R;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
+import com.dsquare.hibour.pojos.register.Data;
+import com.dsquare.hibour.pojos.register.Registers;
 import com.dsquare.hibour.utils.Hibour;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import org.json.JSONObject;
+
+import java.util.List;
 
 public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
@@ -33,6 +39,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
     private ProgressDialog signUpDialog;
     private Hibour application;
     private Typeface avenir;
+    private Gson gson;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +60,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         termsText = (TextView)findViewById(R.id.signup_terms);
         accountsClient = new AccountsClient(this);
         networkDetector = new NetworkDetector(this);
+        gson = new Gson();
         application = Hibour.getInstance(this);
         avenir = Typeface.createFromAsset(getAssets(),"fonts/AvenirLTStd-Book.otf");
         submitButton.setTypeface(avenir);
@@ -111,7 +119,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                 !userPass.equals(null)&&!userPass.equals("null") && ! userPass.equals("")){
             if(application.validateEmail(userMail)){
                 openProofActivity();
-                //signUpUser(userName,userMail,userPass,"normal");
+                signUpUser(userName, userMail, userPass, "normal");
             }else{
                 Toast.makeText(this,"Enter valid email",Toast.LENGTH_LONG).show();
             }
@@ -122,13 +130,13 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
     /* sign up the user*/
     private void signUpUser(String userName,String email,String password,String regType){
         if(networkDetector.isConnected()){
-            signUpDialog = ProgressDialog.show(this,"",getResources()
-                    .getString(R.string.progress_dialog_text));
+//            signUpDialog = ProgressDialog.show(this,"",getResources()
+//                    .getString(R.string.progress_dialog_text));
             accountsClient.signUpUser(userName,email,password,regType,new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parseSigUpDetails(jsonObject);
-                    closeSignUpDialog();
+//                    closeSignUpDialog();
                 }
 
                 @Override
@@ -143,15 +151,34 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
     }
     /* parse sign up details*/
     private void parseSigUpDetails(JSONObject jsonObject){
-
+        try {
+//            closeSignUpDialog();
+            Log.d("details", jsonObject.toString());
+            Registers registers = gson.fromJson(jsonObject.toString(), Registers.class);
+            Data data = registers.getData();
+            Integer integer = data.getId();
+            String s = String.valueOf(data.getId());
+            Log.d("integer", s);
+            String[] regidetails = {String.valueOf(data.getId()), data.getUsername(), data.getEmail(), data.getRegtype()};
+            application.setLoginDetails(regidetails);
+            Log.d("integer", String.valueOf(integer));
+            Log.d("regidetails", String.valueOf(regidetails));
+            Intent homeIntent = new Intent(this, GovtProof.class);
+            startActivity(homeIntent);
+            this.finish();
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }catch (final IllegalArgumentException e) {
+            // Handle or log or ignore
+            e.printStackTrace();
+        }
     }
     /* close signup dialog*/
     private void closeSignUpDialog(){
-        if(signUpDialog!=null){
-            if(signUpDialog.isShowing()){
+        if(signUpDialog!=null || signUpDialog.isShowing()){
                 signUpDialog.dismiss();
                 signUpDialog=null;
-            }
+
         }
 
     }

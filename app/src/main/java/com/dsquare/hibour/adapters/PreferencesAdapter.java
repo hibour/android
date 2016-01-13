@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.pojos.preference.Datum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class PreferencesAdapter extends RecyclerView.Adapter<PreferencesAdapter.
     private ViewHolder globalHolder;
     private ProgressDialog detailsDialog;
     private int selectedPos = 0;
+    private List<Datum> data;
 
     public PreferencesAdapter(Context context,List<String[]> listItems) {
         this.context = context;
@@ -46,9 +48,13 @@ public class PreferencesAdapter extends RecyclerView.Adapter<PreferencesAdapter.
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
        // holder.itemView.setSel ected(selectedPos == position);
-        holder.prefName.setText(listItems.get(position)[0]);
+
+//        holder.prefName.setText(data.get(position).getPreferencesname());
+//        Log.d("prename",data.get(position).getPreferencesname());
+        holder.prefName.setText(listItems.get(position)[1]);
         if(listItems.get(position)[3].equals("true")){
             holder.layout.setBackgroundColor(context.getResources().getColor(R.color.brand));
+            holder.prefName.setTextColor(context.getResources().getColor(R.color.white));
         }else{
             holder.layout.setBackgroundColor(Color.WHITE);
         }

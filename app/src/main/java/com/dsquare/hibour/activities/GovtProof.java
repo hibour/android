@@ -59,9 +59,8 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
 
     /*initialize views*/
     private void initializeViews(){
-        next = (Button)findViewById(R.id.govt_next_button);
+        next = (Button)findViewById(R.id.govt_proof_continue);
         cardsSpinner = (Spinner)findViewById(R.id.govt_cards_spinner);
-        previous = (Button)findViewById(R.id.govt_prev_button);
         cardsSpinner = (Spinner)findViewById(R.id.govt_cards_spinner);
         cardnum = (EditText)findViewById(R.id.govt_card_number_edittext);
         inputcardnum = (TextInputLayout)findViewById(R.id.govt_cardnumber_inputlayout);
@@ -71,7 +70,7 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
         networkDetector = new NetworkDetector(this);
         accountsClient = new AccountsClient(this);
         next.setTypeface(avenir);
-        previous.setTypeface(avenir);
+//        previous.setTypeface(avenir);
         cardnum.setTypeface(avenir);
         inputcardnum.setTypeface(avenir);
         prepareCardsList();
@@ -100,7 +99,6 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
     /*initialize event listeners*/
     private void initializeEventListeners(){
         next.setOnClickListener(this);
-        previous.setOnClickListener(this);
         imageUploadText.setOnClickListener(this);
         //cardsSpinner.setOnItemSelectedListener(this);
     }
@@ -116,11 +114,8 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.govt_next_button:
+            case R.id.govt_proof_continue:
                 openLocationActivity();
-                break;
-            case R.id.govt_prev_button:
-                openPreviousActivity();
                 break;
             case R.id.govt_proof_image_text:
                 openImageChooser();
@@ -151,9 +146,9 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
 
     /* open signup activity*/
     private void openPreviousActivity(){
-        Intent signUpIntent = new Intent(this,SignUp.class);
-        startActivity(signUpIntent);
-        finish();
+//        Intent signUpIntent = new Intent(this,SignUp.class);
+//        startActivity(signUpIntent);
+//        finish();
     }
 
     @Override
@@ -228,7 +223,6 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
                     parseAllProofsTypes(jsonObject);
                     closeProofsDialog();
                 }
-
                 @Override
                 public void onFailure(VolleyError error) {
                     Log.d("govt",error.toString());

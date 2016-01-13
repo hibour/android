@@ -5,6 +5,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_sign_up">SignUp</string>
+    <string name="title_activity_googleplace">Discover people in your neighborhood</string>
     <string name="signup_text1">join</string>
     <string name="signup_text2">hi\'bour</string>
     <string name="signup_text3">community</string>
@@ -17,6 +18,7 @@
     <string name="govt_proof_text">hi\'bour is highly secure. please upload any \n Govt.Issued Id proof
         for verifications</string>
     <string name="govt_prev_button_text">Previous</string>
+    <string name="govt_skip_button_text">Skip</string>
     <string name="govt_next_button_text">Next</string>
     <string name="govt_card_name_text">Select Card</string>
     <string name="govt_card_number_text">Card Number</string>
@@ -26,6 +28,7 @@
     <string name="done_text">Done</string>
     <string name="title_activity_choose_location">ChooseLocation</string>
     <string name="loc_text">Pin Your Home Location</string>
+    <string name="button_next">Continue</string>
     <string name="loc_current_loc_text">Current Location - </string>
     <string name="loc_search_text">SEARCH</string>
     <string name="title_activity_home">Home</string>

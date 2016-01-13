@@ -22,7 +22,7 @@ public class GroupPosts extends AppCompatActivity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_group_posts);
+        setContentView(R.layout.acitivity_group_chating);
         initializeViews();
         initializeEventListeners();
     }
@@ -34,12 +34,13 @@ public class GroupPosts extends AppCompatActivity implements View.OnClickListene
         groupPostsRecycler.setLayoutManager(layoutManager);
         groupPostsRecycler.setHasFixedSize(true);
         for(int i=0;i<10;i++){
-            String[] data = new String[5];
+            String[] data = new String[6];
             data[0] = "Ashok Madduru";
-            data[1] = "2 Jan 2015";
-            data[2] = "Planning to start a chinese restaraunt near jubilee hills check post, anyone there to partner with me?";
-            data[3] = "250";
-            data[4] = "10";
+            data[1] = "10m ago";
+            data[2] = "Hi Frnds";
+            data[3] = "Bhanu P";
+            data[4] = "9m ago";
+            data[5] = "how r u???";
             groupPostsList.add(data);
         }
         adapter = new GroupPostsAdapter(this,groupPostsList);

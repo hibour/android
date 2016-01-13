@@ -4,62 +4,96 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.dsquare.hibour.activities.GovtProof">
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/signup_scroll">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/extended_toolbar_height"
+            android:layout_height="@dimen/dp_100"
             android:id="@+id/govt_proof_toolbar"
             android:background="@color/brand">
-            <com.dsquare.hibour.utils.Avenir
+
+            <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dp_50"
+                android:layout_centerVertical="true"
                 android:layout_centerInParent="true"
-                android:lineSpacingExtra="@dimen/dp_1"
-                android:text="@string/govt_proof_text"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/extended_tool_bar_text_size"/>
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:background="@drawable/logo"/>
         </RelativeLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/button_large_height"
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal"
-            android:id="@+id/govt_proof_button_bar">
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/black_button"
-                android:text="@string/govt_prev_button_text"
-                android:id="@+id/govt_prev_button"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/button_text_size"/>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/brand"
-                android:text="@string/govt_next_button_text"
-                android:id="@+id/govt_next_button"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/button_text_size"/>
-        </LinearLayout>
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/button_large_height"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:id="@+id/govt_proof_button_bar">-->
+            <!--<Button-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@color/black_button"-->
+                <!--android:text="@string/govt_prev_button_text"-->
+                <!--android:id="@+id/govt_prev_button"-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:textSize="@dimen/button_text_size"/>-->
+            <!--<Button-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@color/brand"-->
+                <!--android:text="@string/govt_next_button_text"-->
+                <!--android:id="@+id/govt_next_button"-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:textSize="@dimen/button_text_size"/>-->
+        <!--</LinearLayout>-->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:layout_below="@id/govt_proof_toolbar"
-            android:layout_above="@id/govt_proof_button_bar">
+            android:id="@+id/govt_proof_layout">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_50"
+                android:id="@+id/govt_relative_layout"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true">
+                <com.dsquare.hibour.utils.Avenir
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:text="@string/govt_proof_text"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/extended_tool_bar_text_size"
+                   />
+
+
+            </RelativeLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:orientation="vertical"
-                android:layout_marginLeft="@dimen/dp_65">
+                android:id="@+id/govt_proof_linear"
+                android:layout_below="@+id/govt_relative_layout"
+                android:paddingRight="@dimen/dp_30"
+                android:paddingLeft="@dimen/dp_30"
+                android:layout_marginTop="@dimen/dp_20"
+                >
                 <Spinner
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -105,7 +139,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_20">
+                    android:layout_marginTop="@dimen/dp_30">
                     <com.dsquare.hibour.utils.Avenir
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -123,15 +157,37 @@
                         android:layout_centerVertical="true"
                         android:visibility="gone"
                         android:id="@+id/proof_uploaded"/>
+                    <ImageView
+                        android:layout_width="@dimen/dp_40"
+                        android:layout_height="@dimen/dp_40"
+                        android:src="@drawable/uploadimage"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"/>
                     </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/edit_text_bottom_line_height"
                     android:background="@color/gray"
-                    android:layout_marginTop="@dimen/edit_text_bottom_line_margin_top"></View>
+                    android:layout_marginTop="@dimen/dp_5"></View>
 
             </LinearLayout>
+              <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@+id/govt_proof_linear"
+                  android:layout_marginTop="@dimen/dp_20"
+                  android:gravity="center">
+                  <Button
+                      android:layout_width="@dimen/button_width"
+                      android:layout_height="@dimen/dp_40"
+                      android:background="@color/brand"
+                      android:text="@string/button_next"
+                      android:textColor="@android:color/white"
+                      android:id="@+id/govt_proof_continue"
+                      />
+
+              </LinearLayout>
         </RelativeLayout>
 
     </RelativeLayout>
@@ -139,10 +195,12 @@
         android:layout_width="@dimen/fab_govt_radius"
         android:layout_height="@dimen/fab_govt_radius"
         android:layout_marginLeft="@dimen/fab_govt_left_margin"
-        android:layout_marginTop="@dimen/fab_govt_top_margin"
+        android:layout_marginTop="@dimen/fab_govt_top_margin1"
         android:src="@drawable/ic_text"
         app:backgroundTint="@android:color/white"
         android:scaleType="centerCrop">
     </android.support.design.widget.FloatingActionButton>
+    </RelativeLayout>
+    </ScrollView>
 
 </FrameLayout>

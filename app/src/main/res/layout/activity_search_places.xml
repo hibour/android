@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_100"
+        android:id="@+id/govt_proof_toolbar"
+        android:background="@color/brand">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_50"
+            android:layout_centerVertical="true"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@drawable/logo"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_googleplaces"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.dsquare.hibour.utils.Avenir
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_activity_googleplace"
+            android:textSize="@dimen/dp_20"
+            android:layout_gravity="center"
+            android:textColor="@color/brand"
+            android:layout_marginBottom="@dimen/dp_40"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_160"
+            android:orientation="vertical"
+            android:background="@color/black_1">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:background="@drawable/loc_search_rectangle"
+                android:layout_marginLeft="@dimen/fab_govt_left_margin"
+                android:layout_marginRight="@dimen/fab_govt_left_margin"
+                android:layout_above="@id/loc_location_display_layout"
+                android:layout_marginTop="@dimen/dp_20"
+                >
+
+                <ImageView
+                    android:layout_width="@dimen/dp_30"
+                    android:layout_height="@dimen/dp_30"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:src="@drawable/ic_search_black"
+                    android:id="@+id/loc_search_icon"/>
+                <ImageView
+                    android:layout_width="@dimen/dp_30"
+                    android:layout_height="@dimen/dp_30"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_loc_heart_red"
+                    android:id="@+id/loc_heart_icon"/>
+                <AutoCompleteTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/loc_heart_icon"
+                    android:layout_toRightOf="@id/loc_search_icon"
+                    android:layout_centerVertical="true"
+                    android:hint="@string/loc_search_text"
+                    android:textColor="@color/gray"
+                    android:textColorHint="@color/gray"
+                    android:textSize="@dimen/edit_text_size"
+                    android:id="@+id/loc_search_autocomplete"
+                    android:gravity="center"/>
+            </RelativeLayout>
+
+            <Button
+                android:layout_width="@dimen/dp_100"
+                android:layout_height="@dimen/dp_40"
+                android:layout_gravity="center"
+                android:background="@color/brand"
+                android:layout_marginTop="@dimen/dp_20"
+                android:text="@string/loc_search_text"
+                android:textColor="@color/white"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

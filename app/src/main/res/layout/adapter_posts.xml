@@ -48,43 +48,60 @@
         android:id="@+id/post_description_text"
         android:text="Planning to start a chinese restaraunt near jubilee hills check post, anyone there to partner with me?">
     </com.dsquare.hibour.utils.Avenir>
+    <com.dsquare.hibour.utils.Avenir
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/post_category_name_padding"
+    android:paddingRight="@dimen/post_category_name_padding"
+    android:background="@drawable/posts_rect_rounded"
+    android:textColor="@android:color/white"
+    android:textSize="@dimen/post_category_name_text_size"
+        android:layout_gravity="center"
+    android:layout_centerVertical="true"
+    android:text="Category One"
+    android:textAllCaps="true"
+    android:id="@+id/post_category_name"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:paddingLeft="@dimen/dp_50"
+        android:paddingRight="@dimen/dp_50"
         android:layout_weight="1">
-        <com.dsquare.hibour.utils.Avenir
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/post_category_name_padding"
-            android:paddingRight="@dimen/post_category_name_padding"
-            android:background="@drawable/posts_rect_rounded"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/post_category_name_text_size"
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        >
+        <!--<com.dsquare.hibour.utils.Avenir-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textColor="@color/gray"-->
+            <!--android:textSize="@dimen/post_category_name_text_size"-->
+            <!--android:text="@string/posts_share_text"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:id="@+id/post_share"/>-->
+        <ImageView
+            android:layout_width="@dimen/post_icons_size"
+            android:layout_height="@dimen/post_icons_size"
+            android:src="@drawable/ic_like_red"
             android:layout_centerVertical="true"
-            android:text="Category One"
-            android:textAllCaps="true"
-            android:id="@+id/post_category_name"/>
-        <com.dsquare.hibour.utils.Avenir
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/gray"
-            android:textSize="@dimen/post_category_name_text_size"
-            android:text="@string/posts_share_text"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:id="@+id/post_share"/>
+            android:id="@+id/post_share_image"
+            android:layout_marginLeft="@dimen/dp_5"/>
+        </RelativeLayout>
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/post_share"
             android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
             android:id="@+id/post_comments_layout"
-            android:layout_marginRight="@dimen/post_comment_margin_right">
+            >
             <com.dsquare.hibour.utils.Avenir
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" 
                 android:textSize="@dimen/post_category_name_text_size"
                 android:text="100"
+                android:layout_weight="1"
                 android:id="@+id/post_comments"
                 android:layout_centerVertical="true"
                 android:textColor="@color/black_1"/>
@@ -102,6 +119,7 @@
             android:layout_toLeftOf="@id/post_comments_layout"
             android:layout_centerVertical="true"
             android:id="@+id/post_likes_layout"
+            android:layout_alignParentLeft="true"
             android:layout_marginRight="@dimen/post_like_margin_right">
             <com.dsquare.hibour.utils.Avenir
                 android:layout_width="wrap_content"

@@ -30,10 +30,23 @@ public class Hibour {
             editor = sharedPreferences.edit();
         }
     }
+
+    public void setLoginDetails(String[] details){
+        initializeSharedPrefs();
+        editor.putString(Constants.PREFERENCE_USER_ID, details[0]);
+        editor.putString(Constants.SF_FIRST, details[1]);
+        editor.putString(Constants.SF_EMAIL, details[2]);
+        editor.putString(Constants.SF_REGTYPE, details[3]);
+        editor.commit();
+    }
+
+    public void setuserId(Integer integer){
+
+    }
     /*get user id from preferences*/
     public String getUserId(){
         initializeSharedPrefs();
-        return sharedPreferences.getString(Constants.PREFERENCE_USER_ID,"");
+        return sharedPreferences.getString(Constants.PREFERENCE_USER_ID, "");
     }
     /* remove user id*/
     public void removeUserDetails(){
