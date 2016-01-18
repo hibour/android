@@ -58,25 +58,25 @@
                     android:layout_marginLeft="@dimen/dp_10"
                     android:src="@drawable/ic_search_black"
                     android:id="@+id/loc_search_icon"/>
-                <ImageView
-                    android:layout_width="@dimen/dp_30"
-                    android:layout_height="@dimen/dp_30"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/dp_10"
-                    android:layout_alignParentRight="true"
-                    android:src="@drawable/ic_loc_heart_red"
-                    android:id="@+id/loc_heart_icon"/>
+                <!--<ImageView-->
+                    <!--android:layout_width="@dimen/dp_30"-->
+                    <!--android:layout_height="@dimen/dp_30"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_marginRight="@dimen/dp_10"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:src="@drawable/ic_loc_heart_red"-->
+                    <!--android:id="@+id/loc_heart_icon"/>-->
                 <AutoCompleteTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/loc_heart_icon"
-                    android:layout_toRightOf="@id/loc_search_icon"
                     android:layout_centerVertical="true"
+                    android:layout_alignLeft="@+id/loc_search_icon"
                     android:hint="@string/loc_search_text"
                     android:textColor="@color/gray"
                     android:textColorHint="@color/gray"
                     android:textSize="@dimen/edit_text_size"
                     android:id="@+id/loc_search_autocomplete"
+                    android:background="@null"
                     android:gravity="center"/>
             </RelativeLayout>
 
@@ -87,9 +87,20 @@
                 android:background="@color/brand"
                 android:layout_marginTop="@dimen/dp_20"
                 android:text="@string/loc_search_text"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:id="@+id/places_search"
+                />
 
         </LinearLayout>
+
+        <Button
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/dp_40"
+            android:textColor="@color/white"
+            android:background="@color/brand"
+            android:text="@string/signin_button"
+            android:layout_marginTop="@dimen/dp_40"
+            android:id="@+id/places_signup"/>
 
 
     </LinearLayout>

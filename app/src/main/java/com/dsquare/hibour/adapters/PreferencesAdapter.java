@@ -51,7 +51,7 @@ public class PreferencesAdapter extends RecyclerView.Adapter<PreferencesAdapter.
 
 //        holder.prefName.setText(data.get(position).getPreferencesname());
 //        Log.d("prename",data.get(position).getPreferencesname());
-        holder.prefName.setText(listItems.get(position)[1]);
+        holder.prefName.setText(listItems.get(position)[0]);
         if(listItems.get(position)[3].equals("true")){
             holder.layout.setBackgroundColor(context.getResources().getColor(R.color.brand));
             holder.prefName.setTextColor(context.getResources().getColor(R.color.white));

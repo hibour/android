@@ -62,6 +62,7 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
     private Place place;
     private ProgressDialog pDialog;
     private Marker marker;
+    private GoogleMap googleMap;
     /**
      * Represents a geographical location.
      */
@@ -133,12 +134,15 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
             PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
                     .getPlaceById(mGoogleApiClient, placeId);
             placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
-
+//            polygonOptions.add();
+//            countPolygonPoints();
             /*Toast.makeText(getApplicationContext(), "Clicked: " + item.description,
                     Toast.LENGTH_SHORT).show();*/
             Log.i("SEE", "Called getPlaceById to get Place details for " + item.placeId);
         }
     };
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,7 +155,7 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
     /*initialize views*/
     private void initializeViews(){
         next = (Button)findViewById(R.id.location_next_button);
-        previous = (Button)findViewById(R.id.location_prev_button);
+//        previous = (Button)findViewById(R.id.location_prev_button);
         locationDisplayTextView = (TextView)findViewById(R.id.loc_curr_loc_textview);
         autoCompleteTextView = (AutoCompleteTextView)findViewById(R.id.loc_search_autocomplete);
         avenir = Typeface.createFromAsset(getAssets(),"fonts/AvenirLTStd-Book.otf");
@@ -172,13 +176,13 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
                 mGoogleApiClient, BOUNDS_INDIA, AutocompleteFilter.create(filterTypes));
         autoCompleteTextView.setAdapter(placeAutoCompleteAdapter);
         next.setTypeface(avenir);
-        previous.setTypeface(avenir);
+//        previous.setTypeface(avenir);
         autoCompleteTextView.setTypeface(avenir);
     }
     /* initialize event listeners*/
     private void initializeEventListeners(){
         next.setOnClickListener(this);
-        previous.setOnClickListener(this);
+//        previous.setOnClickListener(this);
     }
 
     @Override
@@ -187,16 +191,17 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
             case R.id.location_next_button:
                 openSocializeActivity();
                 break;
-            case R.id.location_prev_button:
-                openPreviousActivity();
-                break;
+//            case R.id.location_prev_button:
+//                openPreviousActivity();
+//                break;
         }
     }
 
     /* open socialize activity*/
     private void openSocializeActivity(){
-        Intent socialIntent = new Intent(this,SocialCategories.class);
+        Intent socialIntent = new Intent(this,SignUp.class);
         startActivity(socialIntent);
+
     }
     /* open govtproof activity*/
     private void openPreviousActivity(){
@@ -208,13 +213,16 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onMapReady(GoogleMap googleMap) {
         LatLng coords = new LatLng(latitude, longitude);
+
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(coords,15));
         if(marker==null){
             marker = googleMap.addMarker(new MarkerOptions().position(coords).title(locAddress).draggable(true));
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(coords,15));
         }else{
             marker.remove();
             marker = googleMap.addMarker(new MarkerOptions().position(coords).title(locAddress).draggable(true));
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(coords,15));
         }
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coords, 10));
         if(pDialog!=null){
             if(pDialog.isShowing()){
                 pDialog.dismiss();
@@ -333,7 +341,7 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
                             +" "+address.getAddressLine(2);
                     Log.d("address",address.toString());
                     Log.d("address",address.getLocality()+" "+address.getSubLocality());
-                   // locAddress = ad;
+                    // locAddress = ad;
                     locAddress = address.getAddressLine(1);
                     latitude=params[0];
                     longitude = params[1];

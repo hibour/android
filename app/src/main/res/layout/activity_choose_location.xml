@@ -10,47 +10,97 @@
         android:layout_height="match_parent">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/extended_toolbar_height"
+            android:layout_height="@dimen/dp_100"
             android:id="@+id/location_toolbar"
             android:background="@color/brand">
-            <com.dsquare.hibour.utils.Avenir
+            <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dp_50"
+                android:layout_centerVertical="true"
                 android:layout_centerInParent="true"
-                android:text="@string/loc_text"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/extended_tool_bar_text_size"/>
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:background="@drawable/logo"/>
+            <!--<com.dsquare.hibour.utils.Avenir-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:text="@string/loc_text"-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:textSize="@dimen/extended_tool_bar_text_size"/>-->
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:background="@drawable/loc_search_rectangle"
+            android:layout_marginLeft="@dimen/fab_govt_left_margin"
+            android:layout_marginRight="@dimen/fab_govt_left_margin"
+            android:layout_below="@+id/location_toolbar"
+            android:id="@+id/layout"
+            android:layout_marginTop="@dimen/dp_10"
+           >
+
+            <ImageView
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:src="@drawable/ic_search_black"
+                android:id="@+id/loc_search_icon"/>
+            <!--<ImageView-->
+                <!--android:layout_width="@dimen/dp_30"-->
+                <!--android:layout_height="@dimen/dp_30"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginRight="@dimen/dp_10"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:src="@drawable/ic_loc_heart_red"-->
+                <!--android:id="@+id/loc_heart_icon"/>-->
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignLeft="@+id/loc_search_icon"
+                android:hint="@string/loc_search_text"
+                android:textColor="@color/gray"
+                android:textColorHint="@color/gray"
+                android:textSize="@dimen/edit_text_size"
+                android:id="@+id/loc_search_autocomplete"
+                android:background="@null"
+                android:gravity="center"/>
         </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/button_large_height"
+            android:layout_height="@dimen/dp_100"
             android:layout_alignParentBottom="true"
+            android:gravity="center"
             android:orientation="horizontal"
             android:id="@+id/location_button_bar">
+            <!--<Button-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1"-->
+                <!--android:id="@+id/location_prev_button"-->
+                <!--android:background="@color/black_button"-->
+                <!--android:text="@string/govt_prev_button_text"-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:textSize="@dimen/button_text_size"/>-->
             <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:id="@+id/location_prev_button"
-                android:background="@color/black_button"
-                android:text="@string/govt_prev_button_text"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/button_text_size"/>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="40dp"
                 android:background="@color/brand"
                 android:id="@+id/location_next_button"
-                android:text="@string/govt_next_button_text"
+                android:text="@string/signup_button"
                 android:textColor="@android:color/white"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:textSize="@dimen/button_text_size"/>
         </LinearLayout>
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/location_button_bar"
-            android:layout_below="@id/location_toolbar">
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_below="@id/layout"
+            android:layout_above="@+id/location_button_bar">
             <fragment xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
@@ -82,59 +132,7 @@
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/sp_16"/>
                 </LinearLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_40"
-                    android:background="@drawable/loc_search_rectangle"
-                    android:layout_marginLeft="@dimen/fab_govt_left_margin"
-                    android:layout_marginRight="@dimen/fab_govt_left_margin"
-                    android:layout_above="@id/loc_location_display_layout"
-                    android:layout_marginBottom="@dimen/dp_20">
-
-                    <ImageView
-                        android:layout_width="@dimen/dp_30"
-                        android:layout_height="@dimen/dp_30"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/dp_10"
-                        android:src="@drawable/ic_search_black"
-                        android:id="@+id/loc_search_icon"/>
-                    <ImageView
-                        android:layout_width="@dimen/dp_30"
-                        android:layout_height="@dimen/dp_30"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/dp_10"
-                        android:layout_alignParentRight="true"
-                        android:src="@drawable/ic_loc_heart_red"
-                        android:id="@+id/loc_heart_icon"/>
-                    <AutoCompleteTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@id/loc_heart_icon"
-                        android:layout_toRightOf="@id/loc_search_icon"
-                        android:layout_centerVertical="true"
-                        android:hint="@string/loc_search_text"
-                        android:textColor="@color/gray"
-                        android:textColorHint="@color/gray"
-                        android:textSize="@dimen/edit_text_size"
-                        android:id="@+id/loc_search_autocomplete"
-                        android:gravity="center"/>
-                </RelativeLayout>
             </RelativeLayout>
-
-
         </FrameLayout>
-
-
     </RelativeLayout>
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="@dimen/fab_govt_radius"
-        android:layout_height="@dimen/fab_govt_radius"
-        android:layout_marginLeft="@dimen/fab_govt_left_margin"
-        android:layout_marginTop="@dimen/fab_govt_top_margin"
-        android:src="@drawable/ic_loc"
-        app:backgroundTint="@android:color/white"
-        android:scaleType="centerCrop">
-    </android.support.design.widget.FloatingActionButton>
-
 </FrameLayout>

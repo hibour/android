@@ -17,16 +17,25 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyABAKvrZl3rm1oPvUtrPGah6Dm6_FhWqyA" />
+        <activity android:name=".activities.Splash"
+            android:label="@string/app_name"
+            android:theme="@style/LauncherTheme" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
 
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter></activity>
+        <activity
+            android:name=".activities.LocationSearch"
+            android:label="@string/app_name"
+            android:theme="@style/FullScreenTheme" >
+
+        </activity>
         <activity
             android:name=".activities.SignIn"
             android:label="@string/app_name"
-            android:theme="@style/LauncherTheme" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:theme="@style/FullScreenTheme" >
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activities.SignUp"
@@ -41,6 +50,10 @@
         </activity>
         <activity
             android:name=".activities.SocialCategories"
+            android:label="@string/title_activity_social_categories" >
+        </activity>
+        <activity
+            android:name=".activities.Chat"
             android:label="@string/title_activity_social_categories" >
         </activity>
         <activity

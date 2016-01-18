@@ -18,7 +18,6 @@ import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.pojos.preference.Datum;
 import com.dsquare.hibour.pojos.preference.Preference;
-import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.GridLayoutSpacing;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -61,6 +60,7 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
         prefsRecycler.setHasFixedSize(true);
         adapter = new PreferencesAdapter(this,prefsList);
         prefsRecycler.setAdapter(adapter);
+
     }
     /* initialize event listeners*/
     private void initializeEventListeners(){
@@ -69,7 +69,7 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
     }
     /* prepare prefs*/
     private void preparePrefs(){
-        for(int i=0;i<10;i++){
+        for(int i=0;i<12;i++){
             String[] data = new String[4];
             data[0] = "Social";
             data[1] = "";
@@ -77,6 +77,7 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
             data[3] = "false";
             prefsList.add(data);
         }
+
     }
 
     @Override
@@ -96,7 +97,7 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
         startActivity(homeIntent);
     }
     private void openPreviousActivity(){
-        Intent locationIntent = new Intent(this,GovtProof.class);
+        Intent locationIntent = new Intent(this,Home.class);
         startActivity(locationIntent);
         finish();
     }

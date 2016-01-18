@@ -52,46 +52,46 @@
 
 
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_40"
-            android:background="@drawable/loc_search_rectangle"
-            android:id="@+id/social_relative_layout"
-            android:layout_below="@+id/social_text"
-            android:layout_marginTop="@dimen/dp_20"
-            android:layout_marginLeft="@dimen/fab_govt_left_margin"
-            android:layout_marginRight="@dimen/fab_govt_left_margin"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
+        <!--<RelativeLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/dp_40"-->
+            <!--android:background="@drawable/loc_search_rectangle"-->
+            <!--android:id="@+id/social_relative_layout"-->
+            <!--android:layout_below="@+id/social_text"-->
+            <!--android:layout_marginTop="@dimen/dp_20"-->
+            <!--android:layout_marginLeft="@dimen/fab_govt_left_margin"-->
+            <!--android:layout_marginRight="@dimen/fab_govt_left_margin"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_alignParentStart="true">-->
 
-            <ImageView
-                android:layout_width="@dimen/dp_30"
-                android:layout_height="@dimen/dp_30"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:src="@drawable/ic_search_black"
-                android:id="@+id/loc_search_icon"/>
-            <ImageView
-                android:layout_width="@dimen/dp_30"
-                android:layout_height="@dimen/dp_30"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/dp_10"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/ic_loc_heart_red"
-                android:id="@+id/loc_heart_icon"/>
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/loc_heart_icon"
-                android:layout_toRightOf="@id/loc_search_icon"
-                android:layout_centerVertical="true"
-                android:hint="@string/loc_search_text"
-                android:textColor="@color/gray"
-                android:textColorHint="@color/gray"
-                android:textSize="@dimen/edit_text_size"
-                android:id="@+id/loc_search_autocomplete"
-                android:gravity="center"/>
-        </RelativeLayout>
+            <!--<ImageView-->
+                <!--android:layout_width="@dimen/dp_30"-->
+                <!--android:layout_height="@dimen/dp_30"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginLeft="@dimen/dp_10"-->
+                <!--android:src="@drawable/ic_search_black"-->
+                <!--android:id="@+id/loc_search_icon"/>-->
+            <!--<ImageView-->
+                <!--android:layout_width="@dimen/dp_30"-->
+                <!--android:layout_height="@dimen/dp_30"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginRight="@dimen/dp_10"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:src="@drawable/ic_loc_heart_red"-->
+                <!--android:id="@+id/loc_heart_icon"/>-->
+            <!--<EditText-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_toLeftOf="@id/loc_heart_icon"-->
+                <!--android:layout_toRightOf="@id/loc_search_icon"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:hint="@string/loc_search_text"-->
+                <!--android:textColor="@color/gray"-->
+                <!--android:textColorHint="@color/gray"-->
+                <!--android:textSize="@dimen/edit_text_size"-->
+                <!--android:id="@+id/loc_search_autocomplete"-->
+                <!--android:gravity="center"/>-->
+        <!--</RelativeLayout>-->
 
         <com.dsquare.hibour.utils.Avenir
             android:layout_width="wrap_content"
@@ -112,7 +112,7 @@
             android:layout_height="match_parent"
             android:id="@+id/social_prefs_list"
             android:layout_marginTop="@dimen/dp_20"
-            android:layout_below="@id/social_relative_layout"
+            android:layout_below="@id/social_text"
             android:layout_above="@id/socialize_button_bar">
         </android.support.v7.widget.RecyclerView>
     </RelativeLayout>

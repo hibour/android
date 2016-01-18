@@ -19,16 +19,12 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class Posts extends Fragment {
-
-
     private RecyclerView postsRecycler;
     private List<String[]> postsList = new ArrayList<>();
     private PostsAdapter postsAdapter;
     public Posts() {
         // Required empty public constructor
     }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -37,7 +33,6 @@ public class Posts extends Fragment {
         initializeViews(view);
         return view;
     }
-
     /* initializeViews*/
     private void initializeViews(View view){
         postsRecycler = (RecyclerView)view.findViewById(R.id.post_posts_list);

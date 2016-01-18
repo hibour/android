@@ -56,7 +56,7 @@
     android:background="@drawable/posts_rect_rounded"
     android:textColor="@android:color/white"
     android:textSize="@dimen/post_category_name_text_size"
-        android:layout_gravity="center"
+     android:layout_gravity="end"
     android:layout_centerVertical="true"
     android:text="Category One"
     android:textAllCaps="true"
@@ -84,7 +84,7 @@
         <ImageView
             android:layout_width="@dimen/post_icons_size"
             android:layout_height="@dimen/post_icons_size"
-            android:src="@drawable/ic_like_red"
+            android:src="@mipmap/ic_share_icon"
             android:layout_centerVertical="true"
             android:id="@+id/post_share_image"
             android:layout_marginLeft="@dimen/dp_5"/>
@@ -108,7 +108,7 @@
             <ImageView
                 android:layout_width="@dimen/post_icons_size"
                 android:layout_height="@dimen/post_icons_size"
-                android:src="@drawable/ic_like_red"
+                android:src="@mipmap/ic_comment_icon"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/post_comments"
                 android:layout_marginLeft="@dimen/dp_5"/>

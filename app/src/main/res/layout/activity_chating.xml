@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.adityaravikanti.samples">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?android:actionBarSize"
+        android:background="@color/brand"
+        android:id="@+id/chating_toolbar">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ashok Madduru"
+            android:textColor="#FFFFFF"
+            android:textSize="22dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/chating_text_name"/>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/avatar1"
+            android:layout_toLeftOf="@+id/chating_text_name"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"/>
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="8dp"
+            android:src="@drawable/ic_arrow_back_white"
+            android:layout_centerVertical="true"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="60dp"
+        android:layout_below="@+id/chating_toolbar">
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/chat_bg"
+            android:id="@+id/chating_list">
+        </android.support.v7.widget.RecyclerView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true">
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            card_view:cardCornerRadius="5dp"
+            card_view:cardElevation="0.01dp"
+            android:layout_toLeftOf="@+id/chating_msg_send"
+            android:id="@+id/adapter_chating_layout1"
+            android:layout_marginRight="10dp"
+            >
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="Write Your Message"
+                android:textSize="16dp"
+                android:id="@+id/chating_message_edittest"
+                android:gravity="center"
+                android:layout_toLeftOf="@+id/chating_msg_send"
+                android:layout_marginRight="10dp"
+                />
+        </android.support.v7.widget.CardView>
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:text="Send"
+            android:id="@+id/chating_msg_send"
+            android:textColor="#FFFFFF"
+            android:background="@color/brand"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            />
+    </RelativeLayout>
+
+</RelativeLayout>

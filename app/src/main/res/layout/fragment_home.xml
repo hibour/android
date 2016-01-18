@@ -27,23 +27,30 @@
                 android:layout_centerInParent="true"
                 android:textSize="@dimen/app_bar_title_text_size"/>
              <ImageView
-                 android:layout_width="@dimen/app_bar_icon_size"
-                 android:layout_height="@dimen/app_bar_icon_size"
+                 android:layout_width="@dimen/dp_60"
+                 android:layout_height="@dimen/dp_60"
                  android:layout_alignParentRight="true"
-                 android:src="@drawable/ic_notifcations_white"
+                 android:src="@drawable/ic_search_white"
                  android:layout_centerVertical="true"
                  android:id="@+id/home_notif_icon"/>
        </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="?android:actionBarSize"
-            android:background="@color/brand"
             android:layout_alignParentBottom="true"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:id="@+id/home_bottom_menu">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/horiz_line_height"
+                android:layout_marginTop="@dimen/dp_5"
+                android:background="@color/gray"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="?android:actionBarSize">
             <ImageView
-                android:layout_width="@dimen/app_bar_icon_size1"
-                android:layout_height="@dimen/app_bar_icon_size1"
+                android:layout_width="@dimen/app_bar_icon_size"
+                android:layout_height="@dimen/app_bar_icon_size"
                 android:padding="@dimen/app_bar_icon_padding"
                 android:src="@drawable/feed"
                 android:layout_weight="1"
@@ -51,40 +58,42 @@
                 android:layout_gravity="center_vertical"/>
 
             <ImageView
-                android:layout_width="@dimen/app_bar_icon_size"
-                android:layout_height="@dimen/app_bar_icon_size"
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_30"
                 android:layout_alignParentRight="true"
                 android:layout_weight="1"
+                android:layout_gravity="center"
                 android:id="@+id/home_posts_icon"
                 android:src="@drawable/suggestions"
                 />
             <ImageView
-                android:layout_width="@dimen/app_bar_icon_size"
-                android:layout_height="@dimen/app_bar_icon_size"
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
                 android:layout_alignParentRight="true"
                 android:layout_weight="1"
                 android:id="@+id/home_suggestions_icon"
-                android:src="@drawable/ic_notifcations_white"
+                android:src="@drawable/post"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"/>
             <ImageView
-                android:layout_width="@dimen/app_bar_icon_size"
-                android:layout_height="@dimen/app_bar_icon_size"
+                android:layout_width="@dimen/dp_10"
+                android:layout_height="@dimen/dp_30"
                 android:layout_alignParentRight="true"
                 android:layout_weight="1"
                 android:id="@+id/home_classifieds_icon"
-                android:src="@drawable/classifieds"
+                android:src="@drawable/socialize"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"/>
             <ImageView
-                android:layout_width="@dimen/app_bar_icon_size"
-                android:layout_height="@dimen/app_bar_icon_size"
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="35dp"
                 android:layout_alignParentRight="true"
                 android:layout_weight="1"
                 android:id="@+id/home_socialize_icon"
-                android:src="@drawable/social"
+                android:src="@drawable/ic_notification_gray"
+
                 android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center"/></LinearLayout>
         </LinearLayout>
         <FrameLayout
             android:layout_width="match_parent"

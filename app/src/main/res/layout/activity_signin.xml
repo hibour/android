@@ -6,14 +6,11 @@
     android:background="@android:color/white"
     tools:context="com.dsquare.hibour.activities.SignIn">
 
-    <ScrollView
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/signin_scroll">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+        android:orientation="vertical">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_100"
@@ -29,7 +26,14 @@
                     android:background="@drawable/logo"/>
 
             </RelativeLayout>
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/signin_scroll">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -182,6 +186,6 @@
         </LinearLayout>
 
     </ScrollView>
-
+</LinearLayout>
 
 </FrameLayout>
