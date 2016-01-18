@@ -29,9 +29,10 @@
         <ImageView
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:padding="8dp"
+            android:padding="@dimen/app_bar_icon_padding"
             android:src="@drawable/ic_arrow_back_white"
             android:layout_centerVertical="true"
+            android:id="@+id/chat_back_icon"
             />
 
     </RelativeLayout>

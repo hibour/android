@@ -7,7 +7,9 @@
     <dimen name="dp_5">5dp</dimen>
     <dimen name="dp_10">10dp</dimen>
     <dimen name="dp_20">20dp</dimen>
+    <dimen name="dp_25">25dp</dimen>
     <dimen name="dp_30">30dp</dimen>
+    <dimen name="dp_35">35dp</dimen>
     <dimen name="dp_40">40dp</dimen>
     <dimen name="dp_50">50dp</dimen>
     <dimen name="dp_60">60dp</dimen>
@@ -21,6 +23,7 @@
 
     <dimen name="sp_16">16sp</dimen>
     <dimen name="sp_12">12sp</dimen>
+    <dimen name="sp_18">18sp</dimen>
     <dimen name="button_text_size">14sp</dimen>
     <dimen name="button_width">200dp</dimen>
     <dimen name="extended_toolbar_height">128dp</dimen>

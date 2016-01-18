@@ -3,17 +3,10 @@ package com.dsquare.hibour.adapters;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -27,7 +20,6 @@ public class NavigationDrawerAdapter extends BaseAdapter {
     private Context context;
     private String[] drawerItems;
     private TypedArray menuIcons;
-
     public NavigationDrawerAdapter(){
 
     }

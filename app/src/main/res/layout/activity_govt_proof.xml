@@ -94,6 +94,10 @@
                 android:paddingLeft="@dimen/dp_30"
                 android:layout_marginTop="@dimen/dp_20"
                 >
+                <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+             >
                 <Spinner
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -103,6 +107,14 @@
                     android:id="@+id/govt_cards_spinner"
                     android:prompt="@string/govt_card_name_text">
                 </Spinner>
+                    <ImageView
+                        android:layout_width="@dimen/dp_25"
+                        android:layout_height="@dimen/dp_25"
+                        android:id="@+id/govt_proof_image_dropdown"
+                        android:src="@mipmap/ic_expandaple"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"/>
+                </RelativeLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/edit_text_bottom_line_height"
@@ -158,9 +170,10 @@
                         android:visibility="gone"
                         android:id="@+id/proof_uploaded"/>
                     <ImageView
-                        android:layout_width="@dimen/dp_40"
-                        android:layout_height="@dimen/dp_40"
-                        android:src="@drawable/uploadimage"
+                        android:layout_width="@dimen/dp_25"
+                        android:layout_height="@dimen/dp_25"
+                        android:id="@+id/govt_proof_image_upload"
+                        android:src="@mipmap/ic_icon_upload"
                         android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"/>
                     </RelativeLayout>

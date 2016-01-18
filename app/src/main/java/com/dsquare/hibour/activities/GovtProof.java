@@ -47,7 +47,7 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
     private DialogFragment chooserDialog;
     private static final int REQUEST_IMAGE_SELECTOR=1000;
     private static final int REQUEST_IMAGE_CAPTURE=1001;
-    private ImageView imageUploaded;
+    private ImageView imageUploaded,uploadimage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +65,7 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
         cardnum = (EditText)findViewById(R.id.govt_card_number_edittext);
         inputcardnum = (TextInputLayout)findViewById(R.id.govt_cardnumber_inputlayout);
         imageUploaded = (ImageView)findViewById(R.id.proof_uploaded);
+        uploadimage = (ImageView)findViewById(R.id.govt_proof_image_upload);
         imageUploadText = (TextView)findViewById(R.id.govt_proof_image_text);
         avenir = Typeface.createFromAsset(getAssets(),"fonts/AvenirLTStd-Book.otf");
         networkDetector = new NetworkDetector(this);
@@ -99,7 +100,7 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
     /*initialize event listeners*/
     private void initializeEventListeners(){
         next.setOnClickListener(this);
-        imageUploadText.setOnClickListener(this);
+        uploadimage.setOnClickListener(this);
         //cardsSpinner.setOnItemSelectedListener(this);
     }
     /*prepare cards list*/
@@ -117,7 +118,7 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
             case R.id.govt_proof_continue:
                 openLocationActivity();
                 break;
-            case R.id.govt_proof_image_text:
+            case R.id.govt_proof_image_upload:
                 openImageChooser();
                 break;
         }
