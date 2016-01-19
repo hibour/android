@@ -2,11 +2,16 @@ package com.dsquare.hibour.adapters;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,12 +33,10 @@ public class PreferencesAdapter extends RecyclerView.Adapter<PreferencesAdapter.
     private ProgressDialog detailsDialog;
     private int selectedPos = 0;
     private List<Datum> data;
-    private int[] images;
 
-    public PreferencesAdapter(Context context,List<String[]> listItems,int[] prgmImages) {
+    public PreferencesAdapter(Context context,List<String[]> listItems) {
         this.context = context;
         this.listItems = listItems;
-        this.images = prgmImages;
     }
 
     @Override
@@ -42,26 +45,42 @@ public class PreferencesAdapter extends RecyclerView.Adapter<PreferencesAdapter.
                 ,false);
         final ViewHolder holder = new ViewHolder(v);
         holder.itemView.setOnClickListener(this);
-
         holder.itemView.setTag(holder);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-       // holder.itemView.setSel ected(selectedPos == position);
-
-//        holder.prefName.setText(data.get(position).getPreferencesname());
-//        Log.d("prename",data.get(position).getPreferencesname());
-        holder.prefImage.setImageResource(images[position]);
-        holder.prefName.setText(listItems.get(position)[0]);
-        if(listItems.get(position)[3].equals("true")){
-            holder.layout.setBackgroundColor(context.getResources().getColor(R.color.brand));
-            holder.prefName.setTextColor(context.getResources().getColor(R.color.white));
-            holder.prefImage.setColorFilter(context.getResources().getColor(R.color.white));
+        Log.d("size", listItems.get(position)[0]);
+        if(listItems.get(position)[4].equals("false")){
+            String name = listItems.get(position)[2];
+            int id = context.getResources().getIdentifier(name, "mipmap", context.getPackageName());
+            Drawable drawable = context.getResources().getDrawable(id);
+            holder.prefImage.setImageDrawable(drawable);
         }else{
-            holder.layout.setBackgroundColor(R.color.white);
+            String name = listItems.get(position)[3];
+            int id = context.getResources().getIdentifier(name, "mipmap", context.getPackageName());
+            Drawable drawable = context.getResources().getDrawable(id);
+            holder.prefImage.setImageDrawable(drawable);
+           // holder.prefLinearLayout.setBackgroundDrawable(context.getResources()
+             //       .getDrawable(R.drawable.social_prefs_selected_state));
+            GradientDrawable bgShape = (GradientDrawable)holder.prefLinearLayout.getBackground();
+            bgShape.setColor(Color.BLACK);
+        /*    final int sdk = android.os.Build.VERSION.SDK_INT;
+            if(sdk <16) {
+                holder.prefLinearLayout.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.social_prefs_selected_state));
+            } else {
+                holder.prefLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.social_prefs_selected_state));
+            }*/
         }
+        holder.prefName.setText(listItems.get(position)[0]);
+       /* if(listItems.get(position)[3].equals("true")){
+            holder.prefLinearLayout.setBackgroundResource(R.drawable.social_prefs_selected_state);
+            holder.prefName.setTextColor(context.getResources().getColor(R.color.white));
+           // holder.prefImage.setColorFilter(context.getResources().getColor(R.color.white));
+        }else{
+            holder.prefLinearLayout.setBackgroundResource(R.drawable.social_prefs_unselected_state);
+        }*/
     }
 
     @Override
@@ -75,19 +94,21 @@ public class PreferencesAdapter extends RecyclerView.Adapter<PreferencesAdapter.
 
         final ViewHolder viewHolder = (ViewHolder)v.getTag();
         final int position = viewHolder.getAdapterPosition();
-        if(listItems.get(position)[3].equals("false")){
-            String[] data = new String[4];
+        if(listItems.get(position)[4].equals("false")){
+            String[] data = new String[5];
             data[0] = listItems.get(position)[0];
             data[1] = listItems.get(position)[1];
             data[2] = listItems.get(position)[2];
-            data[3] = "true";
+            data[3] = listItems.get(position)[3];
+            data[4] = "true";
             listItems.set(position,data);
         }else{
-            String[] data = new String[4];
+            String[] data = new String[5];
             data[0] = listItems.get(position)[0];
             data[1] = listItems.get(position)[1];
             data[2] = listItems.get(position)[2];
-            data[3] = "false";
+            data[3] = listItems.get(position)[3];
+            data[4] = "false";
             listItems.set(position,data);
         }
         notifyItemChanged(position);
@@ -97,12 +118,14 @@ public class PreferencesAdapter extends RecyclerView.Adapter<PreferencesAdapter.
         private TextView prefName;
         public ImageView prefImage;
         private RelativeLayout layout;
+        private LinearLayout prefLinearLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
             prefName = (TextView) itemView.findViewById(R.id.pref_name);
             prefImage = (ImageView) itemView.findViewById(R.id.pref_icon);
             layout = (RelativeLayout)itemView.findViewById(R.id.pref_layout);
+            prefLinearLayout = (LinearLayout)itemView.findViewById(R.id.pref_linear_layout);
         }
     }
 }

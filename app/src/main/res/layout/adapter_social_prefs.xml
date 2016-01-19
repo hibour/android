@@ -10,9 +10,10 @@
         android:layout_height="@dimen/dp_90"
         android:layout_centerHorizontal="true"
         android:orientation="vertical"
-        android:background="@drawable/grid"
-        android:layout_marginTop="@dimen/dp_10"
-        >
+        android:background="@drawable/social_prefs_unselected_state"
+        android:id="@+id/pref_linear_layout"
+        android:backgroundTint="@color/brand"
+        android:layout_marginTop="@dimen/dp_10">
 
     <ImageView
         android:layout_width="@dimen/dp_40"

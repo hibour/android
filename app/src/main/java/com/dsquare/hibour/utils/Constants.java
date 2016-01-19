@@ -31,12 +31,13 @@ public class Constants {
     public static final String KEYWORD_SIGNUP_TYPE = "Regtype";
     public static final String KEYWORD_USR_ID="userid";
     public static final String KEYWORD_PREFS_IDS="preferencesid";
-    public static final String KEYWORD_PROOF_IMAGE="";
+    public static final String KEYWORD_PROOF_IMAGE="profileimage";
     public static final String KEYWORD_PROOF_ID="Prooftypeid";
     public static final String KEYWORD_PROOF_NUMBER="Proofnumber";
     public static final String KEYWORD_LAT="latitude";
     public static final String KEYWORD_LON="longitude";
-    public static final String KEYWORD_ADDRESS="address";
+    public static final String KEYWORD_ADDRESS="Address";
+    public static final String KEYWORD_GENDER="Gender";
     public static final String KEYWORD_USER_ID="Userid";
     public static final String KEYWORD_POST_ID="Postid";
     public static final String KEYWORD_POST_COMMENT="Commentmessage";
@@ -46,14 +47,16 @@ public class Constants {
     public static final String PREFERENCE_FILE_NAME="Hibour";
     public static final String PREFERENCE_USER_ID="userId";
 
-    public static  Double Longitude;
-    public static  Double Latitude;
+    public static  Double Longitude = 78.00;
+    public static  Double Latitude = 21.00;
     public static  String LocationAddress;
 
     public static final String SF_ID="userID";
     public static final String SF_FIRST="userName";
     public static final String SF_EMAIL="Email";
     public static final String SF_REGTYPE="Regtype";
+
+    public static String userAddress="";
 
     // temp data
     public static Map<String,Integer> PrefernceMap = new LinkedHashMap<String,Integer>();

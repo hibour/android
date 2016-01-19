@@ -69,10 +69,10 @@ public class AccountsClient {
         return signInUrl;
     }
     /* get user sign up url String*/
-    public void signUpUser(String userName,String email,String password ,String regType
+    public void signUpUser(String userName,String email,String password ,String regType,String address
             ,final WebServiceResponseCallback callback){
         try {
-            String urlStr = getSignUpUrl(userName,email,password,regType);
+            String urlStr = getSignUpUrl(userName,email,password,regType,address);
             URL url = new URL(urlStr);
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
                     , url.getPath(), url.getQuery(), url.getRef());
@@ -101,10 +101,13 @@ public class AccountsClient {
         }
     }
     /* get signup url string*/
-    private String getSignUpUrl(String userName,String email,String password,String regType){
+    private String getSignUpUrl(String userName,String email,String password,String regType
+            ,String address){
         String url = Constants.URL_SIGN_UP+Constants.KEYWORD_USER_NAME+"="+userName+"&"
-                +Constants.KEYWORD_EMAIL+"="+email+"&"+Constants.KEYWORD_PASSWORD+"="+password+"&"+Constants.KEYWORD_SIGNUP_TYPE+"="+regType+"&"
-                +Constants.KEYWORD_SIGNATURE+"="+Constants.SIGNATURE_VALUE;
+                +Constants.KEYWORD_EMAIL+"="+email+"&"+Constants.KEYWORD_PASSWORD+"="+password+"&"
+                +Constants.KEYWORD_SIGNUP_TYPE+"="+regType+"&"
+                +Constants.KEYWORD_SIGNATURE+"="+Constants.SIGNATURE_VALUE+"&"+
+                Constants.KEYWORD_ADDRESS+"="+address;
         Log.d("url",url);
         return url;
     }
@@ -173,9 +176,9 @@ public class AccountsClient {
     }
     /* insert user proof details*/
     public void insertProofDetails(String userId,String cardType,String cardNumber,String proofImage
-            ,final WebServiceResponseCallback callback){
+            ,String gender,final WebServiceResponseCallback callback){
         try {
-            String urlStr = getProofString(userId,cardType,cardNumber,proofImage);
+            String urlStr = getProofString(userId,cardType,cardNumber,proofImage,gender);
             URL url = new URL(urlStr);
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
                     , url.getPath(), url.getQuery(), url.getRef());
@@ -204,12 +207,14 @@ public class AccountsClient {
         }
     }
     /* get insert proof url*/
-    private String getProofString(String userId,String cardType,String cardNumber,String proofImage){
+    private String getProofString(String userId,String cardType,String cardNumber
+            ,String proofImage,String gender){
         String url = Constants.URL_INSERT_PROOFS+userId+"/edit?"
                 +Constants.KEYWORD_PROOF_ID+"="+cardType+"&"
                 +Constants.KEYWORD_PROOF_NUMBER+"="+cardNumber+"&"
-                +Constants.KEYWORD_PROOF_IMAGE+"="+proofImage;
-        return "";
+                +Constants.KEYWORD_PROOF_IMAGE+"="+proofImage+"&"
+                +Constants.KEYWORD_GENDER+"="+gender;
+        return url;
     }
     /* insert user location*/
     public void inserUserLocation(String userId,String lat,String longi,String address
@@ -319,5 +324,36 @@ public class AccountsClient {
         String url = Constants.URL_PREFS_INSERT+Constants.KEYWORD_USR_ID+"="+userId+"&"
                 +Constants.KEYWORD_PREFS_IDS+"="+prefs;
         return url;
+    }
+    /* get count of the people registered in a particular location*/
+    public void getMembersCount(String loc,final WebServiceResponseCallback callback){
+        try {
+            String urlStr ="";
+            URL url = new URL(urlStr);
+            URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
+                    , url.getPath(), url.getQuery(), url.getRef());
+            url = uri.toURL();
+            JsonObjectRequest prefsRequest = new JsonObjectRequest(Request.Method.GET
+                    , url.toString(), (String) null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    callback.onSuccess(response);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    callback.onFailure(error);
+                }
+            });
+            prefsRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    MY_SOCKET_TIMEOUT_MS,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            HibourConnector.getInstance(context).addToRequestQueue(prefsRequest);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 }

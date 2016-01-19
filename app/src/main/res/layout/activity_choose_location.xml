@@ -36,7 +36,7 @@
             android:layout_height="@dimen/dp_100"
             android:layout_alignParentBottom="true"
             android:gravity="center"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:id="@+id/location_button_bar">
             <!--<Button-->
                 <!--android:layout_width="match_parent"-->
@@ -47,6 +47,14 @@
                 <!--android:text="@string/govt_prev_button_text"-->
                 <!--android:textColor="@android:color/white"-->
                 <!--android:textSize="@dimen/button_text_size"/>-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textColor="@color/black_1"
+                android:textSize="@dimen/text_size_level4"
+                android:id="@+id/loc_members_count"
+                android:text="There are 200 people joined from this area"/>
             <Button
                 android:layout_width="@dimen/button_width"
                 android:layout_height="40dp"
@@ -54,9 +62,10 @@
                 android:id="@+id/location_next_button"
                 android:text="@string/signup_button"
                 android:textColor="@android:color/white"
-                android:layout_gravity="center"
+                android:layout_gravity="bottom|center_horizontal"
                 android:gravity="center"
-                android:textSize="@dimen/button_text_size"/>
+                android:textSize="@dimen/button_text_size"
+                android:layout_marginTop="@dimen/dp_10"/>
         </LinearLayout>
         <FrameLayout
             android:layout_width="match_parent"

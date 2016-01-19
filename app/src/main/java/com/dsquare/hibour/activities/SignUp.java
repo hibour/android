@@ -20,6 +20,7 @@ import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.pojos.register.Data;
 import com.dsquare.hibour.pojos.register.Registers;
+import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Hibour;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -116,7 +117,6 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                 !userMail.equals(null)&&!userMail.equals("null")&& ! userMail.equals("")&&
                 !userPass.equals(null)&&!userPass.equals("null") && ! userPass.equals("")){
             if(application.validateEmail(userMail)){
-                openProofActivity();
                 signUpUser(userName, userMail, userPass, "normal");
             }else{
                 Toast.makeText(this,"Enter valid email",Toast.LENGTH_LONG).show();
@@ -130,7 +130,8 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         if(networkDetector.isConnected()){
             signUpDialog = ProgressDialog.show(this,"",getResources()
                     .getString(R.string.progress_dialog_text));
-            accountsClient.signUpUser(userName,email,password,regType,new WebServiceResponseCallback() {
+            accountsClient.signUpUser(userName,email,password,regType, Constants.userAddress
+                    ,new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parseSigUpDetails(jsonObject);

@@ -54,7 +54,9 @@ import java.util.Locale;
 public class ChooseLocation extends AppCompatActivity implements View.OnClickListener
         ,OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
-    private static final LatLngBounds BOUNDS_INDIA =new LatLngBounds(new LatLng(Constants.Latitude,Constants.Longitude),new LatLng(Constants.Latitude,Constants.Longitude)) ;
+    private static final LatLngBounds BOUNDS_INDIA =new LatLngBounds(
+            new LatLng(Constants.Latitude,Constants.Longitude)
+            ,new LatLng(Constants.Latitude,Constants.Longitude)) ;
     private Button next,previous;
     protected GoogleApiClient mGoogleApiClient;
     private SupportMapFragment mapFragment;
@@ -103,6 +105,7 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
         String address = getIntent().getStringExtra("address");
 //
         locationDisplayTextView.setText(address);
+        Constants.userAddress = address;
         try {
             URL url = new URL("http://hibour.com/test.php?area="+address);
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()

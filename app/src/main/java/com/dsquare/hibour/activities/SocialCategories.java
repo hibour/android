@@ -37,7 +37,15 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
     private AccountsClient accountsClient;
     private ProgressDialog dialog;
     private Gson gson;
-    public static int [] prgmImages={R.mipmap.ic_cycling_red_icon,R.mipmap.ic_music_red_icon,R.mipmap.ic_dance_red_icon,R.mipmap.ic_design_red_icon,R.mipmap.ic_clubbing_red_icon,R.mipmap.ic_cycling_red_icon,R.mipmap.ic_music_red_icon,R.mipmap.ic_dance_red_icon,R.mipmap.ic_design_red_icon};
+    public static int [] prgmImages={R.mipmap.ic_cycling_red_icon
+            ,R.mipmap.ic_music_red_icon
+            ,R.mipmap.ic_dance_red_icon
+            ,R.mipmap.ic_design_red_icon
+            ,R.mipmap.ic_clubbing_red_icon
+            ,R.mipmap.ic_cycling_red_icon
+            ,R.mipmap.ic_music_red_icon
+            ,R.mipmap.ic_dance_red_icon
+            ,R.mipmap.ic_design_red_icon};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +67,7 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
         prefsRecycler.setLayoutManager(new GridLayoutManager(this, 3));
         prefsRecycler.addItemDecoration(new GridLayoutSpacing(3, 5, true));
         prefsRecycler.setHasFixedSize(true);
-        adapter = new PreferencesAdapter(this,prefsList,prgmImages);
+        adapter = new PreferencesAdapter(this,prefsList);
         prefsRecycler.setAdapter(adapter);
 
     }
@@ -70,15 +78,36 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
     }
     /* prepare prefs*/
     private void preparePrefs(){
-        for(int i=0;i<9;i++){
-            String[] data = new String[4];
-            data[0] = "Social";
-            data[1] = "";
-            data[2] = "";
-            data[3] = "false";
+        String[] data = new String[5];
+        for(int i=0;i<5;i++){
+            data[0] = "Cycling";
+            data[1] = "0";
+            data[2] = "ic_cycling_red_icon";
+            data[3] = "ic_cycling_white_icon";
+            data[4] = "false";
             prefsList.add(data);
         }
-
+        /*String[] data1 = new String[5];
+        data[0] = "Dancing";
+        data[1] = "1";
+        data[2] = "ic_dance_red_icon";
+        data[3] = "ic_dance_white_icon";
+        data[4] = "false";
+        prefsList.add(data1);
+        String[] data2 = new String[5];
+        data[0] = "Design";
+        data[1] = "2";
+        data[2] = "ic_design_red_icon";
+        data[3] = "ic_design_white_icon";
+        data[4] = "false";
+        prefsList.add(data2);
+        String[] data3 = new String[5];
+        data[0] = "Music";
+        data[1] = "3";
+        data[2] = "ic_music_red_icon";
+        data[3] = "ic_music_white_icon";
+        data[4] = "false";
+        prefsList.add(data3);*/
     }
 
     @Override
@@ -149,7 +178,7 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
         try {
             Preference preference = gson.fromJson(jsonObject.toString(), Preference.class);
             List<Datum> data = preference.getData();
-            setAdapters(data);
+            //setAdapters(data);
             } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }

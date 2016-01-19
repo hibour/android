@@ -77,10 +77,7 @@
                     android:gravity="center"
                     android:text="@string/govt_proof_text"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/extended_tool_bar_text_size"
-                   />
-
-
+                    android:textSize="@dimen/extended_tool_bar_text_size"/>
             </RelativeLayout>
 
             <LinearLayout
@@ -92,12 +89,35 @@
                 android:layout_below="@+id/govt_relative_layout"
                 android:paddingRight="@dimen/dp_30"
                 android:paddingLeft="@dimen/dp_30"
-                android:layout_marginTop="@dimen/dp_20"
-                >
+                android:layout_marginTop="@dimen/dp_20">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:spinnerMode="dropdown"
+                        android:background="@null"
+                        android:textSize="@dimen/edit_text_size"
+                        android:id="@+id/govt_gender_spinner"
+                        android:prompt="@string/govt_gender_text">
+                    </Spinner>
+                    <ImageView
+                        android:layout_width="@dimen/dp_25"
+                        android:layout_height="@dimen/dp_25"
+                        android:id="@+id/govt_gender_image_dropdown"
+                        android:src="@mipmap/ic_expandaple"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"/>
+                </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_bottom_line_height"
+                    android:background="@color/gray"
+                    android:layout_marginTop="-5dp"></View>
                 <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-             >
+                android:layout_height="wrap_content">
                 <Spinner
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

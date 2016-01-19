@@ -46,11 +46,12 @@
         <activity
             android:name=".activities.GovtProof"
             android:label="@string/title_activity_govt_proof"
-            android:theme="@style/BrandTheme" >
+            android:theme="@style/FullScreenTheme" >
         </activity>
         <activity
             android:name=".activities.SocialCategories"
-            android:label="@string/title_activity_social_categories" >
+            android:label="@string/title_activity_social_categories"
+            android:theme="@style/FullScreenTheme">
         </activity>
         <activity
             android:name=".activities.Chat"
@@ -58,7 +59,8 @@
         </activity>
         <activity
             android:name=".activities.ChooseLocation"
-            android:label="@string/title_activity_choose_location" >
+            android:label="@string/title_activity_choose_location"
+            android:theme="@style/FullScreenTheme">
         </activity>
         <activity
             android:name=".activities.Home"
@@ -75,14 +77,6 @@
         <activity
             android:name=".activities.SelectArea"
             android:label="@string/title_activity_select_area" >
-
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
         </activity>
         <activity
             android:name=".activities.GroupPosts"

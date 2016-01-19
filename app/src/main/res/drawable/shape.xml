@@ -7,6 +7,6 @@
          android:state_enabled="true"
         android:drawable="@drawable/grid1" />
     <item android:state_focused="false" android:state_pressed="false"
-        android:drawable="@drawable/grid" />
-    <item android:drawable="@drawable/grid" />
+        android:drawable="@drawable/social_prefs_unselected_state" />
+    <item android:drawable="@drawable/social_prefs_unselected_state" />
 </selector>

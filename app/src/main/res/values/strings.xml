@@ -22,6 +22,7 @@
     <string name="govt_skip_button_text">Skip</string>
     <string name="govt_next_button_text">Next</string>
     <string name="govt_card_name_text">Select Card</string>
+    <string name="govt_gender_text">Select Gender</string>
     <string name="govt_card_number_text">Card Number</string>
     <string name="govt_card_upload_text">Upload Card</string>
     <string name="title_activity_social_categories">SocialCategories</string>

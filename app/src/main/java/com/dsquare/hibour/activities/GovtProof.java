@@ -2,11 +2,16 @@ package com.dsquare.hibour.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -27,20 +32,26 @@ import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.pojos.govtproofs.Datum;
 import com.dsquare.hibour.pojos.govtproofs.Proofs;
+import com.dsquare.hibour.utils.Hibour;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GovtProof extends AppCompatActivity implements View.OnClickListener
         ,AdapterView.OnItemSelectedListener,ImagePickerDialog.ImageChooserListener{
 
-    private Spinner cardsSpinner;
+    private Spinner cardsSpinner,genderSpinner;
     private List<String> cardsList=new ArrayList<>();
-    private Button next,previous;
+    private List<String> genderList = new ArrayList<>();
+    private Button continuous;
     private EditText cardnum;
     private TextInputLayout inputcardnum;
     private TextView imageUploadText;
@@ -53,8 +64,12 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
     private static final int REQUEST_IMAGE_CAPTURE=1001;
     private ImageView imageUploaded,uploadimage;
     private Gson gson;
-    private ArrayAdapter<String> cardsAdapter;
-
+    private ArrayAdapter<String> cardsAdapter,genderAdapter;
+    private Map<String,String> cardsMap = new LinkedHashMap<>();
+    private String cardTypeId="";
+    private String cardImageString="",genderString="";
+    private Bitmap bitmap;
+    private Hibour application;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,34 +81,45 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
 
     /*initialize views*/
     private void initializeViews(){
-        next = (Button)findViewById(R.id.govt_proof_continue);
-        cardsSpinner = (Spinner)findViewById(R.id.govt_cards_spinner);
+        application = Hibour.getInstance(this);
+        continuous = (Button)findViewById(R.id.govt_proof_continue);
         cardsSpinner = (Spinner)findViewById(R.id.govt_cards_spinner);
         cardnum = (EditText)findViewById(R.id.govt_card_number_edittext);
         inputcardnum = (TextInputLayout)findViewById(R.id.govt_cardnumber_inputlayout);
         imageUploaded = (ImageView)findViewById(R.id.proof_uploaded);
         uploadimage = (ImageView)findViewById(R.id.govt_proof_image_upload);
         imageUploadText = (TextView)findViewById(R.id.govt_proof_image_text);
+        genderSpinner = (Spinner)findViewById(R.id.govt_gender_spinner);
         avenir = Typeface.createFromAsset(getAssets(),"fonts/AvenirLTStd-Book.otf");
         networkDetector = new NetworkDetector(this);
         accountsClient = new AccountsClient(this);
         gson = new Gson();
-        next.setTypeface(avenir);
+        continuous.setTypeface(avenir);
 //        previous.setTypeface(avenir);
         cardnum.setTypeface(avenir);
         inputcardnum.setTypeface(avenir);
         prepareCardsList();
         cardsAdapter = new ArrayAdapter<String>(this
                 ,android.R.layout.simple_dropdown_item_1line,cardsList);
+        genderList.add("Select Gender");
+        genderList.add("Male");
+        genderList.add("Female");
+        genderAdapter = new ArrayAdapter<String>(this
+                ,android.R.layout.simple_dropdown_item_1line,genderList);
+        genderSpinner.setAdapter(genderAdapter);
         cardsSpinner.setAdapter(cardsAdapter);
         cardsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (parent != null && parent.getChildAt(0) != null) {
+                    String cardType = genderList.get(position);
+                    if(!cardType.equals("Select Card")){
+                        cardTypeId = cardsMap.get(cardType);
+                        Log.d("cardtype",cardType);
+                    }
                     ((TextView) parent.getChildAt(0)).setTextColor(getResources()
                             .getColor(R.color.gray));
                     ((TextView) parent.getChildAt(0)).setTypeface(avenir);
-                    Log.d("padding", parent.getChildAt(0).getPaddingLeft() + "");
                     ((TextView) parent.getChildAt(0)).setPadding(0, 0, 0, 0);
                     ((TextView) parent.getChildAt(0)).setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
                 }
@@ -104,10 +130,35 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
 
             }
         });
+        genderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
+                if (parent != null && parent.getChildAt(0) != null) {
+                    if(position==1){
+                        genderString="0";
+                        Log.d("genderString",genderString);
+                    }else{
+                        genderString = "1";
+                        Log.d("genderString",genderString);
+                    }
+
+                    ((TextView) parent.getChildAt(0)).setTextColor(getResources()
+                            .getColor(R.color.gray));
+                    ((TextView) parent.getChildAt(0)).setTypeface(avenir);
+                    ((TextView) parent.getChildAt(0)).setPadding(0, 0, 0, 0);
+                    ((TextView) parent.getChildAt(0)).setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
     /*initialize event listeners*/
     private void initializeEventListeners(){
-        next.setOnClickListener(this);
+        continuous.setOnClickListener(this);
         uploadimage.setOnClickListener(this);
         //cardsSpinner.setOnItemSelectedListener(this);
     }
@@ -120,11 +171,24 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.govt_proof_continue:
-                openLocationActivity();
+                openSocialPrefActivity();
+                //validateProofData();
                 break;
             case R.id.govt_proof_image_upload:
                 openImageChooser();
                 break;
+        }
+    }
+    /*validate proof data*/
+    private void validateProofData(){
+        if(!cardTypeId.equals("")&&!cardnum.getText().toString().equals(null)
+                &&!cardnum.getText().toString().equals("null")&&
+                !cardnum.getText().toString().equals("")&&
+                !cardImageString.equals("")&& !genderString.equals("")){
+            Toast.makeText(this,"All fields are required",Toast.LENGTH_LONG).show();
+        }else{
+            sendProofsData(application.getUserId(),cardTypeId,cardnum.getText().toString()
+                    ,cardImageString);
         }
     }
     /* open image chooser dialog*/
@@ -144,7 +208,7 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
     }
 
     /* open location activity*/
-    private void openLocationActivity(){
+    private void openSocialPrefActivity(){
         Intent locationIntent = new Intent(this,SocialCategories.class);
         startActivity(locationIntent);
     }
@@ -186,10 +250,28 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK
+                &&  data != null && data.getData() != null) {
             imageUploaded.setVisibility(View.VISIBLE);
-        }else if(requestCode == REQUEST_IMAGE_SELECTOR && resultCode == RESULT_OK){
+            Uri filePath = data.getData();
+            try {
+                //Getting the Bitmap from Gallery
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                getStringImage(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else if(requestCode == REQUEST_IMAGE_SELECTOR && resultCode == RESULT_OK
+                && data != null && data.getData() != null){
             imageUploaded.setVisibility(View.VISIBLE);
+            Uri filePath = data.getData();
+            try {
+                //Getting the Bitmap from Gallery
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                getStringImage(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -200,11 +282,12 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
             uploadProofsDialog = ProgressDialog.show(this,"",getResources()
                     .getString(R.string.progress_dialog_text));
             accountsClient.insertProofDetails(userId,cardType,cardNumber,cardImage
-                    ,new WebServiceResponseCallback() {
+                    ,genderString,new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parseProofDetails(jsonObject);
                     closeProofsDialog();
+                    openSocialPrefActivity();
                 }
 
                 @Override
@@ -240,26 +323,15 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
     }
     /* parse proof types*/
     private void parseAllProofsTypes(JSONObject jsonObject){
-      /*  try {
-            JSONArray data = jsonObject.getJSONArray("data");
-            if(data.length()>0){
-                cardsList.clear();
-                for(int i=0;i<data.length();i++){
-                    cardsList.add(data.getString(i));
-                }
-                cardsAdapter = new ArrayAdapter<String>(this
-                        ,android.R.layout.simple_dropdown_item_1line,cardsList);
-                cardsSpinner.setAdapter(cardsAdapter);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }*/
         try {
             Proofs proofsData = gson.fromJson(jsonObject.toString(),Proofs.class);
             List<Datum> data = proofsData.getData();
             if(data.size()>0){
                 cardsList.clear();
+                cardsList.add("Select Card");
+                cardsMap.clear();
                 for(Datum d:data){
+                    cardsMap.put(d.getProofName(),d.getId()+"");
                     cardsList.add(d.getProofName());
                 }
                 cardsAdapter = new ArrayAdapter<String>(this
@@ -272,7 +344,7 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
     }
     /* parse insert card types data*/
     private void parseProofDetails(JSONObject jsonObject){
-
+        Log.d("json",jsonObject.toString());
 
     }
     /* close proof dialog*/
@@ -283,5 +355,19 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
                 uploadProofsDialog=null;
             }
         }
+    }
+
+    /* convert image to string*/
+    public String getStringImage(Bitmap bmp){
+        BitmapFactory.Options options = null;
+        options = new BitmapFactory.Options();
+        options.inSampleSize = 3;
+//        bitmap = BitmapFactory.decodeFile(imgPath,
+//                options);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
     }
 }
