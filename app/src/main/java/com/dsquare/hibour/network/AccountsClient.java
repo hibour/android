@@ -212,8 +212,10 @@ public class AccountsClient {
         String url = Constants.URL_INSERT_PROOFS+userId+"/edit?"
                 +Constants.KEYWORD_PROOF_ID+"="+cardType+"&"
                 +Constants.KEYWORD_PROOF_NUMBER+"="+cardNumber+"&"
-                +Constants.KEYWORD_PROOF_IMAGE+"="+proofImage+"&"
-                +Constants.KEYWORD_GENDER+"="+gender;
+                + Constants.KEYWORD_GENDER+"="+gender+"&"
+                +Constants.KEYWORD_SIGNATURE+"="+Constants.SIGNATURE_VALUE+"&"
+                +Constants.KEYWORD_PROOF_IMAGE+"="+proofImage;
+               ;
         return url;
     }
     /* insert user location*/

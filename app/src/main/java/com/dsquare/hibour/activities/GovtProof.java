@@ -67,7 +67,7 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
     private ArrayAdapter<String> cardsAdapter,genderAdapter;
     private Map<String,String> cardsMap = new LinkedHashMap<>();
     private String cardTypeId="";
-    private String cardImageString="",genderString="";
+    private String cardImageString="a",genderString="";
     private Bitmap bitmap;
     private Hibour application;
     @Override
@@ -112,7 +112,8 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (parent != null && parent.getChildAt(0) != null) {
-                    String cardType = genderList.get(position);
+                    String cardType = cardsList.get(position);
+                    Log.d("cardtype",cardType);
                     if(!cardType.equals("Select Card")){
                         cardTypeId = cardsMap.get(cardType);
                         Log.d("cardtype",cardType);
@@ -171,8 +172,8 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.govt_proof_continue:
-                openSocialPrefActivity();
-                //validateProofData();
+                //openSocialPrefActivity();
+                validateProofData();
                 break;
             case R.id.govt_proof_image_upload:
                 openImageChooser();
@@ -181,12 +182,19 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
     }
     /*validate proof data*/
     private void validateProofData(){
+        Log.d("cardtype",cardTypeId);
+        Log.d("cardnum",cardnum.getText().toString());
+        Log.d("cardimage",cardImageString);
+        Log.d("gender",genderString);
         if(!cardTypeId.equals("")&&!cardnum.getText().toString().equals(null)
                 &&!cardnum.getText().toString().equals("null")&&
                 !cardnum.getText().toString().equals("")&&
                 !cardImageString.equals("")&& !genderString.equals("")){
-            Toast.makeText(this,"All fields are required",Toast.LENGTH_LONG).show();
+           // Toast.makeText(this,"All fields are required",Toast.LENGTH_LONG).show();
+            sendProofsData(application.getUserId(),cardTypeId,cardnum.getText().toString()
+                    ,cardImageString);
         }else{
+            Log.d("userid",application.getUserId());
             sendProofsData(application.getUserId(),cardTypeId,cardnum.getText().toString()
                     ,cardImageString);
         }
@@ -257,7 +265,7 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
             try {
                 //Getting the Bitmap from Gallery
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                getStringImage(bitmap);
+                cardImageString=getStringImage(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -268,7 +276,7 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
             try {
                 //Getting the Bitmap from Gallery
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                getStringImage(bitmap);
+                cardImageString= getStringImage(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -294,6 +302,7 @@ a*/
                 public void onFailure(VolleyError error) {
                     Log.d("govt",error.toString());
                     closeProofsDialog();
+                    openSocialPrefActivity();
                 }
             });
         }else{

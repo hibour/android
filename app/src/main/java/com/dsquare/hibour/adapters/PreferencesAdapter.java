@@ -2,9 +2,7 @@ package com.dsquare.hibour.adapters;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -64,14 +62,14 @@ public class PreferencesAdapter extends RecyclerView.Adapter<PreferencesAdapter.
             holder.prefImage.setImageDrawable(drawable);
            // holder.prefLinearLayout.setBackgroundDrawable(context.getResources()
              //       .getDrawable(R.drawable.social_prefs_selected_state));
-            GradientDrawable bgShape = (GradientDrawable)holder.prefLinearLayout.getBackground();
-            bgShape.setColor(Color.BLACK);
-        /*    final int sdk = android.os.Build.VERSION.SDK_INT;
+           // GradientDrawable bgShape = (GradientDrawable)holder.prefLinearLayout.getBackground();
+          //  bgShape.setColor(Color.BLACK);
+            final int sdk = android.os.Build.VERSION.SDK_INT;
             if(sdk <16) {
                 holder.prefLinearLayout.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.social_prefs_selected_state));
             } else {
                 holder.prefLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.social_prefs_selected_state));
-            }*/
+            }
         }
         holder.prefName.setText(listItems.get(position)[0]);
        /* if(listItems.get(position)[3].equals("true")){
