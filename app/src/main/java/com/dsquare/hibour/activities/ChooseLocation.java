@@ -2,6 +2,7 @@ package com.dsquare.hibour.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
@@ -11,7 +12,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
+import android.webkit.WebView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,15 +24,11 @@ import com.dsquare.hibour.adapters.PlaceAutoCompleteAdapter;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
+import com.dsquare.hibour.utils.Constants;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.PlaceBuffer;
-import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -40,10 +37,16 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
 
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -51,7 +54,7 @@ import java.util.Locale;
 public class ChooseLocation extends AppCompatActivity implements View.OnClickListener
         ,OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
-    private static final LatLngBounds BOUNDS_INDIA =new LatLngBounds(new LatLng(8.4,37.6),new LatLng(68.7,97.25)) ;
+    private static final LatLngBounds BOUNDS_INDIA =new LatLngBounds(new LatLng(Constants.Latitude,Constants.Longitude),new LatLng(Constants.Latitude,Constants.Longitude)) ;
     private Button next,previous;
     protected GoogleApiClient mGoogleApiClient;
     private SupportMapFragment mapFragment;
@@ -62,6 +65,8 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
     private Place place;
     private ProgressDialog pDialog;
     private Marker marker;
+    private PolygonOptions polygonOptions;
+    private Polygon polygon;
     private GoogleMap googleMap;
     /**
      * Represents a geographical location.
@@ -75,85 +80,72 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
     private ProgressDialog locInsertDialog;
     private NetworkDetector networkDetector;
     private AccountsClient accountsClient;
-    private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
-            = new ResultCallback<PlaceBuffer>() {
-        @Override
-        public void onResult(PlaceBuffer places) {
-            if (!places.getStatus().isSuccess()) {
-                // Request did not complete successfully
-                Log.e("Result Callback", "Place query did not complete. Error: " + places.getStatus().toString());
-                places.release();
-                return;
-            }
-            pDialog = new ProgressDialog(ChooseLocation.this);
-            pDialog.setMessage("Loading Location ....");
-            pDialog.show();
-            // Get the Place object from the buffer.
-            place = places.get(0);
-            latLng = place.getLatLng();
-            Log.d("places latlng", latLng.toString());
-            mapFragment.getMapAsync(ChooseLocation.this);
-            Log.i("RESULT CALLBACK 2", "Place details received: " + place.getName());
-
-            places.release();
-            if (place == null)
-                Toast.makeText(ChooseLocation.this, "Location Not Changed", Toast.LENGTH_SHORT).show();
-            else {
-                Log.d("lat and long",latLng.latitude+" "+latLng.longitude);
-                locationDisplayTextView.setText("");
-                Double[] params=new Double[2];
-                params[0]= latLng.latitude;
-                params[1]= latLng.longitude;
-                GetCurrentAddress currentadd=new GetCurrentAddress();
-                try {
-                    currentadd.execute(params);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    };
-
-    private AdapterView.OnItemClickListener mAutocompleteClickListener
-            = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            /*
-             Retrieve the place ID of the selected item from the Adapter.
-             The adapter stores each Place suggestion in a PlaceAutocomplete object from which we
-             read the place ID.
-              */
-            final PlaceAutoCompleteAdapter.PlaceAutocomplete item = placeAutoCompleteAdapter.getItem(position);
-            final String placeId = String.valueOf(item.placeId);
-            Log.i("On set ClickListener", "Autocomplete item selected: " + item.description);
-
-            /*
-             Issue a request to the Places Geo Data API to retrieve a Place object with additional
-              details about the place.
-              */
-            PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
-                    .getPlaceById(mGoogleApiClient, placeId);
-            placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
-//            polygonOptions.add();
-//            countPolygonPoints();
-            /*Toast.makeText(getApplicationContext(), "Clicked: " + item.description,
-                    Toast.LENGTH_SHORT).show();*/
-            Log.i("SEE", "Called getPlaceById to get Place details for " + item.placeId);
-        }
-    };
+    private WebView locMap;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_location);
-        initializeViews();
-        initializeEventListeners();
-        //buildGoogleApiClient();
+        locationDisplayTextView = (TextView)findViewById(R.id.loc_curr_loc_textview);
+        locMap = (WebView)findViewById(R.id.map);
+
+        next = (Button)findViewById(R.id.location_next_button);
+//        initializeViews();
+       initializeEventListeners();
+
+        // Receiving latitude from MainActivity screen
+//        double latitude = getIntent().getDoubleExtra("latitude", 0);
+//
+//        // Receiving longitude from MainActivity screen
+//        double longitude = getIntent().getDoubleExtra("longitude", 0);
+//
+        String address = getIntent().getStringExtra("address");
+//
+        locationDisplayTextView.setText(address);
+        try {
+            URL url = new URL("http://hibour.com/test.php?area="+address);
+            URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
+                    , url.getPath(), url.getQuery(), url.getRef());
+            url = uri.toURL();
+            locMap.loadUrl(url.toString());
+            locMap.getSettings().setJavaScriptEnabled(true);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+//
+//        LatLng position = new LatLng(latitude, longitude);
+//
+//        // Instantiating MarkerOptions class
+//        MarkerOptions options = new MarkerOptions();
+//
+//        // Setting title for the MarkerOptions
+//        options.title(address);
+//
+//        // Setting snippet for the MarkerOptions
+//        options.snippet("Latitude:"+latitude+",Longitude:"+longitude);
+//
+//        // Getting Reference to SupportMapFragment of activity_map.xml
+//        SupportMapFragment fm = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map);
+//
+//        // Getting reference to google map
+//        GoogleMap googleMap = fm.getMap();
+//
+//        // Adding Marker on the Google Map
+//        googleMap.addMarker(new MarkerOptions().position(position).title(address).draggable(true));
+//
+//        // Creating CameraUpdate object for position
+//        CameraUpdate updatePosition = CameraUpdateFactory.newLatLng(position);
+//
+////        CameraUpdate updateZoom = CameraUpdateFactory.zoomBy(15);
+//        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position,15));
     }
 
     /*initialize views*/
-    private void initializeViews(){
+    /*private void initializeViews(){
         next = (Button)findViewById(R.id.location_next_button);
 //        previous = (Button)findViewById(R.id.location_prev_button);
         locationDisplayTextView = (TextView)findViewById(R.id.loc_curr_loc_textview);
@@ -161,24 +153,26 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
         avenir = Typeface.createFromAsset(getAssets(),"fonts/AvenirLTStd-Book.otf");
         networkDetector = new NetworkDetector(this);
         accountsClient = new AccountsClient(this);
+        Constants.Longitude=longitude;
+        Constants.Latitude=latitude;
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        filterTypes.add(Place.TYPE_GEOCODE);
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(Places.GEO_DATA_API)
-                .addApi(Places.PLACE_DETECTION_API)
-                .addApi(LocationServices.API)
-                .build();
-        autoCompleteTextView.setOnItemClickListener(mAutocompleteClickListener);
+//        filterTypes.add(Place.TYPE_GEOCODE);
+//        mGoogleApiClient = new GoogleApiClient.Builder(this)
+//                .addConnectionCallbacks(this)
+//                .addOnConnectionFailedListener(this)
+//                .addApi(Places.GEO_DATA_API)
+//                .addApi(Places.PLACE_DETECTION_API)
+//                .addApi(LocationServices.API)
+//                .build();
+//        autoCompleteTextView.setOnItemClickListener(mAutocompleteClickListener);
         placeAutoCompleteAdapter = new PlaceAutoCompleteAdapter(this,android.R.layout.simple_list_item_1,
                 mGoogleApiClient, BOUNDS_INDIA, AutocompleteFilter.create(filterTypes));
         autoCompleteTextView.setAdapter(placeAutoCompleteAdapter);
         next.setTypeface(avenir);
 //        previous.setTypeface(avenir);
         autoCompleteTextView.setTypeface(avenir);
-    }
+    }*/
     /* initialize event listeners*/
     private void initializeEventListeners(){
         next.setOnClickListener(this);
@@ -246,9 +240,9 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
                 Double[] params=new Double[2];
                 params[0]= latLng.latitude;
                 params[1]= latLng.longitude;
-                GetCurrentAddress currentadd=new GetCurrentAddress();
+//                GetCurrentAddress currentadd=new GetCurrentAddress();
                 try {
-                    currentadd.execute(params);
+//                    currentadd.execute(params);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -257,33 +251,41 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
         });
 
     }
+    public void countPolygonPoints(){
+        if(polygonOptions.getPoints().size()>3){
+            polygonOptions.strokeColor(Color.RED);
+            polygonOptions.strokeWidth((float) 0.30);
+            polygonOptions.fillColor(Color.RED);
+            polygon = googleMap.addPolygon(polygonOptions);
 
+        }
+    }
     /**
      * Builds a GoogleApiClient. Uses the addApi() method to request the LocationServices API.
      */
-    protected synchronized void buildGoogleApiClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(Places.GEO_DATA_API)
-                .addApi(Places.PLACE_DETECTION_API)
-                .addApi(LocationServices.API)
-                .build();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mGoogleApiClient.connect();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (mGoogleApiClient.isConnected()) {
-            mGoogleApiClient.disconnect();
-        }
-    }
+//    protected synchronized void buildGoogleApiClient() {
+//        mGoogleApiClient = new GoogleApiClient.Builder(this)
+//                .addConnectionCallbacks(this)
+//                .addOnConnectionFailedListener(this)
+//                .addApi(Places.GEO_DATA_API)
+//                .addApi(Places.PLACE_DETECTION_API)
+//                .addApi(LocationServices.API)
+//                .build();
+//    }
+//
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        mGoogleApiClient.connect();
+//    }
+//
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        if (mGoogleApiClient.isConnected()) {
+//            mGoogleApiClient.disconnect();
+//        }
+//    }
 
     /**
      * Runs when a GoogleApiClient object successfully connects.
@@ -299,9 +301,9 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
             Double[] params=new Double[2];
             params[0]= mLastLocation.getLatitude();
             params[1]= mLastLocation.getLongitude();
-            GetCurrentAddress currentadd=new GetCurrentAddress();
+//            GetCurrentAddress currentadd=new GetCurrentAddress();
             try {
-                currentadd.execute(params);
+//                currentadd.execute(params);
             } catch (Exception e) {
                 e.printStackTrace();
             }

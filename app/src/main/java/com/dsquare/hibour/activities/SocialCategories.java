@@ -37,6 +37,7 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
     private AccountsClient accountsClient;
     private ProgressDialog dialog;
     private Gson gson;
+    public static int [] prgmImages={R.mipmap.ic_cycling_red_icon,R.mipmap.ic_music_red_icon,R.mipmap.ic_dance_red_icon,R.mipmap.ic_design_red_icon,R.mipmap.ic_clubbing_red_icon,R.mipmap.ic_cycling_red_icon,R.mipmap.ic_music_red_icon,R.mipmap.ic_dance_red_icon,R.mipmap.ic_design_red_icon};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +59,7 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
         prefsRecycler.setLayoutManager(new GridLayoutManager(this, 3));
         prefsRecycler.addItemDecoration(new GridLayoutSpacing(3, 5, true));
         prefsRecycler.setHasFixedSize(true);
-        adapter = new PreferencesAdapter(this,prefsList);
+        adapter = new PreferencesAdapter(this,prefsList,prgmImages);
         prefsRecycler.setAdapter(adapter);
 
     }
@@ -69,7 +70,7 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
     }
     /* prepare prefs*/
     private void preparePrefs(){
-        for(int i=0;i<12;i++){
+        for(int i=0;i<9;i++){
             String[] data = new String[4];
             data[0] = "Social";
             data[1] = "";

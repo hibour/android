@@ -26,8 +26,6 @@ import com.google.gson.JsonSyntaxException;
 
 import org.json.JSONObject;
 
-import java.util.List;
-
 public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
     private Button submitButton;
@@ -130,13 +128,13 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
     /* sign up the user*/
     private void signUpUser(String userName,String email,String password,String regType){
         if(networkDetector.isConnected()){
-//            signUpDialog = ProgressDialog.show(this,"",getResources()
-//                    .getString(R.string.progress_dialog_text));
+            signUpDialog = ProgressDialog.show(this,"",getResources()
+                    .getString(R.string.progress_dialog_text));
             accountsClient.signUpUser(userName,email,password,regType,new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parseSigUpDetails(jsonObject);
-//                    closeSignUpDialog();
+                    closeSignUpDialog();
                 }
 
                 @Override
@@ -152,16 +150,16 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
     /* parse sign up details*/
     private void parseSigUpDetails(JSONObject jsonObject){
         try {
-//            closeSignUpDialog();
+            closeSignUpDialog();
             Log.d("details", jsonObject.toString());
             Registers registers = gson.fromJson(jsonObject.toString(), Registers.class);
             Data data = registers.getData();
-            Integer integer = data.getId();
+//            Integer integer = data.getId();
             String s = String.valueOf(data.getId());
             Log.d("integer", s);
             String[] regidetails = {String.valueOf(data.getId()), data.getUsername(), data.getEmail(), data.getRegtype()};
             application.setLoginDetails(regidetails);
-            Log.d("integer", String.valueOf(integer));
+//            Log.d("integer", String.valueOf(integer));
             Log.d("regidetails", String.valueOf(regidetails));
             Intent homeIntent = new Intent(this, GovtProof.class);
             startActivity(homeIntent);
@@ -175,10 +173,11 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
     }
     /* close signup dialog*/
     private void closeSignUpDialog(){
-        if(signUpDialog!=null || signUpDialog.isShowing()){
+        if(signUpDialog!=null){
+            if(signUpDialog.isShowing()){
                 signUpDialog.dismiss();
                 signUpDialog=null;
-
+            }
         }
 
     }

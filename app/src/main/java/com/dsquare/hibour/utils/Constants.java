@@ -26,7 +26,7 @@ public class Constants {
     /*user constants*/
     public static final String KEYWORD_USER_NAME="Username";
     public static final String KEYWORD_EMAIL="Email";
-    public static final String KEYWORD_PASSWORD="password";
+    public static final String KEYWORD_PASSWORD="Password";
     public static final String KEYWORD_SIGNIN_TYPE="signinType";
     public static final String KEYWORD_SIGNUP_TYPE = "Regtype";
     public static final String KEYWORD_USR_ID="userid";
@@ -45,6 +45,10 @@ public class Constants {
 
     public static final String PREFERENCE_FILE_NAME="Hibour";
     public static final String PREFERENCE_USER_ID="userId";
+
+    public static  Double Longitude;
+    public static  Double Latitude;
+    public static  String LocationAddress;
 
     public static final String SF_ID="userID";
     public static final String SF_FIRST="userName";

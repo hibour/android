@@ -69,7 +69,7 @@ public class AccountsClient {
         return signInUrl;
     }
     /* get user sign up url String*/
-    public void signUpUser(String userName,String email,String regType,String password
+    public void signUpUser(String userName,String email,String password ,String regType
             ,final WebServiceResponseCallback callback){
         try {
             String urlStr = getSignUpUrl(userName,email,password,regType);
@@ -101,9 +101,9 @@ public class AccountsClient {
         }
     }
     /* get signup url string*/
-    private String getSignUpUrl(String userName,String email,String regType,String password){
+    private String getSignUpUrl(String userName,String email,String password,String regType){
         String url = Constants.URL_SIGN_UP+Constants.KEYWORD_USER_NAME+"="+userName+"&"
-                +Constants.KEYWORD_EMAIL+"="+email+"&"+Constants.KEYWORD_SIGNUP_TYPE+"="+regType+"&"
+                +Constants.KEYWORD_EMAIL+"="+email+"&"+Constants.KEYWORD_PASSWORD+"="+password+"&"+Constants.KEYWORD_SIGNUP_TYPE+"="+regType+"&"
                 +Constants.KEYWORD_SIGNATURE+"="+Constants.SIGNATURE_VALUE;
         Log.d("url",url);
         return url;
@@ -143,7 +143,7 @@ public class AccountsClient {
     /* get all proofs types*/
     public void getAllProofTypes(final WebServiceResponseCallback callback){
         try {
-            String urlStr = Constants.URL_GET_ALL_PROOFS;
+            String urlStr = Constants.URL_GET_ALL_PROOFS+"?"+Constants.KEYWORD_SIGNATURE+"="+Constants.SIGNATURE_VALUE;
             URL url = new URL(urlStr);
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
                     , url.getPath(), url.getQuery(), url.getRef());

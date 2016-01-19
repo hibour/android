@@ -2,7 +2,6 @@ package com.dsquare.hibour.adapters;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,10 +28,12 @@ public class PreferencesAdapter extends RecyclerView.Adapter<PreferencesAdapter.
     private ProgressDialog detailsDialog;
     private int selectedPos = 0;
     private List<Datum> data;
+    private int[] images;
 
-    public PreferencesAdapter(Context context,List<String[]> listItems) {
+    public PreferencesAdapter(Context context,List<String[]> listItems,int[] prgmImages) {
         this.context = context;
         this.listItems = listItems;
+        this.images = prgmImages;
     }
 
     @Override
@@ -41,6 +42,7 @@ public class PreferencesAdapter extends RecyclerView.Adapter<PreferencesAdapter.
                 ,false);
         final ViewHolder holder = new ViewHolder(v);
         holder.itemView.setOnClickListener(this);
+
         holder.itemView.setTag(holder);
         return holder;
     }
@@ -51,12 +53,14 @@ public class PreferencesAdapter extends RecyclerView.Adapter<PreferencesAdapter.
 
 //        holder.prefName.setText(data.get(position).getPreferencesname());
 //        Log.d("prename",data.get(position).getPreferencesname());
+        holder.prefImage.setImageResource(images[position]);
         holder.prefName.setText(listItems.get(position)[0]);
         if(listItems.get(position)[3].equals("true")){
             holder.layout.setBackgroundColor(context.getResources().getColor(R.color.brand));
             holder.prefName.setTextColor(context.getResources().getColor(R.color.white));
+            holder.prefImage.setColorFilter(context.getResources().getColor(R.color.white));
         }else{
-            holder.layout.setBackgroundColor(Color.WHITE);
+            holder.layout.setBackgroundColor(R.color.white);
         }
     }
 
@@ -68,6 +72,7 @@ public class PreferencesAdapter extends RecyclerView.Adapter<PreferencesAdapter.
 
     @Override
     public void onClick(View v) {
+
         final ViewHolder viewHolder = (ViewHolder)v.getTag();
         final int position = viewHolder.getAdapterPosition();
         if(listItems.get(position)[3].equals("false")){
@@ -90,12 +95,13 @@ public class PreferencesAdapter extends RecyclerView.Adapter<PreferencesAdapter.
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView prefName;
-        private ImageView prefImage;
+        public ImageView prefImage;
         private RelativeLayout layout;
 
         public ViewHolder(View itemView) {
             super(itemView);
             prefName = (TextView) itemView.findViewById(R.id.pref_name);
+            prefImage = (ImageView) itemView.findViewById(R.id.pref_icon);
             layout = (RelativeLayout)itemView.findViewById(R.id.pref_layout);
         }
     }

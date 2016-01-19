@@ -61,6 +61,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_35"
                 android:background="@drawable/loc_search_rectangle"
+                android:descendantFocusability="beforeDescendants"
+                android:focusableInTouchMode="true"
                 android:layout_marginLeft="@dimen/dp_25"
                 android:layout_marginRight="@dimen/dp_25"
                 android:layout_above="@id/loc_location_display_layout"

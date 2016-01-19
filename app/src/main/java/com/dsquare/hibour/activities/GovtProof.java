@@ -25,6 +25,10 @@ import com.dsquare.hibour.dialogs.ImagePickerDialog;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
+import com.dsquare.hibour.pojos.govtproofs.Datum;
+import com.dsquare.hibour.pojos.govtproofs.Proofs;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import org.json.JSONObject;
 
@@ -48,6 +52,8 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
     private static final int REQUEST_IMAGE_SELECTOR=1000;
     private static final int REQUEST_IMAGE_CAPTURE=1001;
     private ImageView imageUploaded,uploadimage;
+    private Gson gson;
+    private ArrayAdapter<String> cardsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +61,7 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
         setContentView(R.layout.activity_govt_proof);
         initializeViews();
         initializeEventListeners();
+        getAllProofTypes();
     }
 
     /*initialize views*/
@@ -70,12 +77,13 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
         avenir = Typeface.createFromAsset(getAssets(),"fonts/AvenirLTStd-Book.otf");
         networkDetector = new NetworkDetector(this);
         accountsClient = new AccountsClient(this);
+        gson = new Gson();
         next.setTypeface(avenir);
 //        previous.setTypeface(avenir);
         cardnum.setTypeface(avenir);
         inputcardnum.setTypeface(avenir);
         prepareCardsList();
-        ArrayAdapter<String> cardsAdapter = new ArrayAdapter<String>(this
+        cardsAdapter = new ArrayAdapter<String>(this
                 ,android.R.layout.simple_dropdown_item_1line,cardsList);
         cardsSpinner.setAdapter(cardsAdapter);
         cardsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -106,10 +114,6 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
     /*prepare cards list*/
     private void prepareCardsList(){
         cardsList.add("Select Card");
-        cardsList.add("Pan Card");
-        cardsList.add("Voter Card");
-        cardsList.add("Ration Card");
-        cardsList.add("Adhar Card");
     }
 
     @Override
@@ -236,10 +240,39 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
     }
     /* parse proof types*/
     private void parseAllProofsTypes(JSONObject jsonObject){
-
+      /*  try {
+            JSONArray data = jsonObject.getJSONArray("data");
+            if(data.length()>0){
+                cardsList.clear();
+                for(int i=0;i<data.length();i++){
+                    cardsList.add(data.getString(i));
+                }
+                cardsAdapter = new ArrayAdapter<String>(this
+                        ,android.R.layout.simple_dropdown_item_1line,cardsList);
+                cardsSpinner.setAdapter(cardsAdapter);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }*/
+        try {
+            Proofs proofsData = gson.fromJson(jsonObject.toString(),Proofs.class);
+            List<Datum> data = proofsData.getData();
+            if(data.size()>0){
+                cardsList.clear();
+                for(Datum d:data){
+                    cardsList.add(d.getProofName());
+                }
+                cardsAdapter = new ArrayAdapter<String>(this
+                        ,android.R.layout.simple_dropdown_item_1line,cardsList);
+                cardsSpinner.setAdapter(cardsAdapter);
+            }
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
     }
     /* parse insert card types data*/
     private void parseProofDetails(JSONObject jsonObject){
+
 
     }
     /* close proof dialog*/
