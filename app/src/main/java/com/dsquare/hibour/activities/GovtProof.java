@@ -192,8 +192,8 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
             imageUploaded.setVisibility(View.VISIBLE);
         }
     }
-
-    /* validate data*/
+    /* validate dat
+a*/
     /* send data to server*/
     private void sendProofsData(String userId,String cardType,String cardNumber,String cardImage){
         if(networkDetector.isConnected()){

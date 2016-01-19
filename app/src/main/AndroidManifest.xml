@@ -16,7 +16,10 @@
         android:theme="@style/AppTheme" >
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyABAKvrZl3rm1oPvUtrPGah6Dm6_FhWqyA" />
+            android:value="AIzaSyA4Wb6Gpp2MnF5F8yhBA32pQqNVwjHmAsg" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
         <activity android:name=".activities.Splash"
             android:label="@string/app_name"
             android:theme="@style/LauncherTheme" >
@@ -43,6 +46,11 @@
             android:configChanges="keyboardHidden|orientation|screenLayout"
             android:theme="@style/FullScreenTheme" >
         </activity>
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".activities.GovtProof"
             android:label="@string/title_activity_govt_proof"

@@ -30,10 +30,13 @@
     <string name="title_activity_choose_location">ChooseLocation</string>
     <string name="loc_text">Pin Your Home Location</string>
     <string name="button_next">Continue</string>
+    <string name="button_send">Send</string>
     <string name="loc_current_loc_text">Current Location - </string>
     <string name="loc_search_text">SEARCH</string>
     <string name="loc_locality">Enter Your Locality</string>
     <string name="title_activity_home">Home</string>
+    <string name="facebook_app_id">178406975851248</string>
+    <string name="gplus_text">LOGIN</string>
 
     <!-- nav drawer items -->
     <string-array name="drawerItems">
