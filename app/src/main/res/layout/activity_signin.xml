@@ -164,6 +164,36 @@
                 android:background="@color/brand"
                 android:textColor="@android:color/white"
                 android:id="@+id/signin_button"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:layout_marginRight="@dimen/dp_20"
+                android:gravity="center"
+                >
+
+                <com.facebook.login.widget.LoginButton
+                    xmlns:facebook="http://schemas.android.com/apk/res-auto"
+                    facebook:com_facebook_login_text="LOGIN"
+                    android:id="@+id/facebook_login_button"
+                    android:layout_width="@dimen/dp_120"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:text="Sign in"
+                    />
+
+                <com.google.android.gms.common.SignInButton
+                    android:id="@+id/btn_sign_in"
+                    android:layout_width="@dimen/dp_120"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/dp_10"/>
+
+            </LinearLayout>
+
             <com.dsquare.hibour.utils.Avenir
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

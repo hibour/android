@@ -65,7 +65,7 @@ public class Home extends Fragment implements View.OnClickListener{
                 callback.drawerOpen();
                 break;
             case R.id.home_new_post:
-                replaceContainer(4);
+                replaceContainer(3);
                 break;
             case R.id.home_posts_icon:
                 replaceContainer(0);
@@ -74,7 +74,7 @@ public class Home extends Fragment implements View.OnClickListener{
                 replaceContainer(2);
                 break;
             case R.id.home_classifieds_icon:
-                replaceContainer(3);
+                replaceContainer(4);
                 break;
             case R.id.home_socialize_icon:
                 break;
@@ -100,6 +100,9 @@ public class Home extends Fragment implements View.OnClickListener{
                 break;
             case 2:
                 fragment = new Classifieds();
+                break;
+            case 3:
+                fragment = new NewPosts();
                 break;
         }
         if (fragment != null) {

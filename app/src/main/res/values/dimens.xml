@@ -19,6 +19,8 @@
     <dimen name="dp_80">80dp</dimen>
     <dimen name="dp_90">90dp</dimen>
     <dimen name="dp_100">100dp</dimen>
+    <dimen name="dp_120">120dp</dimen>
+    <dimen name="dp_140">140dp</dimen>
     <dimen name="dp_160">140dp</dimen>
 
     <dimen name="sp_16">16sp</dimen>
@@ -36,6 +38,11 @@
     <dimen name="fab_govt_left_margin">30dp</dimen>
     <dimen name="edit_text_bottom_line_margin_top">15dp</dimen>
     <dimen name="edit_text_size">14sp</dimen>
+
+    <dimen name="fb_margin_override_top">10dp</dimen>
+    <dimen name="fb_margin_override_bottom">10dp</dimen>
+    <dimen name="fb_margin_override_lr">10dp</dimen>
+    <dimen name="fb_margin_override_textpadding">17dp</dimen>
 
     <dimen name="nav_drawer_row_height">48dp</dimen>
     <dimen name="nav_drawer_row_text">14sp</dimen>

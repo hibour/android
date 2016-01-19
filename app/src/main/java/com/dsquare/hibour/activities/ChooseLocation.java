@@ -54,9 +54,11 @@ import java.util.Locale;
 public class ChooseLocation extends AppCompatActivity implements View.OnClickListener
         ,OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
+
     private static final LatLngBounds BOUNDS_INDIA =new LatLngBounds(
             new LatLng(Constants.Latitude,Constants.Longitude)
             ,new LatLng(Constants.Latitude,Constants.Longitude)) ;
+
     private Button next,previous;
     protected GoogleApiClient mGoogleApiClient;
     private SupportMapFragment mapFragment;
