@@ -60,6 +60,7 @@ public class PreferencesAdapter extends RecyclerView.Adapter<PreferencesAdapter.
             int id = context.getResources().getIdentifier(name, "mipmap", context.getPackageName());
             Drawable drawable = context.getResources().getDrawable(id);
             holder.prefImage.setImageDrawable(drawable);
+            holder.prefName.setTextColor(context.getResources().getColor(R.color.white));
            // holder.prefLinearLayout.setBackgroundDrawable(context.getResources()
              //       .getDrawable(R.drawable.social_prefs_selected_state));
            // GradientDrawable bgShape = (GradientDrawable)holder.prefLinearLayout.getBackground();

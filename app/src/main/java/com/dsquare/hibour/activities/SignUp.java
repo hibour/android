@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -87,6 +89,17 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
         name = (EditText)findViewById(R.id.signup_name);
         email= (EditText)findViewById(R.id.signup_email);
         password= (EditText)findViewById(R.id.signup_password);
+        password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                boolean handled = false;
+                if (i == EditorInfo.IME_ACTION_DONE) {
+                    validateData();
+                    handled = true;
+                }
+                return handled;
+            }
+        });
         inputLayoutName=(TextInputLayout)findViewById(R.id.signup_name_inputlayout);
         inputLayoutemail=(TextInputLayout)findViewById(R.id.signup_mail_inputlayout);
         inputLayoutpassword=(TextInputLayout)findViewById(R.id.signup_password_inputlayout);
@@ -213,9 +226,15 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                                         JSONObject object,
                                         GraphResponse response) {
                                     // Application code
-                                    Log.d("email",object.optString("email"));
-                                    Log.d("id",object.optString("id"));
-                                    Log.d("name",object.optString("name"));
+                                    try {
+                                        Log.d("email",object.optString("email"));
+                                        Log.d("id",object.optString("id"));
+                                        Log.d("name",object.optString("name"));
+                                        signUpUser(object.optString("name"), object.optString("email")
+                                                , "", "fb");
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             });
 
@@ -254,29 +273,22 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
             try {
                 GoogleSignInAccount acct = result.getSignInAccount();
 //                application.setSocialPreferences(Constants.USER_LOGIN_GPLUS);
-                userName = acct.getDisplayName();
-                userNumber = "";
-                userMail = acct.getEmail();
-                socialType="google";
-                userpassword= "";
-                userfirst=acct.getDisplayName();
-                userlast="";
-                Log.d("gplus",userMail+userfirst);
-                signUpUser(userName, userMail, userpassword, "gp");
-
-                Log.d("Name",userName);
-//                sendSocialData(userName,userNumber,userMail,socialType,application.getUserId());
+                try {
+                    if(acct.getDisplayName()!=null){
+                        userName = acct.getDisplayName();
+                    }
+                    if(acct.getEmail()!=null){
+                        userMail = acct.getEmail();
+                    }
+                    Log.d("gplus",userMail+userName);
+                    signUpUser(userName, userMail, "", "gp");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            /*if(prevActType.equals("login")){
-                openLanguageSelectorActivity();
-            }else{
-                SocialNetworks.this.finish();
-            }*/
-            // mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
-            //updateUI(true);
         } else {
             // Signed out, show unauthenticated UI.
             //updateUI(false);

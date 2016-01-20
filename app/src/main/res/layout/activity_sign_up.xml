@@ -14,22 +14,23 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_100"
-                android:background="@color/brand">
+                android:layout_height="?actionBarSize"
+                android:background="@color/white">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dp_50"
+                    android:layout_width="120dp"
+                    android:layout_height="30dp"
                     android:layout_centerVertical="true"
                     android:layout_centerInParent="true"
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="@dimen/dp_10"
-                    android:background="@drawable/logo"/>
+                    android:background="@drawable/lll"/>
 
             </RelativeLayout>
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:scrollbars="none"
                 android:id="@+id/signup_scroll">
         <LinearLayout
             android:layout_width="match_parent"
@@ -122,6 +123,7 @@
                         android:singleLine="true"
                         android:id="@+id/signup_name"
                         android:inputType="text"
+                        android:textColor="@color/black_1"
                         android:hint="@string/signup_name_hint"/>
                     </android.support.design.widget.TextInputLayout>
                 <View
@@ -142,6 +144,7 @@
                         android:layout_height="wrap_content"
                         android:textColorHint="@color/gray"
                         android:singleLine="true"
+                        android:textColor="@color/black_1"
                         android:id="@+id/signup_email"
                         android:inputType="textEmailAddress"
                         android:hint="@string/signup_email_hint"/>
@@ -166,6 +169,8 @@
                         android:singleLine="true"
                         android:id="@+id/signup_password"
                         android:inputType="textPassword"
+                        android:imeOptions="actionDone"
+                        android:textColor="@color/black_1"
                         android:hint="@string/signup_password_hint"/>
                 </android.support.design.widget.TextInputLayout>
                 <View
@@ -196,6 +201,7 @@
                 android:layout_marginLeft="@dimen/dp_20"
                 android:layout_marginRight="@dimen/dp_20"
                 android:gravity="center"
+                android:visibility="gone"
                 >
 
             <com.facebook.login.widget.LoginButton

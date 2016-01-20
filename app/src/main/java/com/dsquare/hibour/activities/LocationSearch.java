@@ -97,6 +97,11 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                     e.printStackTrace();
                 }
             }
+            Intent intent = new Intent(getApplicationContext(), ChooseLocation.class);
+            intent.putExtra("latitude",Constants.Latitude);
+            intent.putExtra("longitude",Constants.Longitude);
+            intent.putExtra("address",autoCompleteTextView.getText().toString());
+            startActivity(intent);
         }
     };
 
@@ -171,6 +176,21 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
         placeAutoCompleteAdapter = new PlaceAutoCompleteAdapter(this,android.R.layout.simple_list_item_1,
                 mGoogleApiClient, BOUNDS_INDIA, AutocompleteFilter.create(filterTypes));
         autoCompleteTextView.setAdapter(placeAutoCompleteAdapter);
+        autoCompleteTextView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getApplicationContext(), ChooseLocation.class);
+                intent.putExtra("latitude",Constants.Latitude);
+                intent.putExtra("longitude",Constants.Longitude);
+                intent.putExtra("address",autoCompleteTextView.getText().toString());
+                startActivity(intent);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         avenir = Typeface.createFromAsset(getAssets(),"fonts/AvenirLTStd-Book.otf");
         search.setTypeface(avenir);
         signin.setTypeface(avenir);
@@ -187,10 +207,15 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
         switch(view.getId()) {
             case R.id.places_search:
                 Intent intent = new Intent(getApplicationContext(), ChooseLocation.class);
-                intent.putExtra("latitude",Constants.Latitude);
-                intent.putExtra("longitude",Constants.Longitude);
-                intent.putExtra("address",autoCompleteTextView.getText().toString());
-                startActivity(intent);
+                if(autoCompleteTextView.getText()!=null && !autoCompleteTextView.getText().toString().equals("")){
+                    intent.putExtra("latitude",Constants.Latitude);
+                    intent.putExtra("longitude",Constants.Longitude);
+                    intent.putExtra("address",autoCompleteTextView.getText().toString());
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(this,"Choose neighbourhood",Toast.LENGTH_LONG).show();
+                }
+
                 break;
             case R.id.places_signup:
                 Intent intent1 = new Intent(getApplicationContext(), SignIn.class);
@@ -236,8 +261,13 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 e.printStackTrace();
             }
             Log.d("lat+lon",mLastLocation.getLatitude()+" "+mLastLocation.getLongitude());
+            Intent intent = new Intent(getApplicationContext(), ChooseLocation.class);
+            intent.putExtra("latitude",Constants.Latitude);
+            intent.putExtra("longitude",Constants.Longitude);
+            intent.putExtra("address",autoCompleteTextView.getText().toString());
+            startActivity(intent);
         } else {
-            Toast.makeText(this, "location not found", Toast.LENGTH_LONG).show();
+           // Toast.makeText(this, "location not found", Toast.LENGTH_LONG).show();
         }
     }
 

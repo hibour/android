@@ -119,7 +119,7 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
                         Log.d("cardtype",cardType);
                     }
                     ((TextView) parent.getChildAt(0)).setTextColor(getResources()
-                            .getColor(R.color.gray));
+                            .getColor(R.color.black_1));
                     ((TextView) parent.getChildAt(0)).setTypeface(avenir);
                     ((TextView) parent.getChildAt(0)).setPadding(0, 0, 0, 0);
                     ((TextView) parent.getChildAt(0)).setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
@@ -144,7 +144,7 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
                     }
 
                     ((TextView) parent.getChildAt(0)).setTextColor(getResources()
-                            .getColor(R.color.gray));
+                            .getColor(R.color.black_1));
                     ((TextView) parent.getChildAt(0)).setTypeface(avenir);
                     ((TextView) parent.getChildAt(0)).setPadding(0, 0, 0, 0);
                     ((TextView) parent.getChildAt(0)).setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
@@ -261,6 +261,7 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK
                 &&  data != null && data.getData() != null) {
             imageUploaded.setVisibility(View.VISIBLE);
+            imageUploadText.setTextColor(getResources().getColor(R.color.black_1));
             Uri filePath = data.getData();
             try {
                 //Getting the Bitmap from Gallery
@@ -272,6 +273,7 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
         }else if(requestCode == REQUEST_IMAGE_SELECTOR && resultCode == RESULT_OK
                 && data != null && data.getData() != null){
             imageUploaded.setVisibility(View.VISIBLE);
+            imageUploadText.setTextColor(getResources().getColor(R.color.black_1));
             Uri filePath = data.getData();
             try {
                 //Getting the Bitmap from Gallery

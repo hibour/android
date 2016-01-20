@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context="com.dsquare.hibour.activities.GovtProof">
     <ScrollView
         android:layout_width="match_parent"
@@ -16,18 +17,18 @@
         android:layout_height="match_parent">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_100"
+            android:layout_height="?actionBarSize"
             android:id="@+id/govt_proof_toolbar"
-            android:background="@color/brand">
+            android:background="@color/white">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/dp_50"
+                android:layout_width="120dp"
+                android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_centerInParent="true"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="@dimen/dp_10"
-                android:background="@drawable/logo"/>
+                android:background="@drawable/lll"/>
         </RelativeLayout>
         <!--<LinearLayout-->
             <!--android:layout_width="match_parent"-->
@@ -156,7 +157,7 @@
                         android:textCursorDrawable="@null"
                         android:editable="false"
                         android:textSize="@dimen/edit_text_size"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/black_1"
                         android:backgroundTint="@color/gray"
                         android:id="@+id/govt_card_number_edittext"
                         android:inputType="textEmailAddress"
@@ -231,7 +232,8 @@
         android:layout_marginTop="@dimen/fab_govt_top_margin1"
         android:src="@drawable/ic_text"
         app:backgroundTint="@android:color/white"
-        android:scaleType="centerCrop">
+        android:scaleType="centerCrop"
+        android:visibility="gone">
     </android.support.design.widget.FloatingActionButton>
     </RelativeLayout>
     </ScrollView>

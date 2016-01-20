@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ImageView;
 
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.utils.Hibour;
@@ -15,7 +16,7 @@ public class Splash extends AppCompatActivity {
 
     private static int SPLASH_TIME_OUT = 2000;
     private Hibour application;
-
+    private ImageView img_view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,12 +24,14 @@ public class Splash extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         application = Hibour.getInstance(this);
+        /*img_view = (ImageView) findViewById(R.id.splash_logo);
+        RotateAnimation rotate = new RotateAnimation(0 ,720);
+        rotate.setDuration(1000);
+        img_view.startAnimation(rotate);*/
         new Handler().postDelayed(new Runnable() {
 
-            /*
-             * Showing splash screen with a timer. This will be useful when you
-             * want to show case your app logo / company
-             */
+
+
 
             @Override
             public void run() {
