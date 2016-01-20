@@ -6,13 +6,15 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.utils.Hibour;
 
 /**
  * Created by Dsquare Android on 1/14/2016.
  */
 public class Splash extends AppCompatActivity {
 
-    private static int SPLASH_TIME_OUT = 3000;
+    private static int SPLASH_TIME_OUT = 2000;
+    private Hibour application;
 
 
     @Override
@@ -20,6 +22,7 @@ public class Splash extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        application = Hibour.getInstance(this);
         new Handler().postDelayed(new Runnable() {
 
             /*
@@ -29,10 +32,14 @@ public class Splash extends AppCompatActivity {
 
             @Override
             public void run() {
-                // This method will be executed once the timer is over
-                // Start your app main activity
-                    Intent i = new Intent(Splash.this, LocationSearch.class);
-                    startActivity(i);
+                    if(application.getUserId().equals("")){
+                        Intent i = new Intent(Splash.this, LocationSearch.class);
+                        startActivity(i);
+                    }else{
+                        Intent homeIntent = new Intent(Splash.this,Home.class);
+                        startActivity(homeIntent);
+                    }
+
                     finish();
             }
         }, SPLASH_TIME_OUT);

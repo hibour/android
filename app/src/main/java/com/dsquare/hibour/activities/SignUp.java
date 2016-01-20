@@ -44,7 +44,8 @@ import com.google.gson.JsonSyntaxException;
 
 import org.json.JSONObject;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SignUp extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
@@ -170,7 +171,11 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
 
         callbackManager = CallbackManager.Factory.create();
 
-        facebookLoginButton.setReadPermissions(Arrays.asList("email", "user_photos", "public_profile"));
+        List<String> permissions = new ArrayList<>();
+        permissions.add("public_profile");
+        permissions.add("email");
+        permissions.add("user_birthday");
+        facebookLoginButton.setReadPermissions(permissions);
         facebookLoginButton.setOnClickListener(this);
         Log.d("social", "initialize fb");
     }
@@ -208,6 +213,9 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                                         JSONObject object,
                                         GraphResponse response) {
                                     // Application code
+                                    Log.d("email",object.optString("email"));
+                                    Log.d("id",object.optString("id"));
+                                    Log.d("name",object.optString("name"));
                                 }
                             });
 

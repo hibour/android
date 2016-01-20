@@ -138,6 +138,13 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initializeViews() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(Places.GEO_DATA_API)
+                .addApi(Places.PLACE_DETECTION_API)
+                .addApi(LocationServices.API)
+                .build();
         search = (Button) findViewById(R.id.places_search);
         signin = (Button) findViewById(R.id.places_signup);
         autoCompleteTextView = (AutoCompleteTextView)findViewById(R.id.loc_search_autocomplete);
@@ -159,13 +166,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 //        mapFragment = (SupportMapFragment) getSupportFragmentManager()
 //                .findFragmentById(R.id.map);
         filterTypes.add(Place.TYPE_GEOCODE);
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(Places.GEO_DATA_API)
-                .addApi(Places.PLACE_DETECTION_API)
-                .addApi(LocationServices.API)
-                .build();
+
         autoCompleteTextView.setOnItemClickListener(mAutocompleteClickListener);
         placeAutoCompleteAdapter = new PlaceAutoCompleteAdapter(this,android.R.layout.simple_list_item_1,
                 mGoogleApiClient, BOUNDS_INDIA, AutocompleteFilter.create(filterTypes));
@@ -188,7 +189,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 Intent intent = new Intent(getApplicationContext(), ChooseLocation.class);
                 intent.putExtra("latitude",Constants.Latitude);
                 intent.putExtra("longitude",Constants.Longitude);
-                intent.putExtra("address",Constants.LocationAddress);
+                intent.putExtra("address",autoCompleteTextView.getText().toString());
                 startActivity(intent);
                 break;
             case R.id.places_signup:
