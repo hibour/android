@@ -63,9 +63,9 @@ public class AccountsClient {
 
     /* get user signin url String*/
     private String getSignInString(String userName,String password,String signInType){
-        String signInUrl = Constants.URL_SIGN_IN+Constants.KEYWORD_USER_NAME+"="+userName+"+&"
+        String signInUrl = Constants.URL_SIGN_IN+Constants.KEYWORD_USER_NAME+"="+userName+"&"
                 +Constants.KEYWORD_PASSWORD+"="+password+"&"
-                +Constants.KEYWORD_SIGNIN_TYPE+"="+signInType;
+                +Constants.KEYWORD_SIGNIN_TYPE+"="+signInType+"&"+Constants.KEYWORD_SIGNATURE+"="+Constants.SIGNATURE_VALUE;
         return signInUrl;
     }
     /* get user sign up url String*/

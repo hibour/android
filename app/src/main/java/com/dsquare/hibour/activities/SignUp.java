@@ -22,6 +22,7 @@ import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.pojos.register.Data;
 import com.dsquare.hibour.pojos.register.Registers;
+import com.dsquare.hibour.pojos.social.Fb;
 import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Hibour;
 import com.facebook.CallbackManager;
@@ -40,6 +41,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
 import org.json.JSONObject;
@@ -126,9 +128,6 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                 .build();
         signInButton = (SignInButton) findViewById(R.id.btn_sign_in);
         signInButton.setColorScheme(SignInButton.COLOR_LIGHT);
-
-
-
         // signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton.setScopes(googleSignInOptions.getScopeArray());
         signInButton.setOnClickListener(this);
@@ -180,7 +179,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     /* gplus signin*/
     private void gplusSignIn() {
         if (networkDetector.isConnected()){ // check for network connectivity
-            Log.d("social","gplussignin");
+            Log.d("social", "gplussignin");
             Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
             startActivityForResult(signInIntent, RC_SIGN_IN);
         } else{
@@ -196,39 +195,63 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     private void fbSignIn(){
         if (networkDetector.isConnected()){ // check for network connectivity
             Log.d("social", "fb");
-            facebookLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-                @Override
-                public void onSuccess(LoginResult loginResult) {
-                    // App code
-                    GraphRequest request = GraphRequest.newMeRequest(
-                            loginResult.getAccessToken(),
-                            new GraphRequest.GraphJSONObjectCallback() {
-                                @Override
-                                public void onCompleted(
-                                        JSONObject object,
-                                        GraphResponse response) {
-                                    // Application code
-                                }
-                            });
+            final boolean[] b = {true};
+            facebookLoginButton.registerCallback(callbackManager,
+                    new FacebookCallback<LoginResult>() {
+                        @Override
+                        public void onSuccess(LoginResult loginResult) {
 
-                    Bundle parameters = new Bundle();
-                    parameters.putString("fields", "id,name,email,gender, birthday");
-                    request.setParameters(parameters);
-                    request.executeAsync();
-                }
+                            Log.d("social", "Success");
+                            if (b[0]) {
+                                GraphRequest.newMeRequest(loginResult.getAccessToken(),
+                                        new GraphRequest.GraphJSONObjectCallback() {
+                                            @Override
+                                            public void onCompleted(JSONObject jsonObject, GraphResponse graphResponse) {
 
-                @Override
-                public void onCancel() {
-                    Toast.makeText(SignUp.this, "User cancelled", Toast.LENGTH_SHORT).show();
-                }
+                                                if (graphResponse.getError() == null) {
+                                                    try {
+//                                                        application.setSocialPreferences(Constants.USER_LOGIN_FACEBOOK);
+                                                        socialType = Constants.USER_LOGIN_FACEBOOK;
 
-                @Override
-                public void onError(FacebookException exception) {
-                    Toast.makeText(SignUp.this, "Error on Login, check your facebook app_id", Toast.LENGTH_LONG).show();
-                }
-            });
+                                                        Fb fbUser = new GsonBuilder().create().fromJson(
+                                                                jsonObject.toString(), Fb.class);
 
-            this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                                                        userName = fbUser.getName();
+                                                        userNumber = "";
+                                                        userMail = fbUser.getEmail();
+
+                                                        Log.d("fbname", userName);
+                                                        try {
+                                                            Log.d("fbmail", userMail);
+                                                            signUpUser(userName, userMail, userpassword,
+                                                                    socialType);
+                                                        } catch (Exception e) {
+                                                            e.printStackTrace();
+                                                            signUpUser(userName, "", userpassword,
+                                                                    socialType);
+                                                        }
+                                                    //    signUpUser(userName, userMail, userpassword,
+                                                      //          socialType);
+                                                    } catch (Exception e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            }
+                                        }).executeAsync();
+                                b[0] = false;
+                            }
+                        }
+
+                        @Override
+                        public void onCancel() {
+                            Log.d("social", "cancelled");
+                        }
+
+                        @Override
+                        public void onError(FacebookException e) {
+                            Log.d("social", "hr" + e.toString());
+                        }
+                    });
         }else{
 //            closeRegisterDialog();
 //            internetDialog = new NoInternetDialog();
@@ -254,7 +277,13 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                 userfirst=acct.getDisplayName();
                 userlast="";
                 Log.d("gplus",userMail+userfirst);
-                signUpUser(userName, userMail, userpassword, "gp");
+                try {
+                    signUpUser(userName, userMail, userpassword, "gp");
+                }catch (Exception e){
+                    e.printStackTrace();
+                    signUpUser("", userMail, userpassword, "gp");
+
+                }
 
                 Log.d("Name",userName);
 //                sendSocialData(userName,userNumber,userMail,socialType,application.getUserId());
