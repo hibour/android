@@ -30,7 +30,6 @@ import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.dialogs.ImagePickerDialog;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
-import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.network.PostsClient;
 import com.dsquare.hibour.pojos.posttype.Datum;

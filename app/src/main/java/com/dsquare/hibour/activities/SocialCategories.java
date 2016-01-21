@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -53,8 +54,8 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
         accountsClient = new AccountsClient(this);
         networkDetector = new NetworkDetector(this);
         gson = new Gson();
-//        getAllPrefs();
-        preparePrefs();
+        getAllPrefs();
+//        preparePrefs();
         initializeViews();
         initializeEventListeners();
     }
@@ -67,8 +68,8 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
         prefsRecycler.setLayoutManager(new GridLayoutManager(this, 3));
         prefsRecycler.addItemDecoration(new GridLayoutSpacing(3, 5, true));
         prefsRecycler.setHasFixedSize(true);
-        adapter = new PreferencesAdapter(this,prefsList);
-        prefsRecycler.setAdapter(adapter);
+//        adapter = new PreferencesAdapter(this,prefsList);
+//        prefsRecycler.setAdapter(adapter);
 
     }
     /* initialize event listeners*/
@@ -175,23 +176,27 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
     }
     /* parse all prefs*/
     private void parseAllPrefs(JSONObject jsonObject){
+        Log.d("data",jsonObject.toString());
         try {
             Preference preference = gson.fromJson(jsonObject.toString(), Preference.class);
             List<Datum> data = preference.getData();
-            //setAdapters(data);
+
+            for(int i=0;i<data.size();i++){
+                String[] details = {String.valueOf(data.get(i).getId()), data.get(i).getPreferencesname(), data.get(i).getImage1(), data.get(i).getImage2(),"false"};
+                prefsList.add(details);
+            }
+            setAdapters(prefsList);
             } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
-
-
     }
     /* parse user prefs*/
     private void parseUserPrefs(JSONObject jsonObject){
 
     }
 
-    private void setAdapters(List<Datum> data){
-//        prefsRecycler.setAdapter(new PreferencesAdapter(this,data));
+    private void setAdapters(List<String[]> prefsList){
+        prefsRecycler.setAdapter(new PreferencesAdapter(this,prefsList));
     }
 
     /* close dialog*/

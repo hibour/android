@@ -13,7 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.ImageLoader;
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.network.HibourConnector;
 import com.dsquare.hibour.pojos.preference.Datum;
 
 import java.util.ArrayList;
@@ -31,10 +33,11 @@ public class PreferencesAdapter extends RecyclerView.Adapter<PreferencesAdapter.
     private ProgressDialog detailsDialog;
     private int selectedPos = 0;
     private List<Datum> data;
-
+    private ImageLoader imageLoader;
     public PreferencesAdapter(Context context,List<String[]> listItems) {
         this.context = context;
         this.listItems = listItems;
+        imageLoader = HibourConnector.getInstance(context).getImageLoader();
     }
 
     @Override
@@ -51,15 +54,19 @@ public class PreferencesAdapter extends RecyclerView.Adapter<PreferencesAdapter.
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         Log.d("size", listItems.get(position)[0]);
         if(listItems.get(position)[4].equals("false")){
-            String name = listItems.get(position)[2];
-            int id = context.getResources().getIdentifier(name, "mipmap", context.getPackageName());
-            Drawable drawable = context.getResources().getDrawable(id);
-            holder.prefImage.setImageDrawable(drawable);
+            imageLoader.get(listItems.get(position)[2], ImageLoader.getImageListener(holder.prefImage
+                    , R.mipmap.ic_launcher, R.mipmap.ic_launcher));
+//            String name = listItems.get(position)[1];
+//            int id = context.getResources().getIdentifier(name, listItems.get(position)[2], context.getPackageName());
+//            Drawable drawable = context.getResources().getDrawable(id);
+//            holder.prefImage.setImageDrawable(drawable);
         }else{
-            String name = listItems.get(position)[3];
-            int id = context.getResources().getIdentifier(name, "mipmap", context.getPackageName());
-            Drawable drawable = context.getResources().getDrawable(id);
-            holder.prefImage.setImageDrawable(drawable);
+            imageLoader.get(listItems.get(position)[3], ImageLoader.getImageListener(holder.prefImage
+                    , R.mipmap.ic_launcher, R.mipmap.ic_launcher));
+//            String name = listItems.get(position)[1];
+//            int id = context.getResources().getIdentifier(name, listItems.get(position)[3], context.getPackageName());
+//            Drawable drawable = context.getResources().getDrawable(id);
+//            holder.prefImage.setImageDrawable(drawable);
             holder.prefName.setTextColor(context.getResources().getColor(R.color.white));
            // holder.prefLinearLayout.setBackgroundDrawable(context.getResources()
              //       .getDrawable(R.drawable.social_prefs_selected_state));
@@ -72,7 +79,7 @@ public class PreferencesAdapter extends RecyclerView.Adapter<PreferencesAdapter.
                 holder.prefLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.social_prefs_selected_state));
             }
         }
-        holder.prefName.setText(listItems.get(position)[0]);
+        holder.prefName.setText(listItems.get(position)[1]);
        /* if(listItems.get(position)[3].equals("true")){
             holder.prefLinearLayout.setBackgroundResource(R.drawable.social_prefs_selected_state);
             holder.prefName.setTextColor(context.getResources().getColor(R.color.white));
