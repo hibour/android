@@ -32,6 +32,7 @@ import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.pojos.govtproofs.Datum;
 import com.dsquare.hibour.pojos.govtproofs.Proofs;
+import com.dsquare.hibour.utils.Fonts;
 import com.dsquare.hibour.utils.Hibour;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -58,7 +59,7 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
     private NetworkDetector networkDetector;
     private AccountsClient accountsClient;
     private ProgressDialog uploadProofsDialog;
-    private Typeface avenir;
+    private Typeface tf;
     private DialogFragment chooserDialog;
     private static final int REQUEST_IMAGE_SELECTOR=1000;
     private static final int REQUEST_IMAGE_CAPTURE=1001;
@@ -90,14 +91,14 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
         uploadimage = (ImageView)findViewById(R.id.govt_proof_image_upload);
         imageUploadText = (TextView)findViewById(R.id.govt_proof_image_text);
         genderSpinner = (Spinner)findViewById(R.id.govt_gender_spinner);
-        avenir = Typeface.createFromAsset(getAssets(),"fonts/AvenirLTStd-Book.otf");
+        tf = Typeface.createFromAsset(getAssets(), Fonts.getTypeFaceName());
         networkDetector = new NetworkDetector(this);
         accountsClient = new AccountsClient(this);
         gson = new Gson();
-        continuous.setTypeface(avenir);
+        continuous.setTypeface(tf);
 //        previous.setTypeface(avenir);
-        cardnum.setTypeface(avenir);
-        inputcardnum.setTypeface(avenir);
+        cardnum.setTypeface(tf);
+        inputcardnum.setTypeface(tf);
         prepareCardsList();
         cardsAdapter = new ArrayAdapter<String>(this
                 ,android.R.layout.simple_dropdown_item_1line,cardsList);
@@ -120,7 +121,7 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
                     }
                     ((TextView) parent.getChildAt(0)).setTextColor(getResources()
                             .getColor(R.color.black_1));
-                    ((TextView) parent.getChildAt(0)).setTypeface(avenir);
+                    ((TextView) parent.getChildAt(0)).setTypeface(tf);
                     ((TextView) parent.getChildAt(0)).setPadding(0, 0, 0, 0);
                     ((TextView) parent.getChildAt(0)).setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
                 }
@@ -145,7 +146,7 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
 
                     ((TextView) parent.getChildAt(0)).setTextColor(getResources()
                             .getColor(R.color.black_1));
-                    ((TextView) parent.getChildAt(0)).setTypeface(avenir);
+                    ((TextView) parent.getChildAt(0)).setTypeface(tf);
                     ((TextView) parent.getChildAt(0)).setPadding(0, 0, 0, 0);
                     ((TextView) parent.getChildAt(0)).setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
                 }

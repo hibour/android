@@ -25,6 +25,7 @@ import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.pojos.register.Data;
 import com.dsquare.hibour.pojos.register.Registers;
 import com.dsquare.hibour.utils.Constants;
+import com.dsquare.hibour.utils.Fonts;
 import com.dsquare.hibour.utils.Hibour;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -68,7 +69,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     private AccountsClient accountsClient;
     private ProgressDialog signUpDialog;
     private Hibour application;
-    private Typeface avenir;
+    private Typeface tf;
     private Gson gson;
 
     private String userName="",userNumber="",userMail="",socialType="",userpassword="",userfirst="",userlast="";
@@ -109,14 +110,14 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
         networkDetector = new NetworkDetector(this);
         gson = new Gson();
         application = Hibour.getInstance(this);
-        avenir = Typeface.createFromAsset(getAssets(),"fonts/AvenirLTStd-Book.otf");
-        submitButton.setTypeface(avenir);
-        name.setTypeface(avenir);
-        email.setTypeface(avenir);
-        password.setTypeface(avenir);
-        inputLayoutName.setTypeface(avenir);
-        inputLayoutemail.setTypeface(avenir);
-        inputLayoutpassword.setTypeface(avenir);
+        tf = Typeface.createFromAsset(getAssets(), Fonts.getTypeFaceName());
+        submitButton.setTypeface(tf);
+        name.setTypeface(tf);
+        email.setTypeface(tf);
+        password.setTypeface(tf);
+        inputLayoutName.setTypeface(tf);
+        inputLayoutemail.setTypeface(tf);
+        inputLayoutpassword.setTypeface(tf);
     }
 
     /*initialize event listeners*/
@@ -149,7 +150,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                 TextView mTextView = (TextView) v;
                 mTextView.setText(this.getResources().getString(R.string.gplus_text));
                 mTextView.setPadding(45, 0, 0, 0);
-                mTextView.setTypeface(avenir);
+                mTextView.setTypeface(tf);
                 return;
             }
         }
@@ -160,7 +161,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     public void initializeFb(){
         Log.d("social","initfb");
         facebookLoginButton = (LoginButton)findViewById(R.id.facebook_login_button);
-        facebookLoginButton.setTypeface(avenir);
+        facebookLoginButton.setTypeface(tf);
         float fbIconScale = 1.45F;
         Drawable drawable = this.getResources().getDrawable(
                 com.facebook.R.drawable.com_facebook_button_icon);

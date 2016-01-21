@@ -48,6 +48,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import com.dsquare.hibour.utils.Fonts;
 
 /**
  * Created by Aditya Ravikanti on 1/19/2016.
@@ -58,7 +59,7 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
     private Button send;
     private ImageView gallary;
     private EditText text;
-    private Typeface avenir;
+    private Typeface proxima;
     private DialogFragment chooserDialog;
     private ArrayAdapter<String> categoriesAdapter;
     private String[] List={"Suggestions","Classifields"};
@@ -96,14 +97,19 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
         send = (Button)view.findViewById(R.id.newpost_send);
         gallary = (ImageView)view.findViewById(R.id.newposts_gallary);
         text = (EditText)view.findViewById(R.id.newposts_edittest);
-        avenir = Typeface.createFromAsset(getActivity().getAssets(),"fonts/AvenirLTStd-Book.otf");
+
         networkDetector = new NetworkDetector(getActivity());
         postsClient = new PostsClient(getActivity());
         gson = new Gson();
-        send.setTypeface(avenir);
         prepareCategoriesList();
+        //categoriesAdapter = new ArrayAdapter<String>(getActivity()
+        //        ,android.R.layout.simple_dropdown_item_1line,categoriesList);
+        //spinner.setAdapter(categoriesAdapter);
+
+        proxima = Typeface.createFromAsset(getActivity().getAssets(), Fonts.getTypeFaceName());
+        send.setTypeface(proxima);
         categoriesAdapter = new ArrayAdapter<String>(getActivity()
-                ,android.R.layout.simple_dropdown_item_1line,categoriesList);
+                ,android.R.layout.simple_dropdown_item_1line,List);
         spinner.setAdapter(categoriesAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -117,7 +123,7 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
                     }
                     ((TextView) parent.getChildAt(0)).setTextColor(getResources()
                             .getColor(R.color.gray));
-                    ((TextView) parent.getChildAt(0)).setTypeface(avenir);
+                    ((TextView) parent.getChildAt(0)).setTypeface(proxima);
                     Log.d("padding", parent.getChildAt(0).getPaddingLeft() + "");
                     ((TextView) parent.getChildAt(0)).setPadding(0, 0, 0, 0);
                     ((TextView) parent.getChildAt(0)).setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);

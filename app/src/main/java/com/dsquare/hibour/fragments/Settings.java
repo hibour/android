@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
+import com.dsquare.hibour.utils.Fonts;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,7 +34,7 @@ public class Settings extends Fragment implements View.OnClickListener{
     private EditText inputName, inputEmail, inputPassword;
     private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutPassword;
     private int PICK_IMAGE_REQUEST = 1;
-    private Typeface avenir;
+    private Typeface tf;
 
     public Settings() {
         // Required empty public constructor
@@ -62,14 +63,14 @@ public class Settings extends Fragment implements View.OnClickListener{
         inputEmail = (EditText) view.findViewById(R.id.input_email);
         inputPassword = (EditText) view.findViewById(R.id.input_password);
         inputImage = (ImageView) view.findViewById(R.id.input_image);
-        avenir = Typeface.createFromAsset(getActivity().getAssets(),"fonts/AvenirLTStd-Book.otf");
-        submitButton.setTypeface(avenir);
-        inputLayoutEmail.setTypeface(avenir);
-        inputLayoutName.setTypeface(avenir);
-        inputLayoutPassword.setTypeface(avenir);
-        inputName.setTypeface(avenir);
-        inputEmail.setTypeface(avenir);
-        inputPassword.setTypeface(avenir);
+        tf = Fonts.getTypeFace(getActivity());
+        submitButton.setTypeface(tf);
+        inputLayoutEmail.setTypeface(tf);
+        inputLayoutName.setTypeface(tf);
+        inputLayoutPassword.setTypeface(tf);
+        inputName.setTypeface(tf);
+        inputEmail.setTypeface(tf);
+        inputPassword.setTypeface(tf);
     }
     /* initialize event listeners*/
      private void initializeEventListeners(){

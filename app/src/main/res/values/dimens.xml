@@ -49,11 +49,14 @@
     <dimen name="nav_drawer_row_text">14sp</dimen>
     <dimen name="nav_drawer_width">240dp</dimen>
 
-    <dimen name="app_bar_icon_size">48dp</dimen>
+    <dimen name="app_bar_icon_size_sm">20dp</dimen>
+    <dimen name="app_bar_icon_size">30dp</dimen>
+    <dimen name="app_bar_icon_sizem">48dp</dimen>
     <dimen name="app_bar_icon_size1">60dp</dimen>
     <dimen name="app_bar_icon_padding">12dp</dimen>
+
     <dimen name="app_bar_icon_padding1">8dp</dimen>
-    <dimen name="app_bar_title_text_size">18sp</dimen>
+    <dimen name="app_bar_title_text_size">22sp</dimen>
 
     <dimen name="home_tabs_height">48dp</dimen>
     <dimen name="home_posts_height">160dp</dimen>

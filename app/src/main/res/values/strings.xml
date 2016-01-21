@@ -51,6 +51,17 @@
         <item>LOGOUT</item>
     </string-array>
 
+    <string-array name="drawerImages">
+        <item>home</item>
+        <item>messages</item>
+        <item>socialize_color</item>
+        <item>groups</item>
+        <item>about</item>
+        <item>tour</item>
+        <item>settings</item>
+        <item>logout</item>
+    </string-array>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="home_fragment_title">hi\'bour</string>
