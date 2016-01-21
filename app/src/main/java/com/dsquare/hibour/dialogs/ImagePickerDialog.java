@@ -34,6 +34,7 @@ public class ImagePickerDialog extends DialogFragment implements View.OnClickLis
         }
     }
 
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

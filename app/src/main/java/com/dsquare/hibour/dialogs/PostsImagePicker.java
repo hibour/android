@@ -1,4 +1,3 @@
-/*
 package com.dsquare.hibour.dialogs;
 
 import android.app.Activity;
@@ -11,15 +10,17 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.interfaces.ImagePicker;
 
-*/
+
 /**
  * Created by Dsquare Android on 1/21/2016.
- *//*
+ */
 
 public class PostsImagePicker extends DialogFragment implements View.OnClickListener{
 
     private RelativeLayout gallaryLayout,cameraLayout;
+    private ImagePicker host;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -31,33 +32,42 @@ public class PostsImagePicker extends DialogFragment implements View.OnClickList
         initializeEventListeners();
         return builder.create();
     }
-    */
-/* initialize Views*//*
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            host = (ImagePicker)getTargetFragment();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement NoticeDialogListener");
+        }
+    }
+/* initialize Views*/
 
     private void initializeViews(View view){
         gallaryLayout = (RelativeLayout)view.findViewById(R.id.gallary_layout);
         cameraLayout = (RelativeLayout)view.findViewById(R.id.camera_layout);
     }
-    */
-/* initialize event listeners*//*
+
+/* initialize event listeners*/
 
     private void initializeEventListeners(){
         gallaryLayout.setOnClickListener(this);
         cameraLayout.setOnClickListener(this);
     }
-*/
-/*
+
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.gallary_layout:
-                listener.onChoose(0);
+                host.pickerSelection(0);
                 break;
             case R.id.camera_layout:
-                listener.onChoose(1);
+                host.pickerSelection(1);
                 break;
         }
-    }*//*
+    }
 
 }
-*/
+

@@ -29,6 +29,8 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.dialogs.ImagePickerDialog;
+import com.dsquare.hibour.dialogs.PostsImagePicker;
+import com.dsquare.hibour.interfaces.ImagePicker;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.network.PostsClient;
@@ -50,7 +52,7 @@ import java.util.Map;
 /**
  * Created by Aditya Ravikanti on 1/19/2016.
  */
-public class NewPosts extends Fragment implements View.OnClickListener,ImagePickerDialog.ImageChooserListener {
+public class NewPosts extends Fragment implements View.OnClickListener,ImagePicker {
 
     private Spinner spinner;
     private Button send;
@@ -171,22 +173,12 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
     }
 
     private void openImageChooser(){
-        chooserDialog = new ImagePickerDialog();
+        chooserDialog = new PostsImagePicker();
         chooserDialog.show(getActivity().getSupportFragmentManager(), "chooser dialog");
+        chooserDialog.setTargetFragment(this,0);
     }
 
-    @Override
-    public void onChoose(int choice) {
-        switch (choice){
-            case 0:
-                openGallary();
-                break;
-            case 1:
-                openCamera();
-                break;
-        }
-        chooserDialog.dismiss();
-    }
+
     /* open gallary intent*/
     private void openGallary(){
         Intent galleryIntent = new Intent(Intent.ACTION_PICK,
@@ -326,4 +318,16 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
         return encodedImage;
     }
 
+    @Override
+    public void pickerSelection(int choice) {
+        switch (choice){
+            case 0:
+                openGallary();
+                break;
+            case 1:
+                openCamera();
+                break;
+        }
+        chooserDialog.dismiss();
+    }
 }
