@@ -41,7 +41,8 @@ import java.util.Locale;
 /**
  * Created by Dsquare Android on 1/14/2016.
  */
-public class LocationSearch extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class LocationSearch extends AppCompatActivity implements View.OnClickListener
+        , GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private static final LatLngBounds BOUNDS_INDIA =new LatLngBounds(new LatLng(8.4,37.6),new LatLng(68.7,97.25)) ;
     protected GoogleApiClient mGoogleApiClient;
@@ -179,11 +180,16 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
         autoCompleteTextView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getApplicationContext(), ChooseLocation.class);
-                intent.putExtra("latitude",Constants.Latitude);
-                intent.putExtra("longitude",Constants.Longitude);
-                intent.putExtra("address",autoCompleteTextView.getText().toString());
-                startActivity(intent);
+                if(autoCompleteTextView.equals(null)||autoCompleteTextView.getText().toString().equals("")){
+
+                }else{
+                    /*Intent intent = new Intent(getApplicationContext(), ChooseLocation.class);
+                    intent.putExtra("latitude",Constants.Latitude);
+                    intent.putExtra("longitude",Constants.Longitude);
+                    intent.putExtra("address",autoCompleteTextView.getText().toString());
+                    startActivity(intent);*/
+                }
+
             }
 
             @Override
@@ -261,11 +267,11 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 e.printStackTrace();
             }
             Log.d("lat+lon",mLastLocation.getLatitude()+" "+mLastLocation.getLongitude());
-            Intent intent = new Intent(getApplicationContext(), ChooseLocation.class);
+            /*Intent intent = new Intent(getApplicationContext(), ChooseLocation.class);
             intent.putExtra("latitude",Constants.Latitude);
             intent.putExtra("longitude",Constants.Longitude);
             intent.putExtra("address",autoCompleteTextView.getText().toString());
-            startActivity(intent);
+            startActivity(intent);*/
         } else {
            // Toast.makeText(this, "location not found", Toast.LENGTH_LONG).show();
         }
