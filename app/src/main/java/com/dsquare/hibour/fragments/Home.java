@@ -94,7 +94,7 @@ public class Home extends Fragment implements View.OnClickListener{
                     classifiedsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
                     socializeIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
                 }else {
-                    newPostIcon.setColorFilter(getResources().getColor(R.color.gray_1));
+                    newPostIcon.setColorFilter(getResources().getColor(R.color.brand));
                     postsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
                     suggestionsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
                     classifiedsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
@@ -156,13 +156,13 @@ public class Home extends Fragment implements View.OnClickListener{
                 break;
             case R.id.home_socialize_icon:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    suggestionsIcon.setColorFilter(getResources().getColor(R.color.brand,getActivity().getTheme()));
+                    socializeIcon.setColorFilter(getResources().getColor(R.color.brand,getActivity().getTheme()));
                     newPostIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
                     suggestionsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
                     classifiedsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
                     postsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
                 }else {
-                    suggestionsIcon.setColorFilter(getResources().getColor(R.color.brand));
+                    socializeIcon.setColorFilter(getResources().getColor(R.color.brand));
                     newPostIcon.setColorFilter(getResources().getColor(R.color.gray_1));
                     suggestionsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
                     classifiedsIcon.setColorFilter(getResources().getColor(R.color.gray_1));

@@ -14,18 +14,18 @@ public class Postspojo {
     private List<Datum> data = new ArrayList<Datum>();
 
     /**
-     * 
+     *
      * @return
-     *     The data
+     * The data
      */
     public List<Datum> getData() {
         return data;
     }
 
     /**
-     * 
+     *
      * @param data
-     *     The data
+     * The data
      */
     public void setData(List<Datum> data) {
         this.data = data;
