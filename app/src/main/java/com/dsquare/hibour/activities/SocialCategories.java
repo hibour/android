@@ -19,7 +19,9 @@ import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.pojos.preference.Datum;
 import com.dsquare.hibour.pojos.preference.Preference;
+import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.GridLayoutSpacing;
+import com.dsquare.hibour.utils.Hibour;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
@@ -38,30 +40,22 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
     private AccountsClient accountsClient;
     private ProgressDialog dialog;
     private Gson gson;
-    public static int [] prgmImages={R.mipmap.ic_cycling_red_icon
-            ,R.mipmap.ic_music_red_icon
-            ,R.mipmap.ic_dance_red_icon
-            ,R.mipmap.ic_design_red_icon
-            ,R.mipmap.ic_clubbing_red_icon
-            ,R.mipmap.ic_cycling_red_icon
-            ,R.mipmap.ic_music_red_icon
-            ,R.mipmap.ic_dance_red_icon
-            ,R.mipmap.ic_design_red_icon};
+    private Hibour application;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_social_categories);
-        accountsClient = new AccountsClient(this);
-        networkDetector = new NetworkDetector(this);
-        gson = new Gson();
-        getAllPrefs();
-//        preparePrefs();
         initializeViews();
         initializeEventListeners();
+        getAllPrefs();
     }
 
     /* initialize views*/
     private void initializeViews(){
+        accountsClient = new AccountsClient(this);
+        networkDetector = new NetworkDetector(this);
+        gson = new Gson();
+        application = Hibour.getInstance(this);
         doneButton = (Button)findViewById(R.id.socialize_done_button);
         previous = (Button)findViewById(R.id.socialize_prev_button);
         prefsRecycler = (RecyclerView)findViewById(R.id.social_prefs_list);
@@ -77,45 +71,12 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
         doneButton.setOnClickListener(this);
         previous.setOnClickListener(this);
     }
-    /* prepare prefs*/
-    private void preparePrefs(){
-        String[] data = new String[5];
-        for(int i=0;i<5;i++){
-            data[0] = "Cycling";
-            data[1] = "0";
-            data[2] = "ic_cycling_red_icon";
-            data[3] = "ic_cycling_white_icon";
-            data[4] = "false";
-            prefsList.add(data);
-        }
-        /*String[] data1 = new String[5];
-        data[0] = "Dancing";
-        data[1] = "1";
-        data[2] = "ic_dance_red_icon";
-        data[3] = "ic_dance_white_icon";
-        data[4] = "false";
-        prefsList.add(data1);
-        String[] data2 = new String[5];
-        data[0] = "Design";
-        data[1] = "2";
-        data[2] = "ic_design_red_icon";
-        data[3] = "ic_design_white_icon";
-        data[4] = "false";
-        prefsList.add(data2);
-        String[] data3 = new String[5];
-        data[0] = "Music";
-        data[1] = "3";
-        data[2] = "ic_music_red_icon";
-        data[3] = "ic_music_white_icon";
-        data[4] = "false";
-        prefsList.add(data3);*/
-    }
-
     @Override
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.socialize_done_button:
-                openHomeActivity();
+                //openHomeActivity();
+                sendUserPrefs();
                 break;
             case R.id.socialize_prev_button:
                 openPreviousActivity();
@@ -131,6 +92,20 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
         Intent locationIntent = new Intent(this,Home.class);
         startActivity(locationIntent);
         finish();
+    }
+    /*send user prefs to server*/
+    private void sendUserPrefs(){
+        String userPrefs = "";
+        for(String pref: Constants.prefernceMap.keySet()){
+            userPrefs = userPrefs+","+pref;
+        }
+        userPrefs = userPrefs.substring(1,userPrefs.length());
+        Log.d("userprefs",userPrefs);
+        if(userPrefs.equals("")){
+            openHomeActivity();
+        }else{
+            insertUserPrefs(application.getUserId(),userPrefs);
+        }
     }
     /* get all prefs*/
     private void getAllPrefs(){
@@ -163,11 +138,13 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
                 public void onSuccess(JSONObject jsonObject) {
                     parseUserPrefs(jsonObject);
                     closeDialog();
+                    openHomeActivity();
                 }
 
                 @Override
                 public void onFailure(VolleyError error) {
                     closeDialog();
+                    Log.d("prefserror",error.toString());
                 }
             });
         }else{
@@ -182,7 +159,10 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
             List<Datum> data = preference.getData();
 
             for(int i=0;i<data.size();i++){
-                String[] details = {String.valueOf(data.get(i).getId()), data.get(i).getPreferencesname(), data.get(i).getImage1(), data.get(i).getImage2(),"false"};
+                String[] details = {String.valueOf(data.get(i).getId())
+                        , data.get(i).getPreferencesname()
+                        , data.get(i).getImage1()
+                        , data.get(i).getImage2(),"false"};
                 prefsList.add(details);
             }
             setAdapters(prefsList);

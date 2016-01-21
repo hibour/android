@@ -69,6 +69,6 @@ public class Constants {
     public static String userAddress="";
 
     // temp data
-    public static Map<String,Integer> PrefernceMap = new LinkedHashMap<String,Integer>();
-    public static  List<String[]> PrefernceList = new ArrayList<>();
+    public static Map<String,String> prefernceMap = new LinkedHashMap<String,String>();
+    public static  List<String[]> prefernceList = new ArrayList<>();
 }

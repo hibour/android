@@ -324,7 +324,8 @@ public class AccountsClient {
     /* get insert userprefs string*/
     private String getUserPrefsString(String userId,String prefs){
         String url = Constants.URL_PREFS_INSERT+Constants.KEYWORD_USR_ID+"="+userId+"&"
-                +Constants.KEYWORD_PREFS_IDS+"="+prefs;
+                +Constants.KEYWORD_PREFS_IDS+"="+prefs+"&"+Constants.KEYWORD_SIGNATURE+"="
+                +Constants.SIGNATURE_VALUE;
         return url;
     }
     /* get count of the people registered in a particular location*/
