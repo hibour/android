@@ -1,13 +1,16 @@
 package com.dsquare.hibour.activities;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -43,17 +46,17 @@ import java.util.Locale;
  */
 public class LocationSearch extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    private static final LatLngBounds BOUNDS_INDIA =new LatLngBounds(new LatLng(8.4,37.6),new LatLng(68.7,97.25)) ;
+    private static final LatLngBounds BOUNDS_INDIA = new LatLngBounds(new LatLng(8.4, 37.6), new LatLng(68.7, 97.25));
     protected GoogleApiClient mGoogleApiClient;
     private PlaceAutoCompleteAdapter placeAutoCompleteAdapter;
     private List<Integer> filterTypes = new ArrayList<Integer>();
     private Place place;
     private ProgressDialog pDialog;
-    public Button search,signin;
+    public Button search, signin;
     private AutoCompleteTextView autoCompleteTextView;
 
     protected Location mLastLocation;
-    private double latitude,longitude;
+    private double latitude, longitude;
     private String locAddress;
     private LatLng latLng;
     private boolean markerDrag = false;
@@ -85,12 +88,12 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
             if (place == null)
                 Toast.makeText(LocationSearch.this, "Location Not Changed", Toast.LENGTH_SHORT).show();
             else {
-                Log.d("lat and long",latLng.latitude+" "+latLng.longitude);
+                Log.d("lat and long", latLng.latitude + " " + latLng.longitude);
 //                locationDisplayTextView.setText("");
-                Double[] params=new Double[2];
-                params[0]= latLng.latitude;
-                params[1]= latLng.longitude;
-                GetCurrentAddress currentadd=new GetCurrentAddress();
+                Double[] params = new Double[2];
+                params[0] = latLng.latitude;
+                params[1] = latLng.longitude;
+                GetCurrentAddress currentadd = new GetCurrentAddress();
                 try {
                     currentadd.execute(params);
                 } catch (Exception e) {
@@ -138,9 +141,16 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initializeViews() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(Places.GEO_DATA_API)
+                .addApi(Places.PLACE_DETECTION_API)
+                .addApi(LocationServices.API)
+                .build();
         search = (Button) findViewById(R.id.places_search);
         signin = (Button) findViewById(R.id.places_signup);
-        autoCompleteTextView = (AutoCompleteTextView)findViewById(R.id.loc_search_autocomplete);
+        autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.loc_search_autocomplete);
         autoCompleteTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
@@ -159,18 +169,12 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 //        mapFragment = (SupportMapFragment) getSupportFragmentManager()
 //                .findFragmentById(R.id.map);
         filterTypes.add(Place.TYPE_GEOCODE);
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(Places.GEO_DATA_API)
-                .addApi(Places.PLACE_DETECTION_API)
-                .addApi(LocationServices.API)
-                .build();
+
         autoCompleteTextView.setOnItemClickListener(mAutocompleteClickListener);
-        placeAutoCompleteAdapter = new PlaceAutoCompleteAdapter(this,android.R.layout.simple_list_item_1,
+        placeAutoCompleteAdapter = new PlaceAutoCompleteAdapter(this, android.R.layout.simple_list_item_1,
                 mGoogleApiClient, BOUNDS_INDIA, AutocompleteFilter.create(filterTypes));
         autoCompleteTextView.setAdapter(placeAutoCompleteAdapter);
-        avenir = Typeface.createFromAsset(getAssets(),"fonts/AvenirLTStd-Book.otf");
+        avenir = Typeface.createFromAsset(getAssets(), "fonts/AvenirLTStd-Book.otf");
         search.setTypeface(avenir);
         signin.setTypeface(avenir);
         autoCompleteTextView.setTypeface(avenir);
@@ -183,12 +187,12 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View view) {
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.places_search:
                 Intent intent = new Intent(getApplicationContext(), ChooseLocation.class);
-                intent.putExtra("latitude",Constants.Latitude);
-                intent.putExtra("longitude",Constants.Longitude);
-                intent.putExtra("address",Constants.LocationAddress);
+                intent.putExtra("latitude", Constants.Latitude);
+                intent.putExtra("longitude", Constants.Longitude);
+                intent.putExtra("address", autoCompleteTextView.getText().toString());
                 startActivity(intent);
                 break;
             case R.id.places_signup:
@@ -198,6 +202,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 
         }
     }
+
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -221,8 +226,19 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
             mGoogleApiClient.disconnect();
         }
     }
+
     @Override
     public void onConnected(Bundle connectionHint) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (mLastLocation != null) {
             Double[] params=new Double[2];

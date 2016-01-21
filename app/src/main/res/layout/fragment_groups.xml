@@ -27,10 +27,16 @@
                 android:layout_centerInParent="true"
                 android:textSize="@dimen/app_bar_title_text_size"/>
             <ImageView
-                android:layout_width="@dimen/app_bar_icon_size1"
-                android:layout_height="@dimen/app_bar_icon_size1"
+                android:layout_width="@dimen/dp_60"
+                android:layout_height="@dimen/dp_60"
+                android:layout_toLeftOf="@+id/groups_notif_icon"
+                android:src="@drawable/ic_search_white"/>
+            <ImageView
+                android:layout_width="@dimen/dp_60"
+                android:layout_height="@dimen/dp_60"
+                android:padding="@dimen/app_bar_icon_padding1"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/ic_search_white"
+                android:src="@drawable/ic_notifcations_white"
                 android:layout_centerVertical="true"
                 android:id="@+id/groups_notif_icon"/>
         </RelativeLayout>
