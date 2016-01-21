@@ -55,7 +55,6 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
     private ProgressDialog pDialog;
     public Button search, signin;
     private AutoCompleteTextView autoCompleteTextView;
-
     protected Location mLastLocation;
     private double latitude, longitude;
     private String locAddress;

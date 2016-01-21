@@ -29,8 +29,6 @@ public class Home extends Fragment implements View.OnClickListener{
     public Home() {
         // Required empty public constructor
     }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -41,7 +39,6 @@ public class Home extends Fragment implements View.OnClickListener{
         loadDefaultFragment();
         return view;
     }
-
     /*initialize views*/
     private void initializeViews(View view){
         navIcon = (ImageView)view.findViewById(R.id.home_menu_icon);
@@ -51,7 +48,6 @@ public class Home extends Fragment implements View.OnClickListener{
         classifiedsIcon = (ImageView)view.findViewById(R.id.home_classifieds_icon);
         socializeIcon = (ImageView)view.findViewById(R.id.home_socialize_icon);
     }
-
     /* initialize event listeners*/
     private void initializeEventListeners(){
         navIcon.setOnClickListener(this);
@@ -61,7 +57,6 @@ public class Home extends Fragment implements View.OnClickListener{
         classifiedsIcon.setOnClickListener(this);
         socializeIcon.setOnClickListener(this);
     }
-
     private void loadDefaultFragment(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             newPostIcon.setColorFilter(getResources().getColor(R.color.brand,getActivity().getTheme()));
@@ -116,10 +111,7 @@ public class Home extends Fragment implements View.OnClickListener{
                     classifiedsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
                     socializeIcon.setColorFilter(getResources().getColor(R.color.gray_1));
                 }
-
                 replaceContainer(0);
-
-
                 break;
             case R.id.home_suggestion_icon:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -135,7 +127,6 @@ public class Home extends Fragment implements View.OnClickListener{
                     classifiedsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
                     socializeIcon.setColorFilter(getResources().getColor(R.color.gray_1));
                 }
-
                 replaceContainer(1);
                 break;
             case R.id.home_classifieds_icon:
