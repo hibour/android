@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:background="@color/black_2"
+    android:background="@color/white"
     android:layout_height="wrap_content">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -13,18 +13,37 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/nav_drawer_row_height"
-        android:background="@color/black_2">
-        <com.dsquare.hibour.utils.Avenir
+        android:background="@color/white">
+
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/nav_item_text"
-            android:layout_centerInParent="true"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/nav_drawer_row_text"/>
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true">
+            <ImageView
+                android:id="@+id/nav_item_icon"
+                android:layout_width="@dimen/app_bar_icon_size_sm"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/home"
+                android:layout_centerVertical="true" />
+
+            <com.dsquare.hibour.utils.Proxima
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/nav_item_text"
+                android:layout_centerInParent="true"
+                android:textColor="@color/black_2"
+                android:layout_toRightOf="@+id/nav_item_icon"
+                android:text="MESSAGES"
+                android:textSize="@dimen/nav_drawer_row_text"/>
+        </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/nav_bottom_line_height"
-            android:background="@android:color/white"
+            android:background="@color/brand"
             android:id="@+id/nav_drawer_bottom_line"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"

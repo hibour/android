@@ -21,6 +21,7 @@ import com.dsquare.hibour.adapters.PlaceAutoCompleteAdapter;
 import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.utils.Constants;
+import com.dsquare.hibour.utils.Fonts;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -58,7 +59,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
     private String locAddress;
     private LatLng latLng;
     private boolean markerDrag = false;
-    private Typeface avenir;
+    private Typeface tf;
     private ProgressDialog locInsertDialog;
     private NetworkDetector networkDetector;
     private AccountsClient accountsClient;
@@ -197,10 +198,10 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 
             }
         });
-        avenir = Typeface.createFromAsset(getAssets(),"fonts/AvenirLTStd-Book.otf");
-        search.setTypeface(avenir);
-        signin.setTypeface(avenir);
-        autoCompleteTextView.setTypeface(avenir);
+        tf = Typeface.createFromAsset(getAssets(), Fonts.getTypeFaceName());
+        search.setTypeface(tf);
+        signin.setTypeface(tf);
+        autoCompleteTextView.setTypeface(tf);
     }
 
     private void initializeEventListeners() {

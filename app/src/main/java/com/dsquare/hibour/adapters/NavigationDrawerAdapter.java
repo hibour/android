@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 
     private Context context;
     private String[] drawerItems;
+    private String[] drawerImages;
     private TypedArray menuIcons;
     public NavigationDrawerAdapter(){
 
@@ -28,6 +30,7 @@ public class NavigationDrawerAdapter extends BaseAdapter {
         this.context = context;
         Resources resources = context.getResources();
         drawerItems = resources.getStringArray(R.array.drawerItems);
+        drawerImages = resources.getStringArray(R.array.drawerImages);
     }
 
     @Override
@@ -38,6 +41,10 @@ public class NavigationDrawerAdapter extends BaseAdapter {
     @Override
     public Object getItem(int position) {
         return drawerItems[position];
+    }
+
+    public Object getDrawerIcon(int position) {
+        return drawerImages[position];
     }
 
     @Override
@@ -53,6 +60,7 @@ public class NavigationDrawerAdapter extends BaseAdapter {
                     .getSystemService(context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.nav_drawer_row, parent, false);
             holder = new ViewHolder();
+            holder.notifIcon = (ImageView)convertView.findViewById(R.id.nav_item_icon);
             holder.notifDesc = (TextView)convertView.findViewById(R.id.nav_item_text);
             convertView.setTag(holder);
         }else{
@@ -80,6 +88,11 @@ public class NavigationDrawerAdapter extends BaseAdapter {
                 RelativeLayout navBottomLine = (RelativeLayout)convertView.findViewById(R.id.nav_drawer_bottom_line);
                 navBottomLine.setVisibility(View.GONE);
             }
+            String drawerIcon = (String)getDrawerIcon(position);
+            if(!drawerIcon.isEmpty()) {
+                holder.notifIcon.setImageResource(context.getResources().getIdentifier(drawerIcon.substring(0, drawerIcon.length()), "drawable", context.getPackageName()));
+            }
+
             holder.notifDesc.setText((String)getItem(position));
         }catch (Exception e){
             e.printStackTrace();
@@ -89,5 +102,6 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 
     class ViewHolder{
         TextView notifDesc;
+        ImageView notifIcon;
     }
 }

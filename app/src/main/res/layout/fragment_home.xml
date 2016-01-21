@@ -10,29 +10,38 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="?android:actionBarSize"
-            android:background="@color/brand"
+            android:background="@color/white"
             android:id="@+id/home_app_bar">
             <ImageView
                 android:layout_width="@dimen/app_bar_icon_size"
                 android:layout_height="@dimen/app_bar_icon_size"
-                android:padding="@dimen/app_bar_icon_padding"
                 android:src="@drawable/ic_menu_white"
                 android:id="@+id/home_menu_icon"
+                android:layout_marginLeft="@dimen/dp_20"
                 android:layout_centerVertical="true"/>
-            <com.dsquare.hibour.utils.Avenir
+            <com.dsquare.hibour.utils.ProximaExtraBold
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/home_fragment_title"
-                android:textColor="@android:color/white"
+                android:textColor="@color/brand"
                 android:layout_centerInParent="true"
                 android:textSize="@dimen/app_bar_title_text_size"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/nav_bottom_line_height"
+                android:background="@color/common_action_bar_splitter"
+                android:id="@+id/nav_drawer_bottom_line"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_alignParentBottom="true"/>
              <ImageView
-                 android:layout_width="@dimen/dp_60"
-                 android:layout_height="@dimen/dp_60"
+                 android:layout_width="@dimen/dp_30"
+                 android:layout_height="@dimen/dp_30"
                  android:layout_alignParentRight="true"
+                 android:layout_marginRight="@dimen/dp_20"
                  android:src="@drawable/ic_search_white"
                  android:layout_centerVertical="true"
-                 android:id="@+id/home_notif_icon"/>
+                 android:id="@+id/home_search_icon"/>
        </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -47,28 +56,28 @@
                 android:background="@color/gray"/>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="?android:actionBarSize">
+                android:layout_height="?android:actionBarSize"
+                android:paddingBottom="10dp">
             <ImageView
                 android:layout_width="@dimen/app_bar_icon_size"
                 android:layout_height="@dimen/app_bar_icon_size"
-                android:padding="@dimen/app_bar_icon_padding"
                 android:src="@drawable/feed"
                 android:layout_weight="1"
                 android:id="@+id/home_new_post"
                 android:layout_gravity="center_vertical"/>
 
             <ImageView
-                android:layout_width="@dimen/dp_20"
-                android:layout_height="@dimen/dp_30"
+                android:layout_width="@dimen/app_bar_icon_size"
+                android:layout_height="@dimen/app_bar_icon_size"
                 android:layout_alignParentRight="true"
                 android:layout_weight="1"
-                android:layout_gravity="center"
+                android:layout_gravity="center_vertical"
                 android:id="@+id/home_posts_icon"
                 android:src="@drawable/suggestions"
                 />
             <ImageView
-                android:layout_width="@dimen/dp_30"
-                android:layout_height="@dimen/dp_30"
+                android:layout_width="@dimen/app_bar_icon_size"
+                android:layout_height="@dimen/app_bar_icon_size"
                 android:layout_alignParentRight="true"
                 android:layout_weight="1"
                 android:id="@+id/home_suggestions_icon"
@@ -76,8 +85,8 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"/>
             <ImageView
-                android:layout_width="@dimen/dp_10"
-                android:layout_height="@dimen/dp_30"
+                android:layout_width="@dimen/app_bar_icon_size"
+                android:layout_height="@dimen/app_bar_icon_size"
                 android:layout_alignParentRight="true"
                 android:layout_weight="1"
                 android:id="@+id/home_classifieds_icon"
@@ -85,15 +94,13 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"/>
             <ImageView
-                android:layout_width="@dimen/dp_30"
-                android:layout_height="35dp"
+                android:layout_width="@dimen/app_bar_icon_size"
+                android:layout_height="@dimen/app_bar_icon_size"
                 android:layout_alignParentRight="true"
                 android:layout_weight="1"
                 android:id="@+id/home_socialize_icon"
                 android:src="@drawable/ic_notification_gray"
-
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"/></LinearLayout>
+                android:layout_gravity="center_vertical"/></LinearLayout>
         </LinearLayout>
         <FrameLayout
             android:layout_width="match_parent"
