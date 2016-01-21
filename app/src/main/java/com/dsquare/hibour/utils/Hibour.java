@@ -41,8 +41,11 @@ public class Hibour {
     }
 
 
-    public void setuserId(Integer integer){
+    public void setuserId(String userId){
 
+        initializeSharedPrefs();
+        editor.putString(Constants.PREFERENCE_USER_ID,userId);
+        editor.commit();
     }
     /*get user id from preferences*/
     public String getUserId(){

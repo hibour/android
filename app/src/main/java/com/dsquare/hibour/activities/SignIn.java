@@ -4,12 +4,14 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -40,9 +42,11 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.GsonBuilder;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SignIn extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
@@ -84,6 +88,18 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
         termsText = (TextView)findViewById(R.id.signin_terms);
         mailText = (EditText)findViewById(R.id.signin_email);
         passText = (EditText)findViewById(R.id.signin_password);
+        passText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+
+                boolean handled = false;
+                if (i == EditorInfo.IME_ACTION_DONE) {
+                    validateSignInData();
+                    handled = true;
+                }
+                return handled;
+            }
+        });
         mailLayout = (TextInputLayout)findViewById(R.id.signin_mail_inputlayout);
         passLayout = (TextInputLayout)findViewById(R.id.signin_password_inputlayout);
         networkDetector = new NetworkDetector(this);
@@ -160,8 +176,11 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
                         R.dimen.fb_margin_override_bottom));
 
         callbackManager = CallbackManager.Factory.create();
-
-        facebookLoginButton.setReadPermissions(Arrays.asList("email", "user_photos", "public_profile"));
+        List<String> permissions = new ArrayList<>();
+        permissions.add("public_profile");
+        permissions.add("email");
+        permissions.add("user_birthday");
+        facebookLoginButton.setReadPermissions(permissions);
         facebookLoginButton.setOnClickListener(this);
         Log.d("social", "initialize fb");
     }
@@ -185,66 +204,51 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
 
     /* fb signin*/
     private void fbSignIn(){
-         // check for network connectivity
-            if (networkDetector.isConnected()) { // check for network connectivity
-                Log.d("social", "fb");
-                final boolean[] b = {true};
-                facebookLoginButton.registerCallback(callbackManager,
-                        new FacebookCallback<LoginResult>() {
-                            @Override
-                            public void onSuccess(LoginResult loginResult) {
-
-                                Log.d("social", "Success");
-                                if (b[0]) {
-                                    GraphRequest.newMeRequest(loginResult.getAccessToken(),
-                                            new GraphRequest.GraphJSONObjectCallback() {
-                                                @Override
-                                                public void onCompleted(JSONObject jsonObject, GraphResponse graphResponse) {
-
-                                                    if (graphResponse.getError() == null) {
-                                                        try {
-//                                                        application.setSocialPreferences(Constants.USER_LOGIN_FACEBOOK);
-                                                            socialType = Constants.USER_LOGIN_FACEBOOK;
-
-                                                            Fb fbUser = new GsonBuilder().create().fromJson(
-                                                                    jsonObject.toString(), Fb.class);
-
-                                                            userName = fbUser.getName();
-                                                            userNumber = "";
-                                                            userMail = fbUser.getEmail();
-
-                                                            Log.d("fbname", userName);
-                                                            try {
-                                                                Log.d("fbmail", userMail);
-                                                                sendDataToServer(userName, userpassword,
-                                                                        socialType);
-                                                            } catch (Exception e) {
-                                                                e.printStackTrace();
-                                                                sendDataToServer("", userpassword,
-                                                                        socialType);
-                                                            }
-                                                            //    signUpUser(userName, userMail, userpassword,
-                                                            //          socialType);
-                                                        } catch (Exception e) {
-                                                            e.printStackTrace();
-                                                        }
-                                                    }
-                                                }
-                                            }).executeAsync();
-                                    b[0] = false;
+        if (networkDetector.isConnected()){ // check for network connectivity
+            Log.d("social", "fb");
+            facebookLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult loginResult) {
+                    // App code
+                    GraphRequest request = GraphRequest.newMeRequest(
+                            loginResult.getAccessToken(),
+                            new GraphRequest.GraphJSONObjectCallback() {
+                                @Override
+                                public void onCompleted(
+                                        JSONObject object,
+                                        GraphResponse response) {
+                                    // Application code
+                                    try {
+                                        Log.d("email", object.optString("email"));
+                                        Log.d("id", object.optString("id"));
+                                        Log.d("name", object.optString("name"));
+                                        sendDataToServer(object.optString("email"), "", "fb");
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 }
-                            }
+                            });
+                    Bundle parameters = new Bundle();
+                    parameters.putString("fields", "id,name,email,gender, birthday");
+                    request.setParameters(parameters);
+                    request.executeAsync();
+                }
 
-                            @Override
-                            public void onCancel() {
-                                Log.d("social", "cancelled");
-                            }
+                @Override
+                public void onCancel() {
+                    Log.d("social", "cancelled");
+                    Toast.makeText(SignIn.this, "User cancelled", Toast.LENGTH_SHORT).show();
 
-                            @Override
-                            public void onError(FacebookException e) {
-                                Log.d("social", "hr" + e.toString());
-                            }
-                        });
+                }
+
+                @Override
+                public void onError(FacebookException e) {
+                    Log.d("social", "hr" + e.toString());
+                    Toast.makeText(SignIn.this, "Error on Login, check your facebook app_id", Toast.LENGTH_LONG).show();
+
+                }
+            });
+            this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
             } else {
 //            closeRegisterDialog();
 //            internetDialog = new NoInternetDialog();
@@ -262,34 +266,22 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
             try {
                 GoogleSignInAccount acct = result.getSignInAccount();
 //                application.setSocialPreferences(Constants.USER_LOGIN_GPLUS);
-                userName = acct.getDisplayName();
-                userNumber = "";
-                userMail = acct.getEmail();
-                socialType="google";
-                userpassword= "";
-                userfirst=acct.getDisplayName();
-                userlast="";
-//                signUpUser(userName, userMail, userpassword, "gp");
                 try {
-                    sendDataToServer(userMail, userpassword, "gp");
-                }catch (Exception e){
+                    if(acct.getDisplayName()!=null){
+                        userName = acct.getDisplayName();
+                    }
+                    if(acct.getEmail()!=null){
+                        userMail = acct.getEmail();
+                    }
+                    Log.d("gplus",userMail+userName);
+                    sendDataToServer(userMail, "", "gp");
+                } catch (Exception e) {
                     e.printStackTrace();
-                    sendDataToServer("", userpassword, "gp");
-
                 }
-                Log.d("Name",userName);
-//                sendSocialData(userName,userNumber,userMail,socialType,application.getUserId());
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            /*if(prevActType.equals("login")){
-                openLanguageSelectorActivity();
-            }else{
-                SocialNetworks.this.finish();
-            }*/
-            // mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
-            //updateUI(true);
         } else {
             // Signed out, show unauthenticated UI.
             //updateUI(false);
@@ -360,8 +352,8 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
         if(!mail.equals(null)&&!mail.equals("null")&&!mail.equals("")&&
                 !pass.equals(null)&&!pass.equals("null")&&!pass.equals("")){
             if(application.validateEmail(mail)){
-                openHomeActivity();
-                sendDataToServer(mail, pass, "normal");
+                //openHomeActivity();
+                sendDataToServer(mail,pass,"normal");
             }
         }else{
             Toast.makeText(this,"Enter valid credentials",Toast.LENGTH_LONG).show();
@@ -375,8 +367,8 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
             accountsClient.signIn(userName,password,signInType,new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
-                    parseSignInDetails(jsonObject);
                     closeSignInDialog();
+                    parseSignInDetails(jsonObject);
                 }
 
                 @Override
@@ -391,7 +383,20 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
     }
     /*parse signin details*/
     private void parseSignInDetails(JSONObject jsonObject){
-
+        Log.d("json",jsonObject.toString());
+        try {
+            JSONObject data = jsonObject.getJSONObject("data");
+            String id = data.getString("id");
+            Log.d("id",id);
+            if(id.equals("0")){
+                Toast.makeText(this,"Credentials not matched",Toast.LENGTH_LONG).show();
+            }else{
+                application.setuserId(id);
+                openHomeActivity();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
     /*close signin dialog*/
     private void closeSignInDialog(){

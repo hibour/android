@@ -13,17 +13,17 @@
         android:orientation="vertical">
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_100"
-                android:background="@color/brand">
+                android:layout_height="?actionBarSize"
+                android:background="@color/white">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dp_50"
+                    android:layout_width="120dp"
+                    android:layout_height="30dp"
                     android:layout_centerVertical="true"
                     android:layout_centerInParent="true"
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="@dimen/dp_10"
-                    android:background="@drawable/logo"/>
+                    android:background="@drawable/lll"/>
 
             </RelativeLayout>
     <ScrollView
@@ -120,6 +120,7 @@
                         android:singleLine="true"
                         android:id="@+id/signin_email"
                         android:inputType="textEmailAddress"
+                        android:textColor="@color/black_1"
                         android:hint="@string/signup_email_hint"/>
                 </android.support.design.widget.TextInputLayout>
 
@@ -140,8 +141,10 @@
                         android:layout_height="wrap_content"
                         android:textColorHint="@color/gray"
                         android:singleLine="true"
+                        android:textColor="@color/black_1"
                         android:id="@+id/signin_password"
                         android:inputType="textPassword"
+                        android:imeOptions="actionDone"
                         android:hint="@string/signup_password_hint"/>
                 </android.support.design.widget.TextInputLayout>
                 <View

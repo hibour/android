@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -24,8 +26,24 @@ import com.dsquare.hibour.adapters.PlaceAutoCompleteAdapter;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
+import com.dsquare.hibour.pojos.register.Data;
+import com.dsquare.hibour.pojos.register.Registers;
 import com.dsquare.hibour.utils.Constants;
+import com.dsquare.hibour.utils.Hibour;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Place;
@@ -39,7 +57,10 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -61,8 +82,14 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
 
     private Button next,previous;
     protected GoogleApiClient mGoogleApiClient;
+    private static final int RC_SIGN_IN = 9001;
+    private String TAG = "signin";
+    private GoogleSignInOptions googleSignInOptions;
+    private SignInButton signInButton;
+    private LoginButton facebookLoginButton;
+    private CallbackManager callbackManager;
     private SupportMapFragment mapFragment;
-    private TextView locationDisplayTextView;
+    private TextView locationDisplayTextView,countText;
     private AutoCompleteTextView autoCompleteTextView;
     private PlaceAutoCompleteAdapter placeAutoCompleteAdapter;
     private List<Integer> filterTypes = new ArrayList<Integer>();
@@ -72,6 +99,10 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
     private PolygonOptions polygonOptions;
     private Polygon polygon;
     private GoogleMap googleMap;
+    private ProgressDialog signUpDialog;
+    private Hibour application;
+    private Gson gson;
+    private String userName,userMail;
     /**
      * Represents a geographical location.
      */
@@ -89,11 +120,16 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        FacebookSdk.sdkInitialize(getApplicationContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_location);
         locationDisplayTextView = (TextView)findViewById(R.id.loc_curr_loc_textview);
         locMap = (WebView)findViewById(R.id.map);
+        countText = (TextView)findViewById(R.id.loc_members_count);
 
+        accountsClient = new AccountsClient(this);
+        application = Hibour.getInstance(this);
+        gson = new Gson();
         next = (Button)findViewById(R.id.location_next_button);
 //        initializeViews();
        initializeEventListeners();
@@ -108,18 +144,27 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
 //
         locationDisplayTextView.setText(address);
         Constants.userAddress = address;
-        try {
-            URL url = new URL("http://hibour.com/test.php?area="+address);
-            URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
-                    , url.getPath(), url.getQuery(), url.getRef());
-            url = uri.toURL();
-            locMap.loadUrl(url.toString());
-            locMap.getSettings().setJavaScriptEnabled(true);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
+        networkDetector = new NetworkDetector(this);
+        getMembersCount(address);
+        if(networkDetector.isConnected()){
+            try {
+                URL url = new URL("http://hibour.com/test.php?area="+address);
+                URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
+                        , url.getPath(), url.getQuery(), url.getRef());
+                url = uri.toURL();
+                locMap.loadUrl(url.toString());
+                locMap.getSettings().setJavaScriptEnabled(true);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }else{
+            Toast.makeText(this,"Can't connect to network.",Toast.LENGTH_LONG).show();
         }
+        initializeGplus();
+        initializeFb();
+
 
 //
 //        LatLng position = new LatLng(latitude, longitude);
@@ -193,7 +238,197 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
 //            case R.id.location_prev_button:
 //                openPreviousActivity();
 //                break;
+            case R.id.btn_sign_in:
+                Log.d("social","clicked on gplus");
+                gplusSignIn();
+                break;
+            case R.id.facebook_login_button:
+                fbSignIn();
+                break;
         }
+    }
+
+    public void initializeGplus(){
+        signInButton = (SignInButton) findViewById(R.id.btn_sign_in);
+        Log.d("social", "initgplus");
+        googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .requestProfile()
+                .requestId()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this , this )
+                .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
+                .build();
+        signInButton = (SignInButton) findViewById(R.id.btn_sign_in);
+        signInButton.setColorScheme(SignInButton.COLOR_LIGHT);
+
+
+
+        // signInButton.setSize(SignInButton.SIZE_STANDARD);
+        signInButton.setScopes(googleSignInOptions.getScopeArray());
+        signInButton.setOnClickListener(this);
+        for (int i = 0; i < signInButton.getChildCount(); i++) {
+            View v = signInButton.getChildAt(i);
+            if (v instanceof TextView) {
+                TextView mTextView = (TextView) v;
+                mTextView.setText(this.getResources().getString(R.string.gplus_text));
+                mTextView.setPadding(45, 0, 0, 0);
+                mTextView.setTypeface(avenir);
+                return;
+            }
+        }
+        Log.d("social", "gplus initialized");
+    }
+
+    /* initialize facebook*/
+    public void initializeFb(){
+        Log.d("social","initfb");
+        facebookLoginButton = (LoginButton)findViewById(R.id.facebook_login_button);
+        facebookLoginButton.setTypeface(avenir);
+        float fbIconScale = 1.45F;
+        Drawable drawable = this.getResources().getDrawable(
+                com.facebook.R.drawable.com_facebook_button_icon);
+        drawable.setBounds(0, 0, (int) (drawable.getIntrinsicWidth() * fbIconScale),
+                (int) (drawable.getIntrinsicHeight() * fbIconScale));
+        facebookLoginButton.setCompoundDrawables(drawable, null, null, null);
+        facebookLoginButton.setCompoundDrawablePadding(this.getResources().
+                getDimensionPixelSize(R.dimen.fb_margin_override_textpadding));
+
+        facebookLoginButton.setPadding(
+                this.getResources().getDimensionPixelSize(
+                        R.dimen.fb_margin_override_lr),
+                this.getResources().getDimensionPixelSize(
+                        R.dimen.fb_margin_override_top),
+                0,
+                this.getResources().getDimensionPixelSize(
+                        R.dimen.fb_margin_override_bottom));
+
+        callbackManager = CallbackManager.Factory.create();
+
+        List<String> permissions = new ArrayList<>();
+        permissions.add("public_profile");
+        permissions.add("email");
+        permissions.add("user_birthday");
+        facebookLoginButton.setReadPermissions(permissions);
+        facebookLoginButton.setOnClickListener(this);
+        Log.d("social", "initialize fb");
+    }
+
+
+
+    /* gplus signin*/
+    private void gplusSignIn() {
+        if (networkDetector.isConnected()){ // check for network connectivity
+            Log.d("social","gplussignin");
+            Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+            startActivityForResult(signInIntent, RC_SIGN_IN);
+        } else{
+//            closeRegisterDialog();
+//            internetDialog = new NoInternetDialog();
+//            internetDialog.show(getFragmentManager(), getString(R.string.dialog_identifier));
+
+        }
+
+    }
+
+    /* fb signin*/
+    private void fbSignIn(){
+        if (networkDetector.isConnected()){ // check for network connectivity
+            Log.d("social", "fb");
+            facebookLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult loginResult) {
+                    // App code
+                    GraphRequest request = GraphRequest.newMeRequest(
+                            loginResult.getAccessToken(),
+                            new GraphRequest.GraphJSONObjectCallback() {
+                                @Override
+                                public void onCompleted(
+                                        JSONObject object,
+                                        GraphResponse response) {
+                                    // Application code
+                                    try {
+                                        Log.d("email",object.optString("email"));
+                                        Log.d("id",object.optString("id"));
+                                        Log.d("name",object.optString("name"));
+                                        signUpUser(object.optString("name"), object.optString("email")
+                                                , "", "fb");
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+
+                    Bundle parameters = new Bundle();
+                    parameters.putString("fields", "id,name,email,gender, birthday");
+                    request.setParameters(parameters);
+                    request.executeAsync();
+                }
+
+                @Override
+                public void onCancel() {
+                    Toast.makeText(ChooseLocation.this, "User cancelled", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onError(FacebookException exception) {
+                    Toast.makeText(ChooseLocation.this, "Error on Login, check your facebook app_id", Toast.LENGTH_LONG).show();
+                }
+            });
+
+            this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        }else{
+//            closeRegisterDialog();
+//            internetDialog = new NoInternetDialog();
+//            internetDialog.show(getFragmentManager(), getString(R.string.dialog_identifier));
+
+        }
+
+    }
+
+    private void handleSignInResult(GoogleSignInResult result) {
+        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
+        if (result.isSuccess()) {
+            Log.d("social","gplus");
+            // Signed in successfully, show authenticated UI.
+            try {
+                GoogleSignInAccount acct = result.getSignInAccount();
+//                application.setSocialPreferences(Constants.USER_LOGIN_GPLUS);
+                try {
+                    if(acct.getDisplayName()!=null){
+                        userName = acct.getDisplayName();
+                    }
+                    if(acct.getEmail()!=null){
+                        userMail = acct.getEmail();
+                    }
+                    Log.d("gplus",userMail+userName);
+                    signUpUser(userName, userMail, "", "gp");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            // Signed out, show unauthenticated UI.
+            //updateUI(false);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("social", "g");
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            Log.d("social","gp");
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
+        }
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     /* open socialize activity*/
@@ -314,7 +549,7 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
             }
             Log.d("lat+lon",mLastLocation.getLatitude()+" "+mLastLocation.getLongitude());
         } else {
-            Toast.makeText(this, "location not found", Toast.LENGTH_LONG).show();
+           // Toast.makeText(this, "location not found", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -376,11 +611,11 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
 
     /* validate data*/
     /*send loc data to server*/
-    private void sendLocData(String userId,String lat,String lon,String address){
+    private void getMembersCount(String loc){
         if(networkDetector.isConnected()){
             locInsertDialog = ProgressDialog.show(this,""
                     ,getResources().getString(R.string.progress_dialog_text));
-            accountsClient.inserUserLocation(userId,lat,lon,address,new WebServiceResponseCallback() {
+            accountsClient.getMembersCount(loc, new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parseLocDetails(jsonObject);
@@ -389,7 +624,7 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
 
                 @Override
                 public void onFailure(VolleyError error) {
-                    Log.d("loc",error.toString());
+                    Log.d("loc", error.toString());
                     closeLocDialog();
                 }
             });
@@ -399,7 +634,14 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
     }
     /* parse loc data*/
     private void parseLocDetails(JSONObject jsonObject){
-
+        try {
+            JSONObject data = jsonObject.getJSONObject("data");
+            Log.d("data",data.toString());
+            int count = data.getInt("Count");
+            countText.setText("There are about "+count+" members registered from your area.");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
     /* close loc dialog*/
     private void closeLocDialog(){
@@ -409,5 +651,63 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
                 locInsertDialog=null;
             }
         }
+    }
+
+    /* sign up the user*/
+    private void signUpUser(String userName,String email,String password,String regType){
+        if(networkDetector.isConnected()){
+            signUpDialog = ProgressDialog.show(this,"",getResources()
+                    .getString(R.string.progress_dialog_text));
+            accountsClient.signUpUser(userName,email,password,regType, Constants.userAddress
+                    ,new WebServiceResponseCallback() {
+                @Override
+                public void onSuccess(JSONObject jsonObject) {
+                    parseSigUpDetails(jsonObject);
+                    closeSignUpDialog();
+                }
+
+                @Override
+                public void onFailure(VolleyError error) {
+                    Log.d("signup", error.toString());
+                    closeSignUpDialog();
+                }
+            });
+        }else{
+            Toast.makeText(this,"Network not connected.",Toast.LENGTH_LONG).show();
+        }
+    }
+    /* parse sign up details*/
+    private void parseSigUpDetails(JSONObject jsonObject){
+        try {
+            closeSignUpDialog();
+            Log.d("details", jsonObject.toString());
+            Registers registers = gson.fromJson(jsonObject.toString(), Registers.class);
+            Data data = registers.getData();
+//            Integer integer = data.getId();
+            String s = String.valueOf(data.getId());
+            Log.d("integer", s);
+            String[] regidetails = {String.valueOf(data.getId()), data.getUsername(), data.getEmail(), data.getRegtype()};
+            application.setLoginDetails(regidetails);
+//            Log.d("integer", String.valueOf(integer));
+            Log.d("regidetails", String.valueOf(regidetails));
+            Intent homeIntent = new Intent(this, GovtProof.class);
+            startActivity(homeIntent);
+            this.finish();
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }catch (final IllegalArgumentException e) {
+            // Handle or log or ignore
+            e.printStackTrace();
+        }
+    }
+    /* close signup dialog*/
+    private void closeSignUpDialog(){
+        if(signUpDialog!=null){
+            if(signUpDialog.isShowing()){
+                signUpDialog.dismiss();
+                signUpDialog=null;
+            }
+        }
+
     }
 }

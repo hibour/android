@@ -102,7 +102,7 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
         send.setTypeface(avenir);
         prepareCategoriesList();
         categoriesAdapter = new ArrayAdapter<String>(getActivity()
-                ,android.R.layout.simple_dropdown_item_1line,List);
+                ,android.R.layout.simple_dropdown_item_1line,categoriesList);
         spinner.setAdapter(categoriesAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -114,7 +114,6 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
                         categoriesTypeId = categoriesMap.get(categoriesType);
                         Log.d("categoriestype", categoriesType);
                     }
-
                     ((TextView) parent.getChildAt(0)).setTextColor(getResources()
                             .getColor(R.color.gray));
                     ((TextView) parent.getChildAt(0)).setTypeface(avenir);

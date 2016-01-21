@@ -63,7 +63,7 @@ public class AccountsClient {
 
     /* get user signin url String*/
     private String getSignInString(String userName,String password,String signInType){
-        String signInUrl = Constants.URL_SIGN_IN+Constants.KEYWORD_USER_NAME+"="+userName+"&"
+        String signInUrl = Constants.URL_SIGN_IN+"email="+userName+"&"
                 +Constants.KEYWORD_PASSWORD+"="+password+"&"
                 +Constants.KEYWORD_SIGNIN_TYPE+"="+signInType+"&"+Constants.KEYWORD_SIGNATURE+"="+Constants.SIGNATURE_VALUE;
         return signInUrl;
@@ -330,7 +330,7 @@ public class AccountsClient {
     /* get count of the people registered in a particular location*/
     public void getMembersCount(String loc,final WebServiceResponseCallback callback){
         try {
-            String urlStr ="";
+            String urlStr =Constants.URL_MEMBERS_COUNT+"address="+loc+"&"+Constants.KEYWORD_SIGNATURE+"="+Constants.SIGNATURE_VALUE;
             URL url = new URL(urlStr);
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
                     , url.getPath(), url.getQuery(), url.getRef());

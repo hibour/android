@@ -11,12 +11,13 @@ import java.util.Map;
 public class Constants {
     /*urls*/
     public static final String URL_DOMAIN="http://api.hibour.com/v1/";
-    public static final String URL_SIGN_IN=URL_DOMAIN+"";
+    public static final String URL_SIGN_IN=URL_DOMAIN+"Userreg/check?";
     public static final String URL_SIGN_UP=URL_DOMAIN+"Userreg/create?";
     public static final String URL_TERMS= URL_DOMAIN+"";
     public static final String URL_GET_ALL_PROOFS= URL_DOMAIN+"Proof";
     public static final String URL_INSERT_PROOFS=URL_DOMAIN+"Userreg/";
     public static final String URL_PREFS_ALL=URL_DOMAIN+"Preferences?";
+    public static final String URL_MEMBERS_COUNT= URL_DOMAIN+"Userreg/count?";
     public static final String URL_PREFS_INSERT=URL_DOMAIN+"Userpreferences/create?";
     public static final String URL_LOC_INSERT=URL_DOMAIN+"";
     public static final String URL_POST_INSERTS=URL_DOMAIN+"Posts/create?";
