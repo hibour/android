@@ -4,6 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="button_elevation">0dp</dimen>
     <dimen name="dp_1">1dp</dimen>
+    <dimen name="dp_3">3dp</dimen>
     <dimen name="dp_5">5dp</dimen>
     <dimen name="dp_10">10dp</dimen>
     <dimen name="dp_20">20dp</dimen>
@@ -51,6 +52,7 @@
     <dimen name="app_bar_icon_size">48dp</dimen>
     <dimen name="app_bar_icon_size1">60dp</dimen>
     <dimen name="app_bar_icon_padding">12dp</dimen>
+    <dimen name="app_bar_icon_padding1">8dp</dimen>
     <dimen name="app_bar_title_text_size">18sp</dimen>
 
     <dimen name="home_tabs_height">48dp</dimen>

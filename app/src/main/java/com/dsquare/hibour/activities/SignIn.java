@@ -22,6 +22,8 @@ import com.dsquare.hibour.R;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
+import com.dsquare.hibour.pojos.social.Fb;
+import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Hibour;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -38,6 +40,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -187,7 +190,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
     /* gplus signin*/
     private void gplusSignIn() {
         if (networkDetector.isConnected()){ // check for network connectivity
-            Log.d("social","gplussignin");
+            Log.d("social", "gplussignin");
             Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
             startActivityForResult(signInIntent, RC_SIGN_IN);
         } else{
@@ -216,16 +219,15 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
                                         GraphResponse response) {
                                     // Application code
                                     try {
-                                        Log.d("email",object.optString("email"));
-                                        Log.d("id",object.optString("id"));
-                                        Log.d("name",object.optString("name"));
+                                        Log.d("email", object.optString("email"));
+                                        Log.d("id", object.optString("id"));
+                                        Log.d("name", object.optString("name"));
                                         sendDataToServer(object.optString("email"), "", "fb");
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
                                 }
                             });
-
                     Bundle parameters = new Bundle();
                     parameters.putString("fields", "id,name,email,gender, birthday");
                     request.setParameters(parameters);
@@ -234,24 +236,27 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
 
                 @Override
                 public void onCancel() {
+                    Log.d("social", "cancelled");
                     Toast.makeText(SignIn.this, "User cancelled", Toast.LENGTH_SHORT).show();
+
                 }
 
                 @Override
-                public void onError(FacebookException exception) {
+                public void onError(FacebookException e) {
+                    Log.d("social", "hr" + e.toString());
                     Toast.makeText(SignIn.this, "Error on Login, check your facebook app_id", Toast.LENGTH_LONG).show();
+
                 }
             });
-
             this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        }else{
+            } else {
 //            closeRegisterDialog();
 //            internetDialog = new NoInternetDialog();
 //            internetDialog.show(getFragmentManager(), getString(R.string.dialog_identifier));
 
-        }
+            }}
 
-    }
+
 
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
@@ -397,8 +402,12 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
     private void closeSignInDialog(){
         if(signInDialog!=null){
             if(signInDialog.isShowing()){
-                signInDialog.dismiss();
-                signInDialog=null;
+                try {
+                    signInDialog.dismiss();
+                    signInDialog=null;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

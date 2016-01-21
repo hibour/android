@@ -26,11 +26,17 @@
                 android:textColor="@android:color/white"
                 android:layout_centerInParent="true"
                 android:textSize="@dimen/app_bar_title_text_size"/>
+            <ImageView
+                android:layout_width="@dimen/dp_60"
+                android:layout_height="@dimen/dp_60"
+                android:layout_toLeftOf="@+id/home_notif_icon"
+                android:src="@drawable/ic_search_white"/>
              <ImageView
                  android:layout_width="@dimen/dp_60"
                  android:layout_height="@dimen/dp_60"
+                 android:padding="@dimen/app_bar_icon_padding1"
                  android:layout_alignParentRight="true"
-                 android:src="@drawable/ic_search_white"
+                 android:src="@drawable/ic_notifcations_white"
                  android:layout_centerVertical="true"
                  android:id="@+id/home_notif_icon"/>
        </RelativeLayout>
@@ -51,48 +57,45 @@
             <ImageView
                 android:layout_width="@dimen/app_bar_icon_size"
                 android:layout_height="@dimen/app_bar_icon_size"
-                android:padding="@dimen/app_bar_icon_padding"
-                android:src="@drawable/feed"
+                android:padding="@dimen/dp_5"
+                android:src="@mipmap/ic_suggestion_icon"
                 android:layout_weight="1"
-                android:id="@+id/home_new_post"
+                android:id="@+id/home_suggestion_icon"
                 android:layout_gravity="center_vertical"/>
 
             <ImageView
-                android:layout_width="@dimen/dp_20"
-                android:layout_height="@dimen/dp_30"
-                android:layout_alignParentRight="true"
+                android:layout_width="@dimen/app_bar_icon_size"
+                android:layout_height="@dimen/app_bar_icon_size"
+                android:padding="@dimen/app_bar_icon_padding1"
                 android:layout_weight="1"
-                android:layout_gravity="center"
+                android:layout_gravity="center_vertical"
                 android:id="@+id/home_posts_icon"
-                android:src="@drawable/suggestions"
+                android:src="@mipmap/ic_feeds_icon"
                 />
             <ImageView
-                android:layout_width="@dimen/dp_30"
-                android:layout_height="@dimen/dp_30"
-                android:layout_alignParentRight="true"
+                android:layout_width="@dimen/app_bar_icon_size"
+                android:layout_height="@dimen/app_bar_icon_size"
+                android:padding="5dp"
                 android:layout_weight="1"
-                android:id="@+id/home_suggestions_icon"
-                android:src="@drawable/post"
+                android:id="@+id/home_new_post"
+                android:src="@mipmap/ic_post_icon"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"/>
             <ImageView
-                android:layout_width="@dimen/dp_10"
-                android:layout_height="@dimen/dp_30"
-                android:layout_alignParentRight="true"
+                android:layout_width="@dimen/app_bar_icon_size"
+                android:layout_height="@dimen/app_bar_icon_size"
+                android:padding="3dp"
                 android:layout_weight="1"
                 android:id="@+id/home_classifieds_icon"
-                android:src="@drawable/socialize"
-                android:layout_centerVertical="true"
+                android:src="@mipmap/ic_socilize"
                 android:layout_gravity="center_vertical"/>
             <ImageView
-                android:layout_width="@dimen/dp_30"
-                android:layout_height="35dp"
-                android:layout_alignParentRight="true"
+                android:layout_width="@dimen/app_bar_icon_size"
+                android:layout_height="@dimen/app_bar_icon_size"
+                android:padding="@dimen/app_bar_icon_padding1"
                 android:layout_weight="1"
                 android:id="@+id/home_socialize_icon"
-                android:src="@drawable/ic_notification_gray"
-
-                android:layout_centerVertical="true"
+                android:src="@mipmap/ic_notification_icon"
                 android:layout_gravity="center"/></LinearLayout>
         </LinearLayout>
         <FrameLayout
@@ -102,7 +105,4 @@
             android:layout_above="@id/home_bottom_menu"
             android:id="@+id/home_fragment_container"></FrameLayout>
     </RelativeLayout>
-
-
-
 </FrameLayout>

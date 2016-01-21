@@ -2,6 +2,7 @@ package com.dsquare.hibour.fragments;
 
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,9 +20,11 @@ import com.dsquare.hibour.interfaces.NavDrawerCallback;
  */
 public class Home extends Fragment implements View.OnClickListener{
 
-
+    private FragmentManager manager;
+    private FragmentTransaction transaction;
     private ImageView navIcon;
     private NavDrawerCallback callback;
+    private boolean isHome = true;
     private ImageView newPostIcon,postsIcon,suggestionsIcon,classifiedsIcon,socializeIcon;
     public Home() {
         // Required empty public constructor
@@ -35,6 +38,7 @@ public class Home extends Fragment implements View.OnClickListener{
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         initializeViews(view);
         initializeEventListeners();
+        loadDefaultFragment();
         return view;
     }
 
@@ -43,7 +47,7 @@ public class Home extends Fragment implements View.OnClickListener{
         navIcon = (ImageView)view.findViewById(R.id.home_menu_icon);
         newPostIcon = (ImageView)view.findViewById(R.id.home_new_post);
         postsIcon = (ImageView)view.findViewById(R.id.home_posts_icon);
-        suggestionsIcon = (ImageView)view.findViewById(R.id.home_suggestions_icon);
+        suggestionsIcon = (ImageView)view.findViewById(R.id.home_suggestion_icon);
         classifiedsIcon = (ImageView)view.findViewById(R.id.home_classifieds_icon);
         socializeIcon = (ImageView)view.findViewById(R.id.home_socialize_icon);
     }
@@ -58,6 +62,24 @@ public class Home extends Fragment implements View.OnClickListener{
         socializeIcon.setOnClickListener(this);
     }
 
+    private void loadDefaultFragment(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            newPostIcon.setColorFilter(getResources().getColor(R.color.brand,getActivity().getTheme()));
+            postsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
+            suggestionsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
+            classifiedsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
+            socializeIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
+        }else {
+            newPostIcon.setColorFilter(getResources().getColor(R.color.brand));
+            postsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
+            suggestionsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
+            classifiedsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
+            socializeIcon.setColorFilter(getResources().getColor(R.color.gray_1));
+        }
+        replaceContainer(3);
+//        Fragment fragment = new NewPosts();
+    }
+
     @Override
     public void onClick(View v) {
         switch(v.getId()){
@@ -65,43 +87,113 @@ public class Home extends Fragment implements View.OnClickListener{
                 callback.drawerOpen();
                 break;
             case R.id.home_new_post:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    newPostIcon.setColorFilter(getResources().getColor(R.color.brand,getActivity().getTheme()));
+                    postsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
+                    suggestionsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
+                    classifiedsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
+                    socializeIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
+                }else {
+                    newPostIcon.setColorFilter(getResources().getColor(R.color.gray_1));
+                    postsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
+                    suggestionsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
+                    classifiedsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
+                    socializeIcon.setColorFilter(getResources().getColor(R.color.gray_1));
+                }
                 replaceContainer(3);
                 break;
             case R.id.home_posts_icon:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    postsIcon.setColorFilter(getResources().getColor(R.color.brand,getActivity().getTheme()));
+                    newPostIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
+                    suggestionsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
+                    classifiedsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
+                    socializeIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
+                }else {
+                    postsIcon.setColorFilter(getResources().getColor(R.color.brand));
+                    newPostIcon.setColorFilter(getResources().getColor(R.color.gray_1));
+                    suggestionsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
+                    classifiedsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
+                    socializeIcon.setColorFilter(getResources().getColor(R.color.gray_1));
+                }
+
                 replaceContainer(0);
+
+
                 break;
-            case R.id.home_suggestions_icon:
-                replaceContainer(2);
+            case R.id.home_suggestion_icon:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    suggestionsIcon.setColorFilter(getResources().getColor(R.color.brand,getActivity().getTheme()));
+                    newPostIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
+                    postsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
+                    classifiedsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
+                    socializeIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
+                }else {
+                    suggestionsIcon.setColorFilter(getResources().getColor(R.color.brand));
+                    newPostIcon.setColorFilter(getResources().getColor(R.color.gray_1));
+                    postsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
+                    classifiedsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
+                    socializeIcon.setColorFilter(getResources().getColor(R.color.gray_1));
+                }
+
+                replaceContainer(1);
                 break;
             case R.id.home_classifieds_icon:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    classifiedsIcon.setColorFilter(getResources().getColor(R.color.brand,getActivity().getTheme()));
+                    newPostIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
+                    suggestionsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
+                    postsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
+                    socializeIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
+                }else {
+                    classifiedsIcon.setColorFilter(getResources().getColor(R.color.brand));
+                    newPostIcon.setColorFilter(getResources().getColor(R.color.gray_1));
+                    suggestionsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
+                    postsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
+                    socializeIcon.setColorFilter(getResources().getColor(R.color.gray_1));
+                }
                 replaceContainer(4);
                 break;
             case R.id.home_socialize_icon:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    suggestionsIcon.setColorFilter(getResources().getColor(R.color.brand,getActivity().getTheme()));
+                    newPostIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
+                    suggestionsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
+                    classifiedsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
+                    postsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
+                }else {
+                    suggestionsIcon.setColorFilter(getResources().getColor(R.color.brand));
+                    newPostIcon.setColorFilter(getResources().getColor(R.color.gray_1));
+                    suggestionsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
+                    classifiedsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
+                    postsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
+                }
                 break;
         }
     }
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         callback = (NavDrawerCallback) activity;
     }
-
-
     /* replace tab's fragment*/
     public void replaceContainer(int id){
         Fragment fragment = null;
         switch(id){
             case 0:
+                isHome = false;
                 fragment = new Posts();
                 break;
             case 1:
+                isHome = false;
                 fragment = new Suggestions();
                 break;
             case 2:
+                isHome = false;
                 fragment = new Classifieds();
                 break;
             case 3:
+                isHome = true;
                 fragment = new NewPosts();
                 break;
         }

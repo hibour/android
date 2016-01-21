@@ -20,6 +20,8 @@ public class Constants {
     public static final String URL_MEMBERS_COUNT= URL_DOMAIN+"Userreg/count?";
     public static final String URL_PREFS_INSERT=URL_DOMAIN+"Userpreferences/create?";
     public static final String URL_LOC_INSERT=URL_DOMAIN+"";
+    public static final String URL_POST_INSERTS=URL_DOMAIN+"Posts/create?";
+    public static final String URL_GET_ALL_CATEGORIES= URL_DOMAIN+"Posttype";
     public static final String URL_GET_ALL_POSTS = URL_DOMAIN+"Userposts/";
     public static final String URL_GET_ABOUT_US=URL_DOMAIN+"";
     public static final String URL_POST_COMMENT = URL_DOMAIN+"Commentpost/create?";
@@ -41,9 +43,16 @@ public class Constants {
     public static final String KEYWORD_GENDER="Gender";
     public static final String KEYWORD_USER_ID="Userid";
     public static final String KEYWORD_POST_ID="Postid";
+    public static final String KEYWORD_POST_TYPE="Posttype";
+    public static final String KEYWORD_POST_SUBTYPE="Postsubtype";
+    public static final String KEYWORD_POST_MESSAGES="Postmessage";
+    public static final String KEYWORD_POST_IMAGES="Postimage";
+    public static final String KEYWORD_POST_LIKESCOUNT="Likescount";
+    public static final String KEYWORD_POST_STATUS="Status";
     public static final String KEYWORD_POST_COMMENT="Commentmessage";
     public static final String KEYWORD_SIGNATURE="signature";
     public static final String SIGNATURE_VALUE="I0mkNPgu6h0M4YtOmG6Ib5BdFHy1Knrf";
+    public static final String USER_LOGIN_FACEBOOK = "facebook";
 
     public static final String PREFERENCE_FILE_NAME="Hibour";
     public static final String PREFERENCE_USER_ID="userId";

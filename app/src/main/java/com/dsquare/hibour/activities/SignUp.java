@@ -140,9 +140,6 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                 .build();
         signInButton = (SignInButton) findViewById(R.id.btn_sign_in);
         signInButton.setColorScheme(SignInButton.COLOR_LIGHT);
-
-
-
         // signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton.setScopes(googleSignInOptions.getScopeArray());
         signInButton.setOnClickListener(this);
@@ -192,13 +189,10 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
         facebookLoginButton.setOnClickListener(this);
         Log.d("social", "initialize fb");
     }
-
-
-
     /* gplus signin*/
     private void gplusSignIn() {
         if (networkDetector.isConnected()){ // check for network connectivity
-            Log.d("social","gplussignin");
+            Log.d("social", "gplussignin");
             Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
             startActivityForResult(signInIntent, RC_SIGN_IN);
         } else{
@@ -273,6 +267,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
             try {
                 GoogleSignInAccount acct = result.getSignInAccount();
 //                application.setSocialPreferences(Constants.USER_LOGIN_GPLUS);
+
                 try {
                     if(acct.getDisplayName()!=null){
                         userName = acct.getDisplayName();
