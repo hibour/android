@@ -62,6 +62,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
     private ProgressDialog locInsertDialog;
     private NetworkDetector networkDetector;
     private AccountsClient accountsClient;
+    private boolean isAutoComplete = false;
     private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
             = new ResultCallback<PlaceBuffer>() {
         @Override
@@ -77,7 +78,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 //            pDialog.show();
             // Get the Place object from the buffer.
             place = places.get(0);
-            latLng = place.getLatLng();
+            latLng = place.getLatLng();Log.d("address,type",place.getAddress()+" "+place.getPlaceTypes().get(0));
             Log.d("places latlng", latLng.toString());
 //            mapFragment.getMapAsync(ChooseLocation.this);
             Log.i("RESULT CALLBACK 2", "Place details received: " + place.getName());
@@ -93,16 +94,13 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 params[1]= latLng.longitude;
                 GetCurrentAddress currentadd=new GetCurrentAddress();
                 try {
+                    isAutoComplete = true;
                     currentadd.execute(params);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-            Intent intent = new Intent(getApplicationContext(), ChooseLocation.class);
-            intent.putExtra("latitude",Constants.Latitude);
-            intent.putExtra("longitude",Constants.Longitude);
-            intent.putExtra("address",autoCompleteTextView.getText().toString());
-            startActivity(intent);
+
         }
     };
 
@@ -322,6 +320,14 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
         @Override
         protected void onPostExecute(String resultString) {
 
+            if(isAutoComplete){
+                Intent intent = new Intent(getApplicationContext(), ChooseLocation.class);
+                intent.putExtra("latitude",Constants.Latitude);
+                intent.putExtra("longitude",Constants.Longitude);
+                intent.putExtra("address",locAddress);//autoCompleteTextView.getText().toString());
+                isAutoComplete = false;
+                startActivity(intent);
+            }
 //            startMap();
         }
     }
