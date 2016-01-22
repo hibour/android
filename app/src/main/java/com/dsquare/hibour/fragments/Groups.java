@@ -47,8 +47,9 @@ public class Groups extends Fragment implements View.OnClickListener{
 
     private void initializeViews(View view){
         menuIcon = (ImageView)view.findViewById(R.id.groups_menu_icon);
-        notifIcon = (ImageView)view.findViewById(R.id.groups_notif_icon);
-        groupsRecycler = (RecyclerView)view.findViewById(R.id.groups_list);LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        notifIcon = (ImageView)view.findViewById(R.id.groups_search_icon);
+        groupsRecycler = (RecyclerView)view.findViewById(R.id.groups_list);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         groupsRecycler.setLayoutManager(layoutManager);
         groupsRecycler.setHasFixedSize(true);
@@ -72,7 +73,7 @@ public class Groups extends Fragment implements View.OnClickListener{
             case R.id.groups_menu_icon:
                 callback.drawerOpen();
                 break;
-            case R.id.groups_notif_icon:
+            case R.id.groups_search_icon:
                 break;
         }
     }

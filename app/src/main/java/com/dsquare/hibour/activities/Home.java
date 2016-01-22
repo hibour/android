@@ -19,6 +19,7 @@ import com.dsquare.hibour.fragments.AboutUs;
 import com.dsquare.hibour.fragments.Groups;
 import com.dsquare.hibour.fragments.Message;
 import com.dsquare.hibour.fragments.Settings;
+import com.dsquare.hibour.fragments.Socializes;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
 import com.dsquare.hibour.utils.Hibour;
 
@@ -92,6 +93,10 @@ public class Home extends AppCompatActivity implements NavDrawerCallback, Adapte
             case 1:
                 isHome = false;
                 transaction.replace(R.id.content_frame,new Message());
+                break;
+            case 2:
+                isHome = false;
+                transaction.replace(R.id.content_frame,new Socializes());
                 break;
             case 3:
                 isHome = false;

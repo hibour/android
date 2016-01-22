@@ -10,27 +10,37 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="?android:actionBarSize"
-            android:background="@color/brand"
+            android:background="@color/white"
             android:id="@+id/about_us_app_bar">
             <ImageView
                 android:layout_width="@dimen/app_bar_icon_size"
                 android:layout_height="@dimen/app_bar_icon_size"
-                android:padding="@dimen/app_bar_icon_padding"
                 android:src="@drawable/ic_menu_white"
                 android:id="@+id/about_us_menu_icon"
+                android:layout_marginLeft="@dimen/dp_20"
                 android:layout_centerVertical="true"/>
-            <com.dsquare.hibour.utils.Avenir
+            <com.dsquare.hibour.utils.ProximaExtraBold
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/about_hibour"
-                android:textColor="@android:color/white"
+                android:textColor="@color/brand"
                 android:layout_centerInParent="true"
                 android:textSize="@dimen/app_bar_title_text_size"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/nav_bottom_line_height"
+                android:background="@color/common_action_bar_splitter"
+                android:id="@+id/nav_drawer_bottom_line"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_alignParentBottom="true"/>
             <ImageView
-                android:layout_width="@dimen/app_bar_icon_size"
-                android:layout_height="@dimen/app_bar_icon_size"
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/ic_notifcations_white"
+                android:padding="@dimen/dp_3"
+                android:src="@drawable/ic_notification_gray"
+                android:layout_marginRight="@dimen/dp_20"
                 android:layout_centerVertical="true"
                 android:id="@+id/about_us_notif_icon"/>
         </RelativeLayout>

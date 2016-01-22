@@ -7,27 +7,37 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="?android:actionBarSize"
-        android:background="@color/brand"
+        android:background="@color/white"
         android:id="@+id/settings_app_bar">
         <ImageView
             android:layout_width="@dimen/app_bar_icon_size"
             android:layout_height="@dimen/app_bar_icon_size"
-            android:padding="@dimen/app_bar_icon_padding"
             android:src="@drawable/ic_menu_white"
             android:id="@+id/settings_menu_icon"
+            android:layout_marginLeft="@dimen/dp_20"
             android:layout_centerVertical="true"/>
-        <com.dsquare.hibour.utils.Avenir
+        <com.dsquare.hibour.utils.ProximaExtraBold
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/title_settings_fragment"
-            android:textColor="@android:color/white"
+            android:textColor="@color/brand"
             android:layout_centerInParent="true"
             android:textSize="@dimen/app_bar_title_text_size"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/nav_bottom_line_height"
+            android:background="@color/common_action_bar_splitter"
+            android:id="@+id/nav_drawer_bottom_line"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_alignParentBottom="true"/>
         <ImageView
-            android:layout_width="@dimen/app_bar_icon_size"
-            android:layout_height="@dimen/app_bar_icon_size"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
             android:layout_alignParentRight="true"
-            android:src="@drawable/ic_notifcations_white"
+            android:src="@drawable/ic_notification_gray"
+            android:padding="@dimen/dp_3"
+            android:layout_marginRight="@dimen/dp_20"
             android:layout_centerVertical="true"
             android:id="@+id/settings_notif_icon"/>
     </RelativeLayout>
@@ -40,12 +50,12 @@
         android:layout_marginTop="@dimen/dp_30"
         android:layout_below="@id/settings_app_bar">
 
-        <ImageView
+        <com.dsquare.hibour.dialogs.RoundImageView
             android:layout_width="@dimen/dp_100"
             android:layout_height="@dimen/dp_100"
             android:src="@drawable/avatar1"
             android:layout_gravity="center_horizontal"
-            android:id="@+id/input_image"/>
+            android:id="@+id/settings_image"/>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_name"
@@ -56,7 +66,7 @@
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/input_name"
+                android:id="@+id/settings_name"
                 android:layout_gravity="center_horizontal"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
@@ -73,7 +83,7 @@
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/input_email"
+                android:id="@+id/settings_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
@@ -89,7 +99,7 @@
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/input_password"
+                android:id="@+id/settings_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"

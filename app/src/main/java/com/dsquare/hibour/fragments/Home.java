@@ -142,8 +142,9 @@ public class Home extends Fragment implements View.OnClickListener{
                     suggestionsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
                     postsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
                     socializeIcon.setColorFilter(getResources().getColor(R.color.gray_1));
+                    replaceContainer(4);
                 }
-                replaceContainer(4);
+
                 break;
             case R.id.home_socialize_icon:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -158,6 +159,7 @@ public class Home extends Fragment implements View.OnClickListener{
                     suggestionsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
                     classifiedsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
                     postsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
+
                 }
                 break;
         }
@@ -186,6 +188,10 @@ public class Home extends Fragment implements View.OnClickListener{
             case 3:
                 isHome = true;
                 fragment = new NewPosts();
+                break;
+            case 4:
+                isHome = true;
+                fragment = new Socialize();
                 break;
         }
         if (fragment != null) {

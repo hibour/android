@@ -28,7 +28,6 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
-import com.dsquare.hibour.dialogs.ImagePickerDialog;
 import com.dsquare.hibour.dialogs.PostsImagePicker;
 import com.dsquare.hibour.interfaces.ImagePicker;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
@@ -36,6 +35,7 @@ import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.network.PostsClient;
 import com.dsquare.hibour.pojos.posttype.Datum;
 import com.dsquare.hibour.pojos.posttype.PostTypeCatg;
+import com.dsquare.hibour.utils.Fonts;
 import com.dsquare.hibour.utils.Hibour;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -48,7 +48,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import com.dsquare.hibour.utils.Fonts;
 
 /**
  * Created by Aditya Ravikanti on 1/19/2016.
@@ -97,7 +96,6 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
         send = (Button)view.findViewById(R.id.newpost_send);
         gallary = (ImageView)view.findViewById(R.id.newposts_gallary);
         text = (EditText)view.findViewById(R.id.newposts_edittest);
-
         networkDetector = new NetworkDetector(getActivity());
         postsClient = new PostsClient(getActivity());
         gson = new Gson();
