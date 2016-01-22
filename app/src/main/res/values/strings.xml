@@ -77,7 +77,7 @@
 
     <string name="messages_title">Neighbours</string>
     <string name="title_activity_select_area">SelectArea</string>
-
+    <string name="socalize_title">Socialize</string>
     <string name="title_groups_fragment">Groups</string>
     <string name="title_activity_group_posts">GroupPosts</string>
     <string name="title_settings_fragment">Settings</string>

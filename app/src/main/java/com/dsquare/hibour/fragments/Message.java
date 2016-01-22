@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.dsquare.hibour.R;
-import com.dsquare.hibour.adapters.AdapterPostComments;
 import com.dsquare.hibour.adapters.NeighboursAdapter;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
 import com.dsquare.hibour.network.NetworkDetector;
@@ -52,7 +51,7 @@ public class Message extends Fragment implements View.OnClickListener{
     /* initialize views*/
     private void initializeViews(View view){
         menuIcon = (ImageView)view.findViewById(R.id.messages_menu_icon);
-        notifIcon = (ImageView)view.findViewById(R.id.messages_notif_icon);
+        notifIcon = (ImageView)view.findViewById(R.id.messages_search_icon);
         neighboursRecycler = (RecyclerView)view.findViewById(R.id.messages_neighbours_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -73,7 +72,7 @@ public class Message extends Fragment implements View.OnClickListener{
             case R.id.messages_menu_icon:
                 callback.drawerOpen();
                 break;
-            case R.id.messages_notif_icon:
+            case R.id.messages_search_icon:
                 break;
         }
     }
