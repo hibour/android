@@ -20,7 +20,7 @@ public class Constants {
     public static final String URL_MEMBERS_COUNT= URL_DOMAIN+"Userreg/count?";
     public static final String URL_PREFS_INSERT=URL_DOMAIN+"Userpreferences/create?";
     public static final String URL_LOC_INSERT=URL_DOMAIN+"";
-    public static final String URL_POST_INSERTS=URL_DOMAIN+"Posts/create?";
+    public static final String URL_POST_INSERTS=URL_DOMAIN+"Posts/create";
     public static final String URL_GET_ALL_CATEGORIES= URL_DOMAIN+"Posttype";
     public static final String URL_GET_ALL_POSTS = URL_DOMAIN+"Userposts/";
     public static final String URL_GET_ABOUT_US=URL_DOMAIN+"";

@@ -14,12 +14,12 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyA4Wb6Gpp2MnF5F8yhBA32pQqNVwjHmAsg" />
         <!--<meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyADw717Ym1UfhGFIXE9euxwOONS698za-4" />-->
+            android:value="AIzaSyA4Wb6Gpp2MnF5F8yhBA32pQqNVwjHmAsg" />-->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAoCsOWz_mm413hjupw-hiGYatTrXmD7_E" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />

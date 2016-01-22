@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
@@ -36,19 +37,31 @@ import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.network.PostsClient;
 import com.dsquare.hibour.pojos.posttype.Datum;
 import com.dsquare.hibour.pojos.posttype.PostTypeCatg;
+import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Hibour;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import com.dsquare.hibour.utils.Fonts;
+
+import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Created by Aditya Ravikanti on 1/19/2016.
@@ -75,6 +88,7 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
     private String categoriesTypeId="";
     private Bitmap bitmap;
     private Hibour application;
+    private ImageView postImage;
     public NewPosts() {
         // Required empty public constructor
     }
@@ -97,6 +111,7 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
         send = (Button)view.findViewById(R.id.newpost_send);
         gallary = (ImageView)view.findViewById(R.id.newposts_gallary);
         text = (EditText)view.findViewById(R.id.newposts_edittest);
+        postImage = (ImageView)view.findViewById(R.id.post_image);
 
         networkDetector = new NetworkDetector(getActivity());
         postsClient = new PostsClient(getActivity());
@@ -162,7 +177,7 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
     private void validatepostData(){
 //        Log.d("cardtype",cardTypeId);
         Log.d("postmsg",text.getText().toString());
-        Log.d("postimage",postimagesstring);
+        Log.d("postimage", postimagesstring);
         Log.d("categories", categoriesString);
         if(!categoriesTypeId.equals("")&&text.getText().toString().equals(null)
                 &&!text.getText().toString().equals("null")&&
@@ -181,7 +196,7 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
     private void openImageChooser(){
         chooserDialog = new PostsImagePicker();
         chooserDialog.show(getActivity().getSupportFragmentManager(), "chooser dialog");
-        chooserDialog.setTargetFragment(this,0);
+        chooserDialog.setTargetFragment(this, 0);
     }
 
 
@@ -210,6 +225,10 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
             try {
                 //Getting the Bitmap from Gallery
                 bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
+                if(postImage.getVisibility()==View.GONE){
+                    postImage.setVisibility(View.VISIBLE);
+                    postImage.setImageBitmap(bitmap);
+                }
                 postimagesstring=getStringImage(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -221,6 +240,10 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
             try {
                 //Getting the Bitmap from Gallery
                 bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
+                if(postImage.getVisibility()==View.GONE){
+                    postImage.setVisibility(View.VISIBLE);
+                    postImage.setImageBitmap(bitmap);
+                }
                 postimagesstring=getStringImage(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -233,11 +256,11 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
         if(networkDetector.isConnected()){
             newpostDialogue = ProgressDialog.show(getActivity(),"",getResources()
                     .getString(R.string.progress_dialog_text));
-            postsClient.insertonPost("2",posttypeid,posttypeid,postMessage,postImage
+            postsClient.insertonPost(application.getUserId(),posttypeid,posttypeid,postMessage,postImage
                      ,posttypeid,new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
-                    parseProofDetails(jsonObject);
+                    parsePostDetails(jsonObject);
                     closePostDialog();
                 }
 
@@ -253,8 +276,22 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
     }
 
     /* parse insert post  data*/
-    private void parseProofDetails(JSONObject jsonObject){
+    private void parsePostDetails(JSONObject jsonObject){
         Log.d("json",jsonObject.toString());
+        try {
+            JSONObject data = jsonObject.getJSONObject("data");
+            String result = data.getString("result");
+            if(result.endsWith("true")){
+                Toast.makeText(getActivity(),"Post update successfully",Toast.LENGTH_LONG).show();
+                postImage.setVisibility(View.GONE);
+                spinner.setSelection(0);
+                text.setText("");
+            }else{
+                Toast.makeText(getActivity(),"Post updation failed",Toast.LENGTH_LONG).show();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -336,4 +373,51 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
         }
         chooserDialog.dismiss();
     }
+
+   /* private class sendToServer extends AsyncTask<ArrayList<String>, Integer, String> {
+
+        @Override
+        protected String doInBackground(ArrayList<String>... param) {
+            // TODO Auto-generated method stub
+
+
+            try {
+                URL url = new URL("http://yoururl.com");
+                HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("firstParam", paramValue1));
+                params.add(new BasicNameValuePair("secondParam", paramValue2));
+                params.add(new BasicNameValuePair("thirdParam", paramValue3));
+
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(getQuery(params));
+                writer.flush();
+                writer.close();
+                os.close();
+
+                conn.connect();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return loc_resp;
+
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            // TODO Auto-generated method stub
+            super.onPostExecute(result);
+
+
+
+        }
+    }*/
+
 }

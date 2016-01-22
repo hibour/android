@@ -33,6 +33,7 @@ public class AccountsClient {
             ,final WebServiceResponseCallback callback){
         try {
             String urlStr = getSignInString(userName,password,signInType);
+            Log.d("signin url",urlStr);
             URL url = new URL(urlStr);
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
                     , url.getPath(), url.getQuery(), url.getRef());
