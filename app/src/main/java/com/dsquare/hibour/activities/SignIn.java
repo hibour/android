@@ -341,7 +341,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
     }
     /* open Home Activity*/
     private void openHomeActivity(){
-        Intent homeIntent = new Intent(this,GovtProof.class);
+        Intent homeIntent = new Intent(this,Home.class);
         startActivity(homeIntent);
         this.finish();
     }

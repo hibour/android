@@ -108,14 +108,14 @@ public class PostsClient {
             ,final String postMessages,final String postImages,final String status
             ,final WebServiceResponseCallback callback){
         try {
-           // String urlStr = getInsertOnPostUrl(userId, postType, postsubType,postMessages,postImages,status);
-            String urlStr = Constants.URL_POST_INSERTS;
+            String urlStr = getInsertOnPostUrl(userId, postType, postsubType,postMessages,postImages,status);
+            //String urlStr = Constants.URL_POST_INSERTS;
             URL url = new URL(urlStr);
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
                     , url.getPath(), url.getQuery(), url.getRef());
             url = uri.toURL();
             JsonObjectRequest postsRequest = new JsonObjectRequest(Request.Method.POST
-                    , urlStr,  new Response.Listener<JSONObject>() {
+                    , url.toString(),  new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     callback.onSuccess(response);
@@ -126,7 +126,7 @@ public class PostsClient {
                     Log.d("TAG", Log.getStackTraceString(error));
                     callback.onFailure(error);
                 }
-            }){
+            })/*{
 
                 @Override
                 protected Map<String, String> getParams() {
@@ -140,7 +140,7 @@ public class PostsClient {
                     params.put(Constants.KEYWORD_SIGNATURE, Constants.SIGNATURE_VALUE);
 
                     return params;
-                }};
+                }}*/;
             postsRequest.setRetryPolicy(new DefaultRetryPolicy(
                     MY_SOCKET_TIMEOUT_MS,
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
