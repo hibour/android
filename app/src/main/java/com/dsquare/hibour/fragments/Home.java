@@ -83,7 +83,7 @@ public class Home extends Fragment implements View.OnClickListener{
                 break;
             case R.id.home_new_post:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    newPostIcon.setColorFilter(getResources().getColor(R.color.brand,getActivity().getTheme()));
+//                    newPostIcon.setColorFilter(getResources().getColor(R.color.brand,getActivity().getTheme()));
                     postsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
                     suggestionsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
                     classifiedsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
