@@ -1,5 +1,6 @@
 package com.dsquare.hibour.fragments;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -86,10 +87,10 @@ public class Socializes extends android.support.v4.app.Fragment implements View.
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.messages_menu_icon:
-              callback.drawerOpen();
+            case R.id.socailize_menu_icon:
+                callback.drawerOpen();
                break;
-            case R.id.messages_search_icon:
+            case R.id.socailize_search_icon:
                 break;
         }
     }
@@ -197,5 +198,10 @@ public class Socializes extends android.support.v4.app.Fragment implements View.
                 dialog=null;
             }
         }
+    }
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        callback = (NavDrawerCallback) activity;
     }
 }

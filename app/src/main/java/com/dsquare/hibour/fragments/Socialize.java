@@ -53,7 +53,7 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_socilize, container, false);
+        View view = inflater.inflate(R.layout.fragments_socailizes, container, false);
         initializeViews(view);
         initializeEventListeners();
         getAllPrefs();
