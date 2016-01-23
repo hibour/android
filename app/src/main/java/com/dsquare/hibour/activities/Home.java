@@ -1,13 +1,20 @@
 package com.dsquare.hibour.activities;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.LabeledIntent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -22,6 +29,9 @@ import com.dsquare.hibour.fragments.Settings;
 import com.dsquare.hibour.fragments.Socializes;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
 import com.dsquare.hibour.utils.Hibour;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Home extends AppCompatActivity implements NavDrawerCallback, AdapterView.OnItemClickListener{
 
@@ -150,10 +160,47 @@ public class Home extends AppCompatActivity implements NavDrawerCallback, Adapte
     }
     /*invite friends*/
     private void inviteFriends(String invitationMessage){
+     /*   Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, invitationMessage);
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);*/
+        List<Intent> targetShareIntents = new ArrayList<Intent>();
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, invitationMessage);
         sendIntent.setType("text/plain");
-        startActivity(sendIntent);
-    }
+
+        PackageManager pm = getPackageManager();
+        Resources resources = getResources();
+        List<ResolveInfo> resInfo = pm.queryIntentActivities(sendIntent, 0);
+        List<LabeledIntent> intentList = new ArrayList<LabeledIntent>();
+        for (int i = 0; i < resInfo.size(); i++) {
+                // Extract the label, append it, and repackage it in a LabeledIntent
+            ResolveInfo ri = resInfo.get(i);
+            String packageName = ri.activityInfo.packageName;
+            Log.d("Package Name", packageName);
+            if (packageName.contains("android.talk")
+                        || packageName.contains("facebook")
+                        || packageName.contains("whatsapp")
+                        || packageName.contains("mms")
+                        || packageName.contains("android.gm")) {
+                Intent intent = new Intent();
+                intent.setComponent(new ComponentName(packageName, ri.activityInfo.name));
+                intent.setAction(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, invitationMessage);
+                intent.setPackage(packageName);
+                targetShareIntents.add(intent);
+            }
+        }
+        if (!targetShareIntents.isEmpty()) {
+            System.out.println("Have Intent");
+            Intent chooserIntent = Intent.createChooser(targetShareIntents.remove(0), "Choose app to invite friends");
+            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
+            startActivity(chooserIntent);
+        } else {
+
+        }
+     }
 }
