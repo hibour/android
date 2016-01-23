@@ -24,6 +24,41 @@
                 android:background="@drawable/lll"/>
 
         </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:layout_below="@id/socialize_toolbar"
+            android:id="@+id/socialize_search_bar"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true"
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="@drawable/loc_search_rectangle">
+            <RelativeLayout
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/search_rect"
+                android:id="@+id/home_searchbar_layout">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/dp_10"
+                    android:src="@drawable/ic_search_white"
+                    android:layout_centerInParent="true"/>
+
+            </RelativeLayout>
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/home_searchbar_layout"
+                android:hint="Search"
+                android:gravity="center"
+                android:cursorVisible="false"
+                android:textCursorDrawable="@null"
+                android:id="@+id/search_box"
+                />
+        </RelativeLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_large_height"
@@ -101,9 +136,9 @@
             android:text="@string/socialize_text"
             android:textColor="@android:color/black"
             android:textSize="@dimen/extended_tool_bar_text_size"
-            android:layout_below="@+id/socialize_toolbar"
+            android:layout_below="@+id/socialize_search_bar"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dp_50" />
+            android:layout_marginTop="@dimen/dp_20" />
 
         <android.support.v7.widget.RecyclerView
             android:scrollbars="vertical"

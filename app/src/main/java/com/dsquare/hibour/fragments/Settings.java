@@ -2,51 +2,69 @@ package com.dsquare.hibour.fragments;
 
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.dialogs.PostsImagePicker;
 import com.dsquare.hibour.interfaces.ImagePicker;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
+import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
+import com.dsquare.hibour.network.AccountsClient;
+import com.dsquare.hibour.network.NetworkDetector;
+import com.dsquare.hibour.pojos.settings.Data;
+import com.dsquare.hibour.pojos.settings.Settingspojo;
 import com.dsquare.hibour.utils.Fonts;
+import com.dsquare.hibour.utils.Hibour;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class Settings extends Fragment implements View.OnClickListener,ImagePicker {
 
-    private ImageView menuIcon,notifIcon,inputImage;
+    private ImageView menuIcon,notifIcon,inputImage,imageUploaded;
+    private RadioGroup gender;
+    private EditText name,email,password,dob,moblie;
+    private List<String> cardsList=new ArrayList<>();
+    private List<String> genderList = new ArrayList<>();
     private NavDrawerCallback callback;
     private Button submitButton;
-    private EditText inputName, inputEmail, inputPassword;
-    private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutPassword;
+    private ProgressDialog dialog;
     private static final int REQUEST_IMAGE_SELECTOR=1000;
     private static final int REQUEST_IMAGE_CAPTURE=1001;
     private int PICK_IMAGE_REQUEST = 1;
     private Typeface tf,proxima;
     private DialogFragment chooserDialog;
     private Bitmap bitmap;
+    private NetworkDetector networkDetector;
+    private AccountsClient accountsClient;
+    private ProgressDialog uploadProofsDialog;
+    private Gson gson;
+    private Hibour application;
     public Settings() {
         // Required empty public constructor
     }
@@ -59,37 +77,46 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         initializeViews(view);
         initializeEventListeners();
+        getAllPrefs();
         return view;
     }
     /* initialize views*/
     private void initializeViews(View view){
+        accountsClient = new AccountsClient(getActivity());
+        networkDetector = new NetworkDetector(getActivity());
+        gson = new Gson();
+        application =  Hibour.getInstance(getActivity());
         proxima = Typeface.createFromAsset(getActivity().getAssets(), Fonts.getTypeFaceName());
         menuIcon = (ImageView)view.findViewById(R.id.settings_menu_icon);
         notifIcon = (ImageView)view.findViewById(R.id.settings_notif_icon);
+        inputImage = (ImageView)view.findViewById(R.id.settings_image);
+        imageUploaded = (ImageView)view.findViewById(R.id.setting_image_editer);
         submitButton = (Button)view.findViewById(R.id.settings_submit);
-        inputLayoutName = (TextInputLayout) view.findViewById(R.id.input_layout_name);
-        inputLayoutEmail = (TextInputLayout) view.findViewById(R.id.input_layout_email);
-        inputLayoutPassword = (TextInputLayout) view.findViewById(R.id.input_layout_password);
-        inputName = (EditText) view.findViewById(R.id.settings_name);
-        inputEmail = (EditText) view.findViewById(R.id.settings_email);
-        inputPassword = (EditText) view.findViewById(R.id.settings_password);
-        inputImage = (ImageView) view.findViewById(R.id.settings_image);
+        gender = (RadioGroup)view.findViewById(R.id.group_radio);
+        name = (EditText)view.findViewById(R.id.settings_name_edit);
+        email = (EditText)view.findViewById(R.id.settings_email_edit);
+        password = (EditText)view.findViewById(R.id.settings_password_Edit);
+        dob = (EditText)view.findViewById(R.id.settings_dob_edit);
+        moblie = (EditText)view.findViewById(R.id.settings_phone_edit);
         tf = Fonts.getTypeFace(getActivity());
         submitButton.setTypeface(proxima);
-        inputLayoutEmail.setTypeface(proxima);
-        inputLayoutName.setTypeface(proxima);
-        inputLayoutPassword.setTypeface(proxima);
-        inputName.setTypeface(proxima);
-        inputEmail.setTypeface(proxima);
-        inputPassword.setTypeface(proxima);
+        name.setTypeface(proxima);
+        email.setTypeface(proxima);
+        password.setTypeface(proxima);
+        dob.setTypeface(proxima);
+        moblie.setTypeface(proxima);
     }
     /* initialize event listeners*/
      private void initializeEventListeners(){
          menuIcon.setOnClickListener(this);
          notifIcon.setOnClickListener(this);
          submitButton.setOnClickListener(this);
-         inputImage.setOnClickListener(this);
+         imageUploaded.setOnClickListener(this);
      }
+    /*prepare cards list*/
+    private void prepareCardsList(){
+        cardsList.add("Select Card");
+    }
 
     @Override
     public void onClick(View view) {
@@ -101,7 +128,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
              break;
          case R.id.settings_submit:
              break;
-         case R.id.settings_image:
+         case R.id.setting_image_editer:
              openImageChooser();
              break;
      }
@@ -161,73 +188,6 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         callback = (NavDrawerCallback) activity;
     }
 
-    /**
-     * Validating form
-     */
-    private void submitForm() {
-        if (!validateName()) {
-            return;
-        }
-
-        if (!validateEmail()) {
-            return;
-        }
-
-        if (!validatePassword()) {
-            return;
-        }
-
-        Toast.makeText(getActivity(), "Thank You!", Toast.LENGTH_SHORT).show();
-    }
-
-    private boolean validateName() {
-        if (inputName.getText().toString().trim().isEmpty()) {
-            inputLayoutName.setError(getString(R.string.err_msg_name));
-            requestFocus(inputName);
-            return false;
-        } else {
-            inputLayoutName.setErrorEnabled(false);
-        }
-
-        return true;
-    }
-
-    private boolean validateEmail() {
-        String email = inputEmail.getText().toString().trim();
-
-        if (email.isEmpty() || !isValidEmail(email)) {
-            inputLayoutEmail.setError(getString(R.string.err_msg_email));
-            requestFocus(inputEmail);
-            return false;
-        } else {
-            inputLayoutEmail.setErrorEnabled(false);
-        }
-
-        return true;
-    }
-
-    private boolean validatePassword() {
-        if (inputPassword.getText().toString().trim().isEmpty()) {
-            inputLayoutPassword.setError(getString(R.string.err_msg_password));
-            requestFocus(inputPassword);
-            return false;
-        } else {
-            inputLayoutPassword.setErrorEnabled(false);
-        }
-
-        return true;
-    }
-
-    private static boolean isValidEmail(String email) {
-        return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
-
-    private void requestFocus(View view) {
-        if (view.requestFocus()) {
-            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-        }
-    }
-
     @Override
     public void pickerSelection(int choice) {
         switch (choice){
@@ -241,31 +201,54 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         chooserDialog.dismiss();
     }
 
-    private class MyTextWatcher implements TextWatcher {
+    /* get all prefs*/
+    private void getAllPrefs(){
+        if(networkDetector.isConnected()){
+            dialog = ProgressDialog.show(getActivity(),"",getResources()
+                    .getString(R.string.progress_dialog_text));
+            accountsClient.getAllSettings(application.getUserId(),new WebServiceResponseCallback() {
+                @Override
+                public void onSuccess(JSONObject jsonObject) {
+                    parseUserPrefs(jsonObject);
+                    closeDialog();
+                }
 
-        private View view;
-
-        private MyTextWatcher(View view) {
-            this.view = view;
+                @Override
+                public void onFailure(VolleyError error) {
+                    closeDialog();
+                }
+            });
+        }else{
+            Toast.makeText(getActivity(), "Network connection error", Toast.LENGTH_LONG).show();
+        }
+    }
+    /* parse user prefs*/
+    private void parseUserPrefs(JSONObject jsonObject){
+        try {
+        Settingspojo settingspojo = gson.fromJson(jsonObject.toString(), Settingspojo.class);
+          Data data = settingspojo.getData();
+        name.setText(data.getUsername());
+        email.setText(data.getEmail());
+        password.setText(data.getPassword());
+        String genderValue = data.getGender();
+        if(genderValue != null && genderValue.equalsIgnoreCase("1")){
+            gender.check(R.id.radioMale);
+        }else{
+            gender.check(R.id.radioFemale);
         }
 
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        }
-
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        }
-
-        public void afterTextChanged(Editable editable) {
-            switch (view.getId()) {
-                case R.id.settings_name:
-                    validateName();
-                    break;
-                case R.id.settings_email:
-                    validateEmail();
-                    break;
-                case R.id.settings_password:
-                    validatePassword();
-                    break;
+    }catch (JsonSyntaxException e) {
+        e.printStackTrace();
+    }catch (final IllegalArgumentException e) {
+        // Handle or log or ignore
+        e.printStackTrace();
+    }}
+    /* close dialog*/
+    private void closeDialog(){
+        if(dialog!=null){
+            if(dialog.isShowing()){
+                dialog.dismiss();
+                dialog=null;
             }
         }
     }

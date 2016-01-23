@@ -164,7 +164,7 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
         uploadimage.setOnClickListener(this);
         //cardsSpinner.setOnItemSelectedListener(this);
     }
-    /*prepare cards list*/
+       /*prepare cards list*/
     private void prepareCardsList(){
         cardsList.add("Select Card");
     }

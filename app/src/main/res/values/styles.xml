@@ -26,5 +26,9 @@
         <item name="android:textColor">@color/gray</item>
         <item name="android:textSize">14sp</item>
     </style>
-
+    <style name="MaterialDesignStyle" parent="MD">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">16dp</item>
+    </style>
 </resources>

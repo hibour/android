@@ -2,13 +2,19 @@ package com.dsquare.hibour.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
@@ -20,6 +26,7 @@ import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.pojos.preference.Datum;
 import com.dsquare.hibour.pojos.preference.Preference;
 import com.dsquare.hibour.utils.Constants;
+import com.dsquare.hibour.utils.Fonts;
 import com.dsquare.hibour.utils.GridLayoutSpacing;
 import com.dsquare.hibour.utils.Hibour;
 import com.google.gson.Gson;
@@ -28,13 +35,20 @@ import com.google.gson.JsonSyntaxException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SocialCategories extends AppCompatActivity implements View.OnClickListener{
 
     private Button doneButton,previous;
+    private AutoCompleteTextView searchText;
+    private Typeface proxima;
     private RecyclerView prefsRecycler;
     private List<String[]> prefsList = new ArrayList<>();
+    private List<String> searchList=new ArrayList<>();
+    public static Map<String, String> searchMap = new LinkedHashMap<>();
+    private List<String> suggestionList = new ArrayList<>();
     private PreferencesAdapter adapter;
     private NetworkDetector networkDetector;
     private AccountsClient accountsClient;
@@ -52,20 +66,48 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
 
     /* initialize views*/
     private void initializeViews(){
+        proxima = Typeface.createFromAsset(getAssets(), Fonts.getTypeFaceName());
         accountsClient = new AccountsClient(this);
         networkDetector = new NetworkDetector(this);
         gson = new Gson();
         application = Hibour.getInstance(this);
         doneButton = (Button)findViewById(R.id.socialize_done_button);
         previous = (Button)findViewById(R.id.socialize_prev_button);
+        searchText = (AutoCompleteTextView)findViewById(R.id.search_box);
         prefsRecycler = (RecyclerView)findViewById(R.id.social_prefs_list);
         prefsRecycler.setLayoutManager(new GridLayoutManager(this, 3));
         prefsRecycler.addItemDecoration(new GridLayoutSpacing(3, 5, true));
         prefsRecycler.setHasFixedSize(true);
-//        adapter = new PreferencesAdapter(this,prefsList);
-//        prefsRecycler.setAdapter(adapter);
 
-    }
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                    (this, android.R.layout.simple_dropdown_item_1line,
+                            searchList);
+            searchText.setAdapter(adapter);
+            searchText.setThreshold(1);
+            searchText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String itemName = searchText.getText().toString();
+                    if (parent != null && parent.getChildAt(0) != null) {
+                        String cardType = searchList.get(position);
+                        Log.d("cardtype",cardType);
+//                        if(!cardType.equals("Select Card")){
+//                            cardTypeId = searchMap.get(cardType);
+//                            Log.d("cardtype",cardType);
+//                        }
+                    ((TextView) parent.getChildAt(0)).setTextColor(getResources()
+                            .getColor(R.color.black_1));
+                    ((TextView) parent.getChildAt(0)).setTypeface(proxima);
+                    ((TextView) parent.getChildAt(0)).setPadding(0, 0, 0, 0);
+                    ((TextView) parent.getChildAt(0)).setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+                    Log.d("itemname", itemName);
+//                setRecyclerList(itemName);
+                }}
+            });
+            }
+
+
     /* initialize event listeners*/
     private void initializeEventListeners(){
         doneButton.setOnClickListener(this);
@@ -165,6 +207,8 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
                         , data.get(i).getImage1()
                         , data.get(i).getImage2(),"false"};
                 prefsList.add(details);
+              searchMap.put(data.get(i).getPreferencesname(),data.get(i).getId()+"");
+                searchList.add(data.get(i).getPreferencesname());
             }
             setAdapters(prefsList);
             } catch (JsonSyntaxException e) {

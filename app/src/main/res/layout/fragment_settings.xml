@@ -41,83 +41,296 @@
             android:layout_centerVertical="true"
             android:id="@+id/settings_notif_icon"/>
     </RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/settings_app_bar">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:focusableInTouchMode="true"
         android:focusable="true"
         android:orientation="vertical"
-        android:layout_marginTop="@dimen/dp_30"
+        android:layout_marginTop="@dimen/dp_10"
         android:layout_below="@id/settings_app_bar">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/light_grays">
+
+        <com.dsquare.hibour.utils.Proxima
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profile Picture"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="@color/brand"
+            android:layout_marginTop="@dimen/dp_10"
+            />
         <com.dsquare.hibour.dialogs.RoundImageView
             android:layout_width="@dimen/dp_100"
             android:layout_height="@dimen/dp_100"
-            android:src="@drawable/avatar1"
-            android:layout_gravity="center_horizontal"
+            android:background="@drawable/avatar1"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp_10"
             android:id="@+id/settings_image"/>
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_name"
-            android:layout_width="200dp"
-            app:hintTextAppearance="@style/ThemeTextInputLayout"
-            android:layout_marginTop="@dimen/dp_20"
-            android:layout_gravity="center_horizontal"
-            android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            android:src="@mipmap/ic_editpicture_icon"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:id="@+id/setting_image_editer"
+            />
+        </LinearLayout>
 
-            <EditText
-                android:id="@+id/settings_name"
-                android:layout_gravity="center_horizontal"
-                android:layout_width="200dp"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50">
+            <com.dsquare.hibour.utils.ProximaExtraBold
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:hint="Full Name" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_centerVertical="true"
+                android:text="General"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:textSize="@dimen/dp_20"
+                />
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_email"
-            android:layout_width="200dp"
-            android:layout_marginTop="@dimen/dp_20"
-            android:layout_gravity="center_horizontal"
-            app:hintTextAppearance="@style/ThemeTextInputLayout"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/settings_email"
+            </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/light_grays">
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:hint="Email" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_password"
-            android:layout_width="200dp"
-            android:layout_marginTop="@dimen/dp_20"
-            app:hintTextAppearance="@style/ThemeTextInputLayout"
-            android:layout_gravity="center_horizontal"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/settings_password"
+                android:layout_height="@dimen/dp_50">
+                <ImageView
+                    android:layout_width="@dimen/dp_25"
+                    android:layout_height="@dimen/dp_25"
+                    android:src="@mipmap/ic_name_icon"
+                    android:layout_marginLeft="@dimen/dp_30"
+                    android:id="@+id/settings_name_image"
+                    android:layout_centerVertical="true"/>
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:hint="FullName"
+                    android:background="@null"
+                    android:textSize="@dimen/dp_20"
+                    android:layout_toRightOf="@+id/settings_name_image"
+                    android:layout_marginLeft="@dimen/dp_30"
+                    android:id="@+id/settings_name_edit"
+                    />
+                </RelativeLayout>
+            <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_bottom_line_height"
+            android:background="@color/gray"
+            ></View>
+            <RelativeLayout
                 android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50">
+                <com.dsquare.hibour.utils.Proxima
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Gender"
+                    android:textSize="@dimen/dp_20"
+                    android:layout_marginLeft="@dimen/dp_30"
+                    android:id="@+id/settings_gender"/>
+                <RadioGroup
+                    android:id="@+id/group_radio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/settings_gender"
+                    android:layout_marginLeft="@dimen/dp_20"
+                    >
+                    <RadioButton
+                        android:id="@+id/radioMale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Male"
+                        android:checked="true" />
+                    <RadioButton
+                        android:id="@+id/radioFemale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="female" />
+                </RadioGroup>
+                    />
+                </RelativeLayout>
+            </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50">
+            <com.dsquare.hibour.utils.ProximaExtraBold
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:hint="Password" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_centerVertical="true"
+                android:text="Privacy"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:textSize="@dimen/dp_20"
+                />
+
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/light_grays">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50">
+                <ImageView
+                    android:layout_width="@dimen/dp_25"
+                    android:layout_height="@dimen/dp_25"
+                    android:src="@mipmap/ic_email_icon"
+                    android:layout_marginLeft="@dimen/dp_30"
+                    android:id="@+id/settings_name_image2"
+                    android:layout_centerVertical="true"/>
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:hint="Email.."
+                    android:background="@null"
+                    android:textSize="@dimen/dp_20"
+                    android:layout_toRightOf="@+id/settings_name_image2"
+                    android:layout_marginLeft="@dimen/dp_30"
+                    android:id="@+id/settings_email_edit"
+                    />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_bottom_line_height"
+                android:background="@color/gray"
+                ></View>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50">
+                <ImageView
+                    android:layout_width="@dimen/dp_25"
+                    android:layout_height="@dimen/dp_25"
+                    android:src="@mipmap/ic_password_icon"
+                    android:layout_marginLeft="@dimen/dp_30"
+                    android:id="@+id/settings_name_image4"
+                    android:layout_centerVertical="true"/>
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:background="@null"
+                    android:hint="Password"
+                    android:textSize="@dimen/dp_20"
+                    android:layout_toRightOf="@+id/settings_name_image4"
+                    android:layout_marginLeft="@dimen/dp_30"
+                    android:inputType="textPassword"
+                    android:id="@+id/settings_password_Edit"
+                    />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_bottom_line_height"
+                android:background="@color/gray"
+                ></View>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50">
+                <ImageView
+                    android:layout_width="@dimen/dp_25"
+                    android:layout_height="@dimen/dp_25"
+                    android:src="@mipmap/ic_phone_icon"
+                    android:layout_marginLeft="@dimen/dp_30"
+                    android:id="@+id/settings_name_image3"
+                    android:layout_centerVertical="true"/>
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:hint="Phone.."
+                    android:background="@null"
+                    android:textSize="@dimen/dp_20"
+                    android:layout_toRightOf="@+id/settings_name_image3"
+                    android:layout_marginLeft="@dimen/dp_30"
+                    android:inputType="number"
+                    android:id="@+id/settings_phone_edit"
+                    />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_bottom_line_height"
+                android:background="@color/gray"
+                ></View>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50">
+                <ImageView
+                    android:layout_width="@dimen/dp_25"
+                    android:layout_height="@dimen/dp_25"
+                    android:src="@mipmap/ic_dob_icon"
+                    android:layout_marginLeft="@dimen/dp_30"
+                    android:id="@+id/settings_name_image5"
+                    android:layout_centerVertical="true"/>
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:background="@null"
+                    android:hint="DOB"
+                    android:textSize="@dimen/dp_20"
+                    android:layout_toRightOf="@+id/settings_name_image5"
+                    android:layout_marginLeft="@dimen/dp_30"
+                    android:id="@+id/settings_dob_edit"
+
+                    />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60">
+            <com.dsquare.hibour.utils.ProximaExtraBold
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Notifications"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:textSize="@dimen/dp_20"/>
+
+            <com.kyleduo.switchbutton.SwitchButton
+                android:id="@+id/switchOne"
+                android:layout_height="15dp"
+                android:layout_width="wrap_content"
+                style="@style/MaterialDesignStyle"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"></com.kyleduo.switchbutton.SwitchButton>
+
+            </RelativeLayout>
 
         <Button
             android:layout_width="110dp"
             android:layout_height="30dp"
-            android:text="Submit"
+            android:text="Update"
             android:layout_gravity="center_horizontal"
             android:textAllCaps="false"
             android:background="@color/brand"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="30dp"
             android:id="@+id/settings_submit"
             android:textColor="@android:color/white"/>
 
     </LinearLayout>
+
+    </ScrollView>
 
 </RelativeLayout>
 
