@@ -87,4 +87,18 @@
     <string name="err_msg_email">Enter valid email address</string>
     <string name="err_msg_password">Enter the password</string>
 
+    <!--Category List-->
+    <string name="cat_general">General</string>
+    <string name="cat_suggestions">Suggestions</string>
+    <string name="cat_classifieds">Classifieds</string>
+    <string name="cat_crime_safety">Crime &amp; Safety</string>
+    <string name="cat_lost_found">Lost &amp; Found</string>
+
+    <!--Placeholder text for posts when category is chose-->
+    <string name="cat_ph_general">Share whats on your mind...</string>
+    <string name="cat_ph_suggestions">Ask a suggestion from your neighbors</string>
+    <string name="cat_ph_classifieds">Buy...Sell..Trade any item with your neighbors</string>
+    <string name="cat_ph_crime_safety">Report any issue you faced, help keep this neighborhood safe.</string>
+    <string name="cat_ph_lost_found">Try your luck, you never know...</string>
+
 </resources>

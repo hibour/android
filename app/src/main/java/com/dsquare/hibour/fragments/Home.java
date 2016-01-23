@@ -10,7 +10,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
@@ -25,7 +28,7 @@ public class Home extends Fragment implements View.OnClickListener{
     private ImageView navIcon;
     private NavDrawerCallback callback;
     private boolean isHome = true;
-    private ImageView newPostIcon,postsIcon,suggestionsIcon,classifiedsIcon,socializeIcon;
+    private ImageView feedIcon, socializeIcon, newPostIcon, channelsIcon, moreIcon;
     public Home() {
         // Required empty public constructor
     }
@@ -42,35 +45,22 @@ public class Home extends Fragment implements View.OnClickListener{
     /*initialize views*/
     private void initializeViews(View view){
         navIcon = (ImageView)view.findViewById(R.id.home_menu_icon);
-        newPostIcon = (ImageView)view.findViewById(R.id.home_new_post);
-        postsIcon = (ImageView)view.findViewById(R.id.home_posts_icon);
-        suggestionsIcon = (ImageView)view.findViewById(R.id.home_suggestion_icon);
-        classifiedsIcon = (ImageView)view.findViewById(R.id.home_classifieds_icon);
+        feedIcon = (ImageView)view.findViewById(R.id.home_feed);
         socializeIcon = (ImageView)view.findViewById(R.id.home_socialize_icon);
+        newPostIcon = (ImageView)view.findViewById(R.id.home_new_post);
+        channelsIcon = (ImageView)view.findViewById(R.id.home_channels);
+        moreIcon = (ImageView)view.findViewById(R.id.home_more_icon);
     }
     /* initialize event listeners*/
     private void initializeEventListeners(){
         navIcon.setOnClickListener(this);
-        newPostIcon.setOnClickListener(this);
-        postsIcon.setOnClickListener(this);
-        suggestionsIcon.setOnClickListener(this);
-        classifiedsIcon.setOnClickListener(this);
+        feedIcon.setOnClickListener(this);
         socializeIcon.setOnClickListener(this);
+        newPostIcon.setOnClickListener(this);
+        channelsIcon.setOnClickListener(this);
+        moreIcon.setOnClickListener(this);
     }
     private void loadDefaultFragment(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            newPostIcon.setColorFilter(getResources().getColor(R.color.brand,getActivity().getTheme()));
-            postsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
-            suggestionsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
-            classifiedsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
-            socializeIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
-        }else {
-            newPostIcon.setColorFilter(getResources().getColor(R.color.brand));
-            postsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
-            suggestionsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
-            classifiedsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
-            socializeIcon.setColorFilter(getResources().getColor(R.color.gray_1));
-        }
         replaceContainer(3);
 //        Fragment fragment = new NewPosts();
     }
@@ -81,93 +71,61 @@ public class Home extends Fragment implements View.OnClickListener{
             case R.id.home_menu_icon:
                 callback.drawerOpen();
                 break;
-            case R.id.home_new_post:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                    newPostIcon.setColorFilter(getResources().getColor(R.color.brand,getActivity().getTheme()));
-                    postsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
-                    suggestionsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
-                    classifiedsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
-                    socializeIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
-                }else {
-                    newPostIcon.setColorFilter(getResources().getColor(R.color.brand));
-                    postsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
-                    suggestionsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
-                    classifiedsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
-                    socializeIcon.setColorFilter(getResources().getColor(R.color.gray_1));
-                }
-                replaceContainer(3);
-                break;
-            case R.id.home_posts_icon:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    postsIcon.setColorFilter(getResources().getColor(R.color.brand,getActivity().getTheme()));
-                    newPostIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
-                    suggestionsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
-                    classifiedsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
-                    socializeIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
-                }else {
-                    postsIcon.setColorFilter(getResources().getColor(R.color.brand));
-                    newPostIcon.setColorFilter(getResources().getColor(R.color.gray_1));
-                    suggestionsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
-                    classifiedsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
-                    socializeIcon.setColorFilter(getResources().getColor(R.color.gray_1));
-                }
-                replaceContainer(0);
-                break;
-            case R.id.home_suggestion_icon:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    suggestionsIcon.setColorFilter(getResources().getColor(R.color.brand,getActivity().getTheme()));
-                    newPostIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
-                    postsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
-                    classifiedsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
-                    socializeIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
-                }else {
-                    suggestionsIcon.setColorFilter(getResources().getColor(R.color.brand));
-                    newPostIcon.setColorFilter(getResources().getColor(R.color.gray_1));
-                    postsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
-                    classifiedsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
-                    socializeIcon.setColorFilter(getResources().getColor(R.color.gray_1));
-                }
-                replaceContainer(1);
-                break;
-            case R.id.home_classifieds_icon:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    classifiedsIcon.setColorFilter(getResources().getColor(R.color.brand,getActivity().getTheme()));
-                    newPostIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
-                    suggestionsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
-                    postsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
-                    socializeIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
-                }else {
-                    classifiedsIcon.setColorFilter(getResources().getColor(R.color.brand));
-                    newPostIcon.setColorFilter(getResources().getColor(R.color.gray_1));
-                    suggestionsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
-                    postsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
-                    socializeIcon.setColorFilter(getResources().getColor(R.color.gray_1));
-                    replaceContainer(4);
-                }
-
+            case R.id.home_feed:
+                applyCurrentStateToAppBarIcons(R.drawable.feed_filled, feedIcon);
                 break;
             case R.id.home_socialize_icon:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    socializeIcon.setColorFilter(getResources().getColor(R.color.brand,getActivity().getTheme()));
-                    newPostIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
-                    suggestionsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
-                    classifiedsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
-                    postsIcon.setColorFilter(getResources().getColor(R.color.gray_1,getActivity().getTheme()));
-                }else {
-                    socializeIcon.setColorFilter(getResources().getColor(R.color.brand));
-                    newPostIcon.setColorFilter(getResources().getColor(R.color.gray_1));
-                    suggestionsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
-                    classifiedsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
-                    postsIcon.setColorFilter(getResources().getColor(R.color.gray_1));
-
-                }
+                applyCurrentStateToAppBarIcons(R.drawable.socialize_filled, socializeIcon);
+                replaceContainer(4);
                 break;
+            case R.id.home_new_post:
+                LinearLayout bottomBar = (LinearLayout)this.getActivity().findViewById(R.id.home_bottom_menu);
+                if(bottomBar.getVisibility() == View.VISIBLE) {
+                    applyCurrentStateToAppBarIcons(R.drawable.cancel_filled, newPostIcon);
+
+                    //mask the rest of the screen
+                    FrameLayout screenrest = (FrameLayout) this.getActivity().findViewById(R.id.home_fragment_container);
+                    screenrest.setBackgroundColor(getResources().getColor(R.color.black_transparent));
+
+                    bottomBar.setVisibility(View.GONE);
+
+                    replaceContainer(3);
+                } else {
+                    //TODO: Need to clean this up
+                    applyCurrentStateToAppBarIcons(R.drawable.post, newPostIcon);
+
+                    ImageView socializeIcon = (ImageView) this.getActivity().findViewById(R.id.home_socialize_icon);
+                    socializeIcon.setImageResource(R.drawable.socialize_filled);
+
+                    replaceContainer(4);
+
+                    bottomBar.setVisibility(View.VISIBLE);
+                }
+
+                break;
+            case R.id.home_channels:
+                applyCurrentStateToAppBarIcons(R.drawable.channels_filled, channelsIcon);
+                break;
+            case R.id.home_more_icon:
+                applyCurrentStateToAppBarIcons(R.drawable.more_filled, moreIcon);
+                break;
+
         }
     }
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         callback = (NavDrawerCallback) activity;
+    }
+
+    public void applyCurrentStateToAppBarIcons(int res, ImageView icon) {
+        feedIcon.setImageResource(R.drawable.feed);
+        socializeIcon.setImageResource(R.drawable.socialize);
+        newPostIcon.setImageResource(R.drawable.post);
+        channelsIcon.setImageResource(R.drawable.channels);
+        moreIcon.setImageResource(R.drawable.more);
+
+        icon.setImageResource(res);
     }
     /* replace tab's fragment*/
     public void replaceContainer(int id){
@@ -187,7 +145,7 @@ public class Home extends Fragment implements View.OnClickListener{
                 break;
             case 3:
                 isHome = true;
-                fragment = new NewPosts();
+                fragment = new CreatePost();
                 break;
             case 4:
                 isHome = true;

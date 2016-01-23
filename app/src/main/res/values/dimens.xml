@@ -50,10 +50,12 @@
     <dimen name="nav_drawer_width">240dp</dimen>
 
     <dimen name="app_bar_icon_size_sm">20dp</dimen>
-    <dimen name="app_bar_icon_size">30dp</dimen>
+    <dimen name="app_bar_icon_size">25dp</dimen>
     <dimen name="app_bar_icon_sizem">48dp</dimen>
     <dimen name="app_bar_icon_size1">60dp</dimen>
     <dimen name="app_bar_icon_padding">12dp</dimen>
+
+    <dimen name="app_bar_post_icon">50dp</dimen>
 
     <dimen name="app_bar_icon_padding1">8dp</dimen>
     <dimen name="app_bar_title_text_size">22sp</dimen>

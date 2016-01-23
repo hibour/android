@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/post_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:background="@color/white"
+    android:paddingBottom="@dimen/dp_60"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/category_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.dsquare.hibour.utils.Proxima
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_gravity="center"
+            android:text="Choose a category for your Post"
+            android:textColor="#726B6B"
+            android:textSize="22sp" />
+
+        <LinearLayout
+            android:id="@+id/category_general"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/dp_10"
+            android:background="@drawable/rectangle_brand"
+            android:padding="@dimen/dp_10">
+
+            <ImageView
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
+                android:layout_marginRight="@dimen/dp_5"
+                android:src="@drawable/category_general" />
+
+            <com.dsquare.hibour.utils.Proxima
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="    General      "
+                android:textColor="@color/brand"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dp">
+
+            <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/categories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:columnCount="2"
+                tools:context=".GridXMLActivity">
+
+                <LinearLayout
+                    android:id="@+id/category_suggestions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/dp_10"
+                    android:background="@drawable/rectangle_green"
+                    android:padding="@dimen/dp_10">
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_20"
+                        android:layout_height="@dimen/dp_20"
+                        android:layout_marginRight="@dimen/dp_5"
+                        android:src="@drawable/category_suggestions" />
+
+                    <com.dsquare.hibour.utils.Proxima
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" Suggestions  "
+                        android:textColor="@color/outline_green"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/category_classifieds"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/dp_10"
+                    android:background="@drawable/rectangle_blue"
+                    android:padding="@dimen/dp_10">
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_20"
+                        android:layout_height="@dimen/dp_20"
+                        android:layout_marginRight="@dimen/dp_5"
+                        android:src="@drawable/category_classifieds" />
+
+                    <com.dsquare.hibour.utils.Proxima
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="   Classifieds   "
+                        android:textColor="@color/outline_blue"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/category_crime_safety"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/dp_10"
+                    android:background="@drawable/rectangle_purple"
+                    android:padding="@dimen/dp_10">
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_20"
+                        android:layout_height="@dimen/dp_20"
+                        android:layout_marginRight="@dimen/dp_5"
+                        android:src="@drawable/category_crime_safety" />
+
+                    <com.dsquare.hibour.utils.Proxima
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Crime &amp; Safety"
+                        android:textColor="@color/outline_purple"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/category_lost_found"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/dp_10"
+                    android:background="@drawable/rectangle_mint"
+                    android:padding="@dimen/dp_10">
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_20"
+                        android:layout_height="@dimen/dp_20"
+                        android:layout_marginRight="@dimen/dp_5"
+                        android:src="@drawable/category_lost_found" />
+
+                    <com.dsquare.hibour.utils.Proxima
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" Lost &amp; Found "
+                        android:textColor="@color/outline_yellow"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+            </GridLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/post_widget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_20"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/newposts_edittest"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_120"
+            android:background="@drawable/post_rectangle"
+            android:inputType="textMultiLine"
+            android:windowSoftInputMode="adjustPan"
+            android:gravity="top|left"
+            android:padding="@dimen/dp_10"
+            android:hint="@string/cat_ph_general"
+            android:textColorHint="@color/gray"
+            android:singleLine="false" />
+
+        <ImageView
+            android:id="@+id/post_image"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_120"
+            android:layout_marginTop="@dimen/dp_10"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/newpost_send"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_30"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="@drawable/rectangle_brand"
+            android:text="@string/button_send"
+            android:textColor="@color/black_2" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"></RelativeLayout>
+
+    </LinearLayout>
+    <!--<ImageView-->
+        <!--android:id="@+id/cancel_post"-->
+        <!--android:layout_width="50dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_margin="@dimen/dp_10"-->
+        <!--android:src="@drawable/cancel_filled"/>-->
+</LinearLayout>
