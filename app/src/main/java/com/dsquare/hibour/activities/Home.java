@@ -106,11 +106,15 @@ public class Home extends AppCompatActivity implements NavDrawerCallback, Adapte
                 isHome = false;
                 transaction.replace(R.id.content_frame,new AboutUs());
                 break;
-            case 6:
+            case 5:
+                isHome = false;
+                inviteFriends("Hey let's use Hi'bour application");
+                break;
+            case 7:
                 isHome = false;
                 transaction.replace(R.id.content_frame,new Settings());
                 break;
-            case 7:
+            case 8:
                 isHome= false;
                 application.removeUserDetails();
                 Intent signInIntent = new Intent(this,SignIn.class);
@@ -143,5 +147,13 @@ public class Home extends AppCompatActivity implements NavDrawerCallback, Adapte
             return;
         }
         replaceWithNewFragment(0);
+    }
+    /*invite friends*/
+    private void inviteFriends(String invitationMessage){
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, invitationMessage);
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
     }
 }
