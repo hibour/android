@@ -2,11 +2,19 @@ package com.dsquare.hibour.fragments;
 
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.pm.LabeledIntent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +22,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,7 +37,7 @@ public class Home extends Fragment implements View.OnClickListener{
 
     private FragmentManager manager;
     private FragmentTransaction transaction;
-    private ImageView navIcon;
+    private TextView inviteBtn;
     private NavDrawerCallback callback;
     private boolean isHome = true;
     private ImageView feedIcon, socializeIcon, newPostIcon, channelsIcon, moreIcon;
@@ -44,7 +56,7 @@ public class Home extends Fragment implements View.OnClickListener{
     }
     /*initialize views*/
     private void initializeViews(View view){
-        navIcon = (ImageView)view.findViewById(R.id.home_menu_icon);
+        inviteBtn = (TextView)view.findViewById(R.id.invite_button);
         feedIcon = (ImageView)view.findViewById(R.id.home_feed);
         socializeIcon = (ImageView)view.findViewById(R.id.home_socialize_icon);
         newPostIcon = (ImageView)view.findViewById(R.id.home_new_post);
@@ -53,7 +65,7 @@ public class Home extends Fragment implements View.OnClickListener{
     }
     /* initialize event listeners*/
     private void initializeEventListeners(){
-        navIcon.setOnClickListener(this);
+        inviteBtn.setOnClickListener(this);
         feedIcon.setOnClickListener(this);
         socializeIcon.setOnClickListener(this);
         newPostIcon.setOnClickListener(this);
@@ -65,11 +77,51 @@ public class Home extends Fragment implements View.OnClickListener{
 //        Fragment fragment = new NewPosts();
     }
 
+    /*invite friends*/
+    private void inviteFriends(String invitationMessage){
+        List<Intent> targetShareIntents = new ArrayList<Intent>();
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, invitationMessage);
+        sendIntent.setType("text/plain");
+
+        PackageManager pm = getActivity().getPackageManager();
+        List<ResolveInfo> resInfo = pm.queryIntentActivities(sendIntent, 0);
+        for (int i = 0; i < resInfo.size(); i++) {
+            // Extract the label, append it, and repackage it in a LabeledIntent
+            ResolveInfo ri = resInfo.get(i);
+            String packageName = ri.activityInfo.packageName;
+            Log.d("Package Name", packageName);
+            if (packageName.contains("android.talk")
+                    || packageName.contains("facebook")
+                    || packageName.contains("whatsapp")
+                    || packageName.contains("mms")
+                    || packageName.contains("android.gm")) {
+                Intent intent = new Intent();
+                intent.setComponent(new ComponentName(packageName, ri.activityInfo.name));
+                intent.setAction(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, invitationMessage);
+                intent.setPackage(packageName);
+                targetShareIntents.add(intent);
+            }
+        }
+        if (!targetShareIntents.isEmpty()) {
+            System.out.println("Have Intent");
+            Intent chooserIntent = Intent.createChooser(targetShareIntents.remove(0), "Choose app to invite friends");
+            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
+
+            startActivity(chooserIntent);
+        } else {
+
+        }
+    }
+
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.home_menu_icon:
-                callback.drawerOpen();
+            case R.id.invite_button:
+                inviteFriends(getString(R.string.invite_msg));
                 break;
             case R.id.home_feed:
                 applyCurrentStateToAppBarIcons(R.drawable.feed_filled, feedIcon);
@@ -108,6 +160,7 @@ public class Home extends Fragment implements View.OnClickListener{
                 break;
             case R.id.home_more_icon:
                 applyCurrentStateToAppBarIcons(R.drawable.more_filled, moreIcon);
+                callback.drawerOpen();
                 break;
 
         }

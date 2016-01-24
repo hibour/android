@@ -160,11 +160,6 @@ public class Home extends AppCompatActivity implements NavDrawerCallback, Adapte
     }
     /*invite friends*/
     private void inviteFriends(String invitationMessage){
-     /*   Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, invitationMessage);
-        sendIntent.setType("text/plain");
-        startActivity(sendIntent);*/
         List<Intent> targetShareIntents = new ArrayList<Intent>();
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
@@ -176,15 +171,15 @@ public class Home extends AppCompatActivity implements NavDrawerCallback, Adapte
         List<ResolveInfo> resInfo = pm.queryIntentActivities(sendIntent, 0);
         List<LabeledIntent> intentList = new ArrayList<LabeledIntent>();
         for (int i = 0; i < resInfo.size(); i++) {
-                // Extract the label, append it, and repackage it in a LabeledIntent
+            // Extract the label, append it, and repackage it in a LabeledIntent
             ResolveInfo ri = resInfo.get(i);
             String packageName = ri.activityInfo.packageName;
             Log.d("Package Name", packageName);
             if (packageName.contains("android.talk")
-                        || packageName.contains("facebook")
-                        || packageName.contains("whatsapp")
-                        || packageName.contains("mms")
-                        || packageName.contains("android.gm")) {
+                    || packageName.contains("facebook")
+                    || packageName.contains("whatsapp")
+                    || packageName.contains("mms")
+                    || packageName.contains("android.gm")) {
                 Intent intent = new Intent();
                 intent.setComponent(new ComponentName(packageName, ri.activityInfo.name));
                 intent.setAction(Intent.ACTION_SEND);
@@ -198,9 +193,11 @@ public class Home extends AppCompatActivity implements NavDrawerCallback, Adapte
             System.out.println("Have Intent");
             Intent chooserIntent = Intent.createChooser(targetShareIntents.remove(0), "Choose app to invite friends");
             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
+
             startActivity(chooserIntent);
         } else {
 
         }
-     }
+    }
 }
+
