@@ -201,7 +201,7 @@ public class CreatePost extends android.support.v4.app.Fragment implements View.
 //                    , postimagesstring);
         }else{
             Log.d("userid",application.getUserId());
-            sendPostData(categoriesTypeId, text.getText().toString()
+            sendPostData("1", text.getText().toString()
                     , postimagesstring);
         }
     }
@@ -209,11 +209,11 @@ public class CreatePost extends android.support.v4.app.Fragment implements View.
     /* send data to server*/
     private void sendPostData(String posttypeid,String postMessage,String postImage){
         if(networkDetector.isConnected()){
-            String cat_str = category;
+            String cat_str = "1";
             newpostDialogue = ProgressDialog.show(getActivity(),"",getResources()
                     .getString(R.string.progress_dialog_text));
             postsClient.insertonPost(application.getUserId(),cat_str,posttypeid,postMessage,postImage
-                    ,posttypeid,new WebServiceResponseCallback() {
+                    ,"1",new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parsePostDetails(jsonObject);

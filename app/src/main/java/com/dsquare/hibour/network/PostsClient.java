@@ -9,6 +9,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.utils.Constants;
 
@@ -108,60 +109,40 @@ public class PostsClient {
             ,final String postMessages,final String postImages,final String status
             ,final WebServiceResponseCallback callback){
         try {
-            String urlStr = getInsertOnPostUrl(userId, postType, postsubType,postMessages,postImages,status);
-            //String urlStr = Constants.URL_POST_INSERTS;
-            URL url = new URL(urlStr);
-            URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
-                    , url.getPath(), url.getQuery(), url.getRef());
-            url = uri.toURL();
-            JsonObjectRequest postsRequest = new JsonObjectRequest(Request.Method.POST
-                    , url.toString(),  new Response.Listener<JSONObject>() {
+            String urlStr = Constants.URL_POST_INSERTS;
+            Map<String, String> params = new HashMap<>();
+            Log.d("post",userId+postType+postsubType+postMessages+postImages+status);
+            params.put(Constants.KEYWORD_USER_ID, userId);
+            params.put(Constants.KEYWORD_POST_TYPE, postType);
+            params.put(Constants.KEYWORD_POST_SUBTYPE, postsubType);
+            params.put(Constants.KEYWORD_POST_MESSAGES, postMessages);
+            params.put(Constants.KEYWORD_POST_IMAGES,postImages);
+            params.put(Constants.KEYWORD_POST_STATUS,status);
+            params.put(Constants.KEYWORD_SIGNATURE, Constants.SIGNATURE_VALUE);
+            params.put(Constants.KEYWORD_POST_LIKESCOUNT,"0");
+            CustomRequest postsRequest = new CustomRequest(Request.Method.POST,urlStr,params
+                    ,new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     callback.onSuccess(response);
                 }
-            }, new Response.ErrorListener() {
+            },new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.d("TAG", Log.getStackTraceString(error));
+                    if (error != null) {
+                        Log.d("TAG", Log.getStackTraceString(error));
+                    }
                     callback.onFailure(error);
                 }
-            })/*{
-
-                @Override
-                protected Map<String, String> getParams() {
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put(Constants.KEYWORD_USER_ID, userId);
-                    params.put(Constants.KEYWORD_POST_TYPE, postType);
-                    params.put(Constants.KEYWORD_POST_SUBTYPE, postsubType);
-                    params.put(Constants.KEYWORD_POST_MESSAGES, postMessages);
-                    params.put(Constants.KEYWORD_POST_IMAGES,postImages);
-                    params.put(Constants.KEYWORD_POST_STATUS,status);
-                    params.put(Constants.KEYWORD_SIGNATURE, Constants.SIGNATURE_VALUE);
-
-                    return params;
-                }}*/;
+            });
             postsRequest.setRetryPolicy(new DefaultRetryPolicy(
                     MY_SOCKET_TIMEOUT_MS,
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             HibourConnector.getInstance(context).addToRequestQueue(postsRequest);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-    /* get comment on post url*/
-    private String getInsertOnPostUrl(String userId,String postType,String postsubType,String postMessages,String postImages,String status){
-        String url = Constants.URL_POST_INSERTS +Constants.KEYWORD_USER_ID+"="+userId+"&"
-                +Constants.KEYWORD_POST_TYPE+"="+postType+"&"
-                +Constants.KEYWORD_POST_SUBTYPE+"="+postsubType+"&"
-                +Constants.KEYWORD_POST_MESSAGES+"="+postMessages+"&"
-                +Constants.KEYWORD_POST_IMAGES+"="+postImages+"&"
-                +Constants.KEYWORD_POST_STATUS+"="+status+"&"+Constants.KEYWORD_SIGNATURE+"="+Constants.SIGNATURE_VALUE;
-        Log.d("post", url);
-        return url;
     }
 
     /* get all categories types*/
