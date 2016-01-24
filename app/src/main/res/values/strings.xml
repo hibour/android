@@ -101,4 +101,6 @@
     <string name="cat_ph_crime_safety">Report any issue you faced, help keep this neighborhood safe.</string>
     <string name="cat_ph_lost_found">Try your luck, you never know...</string>
 
+    <string name="invite">Invite</string>
+    <string name="invite_msg">I have started using Hi\'bour, a private social network for local communities and I\'m loving it. Why don\'t you join me.</string>
 </resources>
