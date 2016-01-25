@@ -86,9 +86,18 @@
         <activity
             android:name=".activities.GroupPosts"
             android:label="@string/title_activity_group_posts" />
-        <activity android:name=".activities.Notifications" />
         <activity android:name=".activities.MobileNumber" />
         <activity android:name=".activities.VerifyOtp"></activity>
+        <activity
+            android:name=".activities.PreferencesViews"
+            android:label="@string/title_PreferenceViews" />
+        <activity
+            android:name=".activities.Proof"
+            android:label="@string/title_Proof" />
+        <activity
+            android:name=".activities.SocialPrefernce"
+            android:label="@string/title_activity_social_categories" />
+        <activity android:name=".activities.Notifications"></activity>
     </application>
 
 </manifest>

@@ -16,7 +16,9 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.activities.PreferencesViews;
 import com.dsquare.hibour.adapters.PreferencesAdapter;
+import com.dsquare.hibour.adapters.SocializeAdapter;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
@@ -66,6 +68,8 @@ public class Socializes extends android.support.v4.app.Fragment implements View.
     private void initializeViews(View view){
         menuIcon = (ImageView)view.findViewById(R.id.socailize_menu_icon);
         notifIcon = (ImageView)view.findViewById(R.id.socailize_search_icon);
+        doneButton = (Button)view.findViewById(R.id.socialize_done_button);
+        previous = (Button)view.findViewById(R.id.socialize_prev_button);
         accountsClient = new AccountsClient(getActivity());
         networkDetector = new NetworkDetector(getActivity());
         gson = new Gson();
@@ -83,6 +87,8 @@ public class Socializes extends android.support.v4.app.Fragment implements View.
 
         menuIcon.setOnClickListener(this);
         notifIcon.setOnClickListener(this);
+        doneButton.setOnClickListener(this);
+        previous.setOnClickListener(this);
     }
     @Override
     public void onClick(View v) {
@@ -92,15 +98,22 @@ public class Socializes extends android.support.v4.app.Fragment implements View.
                break;
             case R.id.socailize_search_icon:
                 break;
+            case R.id.socialize_done_button:
+                //openHomeActivity();
+                openPreviousActivity();
+                break;
+            case R.id.socialize_prev_button:
+                openPreviousActivity();
+                break;
         }
     }
     /* open home activity*/
     private void openHomeActivity(){
-        Intent homeIntent = new Intent(getActivity(), com.dsquare.hibour.activities.Home.class);
+        Intent homeIntent = new Intent(getActivity(), PreferencesViews.class);
         startActivity(homeIntent);
     }
     private void openPreviousActivity(){
-        Intent locationIntent = new Intent(getActivity(), com.dsquare.hibour.activities.Home.class);
+        Intent locationIntent = new Intent(getActivity(), PreferencesViews.class);
         startActivity(locationIntent);
 
     }
@@ -187,7 +200,7 @@ public class Socializes extends android.support.v4.app.Fragment implements View.
     }
 
     private void setAdapters(List<String[]> prefsList){
-        prefsRecycler.setAdapter(new PreferencesAdapter(getActivity(),prefsList));
+        prefsRecycler.setAdapter(new SocializeAdapter(getActivity(),prefsList));
     }
 
     /* close dialog*/
