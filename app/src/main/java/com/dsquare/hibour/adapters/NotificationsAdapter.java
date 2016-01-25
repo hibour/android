@@ -59,6 +59,7 @@ public class NotificationsAdapter extends BaseAdapter {
         }
 
         Typeface tf = Typeface.createFromAsset(context.getAssets(),"fonts/pn_extrabold.otf");
+        Typeface tf1 = Typeface.createFromAsset(context.getAssets(),"fonts/pn_light.otf");
         holder.tipContent.setText(gcmMessageList.get(position)[0]);
         holder.tipDate.setText(gcmMessageList.get(position)[1]);
         if(gcmMessageList.get(position)[2].equals("unread")){
@@ -70,7 +71,17 @@ public class NotificationsAdapter extends BaseAdapter {
             d1[2] = "read";
             gcmMessageList.add(position,d1);
             notifyDataSetChanged();
+
+        }else{
+            Log.d("status", "read");
+            holder.tipContent.setTypeface(tf1);
+            String[] d1 = new String[3];
+            d1[0] = gcmMessageList.get(position)[0];
+            d1[1] = gcmMessageList.get(position)[1];
+            d1[2] = "unread";
+            gcmMessageList.set(position, d1);
         }
+
         return convertView;
     }
 
