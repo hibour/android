@@ -19,6 +19,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_10"
         android:orientation="horizontal">
         <RelativeLayout
             android:layout_width="0dp"
@@ -34,7 +35,7 @@
             <com.dsquare.hibour.utils.Avenir
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Gallary"
+                android:text="Gallery"
                 android:textColor="@color/black_1"
                 android:textSize="@dimen/sp_16"
                 android:layout_centerHorizontal="true"

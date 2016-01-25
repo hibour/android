@@ -4,11 +4,8 @@ package com.dsquare.hibour.fragments;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
-import android.content.pm.LabeledIntent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
@@ -21,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dsquare.hibour.R;
@@ -33,7 +29,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Home extends Fragment implements View.OnClickListener{
+public class Home extends Fragment implements View.OnClickListener {
 
     private FragmentManager manager;
     private FragmentTransaction transaction;
@@ -41,9 +37,11 @@ public class Home extends Fragment implements View.OnClickListener{
     private NavDrawerCallback callback;
     private boolean isHome = true;
     private ImageView feedIcon, socializeIcon, newPostIcon, channelsIcon, moreIcon;
+
     public Home() {
         // Required empty public constructor
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,17 +52,19 @@ public class Home extends Fragment implements View.OnClickListener{
         loadDefaultFragment();
         return view;
     }
+
     /*initialize views*/
-    private void initializeViews(View view){
-        inviteBtn = (TextView)view.findViewById(R.id.invite_button);
-        feedIcon = (ImageView)view.findViewById(R.id.home_feed);
-        socializeIcon = (ImageView)view.findViewById(R.id.home_socialize_icon);
-        newPostIcon = (ImageView)view.findViewById(R.id.home_new_post);
-        channelsIcon = (ImageView)view.findViewById(R.id.home_channels);
-        moreIcon = (ImageView)view.findViewById(R.id.home_more_icon);
+    private void initializeViews(View view) {
+        inviteBtn = (TextView) view.findViewById(R.id.invite_button);
+        feedIcon = (ImageView) view.findViewById(R.id.home_feed);
+        socializeIcon = (ImageView) view.findViewById(R.id.home_socialize_icon);
+        newPostIcon = (ImageView) view.findViewById(R.id.home_new_post);
+        channelsIcon = (ImageView) view.findViewById(R.id.home_channels);
+        moreIcon = (ImageView) view.findViewById(R.id.home_more_icon);
     }
+
     /* initialize event listeners*/
-    private void initializeEventListeners(){
+    private void initializeEventListeners() {
         inviteBtn.setOnClickListener(this);
         feedIcon.setOnClickListener(this);
         socializeIcon.setOnClickListener(this);
@@ -72,13 +72,14 @@ public class Home extends Fragment implements View.OnClickListener{
         channelsIcon.setOnClickListener(this);
         moreIcon.setOnClickListener(this);
     }
-    private void loadDefaultFragment(){
+
+    private void loadDefaultFragment() {
         replaceContainer(3);
 //        Fragment fragment = new NewPosts();
     }
 
     /*invite friends*/
-    private void inviteFriends(String invitationMessage){
+    private void inviteFriends(String invitationMessage) {
         List<Intent> targetShareIntents = new ArrayList<Intent>();
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
@@ -119,7 +120,7 @@ public class Home extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()){
+        switch (v.getId()) {
             case R.id.invite_button:
                 inviteFriends(getString(R.string.invite_msg));
                 break;
@@ -131,8 +132,8 @@ public class Home extends Fragment implements View.OnClickListener{
                 replaceContainer(4);
                 break;
             case R.id.home_new_post:
-                LinearLayout bottomBar = (LinearLayout)this.getActivity().findViewById(R.id.home_bottom_menu);
-                if(bottomBar.getVisibility() == View.VISIBLE) {
+                LinearLayout bottomBar = (LinearLayout) this.getActivity().findViewById(R.id.home_bottom_menu);
+                if (bottomBar.getVisibility() == View.VISIBLE) {
                     applyCurrentStateToAppBarIcons(R.drawable.cancel_filled, newPostIcon);
 
                     //mask the rest of the screen
@@ -165,6 +166,7 @@ public class Home extends Fragment implements View.OnClickListener{
 
         }
     }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -180,10 +182,11 @@ public class Home extends Fragment implements View.OnClickListener{
 
         icon.setImageResource(res);
     }
+
     /* replace tab's fragment*/
-    public void replaceContainer(int id){
+    public void replaceContainer(int id) {
         Fragment fragment = null;
-        switch(id){
+        switch (id) {
             case 0:
                 isHome = false;
                 fragment = new Posts();

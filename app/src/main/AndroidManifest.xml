@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dsquare.hibour" >
+    package="com.dsquare.hibour">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -13,7 +13,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <!--<meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA4Wb6Gpp2MnF5F8yhBA32pQqNVwjHmAsg" />-->
@@ -23,32 +23,34 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-        <activity android:name=".activities.Splash"
-            android:label="@string/app_name"
-            android:theme="@style/FullScreenTheme" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter></activity>
+        <activity
+            android:name=".activities.Splash"
+            android:label="@string/app_name"
+            android:theme="@style/FullScreenTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activities.LocationSearch"
             android:label="@string/app_name"
-            android:theme="@style/FullScreenTheme" >
+            android:theme="@style/FullScreenTheme">
 
         </activity>
         <activity
             android:name=".activities.SignIn"
             android:label="@string/app_name"
-            android:theme="@style/FullScreenTheme" >
+            android:theme="@style/FullScreenTheme">
 
         </activity>
         <activity
             android:name=".activities.SignUp"
-            android:label="@string/title_activity_sign_up"
             android:configChanges="keyboardHidden|orientation|screenLayout"
-            android:theme="@style/FullScreenTheme" >
-        </activity>
+            android:label="@string/title_activity_sign_up"
+            android:theme="@style/FullScreenTheme"></activity>
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -57,42 +59,34 @@
         <activity
             android:name=".activities.GovtProof"
             android:label="@string/title_activity_govt_proof"
-            android:theme="@style/FullScreenTheme" >
-        </activity>
+            android:theme="@style/FullScreenTheme" />
         <activity
             android:name=".activities.SocialCategories"
             android:label="@string/title_activity_social_categories"
-            android:theme="@style/FullScreenTheme">
-        </activity>
+            android:theme="@style/FullScreenTheme" />
         <activity
             android:name=".activities.Chat"
-            android:label="@string/title_activity_social_categories" >
-        </activity>
+            android:label="@string/title_activity_social_categories" />
         <activity
             android:name=".activities.ChooseLocation"
             android:label="@string/title_activity_choose_location"
-            android:theme="@style/FullScreenTheme">
-        </activity>
+            android:theme="@style/FullScreenTheme" />
         <activity
             android:name=".activities.Home"
-            android:label="@string/title_activity_home" >
-        </activity>
+            android:label="@string/title_activity_home"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activities.TermsAndConditions"
-            android:label="@string/title_activity_terms_and_conditions" >
-        </activity>
+            android:label="@string/title_activity_terms_and_conditions" />
         <activity
             android:name=".activities.PostComments"
-            android:label="@string/title_activity_post_comments" >
-        </activity>
+            android:label="@string/title_activity_post_comments" />
         <activity
             android:name=".activities.SelectArea"
-            android:label="@string/title_activity_select_area" >
-        </activity>
+            android:label="@string/title_activity_select_area" />
         <activity
             android:name=".activities.GroupPosts"
-            android:label="@string/title_activity_group_posts" >
-        </activity>
+            android:label="@string/title_activity_group_posts" />
     </application>
 
 </manifest>

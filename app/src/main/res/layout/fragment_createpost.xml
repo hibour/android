@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
     android:background="@color/white"
-    android:paddingBottom="@dimen/dp_60"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -13,14 +12,16 @@
         android:id="@+id/category_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/dp_60"
+        android:visibility="visible">
 
         <com.dsquare.hibour.utils.Proxima
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginBottom="@dimen/dp_10"
             android:layout_marginTop="@dimen/dp_10"
-            android:layout_gravity="center"
             android:text="Choose a category for your Post"
             android:textColor="#726B6B"
             android:textSize="22sp" />
@@ -163,54 +164,41 @@
     <LinearLayout
         android:id="@+id/post_widget"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/dp_10"
-        android:layout_marginLeft="@dimen/dp_20"
-        android:layout_marginRight="@dimen/dp_20"
-        android:layout_marginTop="@dimen/dp_20"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:visibility="gone">
 
-        <EditText
-            android:id="@+id/newposts_edittest"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_120"
-            android:background="@drawable/post_rectangle"
-            android:inputType="textMultiLine"
-            android:windowSoftInputMode="adjustPan"
-            android:gravity="top|left"
-            android:padding="@dimen/dp_10"
-            android:hint="@string/cat_ph_general"
-            android:textColorHint="@color/gray"
-            android:singleLine="false" />
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_weight="1">
 
-        <ImageView
-            android:id="@+id/post_image"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_120"
-            android:layout_marginTop="@dimen/dp_10"
-            android:visibility="gone" />
+            <com.dsquare.hibour.utils.ProximaEditText
+                android:id="@+id/newposts_edittest"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_120"
+                android:background="@drawable/post_rectangle"
+                android:focusable="true"
+                android:gravity="top|start"
+                android:hint="@string/cat_ph_general"
+                android:inputType="textMultiLine"
+                android:padding="@dimen/dp_10"
+                android:singleLine="false"
+                android:textColorHint="@color/gray"
+                android:windowSoftInputMode="adjustPan" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/newpost_send"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp_30"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/dp_10"
-            android:background="@drawable/rectangle_brand"
-            android:text="@string/button_send"
-            android:textColor="@color/black_2" />
-
-        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"></RelativeLayout>
-
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="#37bc9b"
+            android:text="@string/button_send"
+            android:textColor="@color/white" />
     </LinearLayout>
-    <!--<ImageView-->
-        <!--android:id="@+id/cancel_post"-->
-        <!--android:layout_width="50dp"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:layout_margin="@dimen/dp_10"-->
-        <!--android:src="@drawable/cancel_filled"/>-->
 </LinearLayout>

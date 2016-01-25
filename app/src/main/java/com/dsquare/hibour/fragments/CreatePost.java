@@ -1,52 +1,33 @@
 package com.dsquare.hibour.fragments;
 
-import android.animation.ValueAnimator;
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
-import android.content.Intent;
+import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.util.Base64;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
-import android.widget.AdapterView;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
-import com.dsquare.hibour.dialogs.PostsImagePicker;
-import com.dsquare.hibour.interfaces.ImagePicker;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.network.PostsClient;
-import com.dsquare.hibour.pojos.posttype.Datum;
-import com.dsquare.hibour.pojos.posttype.PostTypeCatg;
-import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Fonts;
 import com.dsquare.hibour.utils.Hibour;
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -70,22 +51,23 @@ public class CreatePost extends android.support.v4.app.Fragment implements View.
     private Typeface proxima;
     private DialogFragment chooserDialog;
     private ArrayAdapter<String> categoriesAdapter;
-    private String[] List={"General","Suggestions", "Classifieds", "Crime & Safety", "Lost & Found"};
-    private static final int REQUEST_IMAGE_SELECTOR=1000;
-    private static final int REQUEST_IMAGE_CAPTURE=1001;
+    private String[] List = {"General", "Suggestions", "Classifieds", "Crime & Safety", "Lost & Found"};
+    private static final int REQUEST_IMAGE_SELECTOR = 1000;
+    private static final int REQUEST_IMAGE_CAPTURE = 1001;
     private List<String> categoriesList = new ArrayList<>();
-    private Map<String,String> categoriesMap = new LinkedHashMap<>();
+    private Map<String, String> categoriesMap = new LinkedHashMap<>();
     private NetworkDetector networkDetector;
     private PostsClient postsClient;
     private ProgressDialog newpostDialogue;
     private Gson gson;
-    private String categoriesString="",postimagesstring="aa";
-    private String categoriesTypeId="";
+    private String categoriesString = "", postimagesstring = "aa";
+    private String categoriesTypeId = "";
     private Bitmap bitmap;
     private Hibour application;
     private ImageView postImage;
     private LinearLayout generalCat, suggestionsCat, classifiedsCat, crimeSafetyCat, lostFoundCat;
     private EditText editPost;
+
     public CreatePost() {
         // Required empty public constructor
     }
@@ -107,6 +89,15 @@ public class CreatePost extends android.support.v4.app.Fragment implements View.
         crimeSafetyCat.setOnClickListener(this);
         lostFoundCat.setOnClickListener(this);
         send.setOnClickListener(this);
+        editPost.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    InputMethodManager in = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    in.showSoftInput(editPost, InputMethodManager.SHOW_IMPLICIT);
+                }
+            }
+        });
     }
 
     @Override
@@ -142,6 +133,7 @@ public class CreatePost extends android.support.v4.app.Fragment implements View.
         LinearLayout postFragment = (LinearLayout) this.getActivity().findViewById(R.id.post_fragment);
         LinearLayout postWidget = (LinearLayout) this.getActivity().findViewById(R.id.post_widget);
         LinearLayout categoryList = (LinearLayout) this.getActivity().findViewById(R.id.category_list);
+        ImageView cancel = (ImageView) this.getActivity().findViewById(R.id.home_new_post);
 
         ViewGroup.LayoutParams lp = postFragment.getLayoutParams();
         lp.height = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -150,8 +142,10 @@ public class CreatePost extends android.support.v4.app.Fragment implements View.
 
         categoryList.setVisibility(View.GONE);
         postWidget.setVisibility(View.VISIBLE);
+        cancel.setVisibility(View.GONE);
 
         setPlaceholderText(category);
+        editPost.requestFocus();
     }
 
     private void setPlaceholderText(String category) {
@@ -182,8 +176,8 @@ public class CreatePost extends android.support.v4.app.Fragment implements View.
         }
     }
 
-    public void slideToTop(View view){
-        TranslateAnimation animate = new TranslateAnimation(0,0,0,-view.getHeight());
+    public void slideToTop(View view) {
+        TranslateAnimation animate = new TranslateAnimation(0, 0, 0, -view.getHeight());
         animate.setDuration(500);
         animate.setFillAfter(true);
         view.startAnimation(animate);
@@ -191,29 +185,29 @@ public class CreatePost extends android.support.v4.app.Fragment implements View.
     }
 
     /*validate proof data*/
-    private void validatepostData(){
-        if(!categoriesTypeId.equals("")&&text.getText().toString().equals(null)
-                &&!text.getText().toString().equals("null")&&
-                !text.getText().toString().equals("")&&
-                !postimagesstring.equals("")){
-            Toast.makeText(getActivity(),"All fields are required",Toast.LENGTH_LONG).show();
+    private void validatepostData() {
+        if (!categoriesTypeId.equals("") && text.getText().toString().equals(null)
+                && !text.getText().toString().equals("null") &&
+                !text.getText().toString().equals("") &&
+                !postimagesstring.equals("")) {
+            Toast.makeText(getActivity(), "All fields are required", Toast.LENGTH_LONG).show();
 //            sendPostData(categoriesTypeId ,text.getText().toString()
 //                    , postimagesstring);
-        }else{
-            Log.d("userid",application.getUserId());
+        } else {
+            Log.d("userid", application.getUserId());
             sendPostData("1", text.getText().toString()
                     , postimagesstring);
         }
     }
 
     /* send data to server*/
-    private void sendPostData(String posttypeid,String postMessage,String postImage){
-        if(networkDetector.isConnected()){
+    private void sendPostData(String posttypeid, String postMessage, String postImage) {
+        if (networkDetector.isConnected()) {
             String cat_str = "1";
-            newpostDialogue = ProgressDialog.show(getActivity(),"",getResources()
+            newpostDialogue = ProgressDialog.show(getActivity(), "", getResources()
                     .getString(R.string.progress_dialog_text));
-            postsClient.insertonPost(application.getUserId(),cat_str,posttypeid,postMessage,postImage
-                    ,"1",new WebServiceResponseCallback() {
+            postsClient.insertonPost(application.getUserId(), cat_str, posttypeid, postMessage, postImage
+                    , "1", new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parsePostDetails(jsonObject);
@@ -226,23 +220,23 @@ public class CreatePost extends android.support.v4.app.Fragment implements View.
                     closePostDialog();
                 }
             });
-        }else{
-            Toast.makeText(getActivity(),"Network connection error",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getActivity(), "Network connection error", Toast.LENGTH_LONG).show();
         }
     }
 
     /* parse insert post  data*/
-    private void parsePostDetails(JSONObject jsonObject){
-        Log.d("json",jsonObject.toString());
+    private void parsePostDetails(JSONObject jsonObject) {
+        Log.d("json", jsonObject.toString());
         try {
             JSONObject data = jsonObject.getJSONObject("data");
             String result = data.getString("result");
-            if(result.endsWith("true")){
-                Toast.makeText(getActivity(),"Post update successfully",Toast.LENGTH_LONG).show();
-                postImage.setVisibility(View.GONE);
+            if (result.endsWith("true")) {
+                Toast.makeText(getActivity(), "Post update successfully", Toast.LENGTH_LONG).show();
+//                postImage.setVisibility(View.GONE);
                 text.setText("");
-            }else{
-                Toast.makeText(getActivity(),"Post updation failed",Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getActivity(), "Post updation failed", Toast.LENGTH_LONG).show();
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -251,28 +245,28 @@ public class CreatePost extends android.support.v4.app.Fragment implements View.
     }
 
     /* close post dialog*/
-    private void closePostDialog(){
-        if(newpostDialogue!=null){
-            if(newpostDialogue.isShowing()){
+    private void closePostDialog() {
+        if (newpostDialogue != null) {
+            if (newpostDialogue.isShowing()) {
                 newpostDialogue.dismiss();
-                newpostDialogue=null;
+                newpostDialogue = null;
             }
         }
     }
 
     private void initializeViews(View view) {
-        generalCat = (LinearLayout)view.findViewById(R.id.category_general);
-        suggestionsCat = (LinearLayout)view.findViewById(R.id.category_suggestions);
-        classifiedsCat = (LinearLayout)view.findViewById(R.id.category_classifieds);
-        crimeSafetyCat = (LinearLayout)view.findViewById(R.id.category_crime_safety);
-        lostFoundCat = (LinearLayout)view.findViewById(R.id.category_lost_found);
+        generalCat = (LinearLayout) view.findViewById(R.id.category_general);
+        suggestionsCat = (LinearLayout) view.findViewById(R.id.category_suggestions);
+        classifiedsCat = (LinearLayout) view.findViewById(R.id.category_classifieds);
+        crimeSafetyCat = (LinearLayout) view.findViewById(R.id.category_crime_safety);
+        lostFoundCat = (LinearLayout) view.findViewById(R.id.category_lost_found);
 
         editPost = (EditText) view.findViewById(R.id.newposts_edittest);
 
         application = Hibour.getInstance(getActivity());
-        send = (Button)view.findViewById(R.id.newpost_send);
-        text = (EditText)view.findViewById(R.id.newposts_edittest);
-        postImage = (ImageView)view.findViewById(R.id.post_image);
+        send = (Button) view.findViewById(R.id.newpost_send);
+        text = (EditText) view.findViewById(R.id.newposts_edittest);
+        postImage = (ImageView) view.findViewById(R.id.post_image);
         networkDetector = new NetworkDetector(getActivity());
         postsClient = new PostsClient(getActivity());
         gson = new Gson();

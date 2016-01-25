@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="brand">#dd4b4c</color>
+    <color name="brand">#ff6b6b</color>
     <color name="brand_status_bar">#9575CD</color>
     <color name="black_button">#40403E</color>
     <color name="green">#75B640</color>

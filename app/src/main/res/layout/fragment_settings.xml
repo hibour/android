@@ -1,334 +1,356 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@android:color/white"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
 
     <RelativeLayout
+        android:id="@+id/settings_app_bar"
         android:layout_width="match_parent"
         android:layout_height="?android:actionBarSize"
-        android:background="@color/white"
-        android:id="@+id/settings_app_bar">
+        android:background="@color/white">
+
         <ImageView
+            android:id="@+id/settings_menu_icon"
             android:layout_width="@dimen/app_bar_icon_size"
             android:layout_height="@dimen/app_bar_icon_size"
-            android:src="@drawable/ic_menu_white"
-            android:id="@+id/settings_menu_icon"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp_20"
-            android:layout_centerVertical="true"/>
+            android:src="@drawable/ic_menu_white" />
+
         <com.dsquare.hibour.utils.ProximaExtraBold
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:text="@string/title_settings_fragment"
             android:textColor="@color/brand"
-            android:layout_centerInParent="true"
-            android:textSize="@dimen/app_bar_title_text_size"/>
+            android:textSize="@dimen/app_bar_title_text_size" />
+
         <RelativeLayout
+            android:id="@+id/nav_drawer_bottom_line"
             android:layout_width="match_parent"
             android:layout_height="@dimen/nav_bottom_line_height"
-            android:background="@color/common_action_bar_splitter"
-            android:id="@+id/nav_drawer_bottom_line"
+            android:layout_alignParentBottom="true"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_alignParentBottom="true"/>
+            android:background="@color/common_action_bar_splitter" />
+
         <ImageView
+            android:id="@+id/settings_notif_icon"
             android:layout_width="@dimen/dp_30"
             android:layout_height="@dimen/dp_30"
             android:layout_alignParentRight="true"
-            android:src="@drawable/ic_notification_gray"
-            android:padding="@dimen/dp_3"
-            android:layout_marginRight="@dimen/dp_20"
             android:layout_centerVertical="true"
-            android:id="@+id/settings_notif_icon"/>
+            android:layout_marginRight="@dimen/dp_20"
+            android:padding="@dimen/dp_3"
+            android:src="@drawable/ic_notification_gray" />
     </RelativeLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/settings_app_bar">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:focusableInTouchMode="true"
-        android:focusable="true"
-        android:orientation="vertical"
-        android:layout_marginTop="@dimen/dp_10"
-        android:layout_below="@id/settings_app_bar">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/light_grays">
-
-        <com.dsquare.hibour.utils.Proxima
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Profile Picture"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:textColor="@color/brand"
+            android:layout_height="match_parent"
+            android:layout_below="@id/settings_app_bar"
             android:layout_marginTop="@dimen/dp_10"
-            />
-        <com.dsquare.hibour.dialogs.RoundImageView
-            android:layout_width="@dimen/dp_100"
-            android:layout_height="@dimen/dp_100"
-            android:background="@drawable/avatar1"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/dp_10"
-            android:id="@+id/settings_image"/>
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="@dimen/dp_30"
-            android:layout_height="@dimen/dp_30"
-            android:src="@mipmap/ic_editpicture_icon"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/dp_10"
-            android:layout_marginBottom="@dimen/dp_10"
-            android:id="@+id/setting_image_editer"
-            />
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_50">
-            <com.dsquare.hibour.utils.ProximaExtraBold
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="General"
-                android:layout_marginLeft="@dimen/dp_20"
-                android:textSize="@dimen/dp_20"
-                />
+                android:layout_marginBottom="@dimen/dp_10"
+                android:background="@color/light_grays"
+                android:orientation="vertical">
 
-            </RelativeLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/light_grays">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50">
-                <ImageView
-                    android:layout_width="@dimen/dp_25"
-                    android:layout_height="@dimen/dp_25"
-                    android:src="@mipmap/ic_name_icon"
-                    android:layout_marginLeft="@dimen/dp_30"
-                    android:id="@+id/settings_name_image"
-                    android:layout_centerVertical="true"/>
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:hint="FullName"
-                    android:background="@null"
-                    android:textSize="@dimen/dp_20"
-                    android:layout_toRightOf="@+id/settings_name_image"
-                    android:layout_marginLeft="@dimen/dp_30"
-                    android:id="@+id/settings_name_edit"
-                    />
-                </RelativeLayout>
-            <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/edit_text_bottom_line_height"
-            android:background="@color/gray"
-            ></View>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50">
                 <com.dsquare.hibour.utils.Proxima
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="Gender"
-                    android:textSize="@dimen/dp_20"
-                    android:layout_marginLeft="@dimen/dp_30"
-                    android:id="@+id/settings_gender"/>
-                <RadioGroup
-                    android:id="@+id/group_radio"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:gravity="center"
+                    android:text="Profile Picture"
+                    android:textColor="@color/brand" />
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_gravity="center">
+
+                    <com.dsquare.hibour.dialogs.RoundImageView
+                        android:id="@+id/settings_image"
+                        android:layout_width="@dimen/dp_100"
+                        android:layout_height="@dimen/dp_100"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:background="@drawable/avatar1" />
+
+                    <ImageView
+                        android:id="@+id/setting_image_editer"
+                        android:layout_width="@dimen/dp_30"
+                        android:layout_height="@dimen/dp_30"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="@dimen/dp_10"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:src="@mipmap/ic_editpicture_icon" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50">
+
+                <com.dsquare.hibour.utils.ProximaExtraBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/settings_gender"
                     android:layout_marginLeft="@dimen/dp_20"
-                    >
-                    <RadioButton
-                        android:id="@+id/radioMale"
+                    android:text="General"
+                    android:textSize="@dimen/dp_20" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/light_grays"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_50">
+
+                    <ImageView
+                        android:id="@+id/settings_name_image"
+                        android:layout_width="@dimen/dp_25"
+                        android:layout_height="@dimen/dp_25"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp_30"
+                        android:src="@mipmap/ic_name_icon" />
+
+                    <EditText
+                        android:id="@+id/settings_name_edit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Male"
-                        android:checked="true" />
-                    <RadioButton
-                        android:id="@+id/radioFemale"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp_30"
+                        android:layout_toRightOf="@+id/settings_name_image"
+                        android:background="@null"
+                        android:hint="FullName"
+                        android:textSize="@dimen/dp_20" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_bottom_line_height"
+                    android:background="@color/gray"></View>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_50">
+
+                    <RadioGroup
+                        android:id="@+id/group_radio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="female" />
-                </RadioGroup>
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp_20"
+                        android:layout_toRightOf="@+id/settings_gender"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/radioMale"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:text="Male" />
+
+                        <RadioButton
+                            android:id="@+id/radioFemale"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Female" />
+                    </RadioGroup>
                     />
                 </RelativeLayout>
             </LinearLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_50">
-            <com.dsquare.hibour.utils.ProximaExtraBold
-                android:layout_width="wrap_content"
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50">
+
+                <com.dsquare.hibour.utils.ProximaExtraBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_20"
+                    android:text="Privacy"
+                    android:textSize="@dimen/dp_20" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Privacy"
-                android:layout_marginLeft="@dimen/dp_20"
-                android:textSize="@dimen/dp_20"
-                />
+                android:background="@color/light_grays"
+                android:orientation="vertical">
 
-        </RelativeLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/light_grays">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50">
-                <ImageView
-                    android:layout_width="@dimen/dp_25"
-                    android:layout_height="@dimen/dp_25"
-                    android:src="@mipmap/ic_email_icon"
-                    android:layout_marginLeft="@dimen/dp_30"
-                    android:id="@+id/settings_name_image2"
-                    android:layout_centerVertical="true"/>
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:hint="Email.."
-                    android:background="@null"
-                    android:textSize="@dimen/dp_20"
-                    android:layout_toRightOf="@+id/settings_name_image2"
-                    android:layout_marginLeft="@dimen/dp_30"
-                    android:id="@+id/settings_email_edit"
-                    />
-            </RelativeLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_text_bottom_line_height"
-                android:background="@color/gray"
-                ></View>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50">
-                <ImageView
-                    android:layout_width="@dimen/dp_25"
-                    android:layout_height="@dimen/dp_25"
-                    android:src="@mipmap/ic_password_icon"
-                    android:layout_marginLeft="@dimen/dp_30"
-                    android:id="@+id/settings_name_image4"
-                    android:layout_centerVertical="true"/>
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:background="@null"
-                    android:hint="Password"
-                    android:textSize="@dimen/dp_20"
-                    android:layout_toRightOf="@+id/settings_name_image4"
-                    android:layout_marginLeft="@dimen/dp_30"
-                    android:inputType="textPassword"
-                    android:id="@+id/settings_password_Edit"
-                    />
-            </RelativeLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_text_bottom_line_height"
-                android:background="@color/gray"
-                ></View>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50">
-                <ImageView
-                    android:layout_width="@dimen/dp_25"
-                    android:layout_height="@dimen/dp_25"
-                    android:src="@mipmap/ic_phone_icon"
-                    android:layout_marginLeft="@dimen/dp_30"
-                    android:id="@+id/settings_name_image3"
-                    android:layout_centerVertical="true"/>
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:hint="Phone.."
-                    android:background="@null"
-                    android:textSize="@dimen/dp_20"
-                    android:layout_toRightOf="@+id/settings_name_image3"
-                    android:layout_marginLeft="@dimen/dp_30"
-                    android:inputType="number"
-                    android:id="@+id/settings_phone_edit"
-                    />
-            </RelativeLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_text_bottom_line_height"
-                android:background="@color/gray"
-                ></View>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50">
-                <ImageView
-                    android:layout_width="@dimen/dp_25"
-                    android:layout_height="@dimen/dp_25"
-                    android:src="@mipmap/ic_dob_icon"
-                    android:layout_marginLeft="@dimen/dp_30"
-                    android:id="@+id/settings_name_image5"
-                    android:layout_centerVertical="true"/>
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:background="@null"
-                    android:hint="DOB"
-                    android:textSize="@dimen/dp_20"
-                    android:layout_toRightOf="@+id/settings_name_image5"
-                    android:layout_marginLeft="@dimen/dp_30"
-                    android:id="@+id/settings_dob_edit"
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_50">
 
-                    />
+                    <ImageView
+                        android:id="@+id/settings_name_image2"
+                        android:layout_width="@dimen/dp_25"
+                        android:layout_height="@dimen/dp_25"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp_30"
+                        android:src="@mipmap/ic_email_icon" />
+
+                    <EditText
+                        android:id="@+id/settings_email_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp_30"
+                        android:layout_toRightOf="@+id/settings_name_image2"
+                        android:background="@null"
+                        android:hint="Email.."
+                        android:textSize="@dimen/dp_20" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_bottom_line_height"
+                    android:background="@color/gray"></View>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_50">
+
+                    <ImageView
+                        android:id="@+id/settings_name_image4"
+                        android:layout_width="@dimen/dp_25"
+                        android:layout_height="@dimen/dp_25"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp_30"
+                        android:src="@mipmap/ic_password_icon" />
+
+                    <EditText
+                        android:id="@+id/settings_password_Edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp_30"
+                        android:layout_toRightOf="@+id/settings_name_image4"
+                        android:background="@null"
+                        android:hint="Password"
+                        android:inputType="textPassword"
+                        android:textSize="@dimen/dp_20" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_bottom_line_height"
+                    android:background="@color/gray"></View>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_50">
+
+                    <ImageView
+                        android:id="@+id/settings_name_image3"
+                        android:layout_width="@dimen/dp_25"
+                        android:layout_height="@dimen/dp_25"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp_30"
+                        android:src="@mipmap/ic_phone_icon" />
+
+                    <EditText
+                        android:id="@+id/settings_phone_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp_30"
+                        android:layout_toRightOf="@+id/settings_name_image3"
+                        android:background="@null"
+                        android:hint="Phone.."
+                        android:inputType="number"
+                        android:textSize="@dimen/dp_20" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_bottom_line_height"
+                    android:background="@color/gray"></View>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_50">
+
+                    <ImageView
+                        android:id="@+id/settings_name_image5"
+                        android:layout_width="@dimen/dp_25"
+                        android:layout_height="@dimen/dp_25"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp_30"
+                        android:src="@mipmap/ic_dob_icon" />
+
+                    <EditText
+                        android:id="@+id/settings_dob_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp_30"
+                        android:layout_toRightOf="@+id/settings_name_image5"
+                        android:background="@null"
+                        android:hint="DOB"
+                        android:textSize="@dimen/dp_20"
+
+                        />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_60">
+
+                <com.dsquare.hibour.utils.ProximaExtraBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_20"
+                    android:text="Notifications"
+                    android:textSize="@dimen/dp_20" />
+
+                <com.kyleduo.switchbutton.SwitchButton
+                    android:id="@+id/switchOne"
+                    style="@style/MaterialDesignStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="15dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"></com.kyleduo.switchbutton.SwitchButton>
+
             </RelativeLayout>
+
+            <Button
+                android:id="@+id/settings_submit"
+                android:layout_width="110dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:background="@color/brand"
+                android:text="Update"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_60">
-            <com.dsquare.hibour.utils.ProximaExtraBold
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Notifications"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/dp_20"
-                android:textSize="@dimen/dp_20"/>
-
-            <com.kyleduo.switchbutton.SwitchButton
-                android:id="@+id/switchOne"
-                android:layout_height="15dp"
-                android:layout_width="wrap_content"
-                style="@style/MaterialDesignStyle"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"></com.kyleduo.switchbutton.SwitchButton>
-
-            </RelativeLayout>
-
-        <Button
-            android:layout_width="110dp"
-            android:layout_height="30dp"
-            android:text="Update"
-            android:layout_gravity="center_horizontal"
-            android:textAllCaps="false"
-            android:background="@color/brand"
-            android:layout_marginTop="30dp"
-            android:id="@+id/settings_submit"
-            android:textColor="@android:color/white"/>
-
-    </LinearLayout>
 
     </ScrollView>
 
