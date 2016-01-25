@@ -46,31 +46,31 @@
                 android:layout_centerVertical="true"
                 android:id="@+id/socailize_search_icon"/>
         </RelativeLayout>
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="@dimen/button_large_height"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:id="@+id/socialize_button_bar">-->
-            <!--<Button-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_weight="1"-->
-                <!--android:id="@+id/socialize_prev_button"-->
-                <!--android:background="@color/black_button"-->
-                <!--android:text="@string/govt_skip_button_text"-->
-                <!--android:textColor="@android:color/white"-->
-                <!--android:textSize="@dimen/button_text_size"/>-->
-            <!--<Button-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_weight="1"-->
-                <!--android:background="@color/brand"-->
-                <!--android:id="@+id/socialize_done_button"-->
-                <!--android:text="@string/done_text"-->
-                <!--android:textColor="@android:color/white"-->
-                <!--android:textSize="@dimen/button_text_size"/>-->
-        <!--</LinearLayout>-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_large_height"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:id="@+id/socialize_button_bar">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/socialize_prev_button"
+                android:background="@color/black_button"
+                android:text="@string/Prference_seleted"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/button_text_size"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/brand"
+                android:id="@+id/socialize_done_button"
+                android:text="@string/prefernce_all"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/button_text_size"/>
+        </LinearLayout>
 
 
 

@@ -147,8 +147,8 @@
             android:layout_height="match_parent"
             android:id="@+id/social_prefs_list"
             android:layout_marginTop="@dimen/dp_20"
-            android:layout_below="@id/social_text"
-            android:layout_above="@id/socialize_button_bar">
+            android:layout_below="@+id/social_text"
+            android:layout_above="@+id/socialize_button_bar">
         </android.support.v7.widget.RecyclerView>
     </RelativeLayout>
     <android.support.design.widget.FloatingActionButton

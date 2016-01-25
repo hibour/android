@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context="com.dsquare.hibour.fragments.Message">
+   >
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -15,7 +15,7 @@
             <ImageView
                 android:layout_width="@dimen/app_bar_icon_size"
                 android:layout_height="@dimen/app_bar_icon_size"
-                android:src="@drawable/ic_menu_white"
+                android:src="@mipmap/ic_back_gray"
                 android:id="@+id/messages_menu_icon"
                 android:layout_marginLeft="@dimen/dp_20"
                 android:layout_centerVertical="true"/>
@@ -49,9 +49,10 @@
             android:background="@android:color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/messages_neighbours_list"
+            android:id="@+id/prefernce_neighbours_list"
             android:layout_below="@id/messages_app_bar">
         </android.support.v7.widget.RecyclerView>
+
 
     </RelativeLayout>
 

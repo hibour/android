@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +20,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.activities.Proof;
+import com.dsquare.hibour.activities.SocialPrefernce;
+import com.dsquare.hibour.adapters.SelectDateFragment;
 import com.dsquare.hibour.dialogs.PostsImagePicker;
 import com.dsquare.hibour.interfaces.ImagePicker;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
@@ -46,9 +52,14 @@ import java.util.List;
  */
 public class Settings extends Fragment implements View.OnClickListener,ImagePicker {
 
-    private ImageView menuIcon,notifIcon,inputImage,imageUploaded;
+    private ImageView menuIcon,notifIcon,inputImage,imageUploaded,dobimage;
     private RadioGroup gender;
-    private EditText name,email,password,dob,moblie;
+    private EditText name;
+    private EditText email;
+    private EditText password;
+    private static EditText dob;
+    private EditText moblie;
+    private TextView proof,soclize;
     private List<String> cardsList=new ArrayList<>();
     private List<String> genderList = new ArrayList<>();
     private NavDrawerCallback callback;
@@ -91,6 +102,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         notifIcon = (ImageView)view.findViewById(R.id.settings_notif_icon);
         inputImage = (ImageView)view.findViewById(R.id.settings_image);
         imageUploaded = (ImageView)view.findViewById(R.id.setting_image_editer);
+        dobimage = (ImageView)view.findViewById(R.id.settings_name_dob);
         submitButton = (Button)view.findViewById(R.id.settings_submit);
         gender = (RadioGroup)view.findViewById(R.id.group_radio);
         name = (EditText)view.findViewById(R.id.settings_name_edit);
@@ -98,6 +110,12 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         password = (EditText)view.findViewById(R.id.settings_password_Edit);
         dob = (EditText)view.findViewById(R.id.settings_dob_edit);
         moblie = (EditText)view.findViewById(R.id.settings_phone_edit);
+        proof = (TextView)view.findViewById(R.id.settings_proof);
+        soclize = (TextView)view.findViewById(R.id.settings_prefernce);
+        String text = "<u>Change Proof</u>";
+        String text1 = "<u>Change SocialPrefernce</u>";
+        proof.setText(Html.fromHtml(text));
+        soclize.setText(Html.fromHtml(text1));
         tf = Fonts.getTypeFace(getActivity());
         submitButton.setTypeface(proxima);
         name.setTypeface(proxima);
@@ -112,6 +130,9 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
          notifIcon.setOnClickListener(this);
          submitButton.setOnClickListener(this);
          imageUploaded.setOnClickListener(this);
+         proof.setOnClickListener(this);
+         soclize.setOnClickListener(this);
+         dobimage.setOnClickListener(this);
      }
     /*prepare cards list*/
     private void prepareCardsList(){
@@ -131,8 +152,42 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
          case R.id.setting_image_editer:
              openImageChooser();
              break;
+         case R.id.settings_proof:
+             openproofActivity();
+             break;
+         case R.id.settings_prefernce:
+             openprefernceActivity();
+             break;
+         case R.id.settings_name_dob:
+             final DialogFragment newFragment = new SelectDateFragment();
+
+                 Bundle args = new Bundle();
+                 args.putString("data", "a");  //This method is used to send the data from one fragment to another fragment
+                 newFragment.setArguments(args);
+                 newFragment.show(getFragmentManager(), "DatePicker");
+
+             break;
      }
     }
+    //Method to display the text
+    public static String showDate(int year, int month, int day) {
+        try {
+            dob.setText(day + "/" + month + "/" + year);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    private void openprefernceActivity() {
+        Intent intent = new Intent(getActivity(), SocialPrefernce.class);
+        startActivity(intent);
+    }
+
+    private void openproofActivity() {
+        Intent intent = new Intent(getActivity(), Proof.class);
+        startActivity(intent);
+    }
+
     private void openImageChooser(){
         chooserDialog = new PostsImagePicker();
         chooserDialog.show(getActivity().getSupportFragmentManager(), "chooser dialog");
@@ -231,6 +286,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         email.setText(data.getEmail());
         password.setText(data.getPassword());
         String genderValue = data.getGender();
+         Log.d("gender",  data.getGender());
         if(genderValue != null && genderValue.equalsIgnoreCase("1")){
             gender.check(R.id.radioMale);
         }else{

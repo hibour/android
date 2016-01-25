@@ -53,7 +53,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@id/settings_app_bar"
             android:layout_marginTop="@dimen/dp_10"
             android:focusable="true"
@@ -79,7 +79,8 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center">
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/dp_10">
 
                     <com.dsquare.hibour.dialogs.RoundImageView
                         android:id="@+id/settings_image"
@@ -293,12 +294,13 @@
                     android:layout_height="@dimen/dp_50">
 
                     <ImageView
-                        android:id="@+id/settings_name_image5"
+                        android:id="@+id/settings_name_dob"
                         android:layout_width="@dimen/dp_25"
                         android:layout_height="@dimen/dp_25"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/dp_30"
-                        android:src="@mipmap/ic_dob_icon" />
+                        android:src="@mipmap/ic_dob_icon"
+                        />
 
                     <EditText
                         android:id="@+id/settings_dob_edit"
@@ -306,14 +308,12 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/dp_30"
-                        android:layout_toRightOf="@+id/settings_name_image5"
+                        android:layout_toRightOf="@+id/settings_name_dob"
                         android:background="@null"
                         android:hint="DOB"
                         android:textSize="@dimen/dp_20"
-
                         />
                 </RelativeLayout>
-
             </LinearLayout>
 
             <RelativeLayout
@@ -344,11 +344,31 @@
                 android:layout_width="110dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="@dimen/dp_20"
                 android:background="@color/brand"
                 android:text="Update"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white" />
+
+            <com.dsquare.hibour.utils.Avenir
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:textColor="@color/brand"
+                android:textSize="@dimen/sp_16"
+                android:text="@string/settings_proof"
+                android:id="@+id/settings_proof"
+                android:layout_marginTop="@dimen/dp_10"/>
+            <com.dsquare.hibour.utils.Avenir
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/brand"
+                android:textSize="@dimen/sp_16"
+                android:text="@string/settings_prefernce"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:id="@+id/settings_prefernce"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginBottom="@dimen/dp_20"/>
 
         </LinearLayout>
 

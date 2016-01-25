@@ -24,12 +24,17 @@
     <string name="govt_gender_text">Select Gender</string>
     <string name="govt_card_number_text">Card Number</string>
     <string name="govt_card_upload_text">Upload Card</string>
+    <string name="Prference_seleted">Prefernce</string>
+    <string name="prefernce_all">All</string>
+    <string name="settings_prefernce">Open Socilize activity</string>
+    <string name="settings_proof">Open Proof activity</string>
     <string name="title_activity_social_categories">SocialCategories</string>
     <string name="socialize_text">Pick your interest to socialize</string>
     <string name="done_text">Done</string>
     <string name="title_activity_choose_location">ChooseLocation</string>
     <string name="loc_text">Pin Your Home Location</string>
     <string name="button_next">Continue</string>
+    <string name="button_sumbit">Sumbit</string>
     <string name="button_send">Post</string>
     <string name="loc_current_loc_text">Current Location - </string>
     <string name="loc_search_text">SEARCH</string>
@@ -82,7 +87,8 @@
     <string name="title_groups_fragment">Groups</string>
     <string name="title_activity_group_posts">GroupPosts</string>
     <string name="title_settings_fragment">Settings</string>
-
+    <string name="title_PreferenceViews">PreferenceViews</string>
+    <string name="title_Proof">Proof</string>
     <string name="err_msg_name">Enter your full name</string>
     <string name="err_msg_email">Enter valid email address</string>
     <string name="err_msg_password">Enter the password</string>
