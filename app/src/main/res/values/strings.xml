@@ -103,4 +103,5 @@
 
     <string name="invite">Invite</string>
     <string name="invite_msg">I have started using Hi\'bour, a private social network for local communities and I\'m loving it. Why don\'t you join me.</string>
+    <string name="notif_title">Notifications</string>
 </resources>

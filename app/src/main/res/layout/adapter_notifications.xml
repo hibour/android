@@ -1,0 +1,65 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dp_5"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/notif_image_layout">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:id="@+id/notif_icon"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_notification_gray"
+                android:layout_marginLeft="10dp" />
+        </RelativeLayout>
+
+
+
+        <com.dsquare.hibour.utils.ProximaExtraBold
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text=""
+            android:id="@+id/notif_text"
+            android:textSize="14sp"
+            android:textColor="@color/black_1"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/notif_image_layout"
+            android:layout_toEndOf="@+id/notif_image_layout" />
+        <com.dsquare.hibour.utils.ProximaExtraBold
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text=""
+            android:id="@+id/notif_date"
+            android:textColor="@color/gray"
+            android:textSize="13sp"
+            android:layout_below="@+id/notif_text"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+        <View
+            android:layout_height="@dimen/horiz_line_height"
+            android:layout_width="match_parent"
+            android:background="@color/gray"
+            android:layout_below="@id/notif_date"
+            android:layout_marginTop="10dp"
+            android:id="@+id/divider"/>
+
+
+    </RelativeLayout>
+
+</LinearLayout>

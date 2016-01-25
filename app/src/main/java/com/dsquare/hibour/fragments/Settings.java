@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.activities.Notifications;
 import com.dsquare.hibour.dialogs.PostsImagePicker;
 import com.dsquare.hibour.interfaces.ImagePicker;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
@@ -125,6 +126,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
              callback.drawerOpen();
              break;
          case R.id.settings_notif_icon:
+             openNotifications();
              break;
          case R.id.settings_submit:
              break;
@@ -132,6 +134,11 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
              openImageChooser();
              break;
      }
+    }
+    /* open notifications activity*/
+    private void openNotifications(){
+        Intent notifIntent = new Intent(getActivity(), Notifications.class);
+        startActivity(notifIntent);
     }
     private void openImageChooser(){
         chooserDialog = new PostsImagePicker();
