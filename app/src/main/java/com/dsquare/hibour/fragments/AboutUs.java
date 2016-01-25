@@ -3,6 +3,7 @@ package com.dsquare.hibour.fragments;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.activities.Notifications;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AboutUsClient;
@@ -69,8 +71,14 @@ public class AboutUs extends Fragment implements View.OnClickListener{
                 callback.drawerOpen();
                 break;
             case R.id.about_us_notif_icon:
+                openNotifications();
                 break;
         }
+    }
+    /* open notifications icon*/
+    private void openNotifications(){
+        Intent notifIntent = new Intent(getActivity(), Notifications.class);
+        startActivity(notifIntent);
     }
     @Override
     public void onAttach(Activity activity) {
