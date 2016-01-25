@@ -40,11 +40,11 @@
         <activity
             android:name=".activities.LocationSearch"
             android:label="@string/app_name"
-            android:theme="@style/FullScreenTheme"></activity>
+            android:theme="@style/FullScreenTheme" />
         <activity
             android:name=".activities.SignIn"
             android:label="@string/app_name"
-            android:theme="@style/FullScreenTheme"></activity>
+            android:theme="@style/FullScreenTheme" />
         <activity
             android:name=".activities.SignUp"
             android:configChanges="keyboardHidden|orientation|screenLayout"
@@ -86,6 +86,8 @@
         <activity
             android:name=".activities.GroupPosts"
             android:label="@string/title_activity_group_posts" />
+        <activity android:name=".activities.MobileNumber" />
+        <activity android:name=".activities.VerifyOtp"></activity>
         <activity
             android:name=".activities.PreferencesViews"
             android:label="@string/title_PreferenceViews" />
