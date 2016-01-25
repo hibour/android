@@ -56,9 +56,14 @@ public class Notifications extends AppCompatActivity implements View.OnClickList
     private List<String[]> getSampleData(){
         List<String[]> data = new ArrayList<>();
         for(int i=0;i<10;i++){
-            String[] d = new String[2];
-            d[0] = "Sample notification data";
+            String[] d = new String[3];
+            d[0] = "Sample notification data. Sample notifications data.";
             d[1] = "2016-1-25";
+            if(i<5){
+                d[2] = "unread";
+            }else{
+                d[2] = "read";
+            }
             data.add(d);
         }
         return data;

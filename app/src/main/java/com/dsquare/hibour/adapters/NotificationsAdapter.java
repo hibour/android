@@ -2,6 +2,7 @@ package com.dsquare.hibour.adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,8 +58,19 @@ public class NotificationsAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        Typeface tf = Typeface.createFromAsset(context.getAssets(),"fonts/pn_extrabold.otf");
         holder.tipContent.setText(gcmMessageList.get(position)[0]);
         holder.tipDate.setText(gcmMessageList.get(position)[1]);
+        if(gcmMessageList.get(position)[2].equals("unread")){
+            Log.d("status", "unread");
+            holder.tipContent.setTypeface(tf);
+            String[] d1 = new String[3];
+            d1[0] = gcmMessageList.get(position)[0];
+            d1[1] = gcmMessageList.get(position)[1];
+            d1[2] = "read";
+            gcmMessageList.add(position,d1);
+            notifyDataSetChanged();
+        }
         return convertView;
     }
 

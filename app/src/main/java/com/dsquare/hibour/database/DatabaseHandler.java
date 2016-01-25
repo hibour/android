@@ -29,7 +29,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String messagesQuery = "CREATE TABLE IF NOT EXISTS notifications(message TEXT, date TEXT)";
+        String messagesQuery = "CREATE TABLE IF NOT EXISTS notifications(message TEXT, date TEXT, status TEXT)";
         db.execSQL(messagesQuery);
     }
 
@@ -75,6 +75,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 String[] message = new String[2];
                 message[0] = cursor.getString(cursor.getColumnIndex("message"));
                 message[1] = cursor.getString(cursor.getColumnIndex("date"));
+                message[2] = cursor.getString(cursor.getColumnIndex("status"));
                 gcmList.add(message);
             }while (cursor.moveToNext());
         }
