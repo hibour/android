@@ -114,4 +114,10 @@
     <string name="phone_title">Enter Mobile number</string>
     <string name="phone_hint">Mobile number</string>
     <string name="phone_submit">Submit</string>
+    <!-- otp activity -->
+    <string name="otpwelcometext1">an OTP has bee sent to the requested</string>
+    <string name="otpwelcometext2">mobile number</string>
+    <string name="changenumbertext">CHANGE MOBILE NUMBER</string>
+    <string name="otpresend">RESEND</string>
+    <string name="otpverify">VERIFY</string>
 </resources>

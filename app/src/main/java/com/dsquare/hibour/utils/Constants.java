@@ -13,6 +13,7 @@ public class Constants {
     public static final String URL_DOMAIN="http://api.hibour.com/v1/";
     public static final String URL_SIGN_IN=URL_DOMAIN+"Userreg/check?";
     public static final String URL_SIGN_UP=URL_DOMAIN+"Userreg/create?";
+    public static final String URL_MOBILE_NUMBER=URL_DOMAIN+"Userreg/mobile?";
     public static final String URL_TERMS= URL_DOMAIN+"";
     public static final String URL_GET_ALL_PROOFS= URL_DOMAIN+"Proof";
     public static final String URL_INSERT_PROOFS=URL_DOMAIN+"Userreg/";
@@ -34,6 +35,7 @@ public class Constants {
     public static final String KEYWORD_SIGNIN_TYPE="signinType";
     public static final String KEYWORD_SIGNUP_TYPE = "Regtype";
     public static final String KEYWORD_USR_ID="userid";
+    public static final String KEYWORD_MOBILE_NUMBER="phonenumber";
     public static final String KEYWORD_PREFS_IDS="preferencesid";
     public static final String KEYWORD_PROOF_IMAGE="profileimage";
     public static final String KEYWORD_PROOF_ID="Prooftypeid";

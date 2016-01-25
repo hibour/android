@@ -218,7 +218,7 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
 
     /* open location activity*/
     private void openSocialPrefActivity(){
-        Intent locationIntent = new Intent(this,SocialCategories.class);
+        Intent locationIntent = new Intent(this,MobileNumber.class);
         startActivity(locationIntent);
     }
 
