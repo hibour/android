@@ -102,24 +102,26 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
         final ViewHolder viewHolder = (ViewHolder)v.getTag();
         final int position = viewHolder.getAdapterPosition();
         if(listItems.get(position)[4].equals("false")){
-            String[] data = new String[5];
+            String[] data = new String[6];
             data[0] = listItems.get(position)[0];
             data[1] = listItems.get(position)[1];
             data[2] = listItems.get(position)[2];
             data[3] = listItems.get(position)[3];
             data[4] = "true";
+            data[5] = listItems.get(position)[5];
             listItems.set(position,data);
             Constants.prefernceMap.put(listItems.get(position)[0],listItems.get(position)[1]);
 
         }else{
             Intent intent = new Intent(context, PreferencesViews.class);
             context.startActivity(intent);
-            String[] data = new String[5];
+            String[] data = new String[6];
             data[0] = listItems.get(position)[0];
             data[1] = listItems.get(position)[1];
             data[2] = listItems.get(position)[2];
             data[3] = listItems.get(position)[3];
             data[4] = "false";
+            data[5] = listItems.get(position)[5];
             listItems.set(position,data);
             Constants.prefernceMap.remove(listItems.get(position)[0]);
         }

@@ -40,7 +40,8 @@
                 android:layout_marginLeft="@dimen/dp_10"
                 android:layout_marginTop="@dimen/dp_5"
                 android:textColor="@color/black_2"
-                android:textSize="@dimen/text_Size_level5"/>
+                android:textSize="@dimen/text_Size_level5"
+                android:visibility="gone"/>
         </LinearLayout>
     </RelativeLayout>
 

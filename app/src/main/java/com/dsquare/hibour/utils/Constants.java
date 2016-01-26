@@ -1,5 +1,8 @@
 package com.dsquare.hibour.utils;
 
+import com.dsquare.hibour.pojos.Socialize.ChoosedUser;
+import com.dsquare.hibour.pojos.Socialize.Datum;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -27,6 +30,8 @@ public class Constants {
     public static final String URL_GET_ABOUT_US=URL_DOMAIN+"";
     public static final String URL_POST_COMMENT = URL_DOMAIN+"Commentpost/create?";
     public static final String URL_SETTINGS = URL_DOMAIN+"Userreg/userdetails?";
+    public static final String URL_GET_SOCIAL_NEIGHBOURS = URL_DOMAIN+"Preferences/members?";
+    public static final String URL_GET_NEIGHBOURHOODS = URL_DOMAIN+"Userreg/address?";
 
     /*user constants*/
     public static final String KEYWORD_USER_NAME="Username";
@@ -74,5 +79,9 @@ public class Constants {
 
     // temp data
     public static Map<String,String> prefernceMap = new LinkedHashMap<String,String>();
-    public static  List<String[]> prefernceList = new ArrayList<>();
+    public static List<String[]> prefernceList = new ArrayList<>();
+    public static Map<String,List<String>> socialPrefsMap = new LinkedHashMap<>();
+    public static List<Datum> socialPrefsList = new ArrayList<>();
+    public static Map<String,Datum> prefsMap = new LinkedHashMap<>();
+    public static List<ChoosedUser> membersList = new ArrayList<>();
 }

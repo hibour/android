@@ -12,6 +12,7 @@ import com.dsquare.hibour.R;
 import com.dsquare.hibour.adapters.NeighboursAdapter;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
 import com.dsquare.hibour.network.NetworkDetector;
+import com.dsquare.hibour.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,10 +69,11 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
     }
     /* prepare neighbours list*/
     private void prepareNeighboursList(){
-        for(int i=0;i<10;i++){
-            String[] data = new String[2];
-            data[0] = "Ashok Madduru";
-            data[1] = "Hardware Engineer";
+        for(int i=0;i< Constants.membersList.size();i++){
+            String[] data = new String[3];
+            data[0] = Constants.membersList.get(i).getUserName();
+            data[1] = Constants.membersList.get(i).getUserId();
+            data[2] = Constants.membersList.get(i).getUserImage();
             neighboursList.add(data);
         }
     }
