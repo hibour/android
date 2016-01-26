@@ -99,6 +99,7 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
     /* open home activity*/
     private void openHomeActivity(){
         Intent homeIntent = new Intent(getActivity(), com.dsquare.hibour.activities.PreferencesViews.class);
+        homeIntent.putExtra("frmAdapter",false);
         startActivity(homeIntent);
     }
     private void openPreviousActivity(){
@@ -235,7 +236,6 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
     /* parse social data*/
     private void parseSocialData(JSONObject jsonObject){
         try {
-            Log.d("data",jsonObject.getJSONArray("data").length()+"");
             Data socialize = gson.fromJson(jsonObject.toString(),Data.class);
             List<com.dsquare.hibour.pojos.Socialize.Datum> data = socialize.getData();
             Constants.socialPrefsList.clear();

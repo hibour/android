@@ -118,6 +118,7 @@ public class Socializes extends android.support.v4.app.Fragment implements View.
     /* open home activity*/
     private void openHomeActivity(){
         Intent homeIntent = new Intent(getActivity(), PreferencesViews.class);
+        homeIntent.putExtra("frmAdapter",false);
         startActivity(homeIntent);
     }
     private void openPreviousActivity(){

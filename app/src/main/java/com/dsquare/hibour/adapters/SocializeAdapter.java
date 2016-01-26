@@ -100,7 +100,7 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
 
         final ViewHolder viewHolder = (ViewHolder)v.getTag();
         final int position = viewHolder.getAdapterPosition();
-
+        openPrefsActivity(listItems.get(position)[0]);
     }
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView prefName,prefCount;
@@ -116,5 +116,12 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
             prefLinearLayout = (LinearLayout)itemView.findViewById(R.id.pref_linear_layout);
             prefCount = (TextView)itemView.findViewById(R.id.pref_count);
         }
+    }
+    /* open home activity*/
+    private void openPrefsActivity(String id){
+        Intent prefIntent = new Intent(context, com.dsquare.hibour.activities.PreferencesViews.class);
+        prefIntent.putExtra("frmAdapter",true);
+        prefIntent.putExtra("prefId",id);
+        context.startActivity(prefIntent);
     }
 }
