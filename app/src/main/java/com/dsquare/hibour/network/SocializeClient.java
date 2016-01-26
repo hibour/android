@@ -34,7 +34,8 @@ public class SocializeClient {
     public void getNeighbours(String userId,final WebServiceResponseCallback callback){
         try {
 
-            String urlStr = Constants.URL_GET_SOCIAL_NEIGHBOURS+"id="+userId;
+            String urlStr = Constants.URL_GET_SOCIAL_NEIGHBOURS+"id="+userId+"&"
+                    +Constants.KEYWORD_SIGNATURE+"="+Constants.SIGNATURE_VALUE;
             Log.d("signin url", urlStr);
             URL url = new URL(urlStr);
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()

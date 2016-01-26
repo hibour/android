@@ -22,6 +22,9 @@ public class Datum {
     @SerializedName("preference_image2")
     @Expose
     private String preferenceImage2;
+    @SerializedName("is_user_selected")
+    @Expose
+    private String isUserSelected;
     @SerializedName("choosed_users")
     @Expose
     private List<ChoosedUser> choosedUsers = new ArrayList<ChoosedUser>();
@@ -96,6 +99,24 @@ public class Datum {
      */
     public void setPreferenceImage2(String preferenceImage2) {
         this.preferenceImage2 = preferenceImage2;
+    }
+
+    /**
+     *
+     * @return
+     * The isUserSelected
+     */
+    public String getIsUserSelected() {
+        return isUserSelected;
+    }
+
+    /**
+     *
+     * @param isUserSelected
+     * The is_user_selected
+     */
+    public void setIsUserSelected(String isUserSelected) {
+        this.isUserSelected = isUserSelected;
     }
 
     /**

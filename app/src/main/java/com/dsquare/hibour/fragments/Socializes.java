@@ -212,7 +212,8 @@ public class Socializes extends android.support.v4.app.Fragment implements View.
             String[] details = {Constants.socialPrefsMap.get(s).get(0)
                     , Constants.socialPrefsMap.get(s).get(1)
                     , Constants.socialPrefsMap.get(s).get(2)
-                    , Constants.socialPrefsMap.get(s).get(4),"false"
+                    , Constants.socialPrefsMap.get(s).get(3)
+                    ,Constants.socialPrefsMap.get(s).get(4)
                     ,Constants.socialPrefsMap.get(s).get(5)};
             prefsList.add(details);
         }
@@ -267,6 +268,7 @@ public class Socializes extends android.support.v4.app.Fragment implements View.
                 dd.add(d.getPreferenceName());
                 dd.add(d.getPreferenceImage1());
                 dd.add(d.getPreferenceImage2());
+                dd.add(d.getIsUserSelected());
                 dd.add(d.getChoosedUsers().size()+"");
                 Constants.socialPrefsMap.put(d.getPreferenceId(),dd);
                 Constants.prefsMap.put(d.getPreferenceId(),d);

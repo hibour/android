@@ -79,9 +79,6 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
         prefsRecycler.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         prefsRecycler.addItemDecoration(new GridLayoutSpacing(3, 5, true));
         prefsRecycler.setHasFixedSize(true);
-//        adapter = new PreferencesAdapter(this,prefsList);
-//        prefsRecycler.setAdapter(adapter);
-
     }
     /* initialize event listeners*/
     private void initializeEventListeners(){
@@ -92,7 +89,6 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.socialize_done_button:
-                //openHomeActivity();
                 openPreviousActivity();
                 break;
             case R.id.socialize_prev_button:
@@ -197,7 +193,8 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
             String[] details = {Constants.socialPrefsMap.get(s).get(0)
                     , Constants.socialPrefsMap.get(s).get(1)
                     , Constants.socialPrefsMap.get(s).get(2)
-                    , Constants.socialPrefsMap.get(s).get(4),"false"
+                    , Constants.socialPrefsMap.get(s).get(3)
+                    ,Constants.socialPrefsMap.get(s).get(4)
                     ,Constants.socialPrefsMap.get(s).get(5)};
             prefsList.add(details);
         }
@@ -238,6 +235,7 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
     /* parse social data*/
     private void parseSocialData(JSONObject jsonObject){
         try {
+            Log.d("data",jsonObject.getJSONArray("data").length()+"");
             Data socialize = gson.fromJson(jsonObject.toString(),Data.class);
             List<com.dsquare.hibour.pojos.Socialize.Datum> data = socialize.getData();
             Constants.socialPrefsList.clear();
@@ -248,6 +246,7 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
                 dd.add(d.getPreferenceName());
                 dd.add(d.getPreferenceImage1());
                 dd.add(d.getPreferenceImage2());
+                dd.add(d.getIsUserSelected());
                 dd.add(d.getChoosedUsers().size()+"");
                 Constants.socialPrefsMap.put(d.getPreferenceId(),dd);
                 Constants.prefsMap.put(d.getPreferenceId(),d);
