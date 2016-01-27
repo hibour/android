@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
@@ -19,6 +20,10 @@ import com.dsquare.hibour.adapters.AdapterPostComments;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.network.PostsClient;
+import com.dsquare.hibour.pojos.posts.PostComment;
+import com.dsquare.hibour.pojos.posts.PostLikedUser;
+import com.dsquare.hibour.pojos.posts.Postpojos;
+import com.dsquare.hibour.utils.Constants;
 
 import org.json.JSONObject;
 
@@ -35,17 +40,21 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
     private ProgressDialog dialog;
     private NetworkDetector networkDetector;
     private PostsClient client;
+    private String postId = "";
+    private TextView likesText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_comments);
-        prepareCommentsList();
         initializeViews();
+        prepareCommentsList();
         initializeEventListeners();
     }
     /* initialize views*/
     private void initializeViews(){
+        postId = getIntent().getStringExtra("postId");
+        likesText = (TextView)findViewById(R.id.comments_likes_text);
         postIcon = (ImageView)findViewById(R.id.comments_post_icon);
         commentsText = (EditText)findViewById(R.id.comments_edit_text);
         commentsList = (RecyclerView)findViewById(R.id.comments_post_list);
@@ -55,8 +64,7 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         commentsList.setLayoutManager(layoutManager);
         commentsList.setHasFixedSize(true);
-        adapter = new AdapterPostComments(this,commentslist);
-        commentsList.setAdapter(adapter);
+
     }
     /* initialize event listeners*/
     private void initializeEventListeners(){
@@ -71,12 +79,14 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
     }
     /* prepare comments list*/
     private void prepareCommentsList(){
-        for(int i=0;i<10;i++){
-            String[] data = new String[3];
-            data[0] = "Ashok Madduru";
-            data[1] = "5 Jan 2016";
-            data[2] = "Hey it's a nice idea";
-            commentslist.add(data);
+        if(!postId.equals("")){
+            Postpojos post = Constants.postpojosMap.get(postId);
+            List<PostComment> comments = post.getPostComments();
+            List<PostLikedUser> likedUsers = post.getPostLikedUsers();
+            String likesCount = post.getPostLikesCount()+"";
+            adapter = new AdapterPostComments(this,comments);
+            likesText.setText(likesCount+" members liked this.");
+            commentsList.setAdapter(adapter);
         }
     }
     /* post comment*/

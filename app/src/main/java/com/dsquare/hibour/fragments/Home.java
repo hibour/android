@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
+import com.dsquare.hibour.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +65,11 @@ public class Home extends Fragment implements View.OnClickListener {
         newPostIcon = (ImageView) view.findViewById(R.id.home_new_post);
         channelsIcon = (ImageView) view.findViewById(R.id.home_channels);
         moreIcon = (ImageView) view.findViewById(R.id.home_more_icon);
+        Constants.categoriesMap.put("1","General");
+        Constants.categoriesMap.put("2","Suggestions");
+        Constants.categoriesMap.put("3","Classifieds");
+        Constants.categoriesMap.put("4","Crime & saftey");
+        Constants.categoriesMap.put("5","Lost & Found");
 //        autoCompleteTextView = (AutoCompleteTextView)view.findViewById(R.id.home_search_autocomplete);
 //        searchLayout = (RelativeLayout)view.findViewById(R.id.home_search_layout);
 //        searchIcon = (ImageView)view.findViewById(R.id.home_search_icon);

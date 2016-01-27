@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.activities.PostComments;
+import com.dsquare.hibour.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>
         holder.userName.setText(listItems.get(position)[0]);
         holder.date.setText(listItems.get(position)[1]);
         holder.description.setText(listItems.get(position)[2]);
-        holder.categoryName.setText(listItems.get(position)[3]);
+        String categoryName = "";
+        if(Constants.categoriesMap.containsKey(listItems.get(position)[3]))
+            categoryName = Constants.categoriesMap.get(listItems.get(position)[3]);
+        holder.categoryName.setText(categoryName);
         holder.likes.setText(listItems.get(position)[4]);
         holder.comments.setText(listItems.get(position)[5]);
 
@@ -55,7 +59,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>
 
         holder.commentsLayout.setOnClickListener(this);
         holder.commentsLayout.setTag(holder);
-
     }
 
     @Override
@@ -73,7 +76,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>
                 sharePost(listItems.get(position)[2]);
                 break;
             case R.id.post_comments_layout:
-                openCommentsDialog();
+                openCommentsDialog(listItems.get(position)[6]);
                 break;
         }
     }
@@ -107,8 +110,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>
         context.startActivity(sendIntent);
     }
     /* open post comments*/
-    private void openCommentsDialog(){
+    private void openCommentsDialog(String postId){
         Intent commentsIntent = new Intent(context, PostComments.class);
+        commentsIntent.putExtra("postId",postId);
         context.startActivity(commentsIntent);
     }
 }

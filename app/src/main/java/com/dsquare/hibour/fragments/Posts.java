@@ -10,6 +10,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -27,13 +28,16 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.adapters.HomeTabsPager;
 import com.dsquare.hibour.adapters.PostsAdapter;
 import com.dsquare.hibour.interfaces.WebServiceResponse;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.network.PostsClient;
 import com.dsquare.hibour.pojos.posts.Postpojos;
+import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Fonts;
 import com.dsquare.hibour.utils.Hibour;
+import com.dsquare.hibour.utils.SlidingTabLayout;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -60,6 +64,10 @@ public class Posts extends Fragment implements View.OnClickListener {
     private ImageView searchIcon;
     private List<String> autocompleteList = new ArrayList<>();
     private Typeface proxima;
+    private List<String> tabsList = new ArrayList<>();
+    private ViewPager pager;
+    private SlidingTabLayout tabs;
+    private RelativeLayout noFeedsLayout;
     public Posts() {
         // Required empty public constructor
     }
@@ -78,16 +86,17 @@ public class Posts extends Fragment implements View.OnClickListener {
 
     /* initializeViews*/
     private void initializeViews(View view){
+        noFeedsLayout = (RelativeLayout)view.findViewById(R.id.no_feeds_found_layout);
         proxima = Typeface.createFromAsset(getActivity().getAssets(), Fonts.getTypeFaceName());
         postsClient = new PostsClient(getActivity());
         gson = new Gson();
         networkDetector = new NetworkDetector(getActivity());
         application =  Hibour.getInstance(getActivity());
-        postsRecycler = (RecyclerView)view.findViewById(R.id.post_posts_list);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        postsRecycler.setLayoutManager(layoutManager);
-        postsRecycler.setHasFixedSize(true);
+        //postsRecycler = (RecyclerView)view.findViewById(R.id.post_posts_list);
+        //LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        //layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        //postsRecycler.setLayoutManager(layoutManager);
+        //postsRecycler.setHasFixedSize(true);
         autoCompleteTextView = (AutoCompleteTextView)view.findViewById(R.id.home_search_autocomplete);
         searchLayout = (RelativeLayout)view.findViewById(R.id.home_search_layout);
         searchIcon = (ImageView)view.findViewById(R.id.home_search_icon);
@@ -119,6 +128,16 @@ public class Posts extends Fragment implements View.OnClickListener {
                 }}
         });
 
+        pager = (ViewPager)view.findViewById(R.id.posts_pager);
+        tabs = (SlidingTabLayout)view.findViewById(R.id.posts_tabs);
+        tabs.setDistributeEvenly(false);
+        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+            @Override
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.white);
+            }
+        });
+        tabs.setTabsBackgroundColor(getResources().getColor(R.color.gray));
     }
     private void initializeEventListeners() {
         invite.setOnClickListener(this);
@@ -149,24 +168,59 @@ public class Posts extends Fragment implements View.OnClickListener {
     private void parsePostsDetails(JSONArray jsonArray){
         Log.d("post data",jsonArray.toString());
         Postpojos[] posts = gson.fromJson(jsonArray.toString(),Postpojos[].class);
-        for(Postpojos postpojos:posts){
-        String[] data = new String[6];
-        data[0] = postpojos.getUser().getName();
-        data[1] = postpojos.getPostDate();
-        data[2] = postpojos.getPostMessage();
-        data[3] = postpojos.getPostType();
-        data[4] = String.valueOf(postpojos.getPostLikesCount());
-        data[5] =  Arrays.toString(new int[]{postpojos.getPostComments().size()}).replaceAll("\\[|\\]", "");
-        postsList.add(data);
-
-            autocompleteList.add(postpojos.getPostMessage());
-
+        if(Constants.postsMap.size()>0){
+            Constants.postsMap.clear();
         }
-        setAdapters(postsList);
-    }
+        if(tabsList.size()>0){
+            tabsList.clear();
+        }
+        tabsList.add("All");
+        if(posts.length>0){
+            for(Postpojos postpojos:posts){
+                Constants.postpojosMap.put(postpojos.getPostId(),postpojos);
+                String key = " ";
+                if(Constants.categoriesMap.containsKey(postpojos.getPostType()))
+                    key = Constants.categoriesMap.get(postpojos.getPostType());
+                if(!Constants.postsMap.containsKey(key)){
+                    List<Postpojos> postslist = new ArrayList<>();
+                    postslist.add(postpojos);
+                    Constants.postsMap.put(key,postslist);
+                }else{
+                    List<Postpojos> postslist = Constants.postsMap.get(key);
+                    postslist.add(postpojos);
+                    Constants.postsMap.put(key,postslist);
+                }
 
+                if(!tabsList.contains(key))
+                    tabsList.add(key);
+                String[] data = new String[6];
+                data[0] = postpojos.getUser().getName();
+                data[1] = postpojos.getPostDate();
+                data[2] = postpojos.getPostMessage();
+                data[3] = key;
+                data[4] = String.valueOf(postpojos.getPostLikesCount());
+                data[5] =  Arrays.toString(new int[]{postpojos.getPostComments().size()})
+                        .replaceAll("\\[|\\]", "");
+                postsList.add(data);
+                autocompleteList.add(postpojos.getPostMessage());
+            }
+            setPager();
+        }else{
+            noFeedsLayout.setVisibility(View.VISIBLE);
+            tabs.setVisibility(View.GONE);
+            pager.setVisibility(View.GONE);
+        }
+
+        //setAdapters(postsList);
+    }
+    /*set pager adapter*/
+    private void setPager(){
+        HomeTabsPager pagerAdapter = new HomeTabsPager(getFragmentManager(),tabsList);
+        pager.setAdapter(pagerAdapter);
+        tabs.setViewPager(pager);
+    }
     private void setAdapters(List<String[]> postsList){
-        postsRecycler.setAdapter(new PostsAdapter(getActivity(),postsList));
+        postsRecycler.setAdapter(new PostsAdapter(getActivity(), postsList));
     }
     /* close posts dialog*/
     private void closePostsDialog(){

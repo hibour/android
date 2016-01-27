@@ -76,7 +76,23 @@
         android:layout_height="@dimen/horiz_line_height"
         android:layout_marginTop="@dimen/dp_5"
         android:background="@color/gray"
+        android:id="@+id/posts_appbar_line"
         android:layout_below="@+id/home_app_bar"/>
+
+        <com.dsquare.hibour.utils.SlidingTabLayout
+            android:id="@+id/posts_tabs"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:elevation="2dp"
+            android:layout_below="@id/posts_appbar_line"
+            android:background="@android:color/white"></com.dsquare.hibour.utils.SlidingTabLayout>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/posts_pager"
+            android:layout_height="match_parent"
+            android:layout_below="@id/posts_tabs"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:background="@color/white"></android.support.v4.view.ViewPager>
 
     <android.support.v7.widget.RecyclerView
         android:scrollbars="vertical"
@@ -86,8 +102,21 @@
         android:layout_marginTop="@dimen/dp_7"
         android:id="@+id/post_posts_list"
         android:layout_below="@+id/home_app_bar"
-        >
+        android:visibility="gone">
     </android.support.v7.widget.RecyclerView>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/no_feeds_found_layout"
+            android:layout_below="@id/posts_appbar_line"
+            android:visibility="gone">
+            <com.dsquare.hibour.utils.Proxima
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No Feeds Found"
+                android:textSize="@dimen/text_Size_level5"
+                android:textColor="@color/black_2"/>
+            </RelativeLayout>
     </RelativeLayout>
 </FrameLayout>
