@@ -26,7 +26,7 @@ public class Constants {
     public static final String URL_LOC_INSERT=URL_DOMAIN+"";
     public static final String URL_POST_INSERTS=URL_DOMAIN+"Posts/create";
     public static final String URL_GET_ALL_CATEGORIES= URL_DOMAIN+"Posttype";
-    public static final String URL_GET_ALL_POSTS = URL_DOMAIN+"Userposts/";
+    public static final String URL_GET_ALL_POSTS = URL_DOMAIN+"getfeeds/";
     public static final String URL_GET_ABOUT_US=URL_DOMAIN+"";
     public static final String URL_POST_COMMENT = URL_DOMAIN+"Commentpost/create?";
     public static final String URL_SETTINGS = URL_DOMAIN+"Userreg/userdetails?";

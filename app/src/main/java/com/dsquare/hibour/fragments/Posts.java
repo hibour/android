@@ -2,36 +2,50 @@ package com.dsquare.hibour.fragments;
 
 
 import android.app.ProgressDialog;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.adapters.PostsAdapter;
-import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
+import com.dsquare.hibour.interfaces.WebServiceResponse;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.network.PostsClient;
-import com.dsquare.hibour.pojos.posts.Datum;
-import com.dsquare.hibour.pojos.posts.Postspojo;
+import com.dsquare.hibour.pojos.posts.Postpojos;
+import com.dsquare.hibour.utils.Fonts;
 import com.dsquare.hibour.utils.Hibour;
 import com.google.gson.Gson;
 
-import org.json.JSONObject;
+import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Posts extends Fragment {
+public class Posts extends Fragment implements View.OnClickListener {
     private RecyclerView postsRecycler;
     private List<String[]> postsList = new ArrayList<>();
     private PostsAdapter postsAdapter;
@@ -40,6 +54,12 @@ public class Posts extends Fragment {
     private Hibour application;
     private PostsClient postsClient;
     private ProgressDialog postsDialog;
+    private AutoCompleteTextView autoCompleteTextView;
+    private RelativeLayout searchLayout;
+    private TextView textView,invite;
+    private ImageView searchIcon;
+    private List<String> autocompleteList = new ArrayList<>();
+    private Typeface proxima;
     public Posts() {
         // Required empty public constructor
     }
@@ -49,39 +69,69 @@ public class Posts extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_posts, container, false);
         initializeViews(view);
+        initializeEventListeners();
+        getAllposts();
         return view;
     }
+
+
+
     /* initializeViews*/
     private void initializeViews(View view){
+        proxima = Typeface.createFromAsset(getActivity().getAssets(), Fonts.getTypeFaceName());
         postsClient = new PostsClient(getActivity());
         gson = new Gson();
         networkDetector = new NetworkDetector(getActivity());
+        application =  Hibour.getInstance(getActivity());
         postsRecycler = (RecyclerView)view.findViewById(R.id.post_posts_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         postsRecycler.setLayoutManager(layoutManager);
         postsRecycler.setHasFixedSize(true);
-       /* for(int i=0;i<10;i++){
-            String[] data = new String[6];
-            data[0] = "Ashok Madduru";
-            data[1] = "2 Jan 2015";
-            data[2] = "Planning to start a chinese restaraunt near jubilee hills check post, anyone there to partner with me?";
-            data[3] = "category name";
-            data[4] = "250";
-            data[5] = "10";
-            postsList.add(data);
-        }*/
-        postsAdapter = new PostsAdapter(getActivity(),postsList);
-        postsRecycler.setAdapter(postsAdapter);
+        autoCompleteTextView = (AutoCompleteTextView)view.findViewById(R.id.home_search_autocomplete);
+        searchLayout = (RelativeLayout)view.findViewById(R.id.home_search_layout);
+        searchIcon = (ImageView)view.findViewById(R.id.home_search_icon);
+        textView = (TextView)view.findViewById(R.id.home_fragment_title);
+        invite = (TextView)view.findViewById(R.id.invite_button);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                (getActivity(), android.R.layout.simple_dropdown_item_1line,
+                        autocompleteList);
+        autoCompleteTextView.setAdapter(adapter);
+        autoCompleteTextView.setThreshold(3);
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String itemName = autoCompleteTextView.getText().toString();
+                if (parent != null && parent.getChildAt(0) != null) {
+                    String neighbourName = autocompleteList.get(position);
+                    Log.d("neighbourName", neighbourName);
+//                        if(!cardType.equals("Select Card")){
+//                            cardTypeId = searchMap.get(cardType);
+//                            Log.d("cardtype",cardType);
+//                        }
+                    ((TextView) parent.getChildAt(0)).setTextColor(getResources()
+                            .getColor(R.color.black_1));
+                    ((TextView) parent.getChildAt(0)).setTypeface(proxima);
+                    ((TextView) parent.getChildAt(0)).setPadding(0, 0, 0, 0);
+                    ((TextView) parent.getChildAt(0)).setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+                    Log.d("itemname", itemName);
+//                setRecyclerList(itemName);
+                }}
+        });
+
+    }
+    private void initializeEventListeners() {
+        invite.setOnClickListener(this);
+        searchIcon.setOnClickListener(this);
     }
     /* get all posts from server*/
-    private void getAllposts(String userId){
+    private void getAllposts(){
         if(networkDetector.isConnected()){
             postsDialog = ProgressDialog.show(getActivity(),"","Please wait...");
-            postsClient.getAllPosts(userId,new WebServiceResponseCallback() {
+            postsClient.getAllPosts(application.getUserId(),new WebServiceResponse() {
                 @Override
-                public void onSuccess(JSONObject jsonObject) {
-                    parsePostsDetails(jsonObject);
+                public void onSuccess(JSONArray jsonArray) {
+                    parsePostsDetails(jsonArray);
                     closePostsDialog();
                 }
 
@@ -96,20 +146,27 @@ public class Posts extends Fragment {
         }
     }
     /* parse posts details*/
-    private void parsePostsDetails(JSONObject jsonObject){
-        Postspojo posts = gson.fromJson(jsonObject.toString(),Postspojo.class);
-        List<Datum> postsData = posts.getData();
-        for(int i=0;i<postsData.size();i++){
-            String[] data = new String[6];
-            Datum d = postsData.get(i);
-            data[1] = "2 Jan 2015";
-            data[2] = "Planning to start a chinese restaraunt near jubilee hills check post, anyone there to partner with me?";
-            data[3] = "category name";
-            data[4] = "250";
-            data[5] = "10";
-            postsList.add(data);
-        }
+    private void parsePostsDetails(JSONArray jsonArray){
+        Log.d("post data",jsonArray.toString());
+        Postpojos[] posts = gson.fromJson(jsonArray.toString(),Postpojos[].class);
+        for(Postpojos postpojos:posts){
+        String[] data = new String[6];
+        data[0] = postpojos.getUser().getName();
+        data[1] = postpojos.getPostDate();
+        data[2] = postpojos.getPostMessage();
+        data[3] = postpojos.getPostType();
+        data[4] = String.valueOf(postpojos.getPostLikesCount());
+        data[5] =  Arrays.toString(new int[]{postpojos.getPostComments().size()}).replaceAll("\\[|\\]", "");
+        postsList.add(data);
 
+            autocompleteList.add(postpojos.getPostMessage());
+
+        }
+        setAdapters(postsList);
+    }
+
+    private void setAdapters(List<String[]> postsList){
+        postsRecycler.setAdapter(new PostsAdapter(getActivity(),postsList));
     }
     /* close posts dialog*/
     private void closePostsDialog(){
@@ -120,4 +177,66 @@ public class Posts extends Fragment {
             }
         }
     }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.invite_button:
+                inviteFriends(getString(R.string.invite_msg));
+                break;
+            case R.id.home_search_icon:
+                if(searchLayout.getVisibility()==View.GONE){
+                    searchLayout.setVisibility(View.VISIBLE);
+                    textView.setVisibility(View.GONE);
+                    invite.setVisibility(View.GONE);
+                }else{
+                    searchLayout.setVisibility(View.GONE);
+                    textView.setVisibility(View.VISIBLE);
+                    invite.setVisibility(View.VISIBLE);
+                }
+                break;
+
+        }
+    }
+
+    /*invite friends*/
+    private void inviteFriends(String invitationMessage) {
+        List<Intent> targetShareIntents = new ArrayList<Intent>();
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, invitationMessage);
+        sendIntent.setType("text/plain");
+
+        PackageManager pm = getActivity().getPackageManager();
+        List<ResolveInfo> resInfo = pm.queryIntentActivities(sendIntent, 0);
+        for (int i = 0; i < resInfo.size(); i++) {
+            // Extract the label, append it, and repackage it in a LabeledIntent
+            ResolveInfo ri = resInfo.get(i);
+            String packageName = ri.activityInfo.packageName;
+            Log.d("Package Name", packageName);
+            if (packageName.contains("android.talk")
+                    || packageName.contains("facebook")
+                    || packageName.contains("whatsapp")
+                    || packageName.contains("mms")
+                    || packageName.contains("android.gm")) {
+                Intent intent = new Intent();
+                intent.setComponent(new ComponentName(packageName, ri.activityInfo.name));
+                intent.setAction(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, invitationMessage);
+                intent.setPackage(packageName);
+                targetShareIntents.add(intent);
+            }
+        }
+        if (!targetShareIntents.isEmpty()) {
+            System.out.println("Have Intent");
+            Intent chooserIntent = Intent.createChooser(targetShareIntents.remove(0), "Choose app to invite friends");
+            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
+
+            startActivity(chooserIntent);
+        } else {
+
+        }
+    }
+
 }

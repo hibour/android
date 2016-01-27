@@ -2,12 +2,15 @@ package com.dsquare.hibour.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -353,6 +356,19 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
                                         Log.d("email",object.optString("email"));
                                         Log.d("id",object.optString("id"));
                                         Log.d("name",object.optString("name"));
+                                        String id = object.optString("id");
+                                        try {
+                                            URL image_value = new URL("http://graph.facebook.com/"+id+"/picture" );
+                                            Log.d("image",""+image_value);
+                                            Bitmap bmp = null;
+                                        try {
+                                            bmp = BitmapFactory.decodeStream(image_value.openConnection().getInputStream());
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    } catch (MalformedURLException e) {
+                                        e.printStackTrace();
+                                    }
                                         signUpUser(object.optString("name"), object.optString("email")
                                                 , "", "fb");
                                     } catch (Exception e) {
@@ -402,6 +418,10 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
                     }
                     if(acct.getEmail()!=null){
                         userMail = acct.getEmail();
+                    }
+                    if(acct.getPhotoUrl()!=null){
+                        Uri image = acct.getPhotoUrl();
+                        Log.d("image",""+image);
                     }
                     Log.d("gplus",userMail+userName);
                     signUpUser(userName, userMail, "", "gp");
@@ -621,7 +641,6 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
                     parseLocDetails(jsonObject);
                     closeLocDialog();
                 }
-
                 @Override
                 public void onFailure(VolleyError error) {
                     Log.d("loc", error.toString());
@@ -665,7 +684,6 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
                     parseSigUpDetails(jsonObject);
                     closeSignUpDialog();
                 }
-
                 @Override
                 public void onFailure(VolleyError error) {
                     Log.d("signup", error.toString());
@@ -708,6 +726,5 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
                 signUpDialog=null;
             }
         }
-
     }
 }

@@ -3,16 +3,17 @@ package com.dsquare.hibour.network;
 import android.content.Context;
 import android.util.Log;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
+import com.dsquare.hibour.interfaces.WebServiceResponse;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.utils.Constants;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.net.MalformedURLException;
@@ -33,18 +34,20 @@ public class PostsClient {
     }
 
     /* To get all posts*/
-    public void getAllPosts(String userId,final WebServiceResponseCallback callback){
+    public void getAllPosts(String userId,final WebServiceResponse callback){
         try {
-            String urlStr = Constants.URL_GET_ALL_POSTS+userId+"?"+Constants.KEYWORD_SIGNATURE
+            String urlStr = Constants.URL_GET_ALL_POSTS+"2"+"?"+Constants.KEYWORD_SIGNATURE
                     +"="+Constants.SIGNATURE_VALUE;
             URL url = new URL(urlStr);
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
                     , url.getPath(), url.getQuery(), url.getRef());
             url = uri.toURL();
-            JsonObjectRequest postsRequest = new JsonObjectRequest(Request.Method.GET
-                    , url.toString(), (String) null, new Response.Listener<JSONObject>() {
+            Log.d("url",""+url);
+            JsonArrayRequest postsRequest = new JsonArrayRequest(Request.Method.GET
+                    , url.toString(), (String) null, new Response.Listener<JSONArray>() {
+
                 @Override
-                public void onResponse(JSONObject response) {
+                public void onResponse(JSONArray response) {
                     callback.onSuccess(response);
                 }
             }, new Response.ErrorListener() {

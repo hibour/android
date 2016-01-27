@@ -48,6 +48,10 @@ public class Hibour {
         initializeSharedPrefs();
         return sharedPreferences.getString(Constants.PREFERENCE_USER_ID, "");
     }
+    public String getUserName(){
+        initializeSharedPrefs();
+        return sharedPreferences.getString(Constants.SF_FIRST, "");
+    }
     /* remove user id*/
     public void removeUserDetails(){
         initializeSharedPrefs();

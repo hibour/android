@@ -1,11 +1,13 @@
 package com.dsquare.hibour.activities;
 
 import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.SmsMessage;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -36,6 +38,7 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
     }
 
     private void initializeViews() {
+        filter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
         Typeface numbers = Typeface.createFromAsset(getAssets(),
                 "fonts/pn_regular.otf");
         sumbit = (Button) findViewById(R.id.otp_sumbit);
@@ -51,41 +54,41 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
         resend.setText(Html.fromHtml(text));
         mobileNo = data.getExtras().getString("number");
         otp = data.getExtras().getString("otp");
-//        otpReceiver = new BroadcastReceiver(){
-//            @Override
-//            public void onReceive(Context c, Intent intent) {
-//                Log.d("intent","braodcast receiver");
-//                // setOtpText(i.getStringExtra("otp"));
-//                Bundle myBundle = intent.getExtras();
-//                SmsMessage[] messages = null;
-//                String strMessage = "";
-//                String from="";
-//
-//                if (myBundle != null) {
-//                    Object [] pdus = (Object[]) myBundle.get("pdus");
-//                    messages = new SmsMessage[pdus.length];
-//
-//                    for (int i = 0; i < messages.length; i++) {
-//                        messages[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
-//                        strMessage += "SMS From: " + messages[i].getOriginatingAddress();
-//                        strMessage += " : ";
-//                        strMessage += messages[i].getMessageBody();
-//                        strMessage += "\n";
-//                        from = messages[i].getOriginatingAddress();
-//                    }
-//                    // Toast.makeText(OtpActivity.this, strMessage, Toast.LENGTH_SHORT).show();
-//                    Log.d("message", strMessage);
-//                    Log.d("sb",from);
-//                    if(strMessage.contains("MD-ONLYHT")){
-//                        Log.d("otp","in if");
-//                        String o=getOtpFromString(strMessage);
-//                        Log.d("otp",o);
-//                        setOtpText(o);
-//                    }
-//                }
-//            }
-//        };
-//        this.registerReceiver(otpReceiver, filter);
+        otpReceiver = new BroadcastReceiver(){
+            @Override
+            public void onReceive(Context c, Intent intent) {
+                Log.d("intent","braodcast receiver");
+                // setOtpText(i.getStringExtra("otp"));
+                Bundle myBundle = intent.getExtras();
+                SmsMessage[] messages = null;
+                String strMessage = "";
+                String from="";
+
+                if (myBundle != null) {
+                    Object [] pdus = (Object[]) myBundle.get("pdus");
+                    messages = new SmsMessage[pdus.length];
+
+                    for (int i = 0; i < messages.length; i++) {
+                        messages[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
+                        strMessage += "SMS From: " + messages[i].getOriginatingAddress();
+                        strMessage += " : ";
+                        strMessage += messages[i].getMessageBody();
+                        strMessage += "\n";
+                        from = messages[i].getOriginatingAddress();
+                    }
+                    // Toast.makeText(OtpActivity.this, strMessage, Toast.LENGTH_SHORT).show();
+                    Log.d("message", strMessage);
+                    Log.d("sb",from);
+                    if(strMessage.contains("MD-ONLYHT")){
+                        Log.d("otp","in if");
+                        String o=getOtpFromString(strMessage);
+                        Log.d("otp",o);
+                        setOtpText(o);
+                    }
+                }
+            }
+        };
+        this.registerReceiver(otpReceiver, filter);
     }
 
     private void initializeEventListeners() {
