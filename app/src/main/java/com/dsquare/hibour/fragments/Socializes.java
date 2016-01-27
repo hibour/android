@@ -23,6 +23,9 @@ import com.dsquare.hibour.interfaces.NavDrawerCallback;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
+import com.dsquare.hibour.network.SocializeClient;
+import com.dsquare.hibour.pojos.Socialize.ChoosedUser;
+import com.dsquare.hibour.pojos.Socialize.Data;
 import com.dsquare.hibour.pojos.preference.Datum;
 import com.dsquare.hibour.pojos.preference.Preference;
 import com.dsquare.hibour.utils.Constants;
@@ -34,7 +37,9 @@ import com.google.gson.JsonSyntaxException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Dsquare Android on 1/22/2016.
@@ -51,6 +56,7 @@ public class Socializes extends android.support.v4.app.Fragment implements View.
     private Gson gson;
     private Hibour application;
     private NavDrawerCallback callback;
+    private SocializeClient socialClient;
     public Socializes() {
         // Required empty public constructor
     }
@@ -61,7 +67,8 @@ public class Socializes extends android.support.v4.app.Fragment implements View.
         View view = inflater.inflate(R.layout.fragment_socilize, container, false);
         initializeViews(view);
         initializeEventListeners();
-        getAllPrefs();
+        getMembers(application.getUserId());
+        //getAllPrefs();
         return view;
     }
     /* initialize views*/
@@ -72,6 +79,7 @@ public class Socializes extends android.support.v4.app.Fragment implements View.
         previous = (Button)view.findViewById(R.id.socialize_prev_button);
         accountsClient = new AccountsClient(getActivity());
         networkDetector = new NetworkDetector(getActivity());
+        socialClient = new SocializeClient(getActivity());
         gson = new Gson();
         application = Hibour.getInstance(getActivity());
         prefsRecycler = (RecyclerView)view.findViewById(R.id.social_prefs_list);
@@ -110,6 +118,7 @@ public class Socializes extends android.support.v4.app.Fragment implements View.
     /* open home activity*/
     private void openHomeActivity(){
         Intent homeIntent = new Intent(getActivity(), PreferencesViews.class);
+        homeIntent.putExtra("frmAdapter",false);
         startActivity(homeIntent);
     }
     private void openPreviousActivity(){
@@ -189,7 +198,7 @@ public class Socializes extends android.support.v4.app.Fragment implements View.
                         , data.get(i).getImage2(),"false"};
                 prefsList.add(details);
             }
-            setAdapters(prefsList);
+           // setAdapters(prefsList);
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
@@ -199,7 +208,16 @@ public class Socializes extends android.support.v4.app.Fragment implements View.
 
     }
 
-    private void setAdapters(List<String[]> prefsList){
+    private void setAdapters(){
+        for(String s:Constants.socialPrefsMap.keySet()){
+            String[] details = {Constants.socialPrefsMap.get(s).get(0)
+                    , Constants.socialPrefsMap.get(s).get(1)
+                    , Constants.socialPrefsMap.get(s).get(2)
+                    , Constants.socialPrefsMap.get(s).get(3)
+                    ,Constants.socialPrefsMap.get(s).get(4)
+                    ,Constants.socialPrefsMap.get(s).get(5)};
+            prefsList.add(details);
+        }
         prefsRecycler.setAdapter(new SocializeAdapter(getActivity(),prefsList));
     }
 
@@ -216,5 +234,52 @@ public class Socializes extends android.support.v4.app.Fragment implements View.
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         callback = (NavDrawerCallback) activity;
+    }
+    /* get socialize pref members*/
+    private void getMembers(String userId){
+        if(networkDetector.isConnected()){
+            dialog = ProgressDialog.show(getActivity(),"","Please Wait...");
+            socialClient.getNeighbours(userId,new WebServiceResponseCallback() {
+                @Override
+                public void onSuccess(JSONObject jsonObject) {
+                    parseSocialData(jsonObject);
+                    closeDialog();
+                }
+
+                @Override
+                public void onFailure(VolleyError error) {
+                    closeDialog();
+                    Log.d("error",error.toString());
+                }
+            });
+        }else{
+
+        }
+    }
+    /* parse social data*/
+    private void parseSocialData(JSONObject jsonObject){
+        try {
+            Data socialize = gson.fromJson(jsonObject.toString(),Data.class);
+            List<com.dsquare.hibour.pojos.Socialize.Datum> data = socialize.getData();
+            Constants.socialPrefsList.clear();
+            for(com.dsquare.hibour.pojos.Socialize.Datum d:data){
+                Constants.socialPrefsList.add(d);
+                List<String> dd = new ArrayList<>();
+                dd.add(d.getPreferenceId());
+                dd.add(d.getPreferenceName());
+                dd.add(d.getPreferenceImage1());
+                dd.add(d.getPreferenceImage2());
+                dd.add(d.getIsUserSelected());
+                dd.add(d.getChoosedUsers().size()+"");
+                Constants.socialPrefsMap.put(d.getPreferenceId(),dd);
+                Constants.prefsMap.put(d.getPreferenceId(),d);
+                for(ChoosedUser ch:d.getChoosedUsers()){
+                    Constants.membersList.add(ch);
+                }
+            }
+            setAdapters();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

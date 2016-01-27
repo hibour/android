@@ -49,11 +49,7 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        Log.d("size", listItems.get(position)[0]);
-        for(String pref: Constants.prefernceMap.keySet()){
-            userprefer = userprefer+","+pref;
-        }
-//        userprefer = userprefer.substring(1,userprefer.length());
+        holder.prefCount.setVisibility(View.VISIBLE);
         if(listItems.get(position)[4].equals("false")){
             try {
                 imageLoader.get(listItems.get(position)[2], ImageLoader.getImageListener(holder.prefImage
@@ -62,6 +58,7 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
                 e.printStackTrace();
             }
             holder.prefName.setTextColor(context.getResources().getColor(R.color.brand));
+            holder.prefCount.setTextColor(context.getResources().getColor(R.color.brand));
             final int sdk = android.os.Build.VERSION.SDK_INT;
             if(sdk <16) {
                 holder.prefLinearLayout.setBackgroundDrawable(context.getResources()
@@ -78,6 +75,7 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
                 e.printStackTrace();
             }
             holder.prefName.setTextColor(context.getResources().getColor(R.color.white));
+            holder.prefCount.setTextColor(context.getResources().getColor(R.color.white));
             final int sdk = android.os.Build.VERSION.SDK_INT;
             if(sdk <16) {
                 holder.prefLinearLayout.setBackgroundDrawable(context.getResources()
@@ -88,6 +86,7 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
             }
         }
         holder.prefName.setText(listItems.get(position)[1]);
+        holder.prefCount.setText(listItems.get(position)[5]);
     }
 
     @Override
@@ -101,33 +100,10 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
 
         final ViewHolder viewHolder = (ViewHolder)v.getTag();
         final int position = viewHolder.getAdapterPosition();
-        if(listItems.get(position)[4].equals("false")){
-            String[] data = new String[5];
-            data[0] = listItems.get(position)[0];
-            data[1] = listItems.get(position)[1];
-            data[2] = listItems.get(position)[2];
-            data[3] = listItems.get(position)[3];
-            data[4] = "true";
-            listItems.set(position,data);
-            Constants.prefernceMap.put(listItems.get(position)[0],listItems.get(position)[1]);
-
-        }else{
-            Intent intent = new Intent(context, PreferencesViews.class);
-            context.startActivity(intent);
-            String[] data = new String[5];
-            data[0] = listItems.get(position)[0];
-            data[1] = listItems.get(position)[1];
-            data[2] = listItems.get(position)[2];
-            data[3] = listItems.get(position)[3];
-            data[4] = "false";
-            listItems.set(position,data);
-            Constants.prefernceMap.remove(listItems.get(position)[0]);
-        }
-        //notifyDataSetChanged();
-        notifyItemChanged(position);
+        openPrefsActivity(listItems.get(position)[0]);
     }
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView prefName;
+        private TextView prefName,prefCount;
         public ImageView prefImage;
         private RelativeLayout layout;
         private LinearLayout prefLinearLayout;
@@ -138,6 +114,14 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
             prefImage = (ImageView) itemView.findViewById(R.id.pref_icon);
             layout = (RelativeLayout)itemView.findViewById(R.id.pref_layout);
             prefLinearLayout = (LinearLayout)itemView.findViewById(R.id.pref_linear_layout);
+            prefCount = (TextView)itemView.findViewById(R.id.pref_count);
         }
+    }
+    /* open home activity*/
+    private void openPrefsActivity(String id){
+        Intent prefIntent = new Intent(context, com.dsquare.hibour.activities.PreferencesViews.class);
+        prefIntent.putExtra("frmAdapter",true);
+        prefIntent.putExtra("prefId",id);
+        context.startActivity(prefIntent);
     }
 }

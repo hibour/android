@@ -24,8 +24,31 @@
                 android:layout_height="wrap_content"
                 android:text="@string/messages_title"
                 android:textColor="@color/brand"
+                android:id="@+id/neighbours_title"
                 android:layout_centerInParent="true"
                 android:textSize="@dimen/app_bar_title_text_size"/>
+            <RelativeLayout
+                android:layout_width="200dp"
+                android:layout_height="@dimen/dp_35"
+                android:background="@drawable/loc_search_rectangle"
+                android:descendantFocusability="beforeDescendants"
+                android:focusableInTouchMode="true"
+                android:layout_centerInParent="true"
+                android:id="@+id/neighbours_search_layout"
+                android:visibility="gone">
+
+                <AutoCompleteTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_30"
+                    android:layout_centerInParent="true"
+                    android:hint="search neighbours"
+                    android:textColor="@color/gray"
+                    android:textColorHint="@color/gray"
+                    android:textSize="@dimen/edit_text_size"
+                    android:id="@+id/neighbours_search_autocomplete"
+                    android:background="@null"
+                    android:gravity="center"/>
+            </RelativeLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/nav_bottom_line_height"

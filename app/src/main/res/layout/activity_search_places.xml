@@ -76,8 +76,7 @@
                 android:focusableInTouchMode="true"
                 android:layout_marginLeft="@dimen/dp_25"
                 android:layout_marginRight="@dimen/dp_25"
-                android:layout_above="@id/loc_location_display_layout"
-                >
+                android:layout_above="@id/loc_location_display_layout">
 
                 <ImageView
                     android:layout_width="@dimen/dp_25"

@@ -7,15 +7,13 @@
     >
 
     <LinearLayout
-        android:layout_width="@dimen/dp_90"
-        android:layout_height="@dimen/dp_90"
+        android:layout_width="@dimen/dp_100"
+        android:layout_height="@dimen/dp_100"
         android:layout_centerHorizontal="true"
         android:orientation="vertical"
         android:background="@drawable/social_prefs_unselected_state"
         android:id="@+id/pref_linear_layout"
         android:layout_marginTop="@dimen/dp_10">
-
-
     <ImageView
         android:layout_width="@dimen/dp_40"
         android:layout_height="@dimen/dp_40"
@@ -28,8 +26,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/pref_icon"
+        android:text=""
+        android:visibility="gone"
+        android:textColor="@color/brand"
+        android:layout_gravity="center"
+        android:textSize="@dimen/sp_12"
+        android:id="@+id/pref_count"/>
+    <com.dsquare.hibour.utils.Avenir
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pref_count"
         android:text="Software"
-        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginTop="2dp"
         android:textColor="@color/brand"
         android:layout_gravity="center"
         android:textSize="@dimen/sp_12"
