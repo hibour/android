@@ -115,7 +115,6 @@ public class AccountsClient {
         Log.d("url",url);
         return url;
     }
-
     /*get terms and conditions*/
     public void getTermsAndConditions(final WebServiceResponseCallback callback){
         try {
@@ -261,12 +260,10 @@ public class AccountsClient {
                 +Constants.KEYWORD_ADDRESS+"="+address;
         return address;
     }
-
     /* get all social prefs*/
     public void getAllSocialPrefs(final WebServiceResponseCallback callback){
         try {
             String urlStr = Constants.URL_PREFS_ALL+Constants.KEYWORD_SIGNATURE+"="+Constants.SIGNATURE_VALUE;
-            ;
             URL url = new URL(urlStr);
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
                     , url.getPath(), url.getQuery(), url.getRef());
@@ -434,5 +431,4 @@ public class AccountsClient {
         Log.d("url",url);
         return url;
     }
-
 }
