@@ -7,13 +7,10 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.dsquare.hibour.interfaces.WebServiceResponse;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.utils.Constants;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.net.MalformedURLException;
@@ -34,20 +31,20 @@ public class PostsClient {
     }
 
     /* To get all posts*/
-    public void getAllPosts(String userId,final WebServiceResponse callback){
+    public void getAllPosts(String userId,final WebServiceResponseCallback callback){
         try {
-            String urlStr = Constants.URL_GET_ALL_POSTS+"2"+"?"+Constants.KEYWORD_SIGNATURE
+            String urlStr = Constants.URL_GET_ALL_POSTS+userId+"?"+Constants.KEYWORD_SIGNATURE
                     +"="+Constants.SIGNATURE_VALUE;
             URL url = new URL(urlStr);
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
                     , url.getPath(), url.getQuery(), url.getRef());
             url = uri.toURL();
             Log.d("url",""+url);
-            JsonArrayRequest postsRequest = new JsonArrayRequest(Request.Method.GET
-                    , url.toString(), (String) null, new Response.Listener<JSONArray>() {
+            JsonObjectRequest postsRequest = new JsonObjectRequest(Request.Method.GET
+                    , url.toString(), (String) null, new Response.Listener<JSONObject>() {
 
                 @Override
-                public void onResponse(JSONArray response) {
+                public void onResponse(JSONObject response) {
                     callback.onSuccess(response);
                 }
             }, new Response.ErrorListener() {
@@ -76,6 +73,7 @@ public class PostsClient {
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
                     , url.getPath(), url.getQuery(), url.getRef());
             url = uri.toURL();
+            Log.d("url ",""+url);
             JsonObjectRequest postsRequest = new JsonObjectRequest(Request.Method.GET
                     , url.toString(), (String) null, new Response.Listener<JSONObject>() {
                 @Override
@@ -103,7 +101,48 @@ public class PostsClient {
     private String getCommentOnPostUrl(String userId,String postId,String message){
         String url = Constants.URL_POST_COMMENT +Constants.KEYWORD_USER_ID+"="+userId+"&"
                 +Constants.KEYWORD_POST_ID+"="+postId+"&"
-                +Constants.KEYWORD_POST_COMMENT+"="+message;
+                +Constants.KEYWORD_POST_COMMENT+"="+message+"&"+Constants.KEYWORD_SIGNATURE+"="+Constants.SIGNATURE_VALUE;
+        return url;
+    }
+
+
+    /* comment on a post*/
+    public void getcommentOnPost(String postId
+            ,final WebServiceResponseCallback callback){
+        try {
+            String urlStr = getAllCommentOnPostUrl(postId);
+            URL url = new URL(urlStr);
+            URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
+                    , url.getPath(), url.getQuery(), url.getRef());
+            url = uri.toURL();
+            Log.d("url ",""+url);
+            JsonObjectRequest postsAllRequest = new JsonObjectRequest(Request.Method.GET
+                    , url.toString(), (String) null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    callback.onSuccess(response);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    callback.onFailure(error);
+                }
+            });
+            postsAllRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    MY_SOCKET_TIMEOUT_MS,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            HibourConnector.getInstance(context).addToRequestQueue(postsAllRequest);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
+    /* get comment on post url*/
+    private String getAllCommentOnPostUrl(String postId){
+        String url = Constants.URL_POST_GET_COMMENT+postId+"?"
+                +Constants.KEYWORD_SIGNATURE+"="+Constants.SIGNATURE_VALUE;
         return url;
     }
 
@@ -188,6 +227,40 @@ public class PostsClient {
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
                     , url.getPath(), url.getQuery(), url.getRef());
             url = uri.toURL();
+            JsonObjectRequest neighbourhoodsRequest = new JsonObjectRequest(Request.Method.GET
+                    , url.toString(), (String) null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    callback.onSuccess(response);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    callback.onFailure(error);
+                }
+            });
+            neighbourhoodsRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    MY_SOCKET_TIMEOUT_MS,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            HibourConnector.getInstance(context).addToRequestQueue(neighbourhoodsRequest);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /* get Likesonposts*/
+    public void getLikesonPosts(String userId,String Postid,final WebServiceResponseCallback callback){
+        try {
+            String urlStr = Constants.URL_POST_LIKE+"Userid"+"="+userId+"&"+Constants.KEYWORD_POST_ID+"="+Postid+"&"+Constants.KEYWORD_SIGNATURE+"="
+                    +Constants.SIGNATURE_VALUE;
+            URL url = new URL(urlStr);
+            URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
+                    , url.getPath(), url.getQuery(), url.getRef());
+            url = uri.toURL();
+            Log.d("url",""+url);
             JsonObjectRequest neighbourhoodsRequest = new JsonObjectRequest(Request.Method.GET
                     , url.toString(), (String) null, new Response.Listener<JSONObject>() {
                 @Override

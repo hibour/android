@@ -82,6 +82,9 @@
             android:name=".activities.PostComments"
             android:label="@string/title_activity_post_comments" />
         <activity
+            android:name=".activities.PostLikes"
+             />
+        <activity
             android:name=".activities.SelectArea"
             android:label="@string/title_activity_select_area" />
         <activity

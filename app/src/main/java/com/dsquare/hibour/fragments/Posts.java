@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
@@ -30,9 +29,10 @@ import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.adapters.HomeTabsPager;
 import com.dsquare.hibour.adapters.PostsAdapter;
-import com.dsquare.hibour.interfaces.WebServiceResponse;
+import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.network.PostsClient;
+import com.dsquare.hibour.pojos.posts.PostData;
 import com.dsquare.hibour.pojos.posts.Postpojos;
 import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Fonts;
@@ -40,7 +40,7 @@ import com.dsquare.hibour.utils.Hibour;
 import com.dsquare.hibour.utils.SlidingTabLayout;
 import com.google.gson.Gson;
 
-import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -92,11 +92,11 @@ public class Posts extends Fragment implements View.OnClickListener {
         gson = new Gson();
         networkDetector = new NetworkDetector(getActivity());
         application =  Hibour.getInstance(getActivity());
-        //postsRecycler = (RecyclerView)view.findViewById(R.id.post_posts_list);
-        //LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        //layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        //postsRecycler.setLayoutManager(layoutManager);
-        //postsRecycler.setHasFixedSize(true);
+//        postsRecycler = (RecyclerView)view.findViewById(R.id.post_posts_list);
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+//        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+//        postsRecycler.setLayoutManager(layoutManager);
+//        postsRecycler.setHasFixedSize(true);
         autoCompleteTextView = (AutoCompleteTextView)view.findViewById(R.id.home_search_autocomplete);
         searchLayout = (RelativeLayout)view.findViewById(R.id.home_search_layout);
         searchIcon = (ImageView)view.findViewById(R.id.home_search_icon);
@@ -147,10 +147,10 @@ public class Posts extends Fragment implements View.OnClickListener {
     private void getAllposts(){
         if(networkDetector.isConnected()){
             postsDialog = ProgressDialog.show(getActivity(),"","Please wait...");
-            postsClient.getAllPosts(application.getUserId(),new WebServiceResponse() {
+            postsClient.getAllPosts(application.getUserId(),new WebServiceResponseCallback() {
                 @Override
-                public void onSuccess(JSONArray jsonArray) {
-                    parsePostsDetails(jsonArray);
+                public void onSuccess(JSONObject jsonObject) {
+                    parsePostsDetails(jsonObject);
                     closePostsDialog();
                 }
 
@@ -165,46 +165,54 @@ public class Posts extends Fragment implements View.OnClickListener {
         }
     }
     /* parse posts details*/
-    private void parsePostsDetails(JSONArray jsonArray){
-        Log.d("post data",jsonArray.toString());
-        Postpojos[] posts = gson.fromJson(jsonArray.toString(),Postpojos[].class);
-        if(Constants.postsMap.size()>0){
-            Constants.postsMap.clear();
-        }
-        if(tabsList.size()>0){
-            tabsList.clear();
-        }
-        tabsList.add("All");
-        if(posts.length>0){
-            for(Postpojos postpojos:posts){
-                Constants.postpojosMap.put(postpojos.getPostId(),postpojos);
-                String key = " ";
-                if(Constants.categoriesMap.containsKey(postpojos.getPostType()))
-                    key = Constants.categoriesMap.get(postpojos.getPostType());
-                if(!Constants.postsMap.containsKey(key)){
-                    List<Postpojos> postslist = new ArrayList<>();
-                    postslist.add(postpojos);
-                    Constants.postsMap.put(key,postslist);
-                }else{
-                    List<Postpojos> postslist = Constants.postsMap.get(key);
-                    postslist.add(postpojos);
-                    Constants.postsMap.put(key,postslist);
-                }
-
-                if(!tabsList.contains(key))
-                    tabsList.add(key);
-                String[] data = new String[6];
-                data[0] = postpojos.getUser().getName();
-                data[1] = postpojos.getPostDate();
-                data[2] = postpojos.getPostMessage();
-                data[3] = key;
-                data[4] = String.valueOf(postpojos.getPostLikesCount());
-                data[5] =  Arrays.toString(new int[]{postpojos.getPostComments().size()})
-                        .replaceAll("\\[|\\]", "");
-                postsList.add(data);
-                autocompleteList.add(postpojos.getPostMessage());
+    private void parsePostsDetails(JSONObject jsonObject) {
+        Log.d("post data", jsonObject.toString());
+        PostData posts = gson.fromJson(jsonObject.toString(), PostData.class);
+        List<Postpojos> postpojos = posts.getData();
+        if(postpojos.size()>0){
+            if (Constants.postsMap.size() > 0) {
+                Constants.postsMap.clear();
             }
-            setPager();
+            if (tabsList.size() > 0) {
+                tabsList.clear();
+            }
+            tabsList.add("All");
+            for (Postpojos p:postpojos) {
+
+                Constants.postpojosMap.put(p.getPostId(),postpojos);
+                    String key = " ";
+                    if (Constants.categoriesMap.containsKey(p.getPostType()))
+                        key = Constants.categoriesMap.get(p.getPostType());
+                    if (!Constants.postsMap.containsKey(key)) {
+                        List<Postpojos> data = new ArrayList<>();
+                        data.add(p);
+                        Log.d("key",key);
+                        Constants.postsMap.put(key, data);
+                    } else {
+                        List<Postpojos> postslist = Constants.postsMap.get(key);
+                        postslist.add(p);
+                        Log.d("key",key);
+                        Constants.postsMap.put(key, postslist);
+                    }
+                    if (!tabsList.contains(key))
+                        tabsList.add(key);
+                    String[] data = new String[8];
+                    data[0] = p.getUser().getName();
+                    data[1] = p.getPostId();
+                    data[2] = p.getPostMessage();
+                    data[3] = key;
+                    data[4] = String.valueOf(p.getPostLikesCount());
+                    data[5] = Arrays.toString(new int[]{p.getPostComments().size()})
+                            .replaceAll("\\[|\\]", "");
+                    data[6] = p.getPostId();
+                    data[7] = String.valueOf(p.getPostUserLiked());
+
+                    postsList.add(data);
+                    Log.d("data",""+data);
+                    autocompleteList.add(p.getPostMessage());
+
+                    setPager();
+            }
         }else{
             noFeedsLayout.setVisibility(View.VISIBLE);
             tabs.setVisibility(View.GONE);
@@ -249,10 +257,8 @@ public class Posts extends Fragment implements View.OnClickListener {
                     invite.setVisibility(View.VISIBLE);
                 }
                 break;
-
         }
     }
-
     /*invite friends*/
     private void inviteFriends(String invitationMessage) {
         List<Intent> targetShareIntents = new ArrayList<Intent>();

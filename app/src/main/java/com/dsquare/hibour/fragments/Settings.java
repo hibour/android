@@ -294,7 +294,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         password.setText(data.getPassword());
         String genderValue = data.getGender();
          Log.d("gender",  data.getGender());
-        if(genderValue != null && genderValue.equalsIgnoreCase("1")){
+        if(genderValue != null && genderValue.equalsIgnoreCase("0")){
             gender.check(R.id.radioMale);
         }else{
             gender.check(R.id.radioFemale);

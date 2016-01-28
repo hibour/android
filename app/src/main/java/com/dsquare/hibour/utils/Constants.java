@@ -7,7 +7,6 @@ import com.dsquare.hibour.pojos.posts.Postpojos;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +31,8 @@ public class Constants {
     public static final String URL_GET_ALL_POSTS = URL_DOMAIN+"getfeeds/";
     public static final String URL_GET_ABOUT_US=URL_DOMAIN+"";
     public static final String URL_POST_COMMENT = URL_DOMAIN+"Commentpost/create?";
+    public static final String URL_POST_LIKE = URL_DOMAIN+"Likepost/create?";
+    public static final String URL_POST_GET_COMMENT = URL_DOMAIN+"getcomments/";
     public static final String URL_SETTINGS = URL_DOMAIN+"Userreg/userdetails?";
     public static final String URL_GET_SOCIAL_NEIGHBOURS = URL_DOMAIN+"Preferences/members?";
     public static final String URL_GET_NEIGHBOURHOODS = URL_DOMAIN+"Userreg/address?";
@@ -89,6 +90,6 @@ public class Constants {
     public static List<ChoosedUser> membersList = new ArrayList<>();
 
     public static Map<String,List<Postpojos>> postsMap = new LinkedHashMap<>();
-    public static Map<String,Postpojos> postpojosMap = new LinkedHashMap<>();
+    public static Map<String,List<Postpojos>> postpojosMap = new LinkedHashMap<>();
     public static Map<String,String> categoriesMap = new HashMap<>();
 }

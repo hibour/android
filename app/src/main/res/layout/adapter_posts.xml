@@ -151,7 +151,8 @@
                 android:src="@drawable/ic_like_red"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/post_likes"
-                android:layout_marginLeft="@dimen/dp_5"/>
+                android:layout_marginLeft="@dimen/dp_5"
+                android:id="@+id/adapter_post_likes_image"/>
         </RelativeLayout>
     </RelativeLayout>
     <View

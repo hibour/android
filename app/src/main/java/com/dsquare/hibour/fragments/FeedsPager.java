@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,12 +54,13 @@ public class FeedsPager extends Fragment {
     }
     /*set adapter*/
     private void setAdapter(){
+        Log.d("name",categoryName);
         if(categoryName.equals("All")){
             for(String s:Constants.postsMap.keySet()){
                 List<Postpojos> posts = Constants.postsMap.get(s);
                 try {
                     for(int i=0;i<posts.size();i++) {
-                        String[] data = new String[7];
+                        String[] data = new String[8];
                         data[0] = posts.get(i).getUser().getName();
                         data[1] = posts.get(i).getPostDate();
                         data[2] = posts.get(i).getPostMessage();
@@ -66,6 +68,7 @@ public class FeedsPager extends Fragment {
                         data[4] = String.valueOf(posts.get(i).getPostLikesCount());
                         data[5] = Arrays.toString(new int[]{posts.get(i).getPostComments().size()}).replaceAll("\\[|\\]", "");
                         data[6] = posts.get(i).getPostId();
+                        data[7] = String.valueOf(posts.get(i).getPostUserLiked());
                         postsList.add(data);
                     }
                 } catch (Exception e) {
@@ -74,9 +77,10 @@ public class FeedsPager extends Fragment {
             }
         }else if(!categoryName.equals("")){
             List<Postpojos> posts = Constants.postsMap.get(categoryName);
+
             try {
                 for(int i=0;i<posts.size();i++) {
-                    String[] data = new String[7];
+                    String[] data = new String[8];
                     data[0] = posts.get(i).getUser().getName();
                     data[1] = posts.get(i).getPostDate();
                     data[2] = posts.get(i).getPostMessage();
@@ -84,7 +88,9 @@ public class FeedsPager extends Fragment {
                     data[4] = String.valueOf(posts.get(i).getPostLikesCount());
                     data[5] = Arrays.toString(new int[]{posts.get(i).getPostComments().size()}).replaceAll("\\[|\\]", "");
                     data[6] = posts.get(i).getPostId();
+                    data[7] = String.valueOf(posts.get(i).getPostUserLiked());
                     postsList.add(data);
+                    Log.d("datas",""+data);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
