@@ -1,20 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dsquare.hibour">
+<manifest
+    package="com.dsquare.hibour"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+    <permission
+        android:name="com.dsquare.hibour.permission.C2D_MESSAGE"
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="com.dsquare.hibour.permission.C2D_MESSAGE"/>
 
     <application
+        android:name=".HibourApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="AA_DB_NAME"
+            android:value="hibour.db"/>
+        <meta-data
+            android:name="AA_DB_VERSION"
+            android:value="1"/>
+        <meta-data
+            android:name="AA_MODELS"
+            android:value="com.dsquare.hibour.database.table.NotificationTable,
+                            com.dsquare.hibour.database.table.UserMessageTable,
+                            com.dsquare.hibour.database.table.UserDetailTable"/>
+
+        <meta-data
+            android:name="AA_SERIALIZERS"
+            android:value="com.dsquare.hibour.database.serializer.UtilDateSerializer"/>
 
         <!--
             <meta-data
@@ -91,7 +117,7 @@
             android:name=".activities.GroupPosts"
             android:label="@string/title_activity_group_posts" />
         <activity android:name=".activities.MobileNumber" />
-        <activity android:name=".activities.VerifyOtp"></activity>
+        <activity android:name=".activities.VerifyOtp"/>
         <activity
             android:name=".activities.PreferencesViews"
             android:label="@string/title_PreferenceViews" />
@@ -101,7 +127,44 @@
         <activity
             android:name=".activities.SocialPrefernce"
             android:label="@string/title_activity_social_categories" />
-        <activity android:name=".activities.Notifications"></activity>
+        <activity android:name=".activities.Notifications"/>
+
+        <!-- [START gcm_receiver] -->
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
+
+                <category android:name="com.dsquare.hibour"/>
+            </intent-filter>
+        </receiver>
+        <!-- [END gcm_receiver] -->
+
+        <!-- [START gcm_listener] -->
+        <service
+            android:name=".gcm.GcmIntentService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+            </intent-filter>
+        </service>
+        <!-- [END gcm_listener] -->
+        <!-- [START instanceId_listener] -->
+        <service
+            android:name=".gcm.InstanceListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID"/>
+            </intent-filter>
+        </service>
+        <!-- [END instanceId_listener] -->
+        <service
+            android:name=".gcm.GcmRegistration"
+            android:exported="false">
+        </service>
     </application>
 
 </manifest>
