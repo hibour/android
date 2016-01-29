@@ -1,44 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout
+    android:id="@+id/entire_view"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/activity_horizontal_margin"
     android:layout_marginRight="@dimen/activity_horizontal_margin"
     android:background="@android:color/white"
-    android:layout_height="wrap_content">
+    android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_10">
         <ImageView
+            android:id="@+id/adapter_neighbours_image"
             android:layout_width="@dimen/comments_icon_size"
             android:layout_height="@dimen/comments_icon_size"
-            android:src="@drawable/avatar1"
-            android:id="@+id/adapter_neighbours_image"/>
+            android:src="@drawable/avatar1"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_toRightOf="@id/adapter_neighbours_image">
+            android:layout_toRightOf="@id/adapter_neighbours_image"
+            android:orientation="vertical">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_10">
                 <com.dsquare.hibour.utils.Avenir
+                    android:id="@+id/adapter_neighbours_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/adapter_neighbours_username"
                     android:text="Ashok Madduru"
                     android:textColor="@color/black_1"
                     android:textSize="@dimen/text_size_level3"/>
             </RelativeLayout>
             <com.dsquare.hibour.utils.Avenir
+                android:id="@+id/adapter_neighbours_user_profession"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hardware Engineer"
-                android:id="@+id/adapter_neighbours_user_profession"
                 android:layout_marginLeft="@dimen/dp_10"
                 android:layout_marginTop="@dimen/dp_5"
+                android:text="Hardware Engineer"
                 android:textColor="@color/black_2"
                 android:textSize="@dimen/text_Size_level5"
                 android:visibility="gone"/>
@@ -48,6 +50,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.2dp"
-        android:background="@color/gray"
-        android:layout_marginTop="@dimen/dp_10"/>
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@color/gray"/>
 </LinearLayout>

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.database.table.NotificationTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +22,9 @@ import java.util.List;
 public class NotificationsAdapter extends BaseAdapter {
 
     private Context context;
-    private List<String[]> gcmMessageList = new ArrayList<>();
+    private List<NotificationTable> gcmMessageList = new ArrayList<>();
 
-    public NotificationsAdapter(Context context, List<String[]> gcmMessageList){
+    public NotificationsAdapter(Context context, List<NotificationTable> gcmMessageList) {
         this.context = context;
         this.gcmMessageList = gcmMessageList;
     }
@@ -58,28 +59,22 @@ public class NotificationsAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        NotificationTable item = gcmMessageList.get(position);
         Typeface tf = Typeface.createFromAsset(context.getAssets(),"fonts/pn_extrabold.otf");
         Typeface tf1 = Typeface.createFromAsset(context.getAssets(),"fonts/pn_light.otf");
-        holder.tipContent.setText(gcmMessageList.get(position)[0]);
-        holder.tipDate.setText(gcmMessageList.get(position)[1]);
-        if(gcmMessageList.get(position)[2].equals("unread")){
+        holder.tipContent.setText(gcmMessageList.get(position).message);
+        holder.tipDate.setText(gcmMessageList.get(position).date);
+        if (gcmMessageList.get(position).status.equals("unread")) {
             Log.d("status", "unread");
             holder.tipContent.setTypeface(tf);
-            String[] d1 = new String[3];
-            d1[0] = gcmMessageList.get(position)[0];
-            d1[1] = gcmMessageList.get(position)[1];
-            d1[2] = "read";
-            gcmMessageList.add(position,d1);
+            gcmMessageList.add(position, new NotificationTable(item.message, item.date, "read"));
             notifyDataSetChanged();
+
 
         }else{
             Log.d("status", "read");
             holder.tipContent.setTypeface(tf1);
-            String[] d1 = new String[3];
-            d1[0] = gcmMessageList.get(position)[0];
-            d1[1] = gcmMessageList.get(position)[1];
-            d1[2] = "unread";
-            gcmMessageList.set(position, d1);
+            gcmMessageList.add(position, new NotificationTable(item.message, item.date, "unread"));
         }
 
         return convertView;
