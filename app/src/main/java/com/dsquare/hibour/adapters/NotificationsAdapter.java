@@ -59,24 +59,21 @@ public class NotificationsAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        NotificationTable item = gcmMessageList.get(position);
         Typeface tf = Typeface.createFromAsset(context.getAssets(),"fonts/pn_extrabold.otf");
+        Typeface tf1 = Typeface.createFromAsset(context.getAssets(),"fonts/pn_light.otf");
         holder.tipContent.setText(gcmMessageList.get(position).message);
         holder.tipDate.setText(gcmMessageList.get(position).date);
         if (gcmMessageList.get(position).status.equals("unread")) {
             Log.d("status", "unread");
             holder.tipContent.setTypeface(tf);
-            NotificationTable item = gcmMessageList.get(position);
             gcmMessageList.add(position, new NotificationTable(item.message, item.date, "read"));
             notifyDataSetChanged();
 
         }else{
             Log.d("status", "read");
             holder.tipContent.setTypeface(tf1);
-            String[] d1 = new String[3];
-            d1[0] = gcmMessageList.get(position).message;
-            d1[1] = gcmMessageList.get(position).date;
-            d1[2] = "unread";
-            gcmMessageList.set(position, d1);
+            gcmMessageList.add(position, new NotificationTable(item.message, item.date, "unread"));
         }
 
         return convertView;

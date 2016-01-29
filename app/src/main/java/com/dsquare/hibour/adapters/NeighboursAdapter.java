@@ -25,11 +25,9 @@ import java.util.List;
 public class NeighboursAdapter extends RecyclerView.Adapter<NeighboursAdapter.ViewHolder> {
 
   private List<UserDetail> listItems = new ArrayList<>();
-  private Context context;
   private ViewHolder globalHolder;
   private ProgressDialog detailsDialog;
-    private List<String[]> listItems = new ArrayList<>();
-    private Context context;
+  private Context context;
 
   public NeighboursAdapter(Context context, List<UserDetail> listItems) {
     this.context = context;
