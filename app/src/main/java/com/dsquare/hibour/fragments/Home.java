@@ -15,13 +15,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
+import com.dsquare.hibour.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +39,10 @@ public class Home extends Fragment implements View.OnClickListener {
     private TextView inviteBtn;
     private NavDrawerCallback callback;
     private boolean isHome = true;
-    private ImageView feedIcon, socializeIcon, newPostIcon, channelsIcon, moreIcon;
-
+    private ImageView feedIcon, socializeIcon, newPostIcon, channelsIcon, moreIcon,searchIcon;
+    private AutoCompleteTextView autoCompleteTextView;
+    private RelativeLayout searchLayout;
+    private TextView textView,invite;
     public Home() {
         // Required empty public constructor
     }
@@ -55,22 +60,32 @@ public class Home extends Fragment implements View.OnClickListener {
 
     /*initialize views*/
     private void initializeViews(View view) {
-        inviteBtn = (TextView) view.findViewById(R.id.invite_button);
         feedIcon = (ImageView) view.findViewById(R.id.home_feed);
         socializeIcon = (ImageView) view.findViewById(R.id.home_socialize_icon);
         newPostIcon = (ImageView) view.findViewById(R.id.home_new_post);
         channelsIcon = (ImageView) view.findViewById(R.id.home_channels);
         moreIcon = (ImageView) view.findViewById(R.id.home_more_icon);
+        Constants.categoriesMap.put("1","General");
+        Constants.categoriesMap.put("2","Suggestions");
+        Constants.categoriesMap.put("3","Classifieds");
+        Constants.categoriesMap.put("4","Crime & saftey");
+        Constants.categoriesMap.put("5","Lost & Found");
+//        autoCompleteTextView = (AutoCompleteTextView)view.findViewById(R.id.home_search_autocomplete);
+//        searchLayout = (RelativeLayout)view.findViewById(R.id.home_search_layout);
+//        searchIcon = (ImageView)view.findViewById(R.id.home_search_icon);
+//        textView = (TextView)view.findViewById(R.id.home_fragment_title);
+//        invite = (TextView)view.findViewById(R.id.invite_button);
     }
 
     /* initialize event listeners*/
     private void initializeEventListeners() {
-        inviteBtn.setOnClickListener(this);
+//        inviteBtn.setOnClickListener(this);
         feedIcon.setOnClickListener(this);
         socializeIcon.setOnClickListener(this);
         newPostIcon.setOnClickListener(this);
         channelsIcon.setOnClickListener(this);
         moreIcon.setOnClickListener(this);
+//        searchIcon.setOnClickListener(this);
     }
 
     private void loadDefaultFragment() {
@@ -126,6 +141,7 @@ public class Home extends Fragment implements View.OnClickListener {
                 break;
             case R.id.home_feed:
                 applyCurrentStateToAppBarIcons(R.drawable.feed_filled, feedIcon);
+                replaceContainer(0);
                 break;
             case R.id.home_socialize_icon:
                 applyCurrentStateToAppBarIcons(R.drawable.socialize_filled, socializeIcon);
@@ -163,6 +179,9 @@ public class Home extends Fragment implements View.OnClickListener {
                 applyCurrentStateToAppBarIcons(R.drawable.more_filled, moreIcon);
                 callback.drawerOpen();
                 break;
+//            case R.id.home_search_icon:
+//
+//                break;
 
         }
     }

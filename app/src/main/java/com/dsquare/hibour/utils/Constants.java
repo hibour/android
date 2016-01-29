@@ -1,6 +1,11 @@
 package com.dsquare.hibour.utils;
 
+import com.dsquare.hibour.pojos.Socialize.ChoosedUser;
+import com.dsquare.hibour.pojos.Socialize.Datum;
+import com.dsquare.hibour.pojos.posts.Postpojos;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +18,7 @@ public class Constants {
     public static final String URL_DOMAIN="http://api.hibour.com/v1/";
     public static final String URL_SIGN_IN=URL_DOMAIN+"Userreg/check?";
     public static final String URL_SIGN_UP=URL_DOMAIN+"Userreg/create?";
+    public static final String URL_MOBILE_NUMBER=URL_DOMAIN+"Userreg/mobile?";
     public static final String URL_TERMS= URL_DOMAIN+"";
     public static final String URL_GET_ALL_PROOFS= URL_DOMAIN+"Proof";
     public static final String URL_INSERT_PROOFS=URL_DOMAIN+"Userreg/";
@@ -22,11 +28,15 @@ public class Constants {
     public static final String URL_LOC_INSERT=URL_DOMAIN+"";
     public static final String URL_POST_INSERTS=URL_DOMAIN+"Posts/create";
     public static final String URL_GET_ALL_CATEGORIES= URL_DOMAIN+"Posttype";
-    public static final String URL_GET_ALL_POSTS = URL_DOMAIN+"Userposts/";
+    public static final String URL_GET_ALL_POSTS = URL_DOMAIN+"getfeeds/";
     public static final String URL_GET_ABOUT_US=URL_DOMAIN+"";
     public static final String URL_POST_COMMENT = URL_DOMAIN+"Commentpost/create?";
+    public static final String URL_POST_LIKE = URL_DOMAIN+"Likepost/create?";
+    public static final String URL_POST_GET_COMMENT = URL_DOMAIN+"getcomments/";
     public static final String URL_SETTINGS = URL_DOMAIN+"Userreg/userdetails?";
     public static final String URL_USER_DETAIL = URL_DOMAIN + "Userreg/aboutuser?userid=%s&signature=I0mkNPgu6h0M4YtOmG6Ib5BdFHy1Knrf";
+    public static final String URL_GET_SOCIAL_NEIGHBOURS = URL_DOMAIN+"Preferences/members?";
+    public static final String URL_GET_NEIGHBOURHOODS = URL_DOMAIN+"Userreg/address?";
 
     /*user constants*/
     public static final String KEYWORD_USER_NAME="Username";
@@ -36,6 +46,7 @@ public class Constants {
     public static final String KEYWORD_SIGNIN_TYPE="signinType";
     public static final String KEYWORD_SIGNUP_TYPE = "Regtype";
     public static final String KEYWORD_USR_ID="userid";
+    public static final String KEYWORD_MOBILE_NUMBER="phonenumber";
     public static final String KEYWORD_PREFS_IDS="preferencesid";
     public static final String KEYWORD_PROOF_IMAGE="profileimage";
     public static final String KEYWORD_PROOF_ID="Prooftypeid";
@@ -60,6 +71,12 @@ public class Constants {
     public static final String DATABASE_NAME="Hibour.db";
     public static final String PREFERENCE_FILE_NAME="Hibour";
     public static final String PREFERENCE_USER_ID="userId";
+
+    public static  Double Longitude = 78.00;
+    public static  Double Latitude = 21.00;
+    public static  String LocationAddress;
+    public static String userAddress="";
+
     public static final String SF_ID="userID";
     public static final String SF_FIRST="userName";
     public static final String SF_EMAIL="Email";
@@ -75,14 +92,19 @@ public class Constants {
     public static final String REGISTRATION_COMPLETE = "registrationComplete";
     public static final String SHARED_PREFERENCES_GCM_TOKEN = "gcm_token";
     public static final String SERVER_SUCCESS = "success";
-    public static Double Longitude = 78.00;
-    public static Double Latitude = 21.00;
-    public static String LocationAddress;
-    public static String userAddress="";
-    // message view types
+    
+        // message view types
     public static int MESSAGE_LEFT = 1;
     public static int MESSAGE_RIGHT = 2;
     // temp data
     public static Map<String,String> prefernceMap = new LinkedHashMap<String,String>();
-    public static  List<String[]> prefernceList = new ArrayList<>();
+    public static List<String[]> prefernceList = new ArrayList<>();
+    public static Map<String,List<String>> socialPrefsMap = new LinkedHashMap<>();
+    public static List<Datum> socialPrefsList = new ArrayList<>();
+    public static Map<String,Datum> prefsMap = new LinkedHashMap<>();
+    public static List<ChoosedUser> membersList = new ArrayList<>();
+
+    public static Map<String,List<Postpojos>> postsMap = new LinkedHashMap<>();
+    public static Map<String,List<Postpojos>> postpojosMap = new LinkedHashMap<>();
+    public static Map<String,String> categoriesMap = new HashMap<>();
 }

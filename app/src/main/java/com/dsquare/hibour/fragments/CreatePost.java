@@ -29,6 +29,7 @@ import com.dsquare.hibour.utils.Fonts;
 import com.dsquare.hibour.utils.Hibour;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -77,8 +78,10 @@ public class CreatePost extends android.support.v4.app.Fragment implements View.
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_createpost, container, false);
+
         initializeViews(view);
         initializeEventListeners();
+        getNeighbourHoods(application.getUserId());
         return view;
     }
 
@@ -204,8 +207,8 @@ public class CreatePost extends android.support.v4.app.Fragment implements View.
     private void sendPostData(String posttypeid, String postMessage, String postImage) {
         if (networkDetector.isConnected()) {
             String cat_str = "1";
-            newpostDialogue = ProgressDialog.show(getActivity(), "", getResources()
-                    .getString(R.string.progress_dialog_text));
+//            newpostDialogue = ProgressDialog.show(getActivity(), "", getResources()
+//                    .getString(R.string.progress_dialog_text));
             postsClient.insertonPost(application.getUserId(), cat_str, posttypeid, postMessage, postImage
                     , "1", new WebServiceResponseCallback() {
                 @Override
@@ -276,4 +279,38 @@ public class CreatePost extends android.support.v4.app.Fragment implements View.
     }
 
 
+    /*get all neighbourhoods */
+    private void getNeighbourHoods(String userId){
+        if(networkDetector.isConnected()){
+//            newpostDialogue = ProgressDialog.show(getActivity(),"","Please Wait...");
+            postsClient.getAllNeighbourhoods(userId,new WebServiceResponseCallback() {
+                @Override
+                public void onSuccess(JSONObject jsonObject) {
+                    parseNeighbourHoods(jsonObject);
+                    closePostDialog();
+                }
+
+                @Override
+                public void onFailure(VolleyError error) {
+                    closePostDialog();
+                    Log.d("error",error.toString());
+                }
+            });
+        }else{
+
+        }
+    }
+    /* parse neighbourhoods*/
+    private void parseNeighbourHoods(JSONObject jsonObject){
+        List<String> neighbourHoods = new ArrayList<>();
+        try {
+            JSONArray data = jsonObject.getJSONArray("data");
+            for(int i=0;i<data.length();i++){
+                neighbourHoods.add(data.getString(i));
+                Log.d("neighbourhoods",data.getString(i));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }

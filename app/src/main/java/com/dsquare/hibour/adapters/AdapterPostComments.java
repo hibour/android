@@ -2,17 +2,14 @@ package com.dsquare.hibour.adapters;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dsquare.hibour.R;
-import com.dsquare.hibour.activities.PostComments;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,14 +19,14 @@ import java.util.List;
  */
 public class AdapterPostComments extends RecyclerView.Adapter<AdapterPostComments.ViewHolder>{
 
-    private List<String[]> listItems = new ArrayList<>();
+    private List<String[]> comments = new ArrayList<>();
     private Context context;
     private ViewHolder globalHolder;
     private ProgressDialog detailsDialog;
 
-    public AdapterPostComments(Context context,List<String[]> listItems) {
+    public AdapterPostComments(Context context,List<String[]> comments) {
         this.context = context;
-        this.listItems = listItems;
+        this.comments = comments;
     }
 
     @Override
@@ -42,15 +39,15 @@ public class AdapterPostComments extends RecyclerView.Adapter<AdapterPostComment
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.userName.setText(listItems.get(position)[0]);
-        holder.date.setText(listItems.get(position)[1]);
-        holder.comment.setText(listItems.get(position)[2]);
+        holder.userName.setText(comments.get(position)[0]);
+        holder.date.setText(comments.get(position)[1]);
+        holder.comment.setText(comments.get(position)[2]);
 
     }
 
     @Override
     public int getItemCount() {
-        return listItems.size();
+        return comments.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

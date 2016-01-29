@@ -134,21 +134,6 @@ public class AccountsClient {
         public void onResponse(JSONObject response) {
           callback.onSuccess(response);
         }
-      }, new Response.ErrorListener() {
-        @Override
-        public void onErrorResponse(VolleyError error) {
-          callback.onFailure(error);
-        }
-      });
-      termsRequest.setRetryPolicy(new DefaultRetryPolicy(
-          MY_SOCKET_TIMEOUT_MS,
-          DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-          DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-      HibourConnector.getInstance(context).addToRequestQueue(termsRequest);
-    } catch (MalformedURLException e) {
-      e.printStackTrace();
-    } catch (URISyntaxException e) {
-      e.printStackTrace();
     }
   }
 
@@ -440,4 +425,43 @@ public class AccountsClient {
       e.printStackTrace();
     }
   }
+    /* get user phoneno url String*/
+    public void mobilenumUser(String userNum
+            ,final WebServiceResponseCallback callback){
+        try {
+            String urlStr = getPhoneUserUrl(userNum);
+            URL url = new URL(urlStr);
+            URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
+                    , url.getPath(), url.getQuery(), url.getRef());
+            url = uri.toURL();
+            JsonObjectRequest signUpRequest = new JsonObjectRequest(Request.Method.GET
+                    , url.toString(), (String) null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    callback.onSuccess(response);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    callback.onFailure(error);
+                }
+            });
+            signUpRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    MY_SOCKET_TIMEOUT_MS,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            HibourConnector.getInstance(context).addToRequestQueue(signUpRequest);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
+    /* get mobilenumUser url string*/
+    private String getPhoneUserUrl(String userNum ){
+        String url = Constants.URL_MOBILE_NUMBER+Constants.KEYWORD_MOBILE_NUMBER+"="+userNum+"&"
+                +Constants.KEYWORD_SIGNATURE+"="+Constants.SIGNATURE_VALUE+"&";
+        Log.d("url",url);
+        return url;
+    }
 }

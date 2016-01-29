@@ -68,7 +68,17 @@ public class NotificationsAdapter extends BaseAdapter {
             NotificationTable item = gcmMessageList.get(position);
             gcmMessageList.add(position, new NotificationTable(item.message, item.date, "read"));
             notifyDataSetChanged();
+
+        }else{
+            Log.d("status", "read");
+            holder.tipContent.setTypeface(tf1);
+            String[] d1 = new String[3];
+            d1[0] = gcmMessageList.get(position).message;
+            d1[1] = gcmMessageList.get(position).date;
+            d1[2] = "unread";
+            gcmMessageList.set(position, d1);
         }
+
         return convertView;
     }
 
