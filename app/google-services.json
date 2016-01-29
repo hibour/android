@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_id": "hibour-6d8b1",
+    "project_number": "478970991318",
+    "name": "Hi\u0027bour"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:478970991318:android:d6db48af48ba4e53",
+        "client_id": "android:com.dsquare.hibour",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.dsquare.hibour"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "478970991318-d547lutnceg7g9jhcrv3fdpn22mpteb3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dsquare.hibour",
+            "certificate_hash": "F21974855598177EAEA87BFB5B814A48C382DEB8"
+          }
+        },
+        {
+          "client_id": "478970991318-2cf0lguo7mfm2rv427t31i776116sa5i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dsquare.hibour",
+            "certificate_hash": "C7D2F341564E6BA3AA98E0ED0687A8A61D7CC087"
+          }
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 2,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}

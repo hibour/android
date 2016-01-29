@@ -1,7 +1,7 @@
 package com.dsquare.hibour.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -9,6 +9,7 @@ import android.widget.ListView;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.adapters.NotificationsAdapter;
 import com.dsquare.hibour.database.DatabaseHandler;
+import com.dsquare.hibour.database.table.NotificationTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ public class Notifications extends AppCompatActivity implements View.OnClickList
 
     private ImageView backIcon;
 
-    private List<String[]> notificationsList = new ArrayList<>();
+    private List<NotificationTable> notificationsList = new ArrayList<>();
     private DatabaseHandler handler;
     private ListView notifList;
     @Override
@@ -53,18 +54,14 @@ public class Notifications extends AppCompatActivity implements View.OnClickList
         notifList.setAdapter(new NotificationsAdapter(this, notificationsList));
     }
     /* get sample data to show*/
-    private List<String[]> getSampleData(){
-        List<String[]> data = new ArrayList<>();
-        for(int i=0;i<5;i++){
-            String[] d = new String[3];
-            d[0] = "Sample notification data. Sample notifications data.";
-            d[1] = "2016-1-25";
+    private List<NotificationTable> getSampleData() {
+        List<NotificationTable> data = new ArrayList<>();
+        for(int i=0;i<10;i++){
             if(i<5){
-                d[2] = "unread";
+                data.add(new NotificationTable("Sample notification data. Sample notifications data.", "2016-1-25", "unread"));
             }else{
-                d[2] = "read";
+                data.add(new NotificationTable("Sample notification data. Sample notifications data.", "2016-1-25", "read"));
             }
-            data.add(d);
         }
         return data;
     }

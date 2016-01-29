@@ -20,6 +20,7 @@ import com.dsquare.hibour.R;
 import com.dsquare.hibour.adapters.NeighboursAdapter;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
 import com.dsquare.hibour.network.NetworkDetector;
+import com.dsquare.hibour.pojos.user.UserDetail;
 import com.dsquare.hibour.pojos.Socialize.ChoosedUser;
 import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Fonts;
@@ -35,7 +36,7 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
     private RelativeLayout searchLayout;
     private RecyclerView neighboursRecycler;
     private NeighboursAdapter adapter;
-    private List<String[]> neighboursList = new ArrayList<>();
+    private List<UserDetail> neighboursList = new ArrayList<>();
     private NetworkDetector networkDetector;
     private ProgressDialog dialog;
     private NavDrawerCallback callback;
@@ -121,6 +122,12 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
     }
     /* prepare neighbours list*/
     private void prepareNeighboursList(){
+        for(int i=0;i<10;i++){
+            UserDetail user = new UserDetail();
+            user.id = i;
+            user.Username = "Ashok Madduru";
+            user.Address = "Hardware Engineer";
+            neighboursList.add(user);
         if(frmAdapter){
             List<ChoosedUser> user = Constants.prefsMap.get(getIntent()
                     .getStringExtra("prefId")).getChoosedUsers();

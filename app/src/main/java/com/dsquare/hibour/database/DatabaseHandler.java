@@ -1,84 +1,61 @@
 package com.dsquare.hibour.database;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
-import com.dsquare.hibour.utils.Constants;
+import com.activeandroid.query.Delete;
+import com.activeandroid.query.Select;
+import com.dsquare.hibour.database.table.NotificationTable;
+import com.dsquare.hibour.database.table.UserDetailTable;
+import com.dsquare.hibour.database.table.UserMessageTable;
+import com.dsquare.hibour.pojos.message.UserMessage;
+import com.dsquare.hibour.pojos.user.UserDetail;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
-/**
- * Created by Aditya Ravikanti on 1/25/2016.
- */
-public class DatabaseHandler extends SQLiteOpenHelper {
-    private SQLiteDatabase database;
-    private Context context;
+public class DatabaseHandler {
+  private static final String LOG_TAG = DatabaseHandler.class.getSimpleName();
+  private Context context;
 
-    public DatabaseHandler(Context context) {
-        super(context, context.getFilesDir() + File.separator + Constants.DATABASE_NAME, null, 1);
-        this.context = context;
-    }
+  public DatabaseHandler(Context context) {
+    this.context = context;
+  }
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        String messagesQuery = "CREATE TABLE IF NOT EXISTS notifications(message TEXT, date TEXT, status TEXT)";
-        db.execSQL(messagesQuery);
-    }
+  public void insertUserMessage(UserMessage userMessage) {
+    new UserMessageTable(userMessage).save();
+  }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS notifications");
-        onCreate(db);
+  public List<UserMessage> getUserMessage(String user_1, String user_2) {
+    List<UserMessageTable> userMessageTableList = new Select().from(UserMessageTable.class)
+        .where("(to_user = \"" + user_1 + "\" and from_user = \"" + user_2 + "\") or (to_user = \""
+            + user_2 + "\" and from_user = \"" + user_1 + "\") ").orderBy("message_time DESC")
+        .execute();
+    List<UserMessage> userMessageList = new ArrayList<>();
+    for (UserMessageTable message : userMessageTableList) {
+      userMessageList.add(new UserMessage(message.from, message.to, message.message, message.date));
     }
+    return userMessageList;
+  }
 
-    /* initialize database*/
-    private void initializeDatabase(){
-        if(database == null){
-            database = getWritableDatabase();
-        }
-    }
-    /* insert notifications into database*/
-    public void insertNotificationIntoDatabase(String message){
-        initializeDatabase();
-        ContentValues cv = new ContentValues();
-        try{
-            cv.put("message",message);
-            cv.put("date",getTodayDate());
-            database.insert("gcm_notifications",null,cv);
-            Log.d("notification", "inserted");
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-    /* get today date*/
-    public String getTodayDate(){
-        Calendar currentDate = Calendar.getInstance(); //Get the current date
-        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd"); //format it as per your requirement
-        return formatter.format(currentDate.getTime());
-    }
-    /*get notifications from database*/
-    public List<String[]> getListOfNotifications(){
-        initializeDatabase();
-        List<String[]> gcmList = new ArrayList<String[]>();
-        String getQuery = "SELECT * FROM notifications";
-        Cursor cursor = database.rawQuery(getQuery, null);
-        if(cursor != null && cursor.moveToFirst()){
-            do{
-                String[] message = new String[2];
-                message[0] = cursor.getString(cursor.getColumnIndex("message"));
-                message[1] = cursor.getString(cursor.getColumnIndex("date"));
-                message[2] = cursor.getString(cursor.getColumnIndex("status"));
-                gcmList.add(message);
-            }while (cursor.moveToNext());
-        }
-        return gcmList;
-    }
+  /* insert notifications into database*/
+  public void insertNotificationIntoDatabase(String message) {
+    new NotificationTable(message).save();
+  }
+
+  /*get notifications from database*/
+  public List<NotificationTable> getListOfNotifications() {
+    return new Select().from(NotificationTable.class).execute();
+  }
+
+  public void insertUserDetails(UserDetail userDetail) {
+    new Delete().from(UserDetailTable.class).where(" user_id = " + userDetail.id).execute();
+    new UserDetailTable(userDetail).save();
+  }
+
+  public UserDetail getUserDetail(int user_id) {
+    UserDetailTable user = new Select().from(UserDetailTable.class).where("user_id = " + user_id).executeSingle();
+    if (user == null)
+      return null;
+    return new UserDetail(user);
+  }
 }
