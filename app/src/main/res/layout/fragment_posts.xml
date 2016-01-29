@@ -99,7 +99,6 @@
         android:background="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/dp_7"
         android:id="@+id/post_posts_list"
         android:layout_below="@+id/home_app_bar"
         android:visibility="gone">

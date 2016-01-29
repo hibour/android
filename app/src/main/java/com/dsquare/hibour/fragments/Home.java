@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -39,9 +38,10 @@ public class Home extends Fragment implements View.OnClickListener {
     private TextView inviteBtn;
     private NavDrawerCallback callback;
     private boolean isHome = true;
-    private ImageView feedIcon, socializeIcon, newPostIcon, channelsIcon, moreIcon,searchIcon;
+    private ImageView feedIcon, socializeIcon, newPostIcon, channelsIcon, moreIcon,postimage,searchIcon;
     private AutoCompleteTextView autoCompleteTextView;
     private RelativeLayout searchLayout;
+    private LinearLayout bottomBar1;
     private TextView textView,invite;
     public Home() {
         // Required empty public constructor
@@ -65,6 +65,9 @@ public class Home extends Fragment implements View.OnClickListener {
         newPostIcon = (ImageView) view.findViewById(R.id.home_new_post);
         channelsIcon = (ImageView) view.findViewById(R.id.home_channels);
         moreIcon = (ImageView) view.findViewById(R.id.home_more_icon);
+        postimage = (ImageView) view.findViewById(R.id.home_post);
+      bottomBar1 = (LinearLayout) view.findViewById(R.id.home_bottom_menu);
+
         Constants.categoriesMap.put("1","General");
         Constants.categoriesMap.put("2","Suggestions");
         Constants.categoriesMap.put("3","Classifieds");
@@ -75,6 +78,7 @@ public class Home extends Fragment implements View.OnClickListener {
 //        searchIcon = (ImageView)view.findViewById(R.id.home_search_icon);
 //        textView = (TextView)view.findViewById(R.id.home_fragment_title);
 //        invite = (TextView)view.findViewById(R.id.invite_button);
+
     }
 
     /* initialize event listeners*/
@@ -85,6 +89,7 @@ public class Home extends Fragment implements View.OnClickListener {
         newPostIcon.setOnClickListener(this);
         channelsIcon.setOnClickListener(this);
         moreIcon.setOnClickListener(this);
+        postimage.setOnClickListener(this);
 //        searchIcon.setOnClickListener(this);
     }
 
@@ -140,35 +145,44 @@ public class Home extends Fragment implements View.OnClickListener {
                 inviteFriends(getString(R.string.invite_msg));
                 break;
             case R.id.home_feed:
-                applyCurrentStateToAppBarIcons(R.drawable.feed_filled, feedIcon);
-                replaceContainer(0);
+                if(bottomBar1.getVisibility() == View.VISIBLE){
+                    newPostIcon.setVisibility(View.GONE);
+                    bottomBar1.setVisibility(View.GONE);
+                    postimage.setVisibility(View.VISIBLE);
+                    replaceContainer(0);
+                }else {
+                    //TODO: Need to clean this up
+                    applyCurrentStateToAppBarIcons(R.drawable.feed, feedIcon);
+                    replaceContainer(3);
+                    bottomBar1.setVisibility(View.VISIBLE);
+                    newPostIcon.setVisibility(View.VISIBLE);
+                }
                 break;
             case R.id.home_socialize_icon:
                 applyCurrentStateToAppBarIcons(R.drawable.socialize_filled, socializeIcon);
                 replaceContainer(4);
                 break;
             case R.id.home_new_post:
-                LinearLayout bottomBar = (LinearLayout) this.getActivity().findViewById(R.id.home_bottom_menu);
-                if (bottomBar.getVisibility() == View.VISIBLE) {
+                if (bottomBar1.getVisibility() == View.VISIBLE) {
                     applyCurrentStateToAppBarIcons(R.drawable.cancel_filled, newPostIcon);
 
                     //mask the rest of the screen
-                    FrameLayout screenrest = (FrameLayout) this.getActivity().findViewById(R.id.home_fragment_container);
-                    screenrest.setBackgroundColor(getResources().getColor(R.color.black_transparent));
+//                    FrameLayout screenrest = (FrameLayout) this.getActivity().findViewById(R.id.home_fragment_container);
+//                    screenrest.setBackgroundColor(getResources().getColor(R.color.black_transparent));
 
-                    bottomBar.setVisibility(View.GONE);
+                    bottomBar1.setVisibility(View.GONE);
 
                     replaceContainer(3);
                 } else {
                     //TODO: Need to clean this up
                     applyCurrentStateToAppBarIcons(R.drawable.post, newPostIcon);
 
-                    ImageView socializeIcon = (ImageView) this.getActivity().findViewById(R.id.home_socialize_icon);
-                    socializeIcon.setImageResource(R.drawable.socialize_filled);
+//                    ImageView socializeIcon = (ImageView) this.getActivity().findViewById(R.id.home_feed);
+//                    socializeIcon.setImageResource(R.drawable.feed_filled);
 
-                    replaceContainer(4);
+                    replaceContainer(3);
 
-                    bottomBar.setVisibility(View.VISIBLE);
+                    bottomBar1.setVisibility(View.VISIBLE);
                 }
 
                 break;
@@ -178,6 +192,13 @@ public class Home extends Fragment implements View.OnClickListener {
             case R.id.home_more_icon:
                 applyCurrentStateToAppBarIcons(R.drawable.more_filled, moreIcon);
                 callback.drawerOpen();
+                break;
+            case R.id.home_post:
+                applyCurrentStateToAppBarIcons(R.drawable.feed, feedIcon);
+                bottomBar1.setVisibility(View.VISIBLE);
+                newPostIcon.setVisibility(View.VISIBLE);
+                postimage.setVisibility(View.GONE);
+                replaceContainer(3);
                 break;
 //            case R.id.home_search_icon:
 //

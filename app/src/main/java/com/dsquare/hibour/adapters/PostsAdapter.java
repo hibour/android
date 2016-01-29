@@ -3,6 +3,7 @@ package com.dsquare.hibour.adapters;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.network.PostsClient;
 import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Hibour;
+import com.dsquare.hibour.utils.SlidingTabLayout;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -43,10 +45,16 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>
     private PostsClient postsClient;
     private ProgressDialog postsDialog;
     private NetworkDetector networkDetector;
+    private List<String> tabsList = new ArrayList<>();
+    private ViewPager pager;
+    private SlidingTabLayout tabs;
+    private RelativeLayout noFeedsLayout;
+    private List<String> autocompleteList = new ArrayList<>();
 
     public PostsAdapter(Context context,List<String[]> listItems) {
         this.context = context;
         this.listItems = listItems;
+
     }
 
     @Override
@@ -106,12 +114,25 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>
                 openCommentsDialog(listItems.get(position)[6],listItems.get(position)[4]);
                 break;
             case R.id.adapter_post_likes_image:
+//                Fragment fragment = new Posts();
+//                if (fragment instanceof Posts)
+//                    ((Posts) fragment).getAllposts();
+//                posts.getAllposts();
                 if(listItems.get(position)[7].equals("false")){
                     viewHolder.likesImage.setImageResource(R.drawable.ic_like_red);
                     getLikesPost(listItems.get(position)[6]);
+                   int value = Integer.parseInt(viewHolder.likes.getText().toString());
+                    int value1 = value+1;
+                    viewHolder.likes.setText(String.valueOf(value1));
+
                 }else{
                     viewHolder.likesImage.setImageResource(R.mipmap.ic_likes_icon);
                     getLikesPost(listItems.get(position)[6]);
+                    if(!viewHolder.likes.getText().toString().equals("0")){
+                        int value = Integer.parseInt(viewHolder.likes.getText().toString());
+                        int value1 = value-1;
+                        viewHolder.likes.setText(String.valueOf(value1));
+                    }
                 }
 
 //                getLikesPost(listItems.get(position)[6]);
@@ -122,7 +143,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView userName,date,description,categoryName,likes
                 ,comments;
-        private ImageView userImage,shareImage,likesImage;
+        private ImageView userImage,shareImage,likesImage,likesImage1;
         private RelativeLayout commentsLayout;
 
         public ViewHolder(View itemView) {
@@ -176,6 +197,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>
             Toast.makeText(context, "Check network connection", Toast.LENGTH_LONG).show();
         }
     }
+
     /* close posts dialog*/
     private void closePostsDialog(){
         if(postsDialog!=null){

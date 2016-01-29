@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.dsquare.hibour.R;
@@ -51,6 +52,7 @@ public class PostLikes  extends AppCompatActivity  {
 
     private void prepareLikesList(){
         likeList.clear();
+        Log.d("id",postId);
             List<Postpojos> posts = Constants.postpojosMap.get(postId);
             try {
                 for(int i=0;i<posts.size();i++) {
@@ -59,6 +61,7 @@ public class PostLikes  extends AppCompatActivity  {
                         String[] data = new String[1];
                         data[0] =  datas.get(i).getName();
                         likeList.add(data);
+                        postId.isEmpty();
                     }
                 }
             } catch (Exception e) {
