@@ -60,7 +60,6 @@ public class NotificationsAdapter extends BaseAdapter {
         }
 
         Typeface tf = Typeface.createFromAsset(context.getAssets(),"fonts/pn_extrabold.otf");
-
         holder.tipContent.setText(gcmMessageList.get(position).message);
         holder.tipDate.setText(gcmMessageList.get(position).date);
         if (gcmMessageList.get(position).status.equals("unread")) {
@@ -69,7 +68,6 @@ public class NotificationsAdapter extends BaseAdapter {
             NotificationTable item = gcmMessageList.get(position);
             gcmMessageList.add(position, new NotificationTable(item.message, item.date, "read"));
             notifyDataSetChanged();
-
         }
 
         return convertView;

@@ -30,6 +30,7 @@ public class NeighboursAdapter extends RecyclerView.Adapter<NeighboursAdapter.Vi
   private ViewHolder globalHolder;
   private ProgressDialog detailsDialog;
 
+
   public NeighboursAdapter(Context context, List<UserDetail> listItems) {
     this.context = context;
     this.listItems = listItems;

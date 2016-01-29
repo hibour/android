@@ -24,6 +24,10 @@ import com.dsquare.hibour.pojos.Socialize.ChoosedUser;
 import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Fonts;
 import com.dsquare.hibour.pojos.user.UserDetail;
+import com.dsquare.hibour.pojos.user.UserDetail;
+import com.dsquare.hibour.pojos.Socialize.ChoosedUser;
+import com.dsquare.hibour.utils.Constants;
+import com.dsquare.hibour.utils.Fonts;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -122,31 +126,6 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
     }
     /* prepare neighbours list*/
     private void prepareNeighboursList(){
-        /*if(frmAdapter){
-            List<ChoosedUser> user = Constants.prefsMap.get(getIntent()
-                    .getStringExtra("prefId")).getChoosedUsers();
-            for(int i=0;i< user.size();i++){
-                if(user.get(i).getUserName()!=null &&!user.get(i).getUserName().equals("null")){
-                    String[] data = new String[3];
-                    data[0] = user.get(i).getUserName();
-                    data[1] = user.get(i).getUserId();
-                    data[2] = user.get(i).getUserImage();
-                    neighboursList.add(data);
-                    autocompleteList.add(user.get(i).getUserName());
-                }
-            }
-        }else{
-            for(int i=0;i< Constants.membersList.size();i++){
-                if(Constants.membersList.get(i).getUserName()!=null &&
-                        !Constants.membersList.get(i).getUserName().equals("null")){
-                    String[] data = new String[3];
-                    data[0] = Constants.membersList.get(i).getUserName();
-                    data[1] = Constants.membersList.get(i).getUserId();
-                    data[2] = Constants.membersList.get(i).getUserImage();
-                    neighboursList.add(data);
-                    autocompleteList.add(Constants.membersList.get(i).getUserName());
-                }
-            }*/
 
         for(int i=0;i<10;i++){
             UserDetail user = new UserDetail();
@@ -154,6 +133,7 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
             user.Username = "Ashok Madduru";
             user.Address = "Hardware Engineer";
             neighboursList.add(user);
-        }
+            }
+
     }
 }

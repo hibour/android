@@ -71,6 +71,12 @@ public class Constants {
     public static final String DATABASE_NAME="Hibour.db";
     public static final String PREFERENCE_FILE_NAME="Hibour";
     public static final String PREFERENCE_USER_ID="userId";
+
+    public static  Double Longitude = 78.00;
+    public static  Double Latitude = 21.00;
+    public static  String LocationAddress;
+    public static String userAddress="";
+
     public static final String SF_ID="userID";
     public static final String SF_FIRST="userName";
     public static final String SF_EMAIL="Email";
@@ -86,11 +92,8 @@ public class Constants {
     public static final String REGISTRATION_COMPLETE = "registrationComplete";
     public static final String SHARED_PREFERENCES_GCM_TOKEN = "gcm_token";
     public static final String SERVER_SUCCESS = "success";
-    public static Double Longitude = 78.00;
-    public static Double Latitude = 21.00;
-    public static String LocationAddress;
-    public static String userAddress="";
-    // message view types
+    
+        // message view types
     public static int MESSAGE_LEFT = 1;
     public static int MESSAGE_RIGHT = 2;
     // temp data

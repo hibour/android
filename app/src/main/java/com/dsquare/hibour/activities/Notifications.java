@@ -54,7 +54,6 @@ public class Notifications extends AppCompatActivity implements View.OnClickList
         notifList.setAdapter(new NotificationsAdapter(this, notificationsList));
     }
     /* get sample data to show*/
-
     private List<NotificationTable> getSampleData() {
         List<NotificationTable> data = new ArrayList<>();
         for(int i=0;i<10;i++){
