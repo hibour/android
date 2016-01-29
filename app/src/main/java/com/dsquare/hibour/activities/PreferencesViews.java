@@ -12,6 +12,7 @@ import com.dsquare.hibour.R;
 import com.dsquare.hibour.adapters.NeighboursAdapter;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
 import com.dsquare.hibour.network.NetworkDetector;
+import com.dsquare.hibour.pojos.user.UserDetail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
     private ImageView menuIcon,notifIcon;
     private RecyclerView neighboursRecycler;
     private NeighboursAdapter adapter;
-    private List<String[]> neighboursList = new ArrayList<>();
+    private List<UserDetail> neighboursList = new ArrayList<>();
     private NetworkDetector networkDetector;
     private ProgressDialog dialog;
     private NavDrawerCallback callback;
@@ -69,10 +70,11 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
     /* prepare neighbours list*/
     private void prepareNeighboursList(){
         for(int i=0;i<10;i++){
-            String[] data = new String[2];
-            data[0] = "Ashok Madduru";
-            data[1] = "Hardware Engineer";
-            neighboursList.add(data);
+            UserDetail user = new UserDetail();
+            user.id = i;
+            user.Username = "Ashok Madduru";
+            user.Address = "Hardware Engineer";
+            neighboursList.add(user);
         }
     }
 }

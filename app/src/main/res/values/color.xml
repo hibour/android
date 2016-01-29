@@ -11,6 +11,8 @@
     <color name="gray_1">#707070</color>
     <color name="app_bar_gray">#95a5a6</color>
     <color name="white">#FFFFFF</color>
+    <color name="white_transparent">#88FFFFFF</color>
+    <color name="transparent">#00000000</color>
     <color name="light_gray">#f1f1f1</color>
     <color name="light_grays">#F5F8FA</color>
     <color name="outline_green">#8CC152</color>

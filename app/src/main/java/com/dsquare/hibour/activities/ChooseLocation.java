@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.adapters.PlaceAutoCompleteAdapter;
+import com.dsquare.hibour.gcm.GcmRegistration;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
@@ -79,10 +80,13 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
     private static final LatLngBounds BOUNDS_INDIA =new LatLngBounds(
             new LatLng(Constants.Latitude,Constants.Longitude)
             ,new LatLng(Constants.Latitude,Constants.Longitude)) ;
-
-    private Button next,previous;
-    protected GoogleApiClient mGoogleApiClient;
     private static final int RC_SIGN_IN = 9001;
+    protected GoogleApiClient mGoogleApiClient;
+    /**
+     * Represents a geographical location.
+     */
+    protected Location mLastLocation;
+    private Button next, previous;
     private String TAG = "signin";
     private GoogleSignInOptions googleSignInOptions;
     private SignInButton signInButton;
@@ -103,10 +107,6 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
     private Hibour application;
     private Gson gson;
     private String userName,userMail;
-    /**
-     * Represents a geographical location.
-     */
-    protected Location mLastLocation;
     private double latitude,longitude;
     private String locAddress;
     private LatLng latLng;
@@ -129,6 +129,7 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
 
         accountsClient = new AccountsClient(this);
         application = Hibour.getInstance(this);
+        application.initializeSharedPrefs();
         gson = new Gson();
         next = (Button)findViewById(R.id.location_next_button);
 //        initializeViews();
@@ -569,37 +570,6 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
         mGoogleApiClient.connect();
     }
 
-    /* async task for getting address*/
-    private class GetCurrentAddress extends AsyncTask<Double, Void, String> {
-        @Override
-        protected String doInBackground(Double... params) {
-            try {
-                Geocoder geocoder = new Geocoder(ChooseLocation.this, Locale.getDefault());
-                List<Address> addresses=null;
-                addresses = geocoder.getFromLocation(params[0], params[1], 5);
-                if (addresses.size() > 0) {
-                    Address address = addresses.get(0);
-                    String ad = address.getAddressLine(0)+" "+address.getAddressLine(1)
-                            +" "+address.getAddressLine(2);
-                    Log.d("address",address.toString());
-                    Log.d("address",address.getLocality()+" "+address.getSubLocality());
-                    // locAddress = ad;
-                    locAddress = address.getAddressLine(1);
-                    latitude=params[0];
-                    longitude = params[1];
-                    //autoLoc = address.getLocality();
-                    return address.getLocality();
-                }
-            } catch (IOException e) {
-                Log.e("tag", e.getMessage());
-            }
-            return "";
-        }
-        @Override
-        protected void onPostExecute(String resultString) {
-            startMap();
-        }
-    }
     private void startMap(){
         if(!markerDrag){
             mapFragment.getMapAsync(this);
@@ -632,6 +602,7 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
             Toast.makeText(this,"Network error",Toast.LENGTH_LONG).show();
         }
     }
+
     /* parse loc data*/
     private void parseLocDetails(JSONObject jsonObject){
         try {
@@ -643,6 +614,7 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
             e.printStackTrace();
         }
     }
+
     /* close loc dialog*/
     private void closeLocDialog(){
         if(locInsertDialog!=null){
@@ -658,8 +630,18 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
         if(networkDetector.isConnected()){
             signUpDialog = ProgressDialog.show(this,"",getResources()
                     .getString(R.string.progress_dialog_text));
+            if (application.getGCMToken().equalsIgnoreCase("")) {
+                Toast.makeText(this, "Check Internet Connectivity.", Toast.LENGTH_SHORT).show();
+                if (application.checkPlayServices(this, null)) {
+                    // Start IntentService to register this application with GCM.
+                    Intent intent = new Intent(this, GcmRegistration.class);
+                    startService(intent);
+                }
+                return;
+            }
+
             accountsClient.signUpUser(userName,email,password,regType, Constants.userAddress
-                    ,new WebServiceResponseCallback() {
+                , application.getGCMToken(), new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parseSigUpDetails(jsonObject);
@@ -676,6 +658,7 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
             Toast.makeText(this,"Network not connected.",Toast.LENGTH_LONG).show();
         }
     }
+
     /* parse sign up details*/
     private void parseSigUpDetails(JSONObject jsonObject){
         try {
@@ -700,6 +683,7 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
             e.printStackTrace();
         }
     }
+
     /* close signup dialog*/
     private void closeSignUpDialog(){
         if(signUpDialog!=null){
@@ -709,5 +693,38 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
             }
         }
 
+    }
+
+    /* async task for getting address*/
+    private class GetCurrentAddress extends AsyncTask<Double, Void, String> {
+        @Override
+        protected String doInBackground(Double... params) {
+            try {
+                Geocoder geocoder = new Geocoder(ChooseLocation.this, Locale.getDefault());
+                List<Address> addresses = null;
+                addresses = geocoder.getFromLocation(params[0], params[1], 5);
+                if (addresses.size() > 0) {
+                    Address address = addresses.get(0);
+                    String ad = address.getAddressLine(0) + " " + address.getAddressLine(1)
+                        + " " + address.getAddressLine(2);
+                    Log.d("address", address.toString());
+                    Log.d("address", address.getLocality() + " " + address.getSubLocality());
+                    // locAddress = ad;
+                    locAddress = address.getAddressLine(1);
+                    latitude = params[0];
+                    longitude = params[1];
+                    //autoLoc = address.getLocality();
+                    return address.getLocality();
+                }
+            } catch (IOException e) {
+                Log.e("tag", e.getMessage());
+            }
+            return "";
+        }
+
+        @Override
+        protected void onPostExecute(String resultString) {
+            startMap();
+        }
     }
 }

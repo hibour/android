@@ -26,11 +26,13 @@ public class Constants {
     public static final String URL_GET_ABOUT_US=URL_DOMAIN+"";
     public static final String URL_POST_COMMENT = URL_DOMAIN+"Commentpost/create?";
     public static final String URL_SETTINGS = URL_DOMAIN+"Userreg/userdetails?";
+    public static final String URL_USER_DETAIL = URL_DOMAIN + "Userreg/aboutuser?userid=%s&signature=I0mkNPgu6h0M4YtOmG6Ib5BdFHy1Knrf";
 
     /*user constants*/
     public static final String KEYWORD_USER_NAME="Username";
     public static final String KEYWORD_EMAIL="Email";
     public static final String KEYWORD_PASSWORD="Password";
+    public static final String KEYWORD_GCM = "gcm";
     public static final String KEYWORD_SIGNIN_TYPE="signinType";
     public static final String KEYWORD_SIGNUP_TYPE = "Regtype";
     public static final String KEYWORD_USR_ID="userid";
@@ -58,18 +60,28 @@ public class Constants {
     public static final String DATABASE_NAME="Hibour.db";
     public static final String PREFERENCE_FILE_NAME="Hibour";
     public static final String PREFERENCE_USER_ID="userId";
-
-    public static  Double Longitude = 78.00;
-    public static  Double Latitude = 21.00;
-    public static  String LocationAddress;
-
     public static final String SF_ID="userID";
     public static final String SF_FIRST="userName";
     public static final String SF_EMAIL="Email";
     public static final String SF_REGTYPE="Regtype";
-
+    //animation constants
+    public static final int DURATION_DEFAULT = 300;
+    public static final int DURATION_SHORT = 100;
+    public static final int DURATION_MEDIUM = 250;
+    public static final int DURATION_LONG = 500;
+    public static final int DURATION_VERY_LONG = 750;
+    //GCM constants
+    public static final String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
+    public static final String REGISTRATION_COMPLETE = "registrationComplete";
+    public static final String SHARED_PREFERENCES_GCM_TOKEN = "gcm_token";
+    public static final String SERVER_SUCCESS = "success";
+    public static Double Longitude = 78.00;
+    public static Double Latitude = 21.00;
+    public static String LocationAddress;
     public static String userAddress="";
-
+    // message view types
+    public static int MESSAGE_LEFT = 1;
+    public static int MESSAGE_RIGHT = 2;
     // temp data
     public static Map<String,String> prefernceMap = new LinkedHashMap<String,String>();
     public static  List<String[]> prefernceList = new ArrayList<>();

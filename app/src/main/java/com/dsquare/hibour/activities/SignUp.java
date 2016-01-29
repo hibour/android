@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.gcm.GcmRegistration;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
@@ -52,13 +53,12 @@ import java.util.List;
 
 public class SignUp extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
-    protected GoogleApiClient mGoogleApiClient;
     private static final int RC_SIGN_IN = 9001;
+    private static final String intentText = "pintent";
+    protected GoogleApiClient mGoogleApiClient;
     private String TAG = "signin";
     private GoogleSignInOptions googleSignInOptions;
     private SignInButton signInButton;
-    private static final String intentText = "pintent";
-
     private LoginButton facebookLoginButton;
     private CallbackManager callbackManager;
     private Button submitButton;
@@ -110,6 +110,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
         networkDetector = new NetworkDetector(this);
         gson = new Gson();
         application = Hibour.getInstance(this);
+        application.initializeSharedPrefs();
         tf = Typeface.createFromAsset(getAssets(), Fonts.getTypeFaceName());
         submitButton.setTypeface(tf);
         name.setTypeface(tf);
@@ -369,8 +370,17 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
         if(networkDetector.isConnected()){
             signUpDialog = ProgressDialog.show(this,"",getResources()
                     .getString(R.string.progress_dialog_text));
+            if (application.getGCMToken().equalsIgnoreCase("")) {
+                Toast.makeText(this, "Check Internet Connectivity.", Toast.LENGTH_SHORT).show();
+                if (application.checkPlayServices(this, null)) {
+                    // Start IntentService to register this application with GCM.
+                    Intent intent = new Intent(this, GcmRegistration.class);
+                    startService(intent);
+                }
+                return;
+            }
             accountsClient.signUpUser(userName,email,password,regType, Constants.userAddress
-                    ,new WebServiceResponseCallback() {
+                , application.getGCMToken(), new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parseSigUpDetails(jsonObject);
