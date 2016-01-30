@@ -229,7 +229,7 @@ public class Home extends Fragment implements View.OnClickListener {
         switch (id) {
             case 0:
                 isHome = false;
-                fragment = new Posts();
+                fragment = new PostsNew();
                 break;
             case 1:
                 isHome = false;
