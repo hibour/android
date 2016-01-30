@@ -52,6 +52,7 @@ public class PostsNew extends Fragment {
             public void onClick(View v) {
                 if(scrollView.getVisibility() == View.GONE){
                     scrollView.setVisibility(View.VISIBLE);
+                    downArrow.setImageDrawable(getActivity().getDrawable(R.drawable.ic_arrow_up));
                 }else{
                     scrollView.setVisibility(View.GONE);
                 }
