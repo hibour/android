@@ -23,7 +23,7 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
     Button sumbit;
     EditText enterOtp;
     TextView welcome1, welcome2, resend, change;
-    private String mobileNo, otp;
+    private String mobileNo, otp,servicertype;
     private Intent data;
     private IntentFilter filter;
     private BroadcastReceiver otpReceiver;
@@ -53,6 +53,7 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
         String text = "<u>Resend</u>";
         resend.setText(Html.fromHtml(text));
         mobileNo = data.getExtras().getString("number");
+        servicertype = data.getExtras().getString("services");
         otp = data.getExtras().getString("otp");
         otpReceiver = new BroadcastReceiver(){
             @Override
@@ -118,9 +119,15 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
     }
 
     private void openSocilizeactivity() {
-        Intent intent = new Intent(getApplicationContext(), SocialCategories.class);
-        startActivity(intent);
-        finish();
+        if (servicertype.equals("Business")){
+            Intent intent = new Intent(getApplicationContext(), BusinessServices.class);
+            startActivity(intent);
+            finish();
+        }else {
+            Intent intent = new Intent(getApplicationContext(), SocialCategories.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     private void verifyReceivedOTP() {

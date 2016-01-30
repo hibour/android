@@ -129,7 +129,7 @@
             android:name=".activities.SocialPrefernce"
             android:label="@string/title_activity_social_categories" />
         <activity android:name=".activities.Notifications"/>
-
+        <activity android:name=".activities.BusinessServices"/>
         <!-- [START gcm_receiver] -->
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"

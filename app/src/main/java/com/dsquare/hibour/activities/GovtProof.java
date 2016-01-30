@@ -162,6 +162,7 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
     private void initializeEventListeners(){
         continuous.setOnClickListener(this);
         uploadimage.setOnClickListener(this);
+
         //cardsSpinner.setOnItemSelectedListener(this);
     }
        /*prepare cards list*/

@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
@@ -25,6 +27,7 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
 
     private EditText mobile;
     private Button sumbit;
+    RadioGroup gender,services;
     private NetworkDetector networkDetector;
     private AccountsClient accountsClient;
     private ProgressDialog phoneDialog;
@@ -40,10 +43,12 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
     private void initializeViews() {
         Typeface numbers = Typeface.createFromAsset(getAssets(),
                 "fonts/pn_regular.otf");
-        mobile = (EditText) findViewById(R.id.phone_edit_text);
+        mobile = (EditText) findViewById(R.id.verification_phone_edit);
         mobile.setTypeface(numbers);
         sumbit = (Button) findViewById(R.id.phone_submit);
         sumbit.setTypeface(numbers);
+        gender = (RadioGroup) findViewById(R.id.group_gender);
+        services = (RadioGroup) findViewById(R.id.group_services);
         accountsClient = new AccountsClient(this);
         networkDetector = new NetworkDetector(this);
         gson = new Gson();
@@ -62,10 +67,22 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
     }
     private void openOtpActivity() {
         if(mobile.getText().toString().length() < 11 && mobile.getText().toString().length() > 9){
-            Intent intent = new Intent(getApplicationContext(),VerifyOtp.class);
-            intent.putExtra("number",mobile.getText().toString());
-            startActivity(intent);
-            finish();
+            if (gender.getCheckedRadioButtonId() != -1) {
+                if (services.getCheckedRadioButtonId() != -1) {
+                    int selected = services.getCheckedRadioButtonId();
+                    String serices_type = ((RadioButton) findViewById(selected)).getText().toString();
+                    Log.d("servicetype",serices_type);
+                    Intent intent = new Intent(getApplicationContext(), VerifyOtp.class);
+                    intent.putExtra("number", mobile.getText().toString());
+                    intent.putExtra("services",serices_type);
+                    startActivity(intent);
+                    finish();
+                }else {
+                    Toast.makeText(getApplicationContext(), "Please select Services", Toast.LENGTH_SHORT).show();
+                }
+            }else {
+                Toast.makeText(getApplicationContext(), "Please select Gender", Toast.LENGTH_SHORT).show();
+            }
         }else{
             Toast.makeText(this, "Invalid mobile number", Toast.LENGTH_SHORT).show();
         }
