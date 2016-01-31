@@ -46,7 +46,7 @@ public class PostsNew extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(new FeedsAdapter(10));
+       // recyclerView.setAdapter(new FeedsAdapter(10));
         downArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

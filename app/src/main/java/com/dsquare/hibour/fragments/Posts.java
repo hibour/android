@@ -227,8 +227,12 @@ public class Posts extends Fragment implements View.OnClickListener {
             tabs.setDistributeEvenly(true);
         else
             tabs.setDistributeEvenly(false);
-        pager.setAdapter(pagerAdapter);
-        tabs.setViewPager(pager);
+        try {
+            pager.setAdapter(pagerAdapter);
+            tabs.setViewPager(pager);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     private void setAdapters(List<String[]> postsList,Posts posts){
 //        postsRecycler.setAdapter(new PostsAdapter(getActivity(), postsList,posts));

@@ -7,7 +7,7 @@
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/feeds_card_view"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="@dimen/dp_2"
@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white">
-                <TextView
+                <com.dsquare.hibour.utils.ProximaSemiBold
                     android:layout_margin="@dimen/dp_5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
                     android:text="Category One"
                     android:textAllCaps="true"
                     android:id="@+id/feeds_category_name"/>
-                <TextView
+                <com.dsquare.hibour.utils.Proxima
                     android:layout_margin="@dimen/dp_5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
                     android:id="@+id/feeds_timestamp"
                     android:layout_alignParentRight="true"/>
             </RelativeLayout>
-            <TextView
+            <com.dsquare.hibour.utils.Proxima
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_25"
                 android:layout_margin="@dimen/dp_5"
@@ -55,7 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/feeds_image_height"
                 android:src="@drawable/a"
-                android:id="@+id/feed_image"
+                android:id="@+id/feeds_image"
                 android:layout_marginLeft="@dimen/dp_5"
                 android:layout_marginRight="@dimen/dp_5"
                 android:elevation="@dimen/dp_2"
@@ -81,6 +81,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:id="@+id/feeds_likes_layout"
                         android:orientation="horizontal"
                         android:layout_centerInParent="true">
                         <ImageView
@@ -88,8 +89,8 @@
                             android:layout_height="@dimen/dp_25"
                             android:id="@+id/feeds_likes_image"
                             android:layout_gravity="center_vertical"
-                            android:src="@drawable/ic_like_red"/>
-                        <TextView
+                            android:src="@mipmap/ic_likes_icon"/>
+                        <com.dsquare.hibour.utils.Proxima
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="100"
@@ -102,6 +103,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_margin="@dimen/dp_5"
+                        android:id="@+id/feeds_comments_layout"
                         android:layout_alignParentRight="true"
                         android:orientation="horizontal">
                         <ImageView
@@ -110,7 +112,7 @@
                             android:id="@+id/feeds_comments_icon"
                             android:layout_gravity="center_vertical"
                             android:src="@drawable/ic_comments"/>
-                        <TextView
+                        <com.dsquare.hibour.utils.Proxima
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="100"
