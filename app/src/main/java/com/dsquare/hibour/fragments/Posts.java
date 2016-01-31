@@ -130,14 +130,14 @@ public class Posts extends Fragment implements View.OnClickListener {
 
         pager = (ViewPager)view.findViewById(R.id.posts_pager);
         tabs = (SlidingTabLayout)view.findViewById(R.id.posts_tabs);
-        tabs.setDistributeEvenly(false);
+        //tabs.setDistributeEvenly(false);
         tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
             @Override
             public int getIndicatorColor(int position) {
                 return getResources().getColor(R.color.white);
             }
         });
-        tabs.setTabsBackgroundColor(getResources().getColor(R.color.gray));
+        tabs.setTabsBackgroundColor(getResources().getColor(R.color.brand));
     }
     private void initializeEventListeners() {
         invite.setOnClickListener(this);
@@ -223,6 +223,10 @@ public class Posts extends Fragment implements View.OnClickListener {
     /*set pager adapter*/
     private void setPager(){
         HomeTabsPager pagerAdapter = new HomeTabsPager(getFragmentManager(),tabsList);
+        if(tabsList.size()<4)
+            tabs.setDistributeEvenly(true);
+        else
+            tabs.setDistributeEvenly(false);
         pager.setAdapter(pagerAdapter);
         tabs.setViewPager(pager);
     }

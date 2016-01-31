@@ -5,15 +5,13 @@
     android:background="@color/light_gray">
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/card_view"
+        android:id="@+id/feeds_card_view"
         android:layout_gravity="center"
-        android:layout_marginLeft="@dimen/dp_10"
-        android:layout_marginRight="@dimen/dp_10"
         android:layout_marginTop="@dimen/dp_10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="2dp"
-        card_view:cardCornerRadius="4dp">
+        android:elevation="@dimen/dp_2"
+        card_view:cardCornerRadius="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,26 +34,31 @@
                     android:layout_centerVertical="true"
                     android:text="Category One"
                     android:textAllCaps="true"
-                    android:id="@+id/post_category_name"/>
+                    android:id="@+id/feeds_category_name"/>
                 <TextView
                     android:layout_margin="@dimen/dp_5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="5 days ago"
+                    android:id="@+id/feeds_timestamp"
                     android:layout_alignParentRight="true"/>
             </RelativeLayout>
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="25dp"
+                android:layout_height="@dimen/dp_25"
                 android:layout_margin="@dimen/dp_5"
+                android:id="@+id/feeds_message"
                 android:background="@color/white"
                 android:layout_marginTop="@dimen/dp_10"
                 android:text="Had one of the best time of life today"/>
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="@dimen/feeds_image_height"
                 android:src="@drawable/a"
-                android:elevation="2dp"
+                android:id="@+id/feed_image"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:layout_marginRight="@dimen/dp_5"
+                android:elevation="@dimen/dp_2"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"/>
             <LinearLayout
@@ -65,14 +68,15 @@
                 android:orientation="vertical">
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="@dimen/dp_40"
                     android:layout_marginTop="@dimen/dp_10"
                     android:layout_marginBottom="@dimen/dp_5">
                     <ImageView
-                        android:layout_width="25dp"
+                        android:layout_width="@dimen/dp_25"
                         android:layout_margin="@dimen/dp_5"
-                        android:layout_height="25dp"
+                        android:layout_height="@dimen/dp_25"
                         android:src="@drawable/avatar1"
+                        android:id="@+id/feeds_user_image"
                         android:layout_centerVertical="true"/>
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -80,16 +84,18 @@
                         android:orientation="horizontal"
                         android:layout_centerInParent="true">
                         <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
+                            android:layout_width="@dimen/dp_25"
+                            android:layout_height="@dimen/dp_25"
+                            android:id="@+id/feeds_likes_image"
                             android:layout_gravity="center_vertical"
                             android:src="@drawable/ic_like_red"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="100"
+                            android:id="@+id/feeds_likes_text"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="5dp"/>
+                            android:layout_marginLeft="@dimen/dp_5"/>
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -99,16 +105,18 @@
                         android:layout_alignParentRight="true"
                         android:orientation="horizontal">
                         <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
+                            android:layout_width="@dimen/dp_25"
+                            android:layout_height="@dimen/dp_25"
+                            android:id="@+id/feeds_comments_icon"
                             android:layout_gravity="center_vertical"
-                            android:src="@drawable/messages_filled"/>
+                            android:src="@drawable/ic_comments"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="100"
+                            android:id="@+id/feeds_comments_text"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="5dp"/>
+                            android:layout_marginLeft="@dimen/dp_5"/>
                     </LinearLayout>
                 </RelativeLayout>
             </LinearLayout>

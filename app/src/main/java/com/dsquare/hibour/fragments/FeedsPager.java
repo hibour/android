@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.adapters.FeedsAdapter;
 import com.dsquare.hibour.adapters.PostsAdapter;
 import com.dsquare.hibour.pojos.posts.Postpojos;
 import com.dsquare.hibour.utils.Constants;
@@ -52,12 +53,13 @@ public class FeedsPager extends Fragment {
         postsRecycler.setLayoutManager(layoutManager);
         postsRecycler.setHasFixedSize(true);
         setAdapter();
-        new setFeedsTask().execute(categoryName);
+       // new setFeedsTask().execute(categoryName);
     }
     /*set adapter*/
     private void setAdapter(){
         Log.d("name",categoryName);
-        if(categoryName.equals("All")){
+        postsRecycler.setAdapter(new FeedsAdapter(10));
+      /*  if(categoryName.equals("All")){
             for(String s:Constants.postsMap.keySet()){
                 List<Postpojos> posts = Constants.postsMap.get(s);
                 try {
@@ -99,7 +101,7 @@ public class FeedsPager extends Fragment {
             }
         }
         postsAdapter = new PostsAdapter(getActivity(),postsList);
-        postsRecycler.setAdapter(postsAdapter);
+        postsRecycler.setAdapter(postsAdapter);*/
     }
 
     /* asynchronous task to set data to adapter*/
