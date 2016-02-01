@@ -320,7 +320,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     /* send data to server*/
     private void sendPostData(String posttypeid, String postMessage, String postImage) {
         if (networkDetector.isConnected()) {
-            String cat_str = "1";
+            String cat_str = categoriesTypeId;
 //            newpostDialogue = ProgressDialog.show(getActivity(), "", getResources()
 //                    .getString(R.string.progress_dialog_text));
             postsClient.insertonPost(application.getUserId(), cat_str, posttypeid, postMessage, postImage
@@ -490,8 +490,11 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                 neighourMap.clear();
                 for (com.dsquare.hibour.pojos.neighours.Datum d : data) {
                     neighourMap.put(d.getAddress(), d.getId() + "");
-                    if(!d.getAddress().equals("")) {
-                        neighourList.add(d.getAddress());
+                    if(!d.getAddress().equals("") && !d.getAddress().equals(null)
+                            && !d.getAddress().equals("null")) {
+                        if(!neighourList.contains(d.getAddress())){
+                            neighourList.add(d.getAddress());
+                        }
                     }
                 }
                 neighoursAdapter = new ArrayAdapter<String>(getActivity()

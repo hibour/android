@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -43,6 +44,7 @@ public class Home extends Fragment implements View.OnClickListener {
     private RelativeLayout searchLayout;
     private LinearLayout bottomBar1;
     private TextView textView,invite;
+    private FloatingActionButton createPost;
     public Home() {
         // Required empty public constructor
     }
@@ -60,9 +62,10 @@ public class Home extends Fragment implements View.OnClickListener {
 
     /*initialize views*/
     private void initializeViews(View view) {
+        createPost = (FloatingActionButton)view.findViewById(R.id.feeds_create_fab);
         feedIcon = (ImageView) view.findViewById(R.id.home_feed);
         socializeIcon = (ImageView) view.findViewById(R.id.home_socialize_icon);
-        newPostIcon = (ImageView) view.findViewById(R.id.home_new_post);
+       // newPostIcon = (ImageView) view.findViewById(R.id.home_new_post);
         channelsIcon = (ImageView) view.findViewById(R.id.home_channels);
         moreIcon = (ImageView) view.findViewById(R.id.home_more_icon);
         postimage = (ImageView) view.findViewById(R.id.home_post);
@@ -86,15 +89,16 @@ public class Home extends Fragment implements View.OnClickListener {
 //        inviteBtn.setOnClickListener(this);
         feedIcon.setOnClickListener(this);
         socializeIcon.setOnClickListener(this);
-        newPostIcon.setOnClickListener(this);
+//        newPostIcon.setOnClickListener(this);
         channelsIcon.setOnClickListener(this);
         moreIcon.setOnClickListener(this);
         postimage.setOnClickListener(this);
+        createPost.setOnClickListener(this);
 //        searchIcon.setOnClickListener(this);
     }
 
     private void loadDefaultFragment() {
-        replaceContainer(3);
+        replaceContainer(0);
 //        Fragment fragment = new NewPosts();
     }
 
@@ -145,8 +149,11 @@ public class Home extends Fragment implements View.OnClickListener {
                 inviteFriends(getString(R.string.invite_msg));
                 break;
             case R.id.home_feed:
-                if(bottomBar1.getVisibility() == View.VISIBLE){
-                    newPostIcon.setVisibility(View.GONE);
+                if(createPost.getVisibility()==View.GONE)
+                    createPost.setVisibility(View.VISIBLE);
+                replaceContainer(0);
+                /*if(bottomBar1.getVisibility() == View.VISIBLE){
+//                    newPostIcon.setVisibility(View.GONE);
                     bottomBar1.setVisibility(View.GONE);
                     postimage.setVisibility(View.VISIBLE);
                     replaceContainer(0);
@@ -155,36 +162,18 @@ public class Home extends Fragment implements View.OnClickListener {
                     applyCurrentStateToAppBarIcons(R.drawable.feed, feedIcon);
                     replaceContainer(3);
                     bottomBar1.setVisibility(View.VISIBLE);
-                    newPostIcon.setVisibility(View.VISIBLE);
-                }
+  //                  newPostIcon.setVisibility(View.VISIBLE);
+                }*/
                 break;
             case R.id.home_socialize_icon:
-                applyCurrentStateToAppBarIcons(R.drawable.socialize_filled, socializeIcon);
+                //applyCurrentStateToAppBarIcons(R.drawable.socialize_filled, socializeIcon);
+                if(createPost.getVisibility()==View.GONE)
+                    createPost.setVisibility(View.VISIBLE);
                 replaceContainer(4);
                 break;
-            case R.id.home_new_post:
-                if (bottomBar1.getVisibility() == View.VISIBLE) {
-                    applyCurrentStateToAppBarIcons(R.drawable.cancel_filled, newPostIcon);
-
-                    //mask the rest of the screen
-//                    FrameLayout screenrest = (FrameLayout) this.getActivity().findViewById(R.id.home_fragment_container);
-//                    screenrest.setBackgroundColor(getResources().getColor(R.color.black_transparent));
-
-                    bottomBar1.setVisibility(View.GONE);
-
-                    replaceContainer(3);
-                } else {
-                    //TODO: Need to clean this up
-                    applyCurrentStateToAppBarIcons(R.drawable.post, newPostIcon);
-
-//                    ImageView socializeIcon = (ImageView) this.getActivity().findViewById(R.id.home_feed);
-//                    socializeIcon.setImageResource(R.drawable.feed_filled);
-
-                    replaceContainer(3);
-
-                    bottomBar1.setVisibility(View.VISIBLE);
-                }
-
+            case R.id.feeds_create_fab:
+                createPost.setVisibility(View.GONE);
+                replaceContainer(3);
                 break;
             case R.id.home_channels:
                 applyCurrentStateToAppBarIcons(R.drawable.channels_filled, channelsIcon);
@@ -196,7 +185,7 @@ public class Home extends Fragment implements View.OnClickListener {
             case R.id.home_post:
                 applyCurrentStateToAppBarIcons(R.drawable.feed, feedIcon);
                 bottomBar1.setVisibility(View.VISIBLE);
-                newPostIcon.setVisibility(View.VISIBLE);
+    //            newPostIcon.setVisibility(View.VISIBLE);
                 postimage.setVisibility(View.GONE);
                 replaceContainer(3);
                 break;
@@ -216,10 +205,9 @@ public class Home extends Fragment implements View.OnClickListener {
     public void applyCurrentStateToAppBarIcons(int res, ImageView icon) {
         feedIcon.setImageResource(R.drawable.feed);
         socializeIcon.setImageResource(R.drawable.socialize);
-        newPostIcon.setImageResource(R.drawable.post);
+      //  newPostIcon.setImageResource(R.drawable.post);
         channelsIcon.setImageResource(R.drawable.channels);
         moreIcon.setImageResource(R.drawable.more);
-
         icon.setImageResource(res);
     }
 

@@ -222,9 +222,13 @@ public class Posts extends Fragment implements View.OnClickListener {
     }
     /*set pager adapter*/
     private void setPager(){
-        HomeTabsPager pagerAdapter = new HomeTabsPager(getFragmentManager(),tabsList);
-        pager.setAdapter(pagerAdapter);
-        tabs.setViewPager(pager);
+        try {
+            HomeTabsPager pagerAdapter = new HomeTabsPager(getFragmentManager(),tabsList);
+            pager.setAdapter(pagerAdapter);
+            tabs.setViewPager(pager);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     private void setAdapters(List<String[]> postsList,Posts posts){
 //        postsRecycler.setAdapter(new PostsAdapter(getActivity(), postsList,posts));
