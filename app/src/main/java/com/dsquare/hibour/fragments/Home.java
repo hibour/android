@@ -241,7 +241,7 @@ public class Home extends Fragment implements View.OnClickListener {
                 break;
             case 3:
                 isHome = true;
-                fragment = new CreatePost();
+                fragment = new NewPost();
                 break;
             case 4:
                 isHome = true;

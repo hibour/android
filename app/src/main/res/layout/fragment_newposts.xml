@@ -43,15 +43,15 @@
                 android:id="@+id/newposts_gallary"/>
 
             <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:spinnerMode="dropdown"
-                android:id="@+id/newpost_spinner"
-                android:layout_toLeftOf="@+id/newpost_send"
-                android:layout_marginLeft="@dimen/dp_20"
-                android:textSize="@dimen/edit_text_size"
-                android:layout_toRightOf="@+id/newposts_gallary"
-                ></Spinner>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            android:id="@+id/newpost_spinner"
+            android:layout_toLeftOf="@+id/newpost_send"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:textSize="@dimen/edit_text_size"
+            android:layout_toRightOf="@+id/newposts_gallary"
+            ></Spinner>
 
             <Button
                 android:layout_width="@dimen/dp_70"

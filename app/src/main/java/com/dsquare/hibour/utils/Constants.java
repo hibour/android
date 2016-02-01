@@ -37,7 +37,7 @@ public class Constants {
     public static final String URL_POST_GET_COMMENT = URL_DOMAIN+"getcomments/";
     public static final String URL_SETTINGS = URL_DOMAIN+"Userreg/userdetails?";
     public static final String URL_GET_SOCIAL_NEIGHBOURS = URL_DOMAIN+"Preferences/members?";
-    public static final String URL_GET_NEIGHBOURHOODS = URL_DOMAIN+"Userreg/address?";
+    public static final String URL_GET_NEIGHBOURHOODS = URL_DOMAIN+"Userreg/";
     public static final String URL_USER_DETAIL = URL_DOMAIN + "Userreg/aboutuser?userid=%s&signature=I0mkNPgu6h0M4YtOmG6Ib5BdFHy1Knrf";
 
     /*user constants*/
