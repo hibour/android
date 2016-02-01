@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="brand">#ff6b6b</color>
+    <color name="brand_status_bar">#9575CD</color>
+    <color name="black_button">#40403E</color>
+    <color name="green">#75B640</color>
+    <color name="black_1">#424242</color>
+    <color name="black_2">#3F3F3F</color>
+    <color name="black_transparent">#726B6B</color>
+    <color name="gray">#B4B4B4</color>
+    <color name="gray_1">#707070</color>
+    <color name="app_bar_gray">#95a5a6</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white_transparent">#88FFFFFF</color>
+    <color name="transparent">#00000000</color>
+    <color name="light_gray">#f1f1f1</color>
+    <color name="light_grays">#F5F8FA</color>
+    <color name="outline_green">#8CC152</color>
+    <color name="outline_blue">#3BAFDA</color>
+    <color name="outline_yellow">#37BC9B</color>
+    <color name="outline_purple">#967ADC</color>
+</resources>

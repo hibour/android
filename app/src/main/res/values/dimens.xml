@@ -1,0 +1,93 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="button_elevation">0dp</dimen>
+    <dimen name="dp_1">1dp</dimen>
+    <dimen name="dp_3">3dp</dimen>
+    <dimen name="dp_5">5dp</dimen>
+    <dimen name="dp_6">6dp</dimen>
+    <dimen name="dp_7">7dp</dimen>
+    <dimen name="dp_10">10dp</dimen>
+    <dimen name="dp_15">15dp</dimen>
+    <dimen name="dp_20">20dp</dimen>
+    <dimen name="dp_25">25dp</dimen>
+    <dimen name="dp_30">30dp</dimen>
+    <dimen name="dp_35">35dp</dimen>
+    <dimen name="dp_40">40dp</dimen>
+    <dimen name="dp_50">50dp</dimen>
+    <dimen name="dp_60">60dp</dimen>
+    <dimen name="dp_65">65dp</dimen>
+    <dimen name="dp_70">70dp</dimen>
+    <dimen name="dp_75">75dp</dimen>
+    <dimen name="dp_80">80dp</dimen>
+    <dimen name="dp_90">90dp</dimen>
+    <dimen name="dp_100">100dp</dimen>
+    <dimen name="dp_120">120dp</dimen>
+    <dimen name="dp_140">140dp</dimen>
+    <dimen name="dp_160">140dp</dimen>
+    <dimen name="dp_200">200dp</dimen>
+    <dimen name="sp_16">16sp</dimen>
+    <dimen name="sp_12">12sp</dimen>
+    <dimen name="sp_18">18sp</dimen>
+    <dimen name="button_text_size">14sp</dimen>
+    <dimen name="button_width">200dp</dimen>
+    <dimen name="extended_toolbar_height">128dp</dimen>
+    <dimen name="extended_tool_bar_text_size">15sp</dimen>
+    <dimen name="button_large_height">50dp</dimen>
+    <dimen name="edit_text_bottom_line_height">1dp</dimen>
+    <dimen name="fab_govt_radius">56dp</dimen>
+    <dimen name="fab_govt_top_margin">100dp</dimen>
+    <dimen name="fab_govt_top_margin1">75dp</dimen>
+    <dimen name="fab_govt_left_margin">30dp</dimen>
+    <dimen name="edit_text_bottom_line_margin_top">15dp</dimen>
+    <dimen name="edit_text_size">14sp</dimen>
+
+    <dimen name="fb_margin_override_top">10dp</dimen>
+    <dimen name="fb_margin_override_bottom">10dp</dimen>
+    <dimen name="fb_margin_override_lr">10dp</dimen>
+    <dimen name="fb_margin_override_textpadding">17dp</dimen>
+
+    <dimen name="nav_drawer_row_height">48dp</dimen>
+    <dimen name="nav_drawer_row_text">14sp</dimen>
+    <dimen name="nav_drawer_width">240dp</dimen>
+
+    <dimen name="app_bar_icon_size_sm">20dp</dimen>
+    <dimen name="app_bar_icon_size">25dp</dimen>
+    <dimen name="app_bar_icon_sizem">48dp</dimen>
+    <dimen name="app_bar_icon_size1">60dp</dimen>
+    <dimen name="app_bar_icon_padding">12dp</dimen>
+
+    <dimen name="app_bar_post_icon">45dp</dimen>
+
+    <dimen name="app_bar_icon_padding1">8dp</dimen>
+    <dimen name="app_bar_title_text_size">22sp</dimen>
+
+    <dimen name="home_tabs_height">48dp</dimen>
+    <dimen name="home_posts_height">160dp</dimen>
+    <dimen name="posts_date_text_size">12sp</dimen>
+    <dimen name="posts_image_size">50dp</dimen>
+    <dimen name="post_user_name_margin_left">10dp</dimen>
+    <dimen name="post_user_name_text_size">14sp</dimen>
+    <dimen name="post_description_size">13sp</dimen>
+    <dimen name="post_category_name_text_size">13sp</dimen>
+    <dimen name="post_category_name_padding">5dp</dimen>
+    <dimen name="post_comment_margin_right">10dp</dimen>
+    <dimen name="post_like_margin_right">5dp</dimen>
+    <dimen name="post_icons_size">20dp</dimen>
+    <dimen name="horiz_line_height">0.8dp</dimen>
+    <dimen name="nav_bottom_line_height">1dp</dimen>
+
+    <dimen name="text_size_level1">20sp</dimen>
+    <dimen name="text_size_level2">18sp</dimen>
+    <dimen name="text_size_level3">16sp</dimen>
+    <dimen name="text_size_level4">15sp</dimen>
+    <dimen name="text_Size_level5">14sp</dimen>
+    <dimen name="text_size_level6">13sp</dimen>
+    <dimen name="text_size_level7">12sp</dimen>
+
+    <dimen name="comments_list_item_height">70dp</dimen>
+    <dimen name="comments_icon_size">30dp</dimen>
+
+
+</resources>

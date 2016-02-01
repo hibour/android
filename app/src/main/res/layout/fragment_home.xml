@@ -1,0 +1,175 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context="com.dsquare.hibour.fragments.Home">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:id="@+id/home_bottom_menu"
+                android:layout_width="match_parent"
+                android:layout_height="?android:actionBarSize"
+                android:layout_alignParentBottom="true"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/horiz_line_height"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:background="@color/gray" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:paddingBottom="10dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:id="@+id/home_feed"
+                            android:layout_width="@dimen/app_bar_icon_size"
+                            android:layout_height="@dimen/app_bar_icon_size"
+                            android:gravity="center"
+                            android:layout_marginTop="3dp"
+                            android:src="@drawable/feed" />
+                        <com.dsquare.hibour.utils.Proxima
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Feed"
+                            android:textColor="@color/app_bar_gray"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:id="@+id/home_socialize_icon"
+                            android:layout_width="@dimen/app_bar_icon_size"
+                            android:layout_height="@dimen/app_bar_icon_size"
+                            android:gravity="center"
+                            android:layout_marginTop="3dp"
+                            android:src="@drawable/socialize" />
+                        <com.dsquare.hibour.utils.Proxima
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Socialize"
+                            android:textColor="@color/app_bar_gray"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/dummy_view"
+                        android:layout_width="@dimen/dp_30"
+                        android:layout_height="@dimen/dp_30"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:id="@+id/home_channels"
+                            android:layout_width="@dimen/app_bar_icon_size"
+                            android:layout_height="@dimen/app_bar_icon_size"
+                            android:gravity="center"
+                            android:layout_marginTop="3dp"
+                            android:src="@drawable/channels" />
+                        <com.dsquare.hibour.utils.Proxima
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Services"
+                            android:textColor="@color/app_bar_gray"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:id="@+id/home_more_icon"
+                            android:layout_width="@dimen/app_bar_icon_size"
+                            android:layout_height="@dimen/app_bar_icon_size"
+                            android:gravity="center"
+                            android:layout_marginTop="3dp"
+                            android:src="@drawable/more" />
+                        <com.dsquare.hibour.utils.Proxima
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="More"
+                            android:textColor="@color/app_bar_gray"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/home_fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@id/home_bottom_menu"/>
+            <!--<ImageView
+                android:id="@+id/home_new_post"
+                android:layout_width="@dimen/app_bar_post_icon"
+                android:layout_height="@dimen/app_bar_post_icon"
+                android:layout_gravity="center_vertical"
+                android:layout_centerInParent="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/post" />-->
+
+            <ImageView
+                android:layout_width="@dimen/app_bar_post_icon"
+                android:layout_height="@dimen/app_bar_post_icon"
+                android:layout_gravity="center_vertical"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dp_30"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="30dp"
+                android:src="@drawable/post"
+                android:id="@+id/home_post"
+                android:visibility="gone"     />
+
+        </RelativeLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="@dimen/fab_govt_radius"
+            android:layout_height="@dimen/fab_govt_radius"
+            android:layout_gravity="bottom|right"
+            android:layout_marginRight="@dimen/fab_govt_left_margin"
+            android:layout_marginBottom="70dp"
+            android:src="@drawable/ic_action_edit"
+            android:id="@+id/feeds_create_fab"
+            app:backgroundTint="@color/brand"
+            android:scaleType="centerCrop">
+        </android.support.design.widget.FloatingActionButton>
+    </FrameLayout>
+
+
+</RelativeLayout>

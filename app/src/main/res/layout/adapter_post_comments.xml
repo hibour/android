@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
+    android:background="@android:color/white"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10">
+        <ImageView
+            android:layout_width="@dimen/comments_icon_size"
+            android:layout_height="@dimen/comments_icon_size"
+            android:src="@drawable/avatar1"
+            android:id="@+id/adapter_comments"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_toRightOf="@id/adapter_comments">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_10">
+                <com.dsquare.hibour.utils.Avenir
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/adapter_comments_username"
+                    android:text="Ashok Madduru"
+                    android:textColor="@color/black_1"
+                    android:textSize="@dimen/text_size_level3"/>
+                <com.dsquare.hibour.utils.Avenir
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/adapter_comments_date"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/text_Size_level5"
+                    android:layout_alignParentRight="true"
+                    android:text="2 Jan 2016"/>
+            </RelativeLayout>
+            <com.dsquare.hibour.utils.Avenir
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hey its nice"
+                android:id="@+id/comments_comment"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_5"
+                android:textColor="@color/black_2"
+                android:textSize="@dimen/text_Size_level5"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="@color/gray"
+        android:layout_marginTop="@dimen/dp_10"/>
+</LinearLayout>

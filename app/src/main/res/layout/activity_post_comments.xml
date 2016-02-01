@@ -1,0 +1,105 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    tools:context="com.dsquare.hibour.activities.PostComments">
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        card_view:cardCornerRadius="4dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:background="@android:color/white">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_70"
+                android:id="@+id/comments_top_layout">
+                <ImageView
+                    android:layout_height="@dimen/comments_icon_size"
+                    android:layout_width="@dimen/comments_icon_size"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:src="@drawable/ic_like_red"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/comments_like_icon"/>
+                <com.dsquare.hibour.utils.Avenir
+                    android:text="120 members liked this"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black_1"
+                    android:id="@+id/comments_likes_text"
+                    android:textSize="@dimen/text_size_level3"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_toRightOf="@id/comments_like_icon"/>
+                <ImageView
+                    android:layout_width="@dimen/app_bar_icon_size"
+                    android:layout_height="@dimen/app_bar_icon_size"
+                    android:src="@drawable/ic_send_black"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:id="@+id/comments_post_icon"
+                    android:layout_alignParentRight="true"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.2dp"
+                    android:background="@color/gray"
+                    android:layout_alignParentBottom="true"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_70"
+                android:id="@+id/comments_bottom_layout"
+                android:descendantFocusability="beforeDescendants"
+                android:focusableInTouchMode="true"
+                android:layout_alignParentBottom="true">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.2dp"
+                    android:background="@color/gray"
+                    android:layout_alignParentTop="true"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/comments_edit_text"
+                    android:hint="Write here..."/>
+                    <Button
+                        android:layout_width="@dimen/dp_70"
+                        android:layout_height="@dimen/dp_30"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@color/brand"
+                        android:text="send"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:id="@+id/comments_sumbit"
+                        />
+            </RelativeLayout>
+            <android.support.v7.widget.RecyclerView
+                android:scrollbars="vertical"
+                android:background="@android:color/white"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/comments_post_list"
+                android:layout_above="@id/comments_bottom_layout"
+                android:layout_below="@id/comments_top_layout">
+            </android.support.v7.widget.RecyclerView>
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

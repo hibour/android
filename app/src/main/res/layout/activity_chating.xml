@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical"
+    tools:context="com.example.adityaravikanti.samples">
+
+    <LinearLayout
+        android:id="@+id/chating_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:actionBarSize"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/chat_back_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/app_bar_icon_padding1"
+            android:src="@mipmap/ic_back_gray"
+            />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:layout_toLeftOf="@+id/chating_text_name"
+                android:src="@drawable/avatar1"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.dsquare.hibour.utils.Avenir
+                    android:id="@+id/chating_text_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="Ashok Madduru"
+                    android:textColor="@color/brand"
+                    android:textSize="22dp"/>
+
+                <TextView
+                    android:id="@+id/user_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Online"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/chats_search_icon"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_20"
+            android:padding="@dimen/dp_3"
+            android:src="@drawable/ic_search_white"/>
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/nav_drawer_bottom_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nav_bottom_line_height"
+        android:layout_alignParentBottom="true"
+        android:background="@color/common_action_bar_splitter"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
+        android:layout_weight="1">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/chating_list"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/chat_bg">
+        </android.support.v7.widget.RecyclerView>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/adapter_chating_layout1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            card_view:cardCornerRadius="5dp"
+            card_view:cardElevation="0.01dp"
+            card_view:cardUseCompatPadding="true"
+            card_view:contentPadding="2dp"
+            >
+
+            <EditText
+                android:id="@+id/chating_message_edittest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Write Your Message"
+                android:maxHeight="@dimen/dp_60"
+                android:textSize="16sp"
+                />
+        </android.support.v7.widget.CardView>
+
+        <Button
+            android:id="@+id/chating_msg_send"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:background="@color/brand"
+            android:text="Send"
+            android:textColor="#FFFFFF"
+            />
+    </LinearLayout>
+
+</LinearLayout>

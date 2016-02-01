@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:id="@+id/govt_proof_toolbar"
+        android:background="@color/white">
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@drawable/log"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/light_gray"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:background="@color/white"
+                android:layout_below="@id/loc_search_text_temp2">
+                <com.dsquare.hibour.utils.Proxima
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/otpwelcometext1"
+                    android:id="@+id/otp_welcome1"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/black_1"
+                    android:layout_alignParentStart="false"
+                    android:layout_alignParentLeft="false"
+                    android:layout_below="@id/loc_search_text_temp2"
+                    android:textSize="14sp" />
+
+                <com.dsquare.hibour.utils.Proxima
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/otpwelcometext2"
+                    android:id="@+id/otp_welcome2"
+                    android:textColor="@color/black_1"
+                    android:layout_below="@+id/otp_welcome1"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="@dimen/dp_20"
+                    android:textSize="14sp" />
+
+                <com.dsquare.hibour.utils.Proxima
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/changenumbertext"
+                    android:id="@+id/otp_change_number"
+                    android:layout_below="@+id/otp_welcome2"
+                    android:textColor="@color/brand"
+                    android:padding="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="@dimen/dp_20"/>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_35"
+                    android:background="@drawable/loc_search_rectangle"
+                    android:descendantFocusability="beforeDescendants"
+                    android:focusableInTouchMode="true"
+                    android:layout_marginLeft="@dimen/dp_25"
+                    android:id="@+id/phone_edit_layout"
+                    android:layout_marginRight="@dimen/dp_25"
+                    android:layout_above="@id/loc_location_display_layout">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_30"
+                        android:layout_centerInParent="true"
+                        android:layout_alignParentLeft="true"
+                        android:hint="enter otp"
+                        android:textColor="@color/gray"
+                        android:textColorHint="@color/gray"
+                        android:textSize="@dimen/edit_text_size"
+                        android:id="@+id/otp_edittest"
+                        android:inputType="number"
+                        android:background="@null"
+                        android:gravity="center"/>
+                </RelativeLayout>
+                <Button
+                    android:layout_width="@dimen/dp_100"
+                    android:layout_height="@dimen/dp_30"
+                    android:layout_gravity="center"
+                    android:layout_below="@id/phone_edit_layout"
+                    android:background="@color/brand"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:text="@string/phone_submit"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:id="@+id/otp_sumbit"/>
+                <com.dsquare.hibour.utils.Proxima
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/otpresend"
+                    android:textColor="@color/brand"
+                    android:textSize="@dimen/sp_16"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:id="@+id/otp_resend"/>
+            </LinearLayout>
+        </RelativeLayout>
+</LinearLayout>

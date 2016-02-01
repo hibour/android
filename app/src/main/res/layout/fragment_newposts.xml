@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_30"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_20"
+        android:orientation="vertical">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_120"
+            android:inputType="textMultiLine"
+            android:singleLine="false"
+            android:background="@drawable/post_rectangle"
+            android:id="@+id/newposts_edittest"
+            />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_120"
+            android:id="@+id/post_image"
+            android:layout_marginTop="@dimen/dp_10"
+            android:visibility="gone"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_bottom_line_height"
+            android:background="@color/gray"
+            android:layout_marginTop="@dimen/dp_10"></View>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:src="@drawable/gallary"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:id="@+id/newposts_gallary"/>
+
+            <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            android:id="@+id/newpost_spinner"
+            android:layout_toLeftOf="@+id/newpost_send"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:textSize="@dimen/edit_text_size"
+            android:layout_toRightOf="@+id/newposts_gallary"
+            ></Spinner>
+
+            <Button
+                android:layout_width="@dimen/dp_70"
+                android:layout_height="@dimen/dp_30"
+                android:background="@color/brand"
+                android:textColor="@color/white"
+                android:text="@string/button_send"
+                android:layout_centerVertical="true"
+                android:id="@+id/newpost_send"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_bottom_line_height"
+            android:background="@color/gray"
+            ></View>
+
+    </LinearLayout>
+
+
+
+
+
+
+
+</LinearLayout>

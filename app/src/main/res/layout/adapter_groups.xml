@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@android:color/white"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_horizontal_margin">
+        <com.dsquare.hibour.utils.Avenir
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_level3"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:id="@+id/adapter_group_name"
+            android:textColor="@color/black_1"
+            android:layout_centerVertical="true"
+            android:text="Bhanu Elite"/>
+        <com.dsquare.hibour.utils.Avenir
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="120 Members"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:textColor="@color/black_1"
+            android:textSize="@dimen/text_size_level6"
+            android:id="@+id/adapter_group_members"/>
+        </RelativeLayout>
+    <com.dsquare.hibour.utils.Avenir
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:textColor="@color/black_1"
+        android:id="@+id/adapter_group_description"
+        android:text="Hello world"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="@color/gray"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
+</LinearLayout>
