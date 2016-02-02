@@ -10,7 +10,7 @@ public class UserDetailTable extends Model {
 
 
   @Column(name = "user_id", index = true, unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
-  public int user_id;
+  public String user_id;
   @Column(name = "username", index = true, unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
   public String Username;
   @Column(name = "image")

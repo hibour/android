@@ -7,7 +7,6 @@
       </configuration>
     </facet>
   </component>
-<<<<<<< HEAD
   <component name="NewModuleRootManager" inherit-compiler-output="true">
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7" inherit-compiler-output="true">
     <output url="file://$MODULE_DIR$/build/classes/main" />

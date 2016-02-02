@@ -21,11 +21,7 @@ import com.dsquare.hibour.adapters.NeighboursAdapter;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.pojos.Socialize.ChoosedUser;
-import com.dsquare.hibour.utils.Constants;
-import com.dsquare.hibour.utils.Fonts;
 import com.dsquare.hibour.pojos.user.UserDetail;
-import com.dsquare.hibour.pojos.user.UserDetail;
-import com.dsquare.hibour.pojos.Socialize.ChoosedUser;
 import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Fonts;
 
@@ -134,7 +130,7 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
     int i;
     for (i = 0; i < 10; i++) {
       userDetail = new UserDetail();
-      userDetail.id = i;
+      userDetail.id = i + "";
       userDetail.Username = "Ashok Madduru";
       userDetail.Address = "Hardware Engineer";
       neighboursList.add(userDetail);
@@ -145,7 +141,7 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
           if (user.get(i).getUserName() != null && !user.get(i).getUserName().equals("null")) {
             userDetail = new UserDetail();
             userDetail.Username = user.get(i).getUserName();
-            userDetail.id = Integer.parseInt(user.get(i).getUserId());
+            userDetail.id = user.get(i).getUserId();
             userDetail.Image = user.get(i).getUserImage();
             neighboursList.add(userDetail);
             autocompleteList.add(user.get(i).getUserName());
@@ -157,7 +153,7 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
               !Constants.membersList.get(i).getUserName().equals("null")) {
             userDetail = new UserDetail();
             userDetail.Username = Constants.membersList.get(i).getUserName();
-            userDetail.id = Integer.parseInt(Constants.membersList.get(i).getUserId());
+            userDetail.id = Constants.membersList.get(i).getUserId();
             userDetail.Image = Constants.membersList.get(i).getUserImage();
             neighboursList.add(userDetail);
             autocompleteList.add(Constants.membersList.get(i).getUserName());

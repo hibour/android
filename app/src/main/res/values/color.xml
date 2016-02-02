@@ -28,4 +28,6 @@
         <item>#24c6d5</item>
     </string-array>
 
+    <color name="tabsScrollColor">#FFFFFF</color>
+    <color name="white_30">#b4ffffff</color>
 </resources>

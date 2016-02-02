@@ -120,4 +120,9 @@
     <string name="changenumbertext">CHANGE MOBILE NUMBER</string>
     <string name="otpresend">RESEND</string>
     <string name="otpverify">VERIFY</string>
+
+    <string-array name="chat_types">
+        <item>NearBy</item>
+        <item>Chats</item>
+    </string-array>
 </resources>

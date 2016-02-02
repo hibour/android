@@ -1,60 +1,65 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    tools:context="com.dsquare.hibour.fragments.Message">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="?android:actionBarSize"
-            android:background="@color/white"
-            android:id="@+id/messages_app_bar">
-            <ImageView
-                android:layout_width="@dimen/app_bar_icon_size"
-                android:layout_height="@dimen/app_bar_icon_size"
-                android:src="@drawable/ic_menu_white"
-                android:id="@+id/messages_menu_icon"
-                android:layout_marginLeft="@dimen/dp_20"
-                android:layout_centerVertical="true"/>
-            <com.dsquare.hibour.utils.ProximaExtraBold
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/messages_title"
-                android:textColor="@color/brand"
-                android:layout_centerInParent="true"
-                android:textSize="@dimen/app_bar_title_text_size"/>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/nav_bottom_line_height"
-                android:background="@color/common_action_bar_splitter"
-                android:id="@+id/nav_drawer_bottom_line"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_alignParentBottom="true"/>
-            <ImageView
-                android:layout_width="@dimen/dp_30"
-                android:layout_height="@dimen/dp_30"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/ic_search_white"
-                android:layout_marginRight="@dimen/dp_20"
-                android:padding="@dimen/dp_3"
-                android:layout_centerVertical="true"
-                android:id="@+id/messages_search_icon"/>
-        </RelativeLayout>
-        <android.support.v7.widget.RecyclerView
-            android:scrollbars="vertical"
-            android:background="@android:color/white"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/messages_neighbours_list"
-            android:layout_below="@id/messages_app_bar">
-        </android.support.v7.widget.RecyclerView>
+    android:orientation="vertical">
 
+    <RelativeLayout
+        android:id="@+id/messages_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:actionBarSize"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/messages_menu_icon"
+            android:layout_width="@dimen/app_bar_icon_size"
+            android:layout_height="@dimen/app_bar_icon_size"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:src="@drawable/ic_menu_white"/>
+
+        <com.dsquare.hibour.utils.ProximaExtraBold
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/messages_title"
+            android:textColor="@color/brand"
+            android:textSize="@dimen/app_bar_title_text_size"/>
+
+        <RelativeLayout
+            android:id="@+id/nav_drawer_bottom_line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/nav_bottom_line_height"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@color/common_action_bar_splitter"/>
+
+        <ImageView
+            android:id="@+id/messages_search_icon"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_20"
+            android:padding="@dimen/dp_3"
+            android:src="@drawable/ic_search_white"/>
     </RelativeLayout>
 
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/brand"
+        android:elevation="2dp"
+        android:theme="@style/tab"
+        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"/>
 
-
-</FrameLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+</LinearLayout>
