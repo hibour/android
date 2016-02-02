@@ -46,6 +46,7 @@ import com.dsquare.hibour.network.PostsClient;
 import com.dsquare.hibour.pojos.neighours.Neighourhoodpojo;
 import com.dsquare.hibour.pojos.posttype.Datum;
 import com.dsquare.hibour.pojos.posttype.PostTypeCatg;
+import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Fonts;
 import com.dsquare.hibour.utils.Hibour;
 import com.google.gson.Gson;
@@ -336,8 +337,8 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     private void sendPostData(String posttypeid, String postMessage, String postImage) {
         if (networkDetector.isConnected()) {
             String cat_str = categoriesTypeId;
-//            newpostDialogue = ProgressDialog.show(getActivity(), "", getResources()
-//                    .getString(R.string.progress_dialog_text));
+            newpostDialogue = ProgressDialog.show(getActivity(), "", getResources()
+                    .getString(R.string.progress_dialog_text));
             postsClient.insertonPost(application.getUserId(), cat_str, posttypeid, postMessage, postImage
                     , "1", new WebServiceResponseCallback() {
                 @Override
@@ -362,16 +363,18 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         Log.d("json", jsonObject.toString());
         try {
             JSONObject data = jsonObject.getJSONObject("data");
-            String result = data.getString("result");
-            if (result.endsWith("true")) {
+            //String result = data.getString("result");
+            /*if (result.endsWith("true")) {
                 Toast.makeText(getActivity(), "Post update successfully", Toast.LENGTH_LONG).show();
 //                postImage.setVisibility(View.GONE);
                 text.setText("");
             } else {
                 Toast.makeText(getActivity(), "Post updation failed", Toast.LENGTH_LONG).show();
-            }
+            }*/
+            Toast.makeText(getActivity(), "Post update successfully", Toast.LENGTH_LONG).show();
         } catch (JSONException e) {
             e.printStackTrace();
+            Toast.makeText(getActivity(), "Post updation failed", Toast.LENGTH_LONG).show();
         }
 
     }
@@ -397,7 +400,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         spinner1 = (Spinner)view.findViewById(R.id.newpost_spinner_negibourhood);
         editPost = (EditText) view.findViewById(R.id.newposts_edittest);
         done = (TextView) view.findViewById(R.id.create_post_done);
-        cancel = (TextView) view.findViewById(R.id.creat_post_cancel);
+       // cancel = (TextView) view.findViewById(R.id.creat_post_cancel);
         gallary = (ImageView) view.findViewById(R.id.creat_imageview_post_icon);
         postImage = (ImageView) view.findViewById(R.id.creat_imageview_display_icon);
         delete = (ImageView) view.findViewById(R.id.create_delete_image);
@@ -572,11 +575,17 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                 categoriesList.clear();
 //                categoriesList.add("Select Categories");
                 categoriesMap.clear();
+                Constants.postTypesMap.clear();
                 for (Datum d : data) {
                     categoriesMap.put(d.getPosttypename(), d.getId() + "");
                     categoriesList.add(d.getPosttypename());
                      details= new String[]{d.getPosttypename()};
                     categoriesLists.add(details);
+                    Map<String,String> postsTypesMap = new LinkedHashMap<>();
+                    postsTypesMap.put("id",d.getId()+"");
+                    postsTypesMap.put("name",d.getPosttypename());
+                    postsTypesMap.put("placeholder",d.getPlaceholder());
+                    Constants.postTypesMap.put(d.getPosttypename(),postsTypesMap);
                 }
                 categoriesAdapter = new ArrayAdapter<String>(getActivity()
                         , android.R.layout.simple_dropdown_item_1line, categoriesList);
@@ -594,7 +603,8 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     @Override
     public void onItemClick(AdapterView<?> arg0, View view, int position, long arg3) {
         String s = categoriesLists.get(position)[0];
-        categoriesList.add(s);
+       // categoriesList.add(s);
+
         LinearLayout postFragment = (LinearLayout) this.getActivity().findViewById(R.id.post_fragment);
         LinearLayout postWidget = (LinearLayout) this.getActivity().findViewById(R.id.post_widget);
         RelativeLayout categoryList = (RelativeLayout) this.getActivity().findViewById(R.id.category_list);
@@ -608,7 +618,8 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         categoryList.setVisibility(View.GONE);
         postWidget.setVisibility(View.VISIBLE);
         relativeLayout.setVisibility(View.VISIBLE);
-
+        spinner.setSelection(position);
+        editPost.setHint(Constants.postTypesMap.get(s).get("placeholder"));
     }
     class MyBaseAdaper extends BaseAdapter {
 

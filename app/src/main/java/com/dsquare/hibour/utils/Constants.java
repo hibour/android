@@ -112,4 +112,6 @@ public class Constants {
     public static Map<String,List<Postpojos>> postpojosMap = new LinkedHashMap<>();
     public static Map<String, List<PostLikedUser>> postlikesMap = new LinkedHashMap<>();
     public static Map<String,String> categoriesMap = new HashMap<>();
+
+    public static Map<String,Map<String,String>> postTypesMap = new LinkedHashMap<>();
 }
