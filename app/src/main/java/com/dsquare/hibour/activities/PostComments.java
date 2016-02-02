@@ -151,6 +151,7 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
 
     /* post comment*/
     private void getAllComments(){
+        Log.d("ids",postId);
         if(networkDetector.isConnected()){
             dialog = ProgressDialog.show(this,"",getResources()
                     .getString(R.string.progress_dialog_text));

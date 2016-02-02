@@ -221,8 +221,8 @@ public class PostsClient {
     /* get neighbourhoods*/
     public void getAllNeighbourhoods(String userId,final WebServiceResponseCallback callback){
         try {
-            String urlStr = Constants.URL_GET_NEIGHBOURHOODS+Constants.KEYWORD_SIGNATURE+"="
-                    +Constants.SIGNATURE_VALUE+"&"+Constants.KEYWORD_USR_ID+"="+userId;
+            String urlStr = Constants.URL_GET_NEIGHBOURHOODS+userId+"?"+Constants.KEYWORD_SIGNATURE+"="
+                    +Constants.SIGNATURE_VALUE;
             URL url = new URL(urlStr);
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
                     , url.getPath(), url.getQuery(), url.getRef());

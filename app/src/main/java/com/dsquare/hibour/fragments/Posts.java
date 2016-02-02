@@ -144,7 +144,7 @@ public class Posts extends Fragment implements View.OnClickListener {
         searchIcon.setOnClickListener(this);
     }
     /* get all posts from server*/
-    private void getAllposts(){
+    public void getAllposts(){
         if(networkDetector.isConnected()){
             postsDialog = ProgressDialog.show(getActivity(),"","Please wait...");
             postsClient.getAllPosts(application.getUserId(),new WebServiceResponseCallback() {
@@ -153,7 +153,6 @@ public class Posts extends Fragment implements View.OnClickListener {
                     parsePostsDetails(jsonObject);
                     closePostsDialog();
                 }
-
                 @Override
                 public void onFailure(VolleyError error) {
                     Log.d("posts error",error.toString());
@@ -223,12 +222,16 @@ public class Posts extends Fragment implements View.OnClickListener {
     }
     /*set pager adapter*/
     private void setPager(){
-        HomeTabsPager pagerAdapter = new HomeTabsPager(getFragmentManager(),tabsList);
-        pager.setAdapter(pagerAdapter);
-        tabs.setViewPager(pager);
+        try {
+            HomeTabsPager pagerAdapter = new HomeTabsPager(getFragmentManager(),tabsList);
+            pager.setAdapter(pagerAdapter);
+            tabs.setViewPager(pager);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    private void setAdapters(List<String[]> postsList){
-        postsRecycler.setAdapter(new PostsAdapter(getActivity(), postsList));
+    private void setAdapters(List<String[]> postsList,Posts posts){
+//        postsRecycler.setAdapter(new PostsAdapter(getActivity(), postsList,posts));
     }
     /* close posts dialog*/
     private void closePostsDialog(){

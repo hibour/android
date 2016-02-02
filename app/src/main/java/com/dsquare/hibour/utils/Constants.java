@@ -21,7 +21,9 @@ public class Constants {
   public static final String URL_MOBILE_NUMBER = URL_DOMAIN + "Userreg/mobile?";
   public static final String URL_TERMS = URL_DOMAIN + "";
   public static final String URL_GET_ALL_PROOFS = URL_DOMAIN + "Proof";
-  public static final String URL_INSERT_PROOFS = URL_DOMAIN + "Userreg/";
+    public static final String URL_GET_ALL_BUSINEES_TYPES= URL_DOMAIN+"Business";
+    public static final String URL_GET_ALL_BUSINEES_SUB_TYPES= URL_DOMAIN+"Userreg/locality";
+    public static final String URL_INSERT_PROOFS = URL_DOMAIN + "Userreg/";
   public static final String URL_PREFS_ALL = URL_DOMAIN + "Preferences?";
   public static final String URL_MEMBERS_COUNT = URL_DOMAIN + "Userreg/count?";
   public static final String URL_PREFS_INSERT = URL_DOMAIN + "Userpreferences/create?";
@@ -57,7 +59,8 @@ public class Constants {
   public static final String KEYWORD_LAT = "latitude";
   public static final String KEYWORD_LON = "longitude";
   public static final String KEYWORD_ADDRESS = "Address";
-  public static final String KEYWORD_GENDER = "Gender";
+    public static final String KEYWORD_ADDRESS1="Address1";
+    public static final String KEYWORD_GENDER = "Gender";
   public static final String KEYWORD_USER_ID = "Userid";
   public static final String KEYWORD_POST_ID = "Postid";
   public static final String KEYWORD_POST_TYPE = "Posttype";

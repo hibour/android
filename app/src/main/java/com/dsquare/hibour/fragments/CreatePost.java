@@ -136,7 +136,7 @@ public class CreatePost extends android.support.v4.app.Fragment implements View.
         LinearLayout postFragment = (LinearLayout) this.getActivity().findViewById(R.id.post_fragment);
         LinearLayout postWidget = (LinearLayout) this.getActivity().findViewById(R.id.post_widget);
         LinearLayout categoryList = (LinearLayout) this.getActivity().findViewById(R.id.category_list);
-        ImageView cancel = (ImageView) this.getActivity().findViewById(R.id.home_new_post);
+       // ImageView cancel = (ImageView) this.getActivity().findViewById(R.id.home_new_post);
 
         ViewGroup.LayoutParams lp = postFragment.getLayoutParams();
         lp.height = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -145,7 +145,7 @@ public class CreatePost extends android.support.v4.app.Fragment implements View.
 
         categoryList.setVisibility(View.GONE);
         postWidget.setVisibility(View.VISIBLE);
-        cancel.setVisibility(View.GONE);
+       // cancel.setVisibility(View.GONE);
 
         setPlaceholderText(category);
         editPost.requestFocus();

@@ -92,7 +92,6 @@
                     android:layout_height="@dimen/dp_30"
                     android:layout_centerInParent="true"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignLeft="@+id/ic_location_icon"
                     android:layout_marginRight="@dimen/dp_30"
                     android:hint="@string/loc_locality"
                     android:textColor="@color/gray"

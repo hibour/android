@@ -94,12 +94,11 @@
                         android:layout_height="@dimen/dp_30"
                         android:layout_centerInParent="true"
                         android:layout_alignParentLeft="true"
-                        android:layout_alignLeft="@+id/otp_edittest"
                         android:hint="enter otp"
                         android:textColor="@color/gray"
                         android:textColorHint="@color/gray"
                         android:textSize="@dimen/edit_text_size"
-                        android:id="@+id/loc_search_autocomplete"
+                        android:id="@+id/otp_edittest"
                         android:inputType="number"
                         android:background="@null"
                         android:gravity="center"/>

@@ -70,6 +70,7 @@ public class NotificationsAdapter extends BaseAdapter {
             gcmMessageList.add(position, new NotificationTable(item.message, item.date, "read"));
             notifyDataSetChanged();
 
+
         }else{
             Log.d("status", "read");
             holder.tipContent.setTypeface(tf1);
