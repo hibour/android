@@ -12,6 +12,7 @@ import com.dsquare.hibour.pojos.user.UserDetail;
 import com.dsquare.hibour.utils.Hibour;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class DatabaseHandler {
@@ -39,6 +40,44 @@ public class DatabaseHandler {
     return userMessageList;
   }
 
+  public List<UserDetail> getChartUserList() {
+    List<UserDetail> userDetailList = new ArrayList<>();
+    HashMap<String, Integer> map = new HashMap<>();
+    List<UserMessageTable> temp = new Select()
+        .from(UserMessageTable.class)
+        .where("session_user=" + application.getUserId())
+        .groupBy("to_user, from_user")
+        .having("max(local_id) = local_id")
+        .orderBy("message_time DESC")
+        .execute();
+
+//    Log.e(LOG_TAG, "size:"+temp.size());
+    for (UserMessageTable t : temp) {
+      if (t.to.equalsIgnoreCase(application.getUserId())) {
+        if (!map.containsKey(t.from)) {
+          map.put(t.from, 1);
+          addUserToList(userDetailList, t.from);
+        }
+      } else {
+        if (!map.containsKey(t.to)) {
+          map.put(t.to, 1);
+          addUserToList(userDetailList, t.to);
+        }
+      }
+    }
+    return userDetailList;
+  }
+
+  private void addUserToList(List<UserDetail> userDetailList, String user_id) {
+    UserDetail tempUser = getUserDetail(user_id);
+    if (tempUser == null) {
+      tempUser = new UserDetail();
+      tempUser.id = user_id;
+      tempUser.Username = "Hibour User";
+    }
+    userDetailList.add(tempUser);
+  }
+
   /* insert notifications into database*/
   public void insertNotificationIntoDatabase(String message) {
     new NotificationTable(message).save();
@@ -54,7 +93,7 @@ public class DatabaseHandler {
     new UserDetailTable(userDetail).save();
   }
 
-  public UserDetail getUserDetail(int user_id) {
+  public UserDetail getUserDetail(String user_id) {
     UserDetailTable user = new Select().from(UserDetailTable.class).where("user_id = " + user_id).executeSingle();
     if (user == null)
       return null;

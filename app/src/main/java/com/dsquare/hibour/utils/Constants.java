@@ -40,7 +40,7 @@ public class Constants {
   public static final String URL_GET_SOCIAL_NEIGHBOURS = URL_DOMAIN + "Preferences/members?";
   public static final String URL_GET_NEIGHBOURHOODS = URL_DOMAIN + "Userreg/address?";
   public static final String URL_SEND_MESSAGE = URL_DOMAIN + "Messages/create?";
-  public static final String URL_GET_NEARBY_USER = URL_DOMAIN + "Userreg/1?signature=%s";
+  public static final String URL_GET_NEARBY_USER = URL_DOMAIN + "Userreg/%s?signature=%s"; //"Userreg/listofusers?userid=%s&signature=%s"
 
 
   /*user constants*/

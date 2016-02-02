@@ -106,10 +106,10 @@ public class SocializeClient {
     }
   }
 
-  public void getNearByUser(final WebServiceResponseCallback callback) {
+  public void getNearByUser(String user_id, final WebServiceResponseCallback callback) {
     try {
 
-      String urlStr = String.format(Constants.URL_GET_NEARBY_USER, Constants.SIGNATURE_VALUE);
+      String urlStr = String.format(Constants.URL_GET_NEARBY_USER, user_id, Constants.SIGNATURE_VALUE);
       Log.d(LOG_TAG, urlStr);
       URL url = new URL(urlStr);
       URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()

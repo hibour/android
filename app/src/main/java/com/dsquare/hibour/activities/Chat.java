@@ -70,7 +70,7 @@ public class Chat extends AppCompatActivity implements View.OnClickListener {
 
     }
   };
-  private int secondUserId;
+  private String secondUserId;
 
   private MessageStateResultCallBack<UserMessage> messageSendResultCallback = new MessageStateResultCallBack<UserMessage>() {
     @Override
@@ -155,7 +155,7 @@ public class Chat extends AppCompatActivity implements View.OnClickListener {
     socializeClient = new SocializeClient(this);
     application = Hibour.getInstance(this);
 
-    secondUserId = getIntent().getExtras().getInt(Constants.KEYWORD_USER_ID, 0);
+    secondUserId = getIntent().getExtras().getString(Constants.KEYWORD_USER_ID, "");
 
     initializeViews();
     initializeEventListeners();

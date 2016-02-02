@@ -410,7 +410,7 @@ public class AccountsClient {
     /* get user details*/
     public void getUserDetails(String userId, final WebServiceResponseCallback callback) {
         try {
-            String urlStr = String.format(Constants.URL_USER_DETAIL, userId);
+          String urlStr = String.format(Constants.URL_USER_DETAIL, userId, Constants.SIGNATURE_VALUE);
             URL url = new URL(urlStr);
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
                     , url.getPath(), url.getQuery(), url.getRef());

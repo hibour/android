@@ -3,7 +3,7 @@ package com.dsquare.hibour.pojos.user;
 import com.dsquare.hibour.database.table.UserDetailTable;
 
 public class UserDetail {
-  public int id;
+  public String id;
   public String Username;
   public String Image;
   public String Gender;

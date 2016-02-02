@@ -53,7 +53,7 @@ public class NeighboursAdapter extends RecyclerView.Adapter<NeighboursAdapter.Vi
       @Override
       public void onClick(View v) {
         Bundle data = new Bundle();
-        data.putInt(Constants.KEYWORD_USER_ID, item.id);
+        data.putString(Constants.KEYWORD_USER_ID, item.id);
         Intent groupPostsIntent = new Intent(context, Chat.class);
         groupPostsIntent.putExtras(data);
         context.startActivity(groupPostsIntent);
