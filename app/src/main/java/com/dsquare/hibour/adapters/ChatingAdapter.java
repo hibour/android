@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.listener.ResultCallBack;
 import com.dsquare.hibour.pojos.message.UserMessage;
 import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Hibour;
@@ -27,11 +28,14 @@ public class ChatingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
   private ViewHolder globalHolder;
   private ProgressDialog detailsDialog;
   private Hibour application;
+  private ResultCallBack<UserMessage> resendMessageResultCallback;
 
-  public ChatingAdapter(Context context, List<UserMessage> userMessageList) {
+  public ChatingAdapter(Context context, List<UserMessage> messageList,
+                        ResultCallBack<UserMessage> resendMessageResultCallback) {
     application = Hibour.getInstance(context);
     this.context = context;
-    this.userMessageList = userMessageList;
+    this.resendMessageResultCallback = resendMessageResultCallback;
+    this.userMessageList = messageList;
   }
 
   @Override
@@ -47,8 +51,8 @@ public class ChatingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
   @Override
   public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-    ViewHolder holder = (ViewHolder) viewHolder;
-    UserMessage item = userMessageList.get(position);
+    final ViewHolder holder = (ViewHolder) viewHolder;
+    final UserMessage item = userMessageList.get(position);
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(item.time);
     String time = (calendar.get(Calendar.HOUR) < 10 ? "0" + calendar.get(Calendar.HOUR) : calendar.get(Calendar.HOUR))
@@ -56,6 +60,20 @@ public class ChatingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         (calendar.get(Calendar.AM_PM) == 0 ? " AM" : " PM");
     holder.message.setText(item.message);
     holder.time.setText(time);
+    if (item.messageState == Constants.MESSAGE_SENDING) {
+      holder.messageState.setText("Sending...");
+    } else if (item.messageState == Constants.MESSAGE_SENT) {
+      holder.messageState.setText("Sent.");
+    } else if (item.messageState == Constants.MESSAGE_FAILED) {
+      holder.messageState.setText("Failed. Click To Try Again.");
+      holder.messageState.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          holder.messageState.setOnClickListener(null);
+          resendMessageResultCallback.onResultCallBack(item, null);
+        }
+      });
+    }
   }
 
   @Override
@@ -72,12 +90,15 @@ public class ChatingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
   }
 
   public static class ViewHolder extends RecyclerView.ViewHolder {
-    private TextView message, time;
+    private TextView message, time, messageState;
+    private View card;
 
     public ViewHolder(View itemView) {
       super(itemView);
       message = (TextView) itemView.findViewById(R.id.message);
       time = (TextView) itemView.findViewById(R.id.time);
+      messageState = (TextView) itemView.findViewById(R.id.message_state);
+      card = itemView.findViewById(R.id.card);
     }
   }
 }

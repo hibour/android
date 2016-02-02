@@ -16,7 +16,10 @@ import com.dsquare.hibour.R;
 import com.dsquare.hibour.adapters.ChatingAdapter;
 import com.dsquare.hibour.database.DatabaseHandler;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
+import com.dsquare.hibour.listener.MessageStateResultCallBack;
+import com.dsquare.hibour.listener.ResultCallBack;
 import com.dsquare.hibour.network.AccountsClient;
+import com.dsquare.hibour.network.SocializeClient;
 import com.dsquare.hibour.pojos.message.UserMessage;
 import com.dsquare.hibour.pojos.user.UserDetail;
 import com.dsquare.hibour.utils.Constants;
@@ -28,7 +31,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 
 public class Chat extends AppCompatActivity implements View.OnClickListener {
@@ -45,6 +51,7 @@ public class Chat extends AppCompatActivity implements View.OnClickListener {
   private AccountsClient accountsClient;
   private Hibour application;
   private UserDetail user;
+  private SocializeClient socializeClient;
   private WebServiceResponseCallback userDetailsResultCallback = new WebServiceResponseCallback() {
     @Override
     public void onSuccess(JSONObject jsonObject) {
@@ -64,21 +71,44 @@ public class Chat extends AppCompatActivity implements View.OnClickListener {
     }
   };
   private int secondUserId;
+
+  private MessageStateResultCallBack<UserMessage> messageSendResultCallback = new MessageStateResultCallBack<UserMessage>() {
+    @Override
+    public void onResultCallBack(UserMessage message, int state, Exception e) {
+      if (e == null) {
+        message.messageState = state;
+        dbHandler.insertUserMessage(message);
+        for (UserMessage m : chatList) {
+          if (m.local_id.getTime() == message.local_id.getTime()) {
+            m.messageState = state;
+            break;
+          }
+        }
+        chatAdapter.notifyDataSetChanged();
+      }
+    }
+  };
   private View.OnClickListener sendMessageListener = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
       if (userMessage.getText().length() > 0) {
-        UserMessage message = new UserMessage(application.getUserId(), secondUserId + "", userMessage.getText().toString());
+        UserMessage message = new UserMessage(new Date(), application.getUserId(), secondUserId + "", userMessage.getText().toString(), Constants.MESSAGE_SENDING);
+        socializeClient.sendMessage(message, messageSendResultCallback);
         chatList.add(0, message);
         chatAdapter.notifyDataSetChanged();
         userMessage.setText("");
         chatRecycler.scrollToPosition(0);
         dbHandler.insertUserMessage(message);
       }
-      if (userStatus.getVisibility() == View.VISIBLE)
-        hideUserStatus();
-      else
-        showUserStatus();
+    }
+  };
+  private ResultCallBack<UserMessage> resendMessageResultCallback = new ResultCallBack<UserMessage>() {
+    @Override
+    public void onResultCallBack(UserMessage message, Exception e) {
+      message.messageState = Constants.MESSAGE_SENDING;
+      dbHandler.insertUserMessage(message);
+      socializeClient.sendMessage(message, messageSendResultCallback);
+      chatAdapter.notifyDataSetChanged();
     }
   };
 
@@ -86,6 +116,33 @@ public class Chat extends AppCompatActivity implements View.OnClickListener {
   protected void onResume() {
     super.onResume();
     showUserStatus();
+    EventBus.getDefault().register(this);
+    refreshUserMessages();
+  }
+
+  private void refreshUserMessages() {
+    if (chatList.size() == 0) {
+      for (UserMessage message : dbHandler.getUserMessage(secondUserId + "", application.getUserId())) {
+        chatList.add(message);
+      }
+      return;
+    }
+    List<UserMessage> temp = new ArrayList<>();
+    for (UserMessage message : dbHandler.getUserMessage(secondUserId + "", application.getUserId())) {
+      if (message.local_id.getTime() != chatList.get(0).local_id.getTime())
+        temp.add(0, message);
+      else
+        break;
+    }
+    for (UserMessage message : temp)
+      chatList.add(0, message);
+    chatAdapter.notifyDataSetChanged();
+  }
+
+  @Override
+  protected void onPause() {
+    super.onPause();
+    EventBus.getDefault().unregister(this);
   }
 
   @Override
@@ -95,6 +152,7 @@ public class Chat extends AppCompatActivity implements View.OnClickListener {
     dbHandler = new DatabaseHandler(this);
     uiHelper = new UIHelper(this);
     accountsClient = new AccountsClient(this);
+    socializeClient = new SocializeClient(this);
     application = Hibour.getInstance(this);
 
     secondUserId = getIntent().getExtras().getInt(Constants.KEYWORD_USER_ID, 0);
@@ -104,11 +162,11 @@ public class Chat extends AppCompatActivity implements View.OnClickListener {
   }
 
   public void showUserStatus() {
-    uiHelper.zoomInView(userStatus);
+//    uiHelper.zoomInView(userStatus);
   }
 
   public void hideUserStatus() {
-    uiHelper.zoomOutView(userStatus);
+//    uiHelper.zoomOutView(userStatus);
   }
 
   private void initializeViews() {
@@ -124,15 +182,13 @@ public class Chat extends AppCompatActivity implements View.OnClickListener {
     chatRecycler.setLayoutManager(layoutManager);
     chatRecycler.setHasFixedSize(true);
 
-    for (UserMessage message : dbHandler.getUserMessage(secondUserId + "", application.getUserId())) {
-      chatList.add(message);
-    }
+    refreshUserMessages();
     user = dbHandler.getUserDetail(secondUserId);
     if (user == null)
       accountsClient.getUserDetails(secondUserId + "", userDetailsResultCallback);
     else
       updateUserUI();
-    chatAdapter = new ChatingAdapter(this, chatList);
+    chatAdapter = new ChatingAdapter(this, chatList, resendMessageResultCallback);
     chatRecycler.setAdapter(chatAdapter);
   }
 
@@ -151,6 +207,20 @@ public class Chat extends AppCompatActivity implements View.OnClickListener {
       case R.id.chat_back_icon:
         onBackPressed();
         break;
+    }
+  }
+
+  public void onEvent(UserMessage message) {
+    if (message != null) {
+      if (message.fromUserID.equalsIgnoreCase(secondUserId + "")) {
+        chatList.add(0, message);
+        runOnUiThread(new Runnable() {
+          @Override
+          public void run() {
+            chatAdapter.notifyDataSetChanged();
+          }
+        });
+      }
     }
   }
 }

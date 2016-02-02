@@ -9,6 +9,7 @@ import com.dsquare.hibour.database.table.UserDetailTable;
 import com.dsquare.hibour.database.table.UserMessageTable;
 import com.dsquare.hibour.pojos.message.UserMessage;
 import com.dsquare.hibour.pojos.user.UserDetail;
+import com.dsquare.hibour.utils.Hibour;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,23 +17,24 @@ import java.util.List;
 public class DatabaseHandler {
   private static final String LOG_TAG = DatabaseHandler.class.getSimpleName();
   private Context context;
-
+  private Hibour application;
   public DatabaseHandler(Context context) {
     this.context = context;
+    this.application = Hibour.getInstance(context);
   }
 
   public void insertUserMessage(UserMessage userMessage) {
-    new UserMessageTable(userMessage).save();
+    new UserMessageTable(userMessage, application.getUserId()).save();
   }
 
   public List<UserMessage> getUserMessage(String user_1, String user_2) {
     List<UserMessageTable> userMessageTableList = new Select().from(UserMessageTable.class)
-        .where("(to_user = \"" + user_1 + "\" and from_user = \"" + user_2 + "\") or (to_user = \""
-            + user_2 + "\" and from_user = \"" + user_1 + "\") ").orderBy("message_time DESC")
+        .where("((to_user = \"" + user_1 + "\" and from_user = \"" + user_2 + "\") or (to_user = \""
+            + user_2 + "\" and from_user = \"" + user_1 + "\") ) and session_user = " + application.getUserId()).orderBy("message_time DESC")
         .execute();
     List<UserMessage> userMessageList = new ArrayList<>();
     for (UserMessageTable message : userMessageTableList) {
-      userMessageList.add(new UserMessage(message.from, message.to, message.message, message.date));
+      userMessageList.add(new UserMessage(message.local_id, message.from, message.to, message.message, message.message_state, message.date));
     }
     return userMessageList;
   }
