@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.dsquare.hibour.R;
@@ -18,7 +19,7 @@ import java.util.List;
 /**
  * Created by Dsquare Android on 1/28/2016.
  */
-public class PostLikes  extends AppCompatActivity  {
+public class PostLikes  extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView backIcon;
     private RecyclerView likesList;
@@ -47,6 +48,16 @@ public class PostLikes  extends AppCompatActivity  {
     }
 
     private void initializeEventListeners() {
+        backIcon.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.likes_back_icon:
+                this.finish();
+                break;
+        }
     }
 
     private void prepareLikesList(){

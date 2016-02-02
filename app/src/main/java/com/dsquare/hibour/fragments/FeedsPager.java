@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.adapters.FeedsAdapter;
 import com.dsquare.hibour.adapters.PostsAdapter;
 import com.dsquare.hibour.pojos.posts.Postpojos;
 import com.dsquare.hibour.utils.Constants;
@@ -52,7 +53,7 @@ public class FeedsPager extends Fragment {
         postsRecycler.setLayoutManager(layoutManager);
         postsRecycler.setHasFixedSize(true);
         setAdapter();
-        new setFeedsTask().execute(categoryName);
+       // new setFeedsTask().execute(categoryName);
     }
     /*set adapter*/
     private void setAdapter(){
@@ -62,8 +63,8 @@ public class FeedsPager extends Fragment {
                 List<Postpojos> posts = Constants.postsMap.get(s);
                 try {
                     for(int i=0;i<posts.size();i++) {
-                        String[] data = new String[8];
-                        data[0] = posts.get(i).getUser().getName();
+                        String[] data = new String[9];
+                        data[0] = posts.get(i).getUser().getId();
                         data[1] = posts.get(i).getPostDate();
                         data[2] = posts.get(i).getPostMessage();
                         data[3] = posts.get(i).getPostType();
@@ -71,6 +72,7 @@ public class FeedsPager extends Fragment {
                         data[5] = Arrays.toString(new int[]{posts.get(i).getPostComments().size()}).replaceAll("\\[|\\]", "");
                         data[6] = posts.get(i).getPostId();
                         data[7] = String.valueOf(posts.get(i).getPostUserLiked());
+                        data[8] = posts.get(i).getPostImage();
                         postsList.add(data);
                     }
                 } catch (Exception e) {
@@ -82,8 +84,8 @@ public class FeedsPager extends Fragment {
 
             try {
                 for(int i=0;i<posts.size();i++) {
-                    String[] data = new String[8];
-                    data[0] = posts.get(i).getUser().getName();
+                    String[] data = new String[9];
+                    data[0] = posts.get(i).getUser().getId();
                     data[1] = posts.get(i).getPostDate();
                     data[2] = posts.get(i).getPostMessage();
                     data[3] = posts.get(i).getPostType();
@@ -91,15 +93,15 @@ public class FeedsPager extends Fragment {
                     data[5] = Arrays.toString(new int[]{posts.get(i).getPostComments().size()}).replaceAll("\\[|\\]", "");
                     data[6] = posts.get(i).getPostId();
                     data[7] = String.valueOf(posts.get(i).getPostUserLiked());
+                    data[8] = posts.get(i).getPostImage();
                     postsList.add(data);
-                    Log.d("datas",""+data);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        postsAdapter = new PostsAdapter(getActivity(),postsList);
-        postsRecycler.setAdapter(postsAdapter);
+        Log.d("posts size",postsList.size()+"");
+        postsRecycler.setAdapter(new FeedsAdapter(getActivity(),postsList));
     }
 
     /* asynchronous task to set data to adapter*/
