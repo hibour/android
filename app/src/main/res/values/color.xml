@@ -19,4 +19,13 @@
     <color name="outline_blue">#3BAFDA</color>
     <color name="outline_yellow">#37BC9B</color>
     <color name="outline_purple">#967ADC</color>
+    <string-array name="movie_serial_bg">
+        <item>#ff484d</item>
+        <item>#57dd86</item>
+        <item>#ad7dcf</item>
+        <item>#24c6d5</item>
+        <item>#fcba59</item>
+        <item>#24c6d5</item>
+    </string-array>
+
 </resources>

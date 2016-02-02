@@ -2,6 +2,7 @@ package com.dsquare.hibour.utils;
 
 import com.dsquare.hibour.pojos.Socialize.ChoosedUser;
 import com.dsquare.hibour.pojos.Socialize.Datum;
+import com.dsquare.hibour.pojos.posts.PostLikedUser;
 import com.dsquare.hibour.pojos.posts.Postpojos;
 
 import java.util.ArrayList;
@@ -109,5 +110,6 @@ public class Constants {
 
     public static Map<String,List<Postpojos>> postsMap = new LinkedHashMap<>();
     public static Map<String,List<Postpojos>> postpojosMap = new LinkedHashMap<>();
+    public static Map<String, List<PostLikedUser>> postlikesMap = new LinkedHashMap<>();
     public static Map<String,String> categoriesMap = new HashMap<>();
 }

@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.adapters.AdapterPostLikes;
 import com.dsquare.hibour.pojos.posts.PostLikedUser;
-import com.dsquare.hibour.pojos.posts.Postpojos;
 import com.dsquare.hibour.utils.Constants;
 
 import java.util.ArrayList;
@@ -53,16 +52,13 @@ public class PostLikes  extends AppCompatActivity  {
     private void prepareLikesList(){
         likeList.clear();
         Log.d("id",postId);
-            List<Postpojos> posts = Constants.postpojosMap.get(postId);
+            List<PostLikedUser> posts = Constants.postlikesMap.get(postId);
             try {
                 for(int i=0;i<posts.size();i++) {
-                    List<PostLikedUser> datas =  posts.get(i).getPostLikedUsers();
-                    for(int j=0;j<datas.size();j++){
                         String[] data = new String[1];
-                        data[0] =  datas.get(i).getName();
+                        data[0] =  posts.get(i).getName();
                         likeList.add(data);
-                        postId.isEmpty();
-                    }
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();

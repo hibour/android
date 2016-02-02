@@ -177,7 +177,7 @@ public class Posts extends Fragment implements View.OnClickListener {
             }
             tabsList.add("All");
             for (Postpojos p:postpojos) {
-
+                Constants.postlikesMap.put(p.getPostId(),p.getPostLikedUsers());
                 Constants.postpojosMap.put(p.getPostId(),postpojos);
                     String key = " ";
                     if (Constants.categoriesMap.containsKey(p.getPostType()))

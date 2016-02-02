@@ -65,7 +65,7 @@ public class Home extends Fragment implements View.OnClickListener {
         createPost = (FloatingActionButton)view.findViewById(R.id.feeds_create_fab);
         feedIcon = (ImageView) view.findViewById(R.id.home_feed);
         socializeIcon = (ImageView) view.findViewById(R.id.home_socialize_icon);
-       // newPostIcon = (ImageView) view.findViewById(R.id.home_new_post);
+//       newPostIcon = (ImageView) view.findViewById(R.id.home_new_post);
         channelsIcon = (ImageView) view.findViewById(R.id.home_channels);
         moreIcon = (ImageView) view.findViewById(R.id.home_more_icon);
         postimage = (ImageView) view.findViewById(R.id.home_post);
@@ -98,6 +98,7 @@ public class Home extends Fragment implements View.OnClickListener {
     }
 
     private void loadDefaultFragment() {
+        applyCurrentStateToAppBarIcons(R.drawable.feed_filled, feedIcon);
         replaceContainer(0);
 //        Fragment fragment = new NewPosts();
     }
@@ -135,7 +136,6 @@ public class Home extends Fragment implements View.OnClickListener {
             System.out.println("Have Intent");
             Intent chooserIntent = Intent.createChooser(targetShareIntents.remove(0), "Choose app to invite friends");
             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
-
             startActivity(chooserIntent);
         } else {
 
@@ -151,6 +151,7 @@ public class Home extends Fragment implements View.OnClickListener {
             case R.id.home_feed:
                 if(createPost.getVisibility()==View.GONE)
                     createPost.setVisibility(View.VISIBLE);
+                applyCurrentStateToAppBarIcons(R.drawable.feed_filled, feedIcon);
                 replaceContainer(0);
                 /*if(bottomBar1.getVisibility() == View.VISIBLE){
 //                    newPostIcon.setVisibility(View.GONE);
@@ -166,13 +167,19 @@ public class Home extends Fragment implements View.OnClickListener {
                 }*/
                 break;
             case R.id.home_socialize_icon:
-                //applyCurrentStateToAppBarIcons(R.drawable.socialize_filled, socializeIcon);
+                applyCurrentStateToAppBarIcons(R.drawable.socialize_filled, socializeIcon);
                 if(createPost.getVisibility()==View.GONE)
                     createPost.setVisibility(View.VISIBLE);
                 replaceContainer(4);
                 break;
             case R.id.feeds_create_fab:
+                if(bottomBar1.getVisibility() == View.VISIBLE) {
+//                    newPostIcon.setVisibility(View.GONE);
+                bottomBar1.setVisibility(View.GONE);
+                postimage.setVisibility(View.VISIBLE);
                 createPost.setVisibility(View.GONE);
+                }
+
                 replaceContainer(3);
                 break;
             case R.id.home_channels:
@@ -183,11 +190,12 @@ public class Home extends Fragment implements View.OnClickListener {
                 callback.drawerOpen();
                 break;
             case R.id.home_post:
-                applyCurrentStateToAppBarIcons(R.drawable.feed, feedIcon);
+                if(createPost.getVisibility()==View.GONE)
+                    createPost.setVisibility(View.VISIBLE);
                 bottomBar1.setVisibility(View.VISIBLE);
     //            newPostIcon.setVisibility(View.VISIBLE);
                 postimage.setVisibility(View.GONE);
-                replaceContainer(3);
+                replaceContainer(0);
                 break;
 //            case R.id.home_search_icon:
 //

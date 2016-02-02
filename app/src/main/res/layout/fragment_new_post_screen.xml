@@ -5,11 +5,18 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:id="@+id/post_liner_layout">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="?android:actionBarSize"
         android:background="@color/white"
-        android:id="@+id/home_app_bar">
+        android:id="@+id/home_app_bar1"
+       >
         <com.dsquare.hibour.utils.Proxima
             android:id="@+id/creat_post_cancel"
             android:layout_width="@dimen/dp_60"
@@ -34,7 +41,7 @@
         <com.dsquare.hibour.utils.ProximaExtraBold
             android:layout_width="@dimen/dp_60"
             android:layout_height="@dimen/dp_40"
-            android:text="Done"
+            android:text="Post"
             android:gravity="center"
             android:textColor="@color/outline_blue"
             android:id="@+id/create_post_done"
@@ -64,32 +71,58 @@
         android:layout_height="@dimen/horiz_line_height"
         android:layout_marginTop="@dimen/dp_5"
         android:background="@color/gray"
-        android:layout_below="@+id/home_app_bar"/>
+        android:id="@+id/views"
+        android:layout_below="@+id/home_app_bar1"
+        />
+    </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/white"
         android:orientation="vertical">
 
-        <!--<LinearLayout-->
-            <!--android:id="@+id/category_list"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="vertical"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:paddingBottom="@dimen/dp_60"-->
-            <!--android:visibility="visible">-->
+        <RelativeLayout
+            android:id="@+id/category_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#80000000"
+            android:theme="@android:style/Theme.Translucent"
+            android:visibility="visible">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:paddingBottom="@dimen/dp_60"
+            android:paddingTop="@dimen/dp_160"
+            >
 
-            <!--<com.dsquare.hibour.utils.Proxima-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:layout_marginBottom="@dimen/dp_10"-->
-                <!--android:layout_marginTop="@dimen/dp_10"-->
-                <!--android:text="Choose a category for your Post"-->
-                <!--android:textColor="#726B6B"-->
-                <!--android:textSize="22sp" />-->
+            <com.dsquare.hibour.utils.Proxima
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_10"
+                android:text="Choose a category for your Post"
+                android:textColor="@color/white"
+                android:textSize="22sp" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center">
+            <ListView
+                android:id="@+id/categories_recycler"
+                android:layout_width="@dimen/dp_200"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="5dp"
+
+               >
+            </ListView></LinearLayout>
 
             <!--<LinearLayout-->
                 <!--android:id="@+id/category_general"-->
@@ -232,14 +265,14 @@
 
                 <!--</GridLayout>-->
             <!--</LinearLayout>-->
-        <!--</LinearLayout>-->
+        </LinearLayout></RelativeLayout>
 
         <LinearLayout
             android:id="@+id/post_widget"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -247,7 +280,7 @@
                 <com.dsquare.hibour.utils.Proxima
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TO:"
+                    android:text="Category:"
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/dp_20"/>
@@ -327,6 +360,13 @@
                         android:layout_gravity="center"
                         android:layout_centerVertical="true"
                         />
+                    <com.dsquare.hibour.utils.Proxima
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TO:"
+                        android:layout_toLeftOf="@+id/newpost_spinner_negibourhood"
+                        android:layout_centerVertical="true"
+                     />
                     <Spinner
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
