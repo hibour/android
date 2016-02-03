@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
@@ -36,7 +35,6 @@ import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.network.PostsClient;
 import com.dsquare.hibour.pojos.posttype.Datum;
 import com.dsquare.hibour.pojos.posttype.PostTypeCatg;
-import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Fonts;
 import com.dsquare.hibour.utils.Hibour;
 import com.google.gson.Gson;
@@ -45,22 +43,12 @@ import com.google.gson.JsonSyntaxException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Created by Aditya Ravikanti on 1/19/2016.
@@ -292,6 +280,7 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
         }
 
     }
+
 
     /* get all categories types*/
     private void getAllCategoriesTypes(){

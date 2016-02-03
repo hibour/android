@@ -63,7 +63,7 @@ public class FeedsPager extends Fragment {
                 List<Postpojos> posts = Constants.postsMap.get(s);
                 try {
                     for(int i=0;i<posts.size();i++) {
-                        String[] data = new String[9];
+                        String[] data = new String[10];
                         data[0] = posts.get(i).getUser().getId();
                         data[1] = posts.get(i).getPostDate();
                         data[2] = posts.get(i).getPostMessage();
@@ -73,6 +73,7 @@ public class FeedsPager extends Fragment {
                         data[6] = posts.get(i).getPostId();
                         data[7] = String.valueOf(posts.get(i).getPostUserLiked());
                         data[8] = posts.get(i).getPostImage();
+                        data[9] = posts.get(i).getPostTime();
                         postsList.add(data);
                     }
                 } catch (Exception e) {
@@ -84,7 +85,7 @@ public class FeedsPager extends Fragment {
 
             try {
                 for(int i=0;i<posts.size();i++) {
-                    String[] data = new String[9];
+                    String[] data = new String[10];
                     data[0] = posts.get(i).getUser().getId();
                     data[1] = posts.get(i).getPostDate();
                     data[2] = posts.get(i).getPostMessage();
@@ -94,6 +95,7 @@ public class FeedsPager extends Fragment {
                     data[6] = posts.get(i).getPostId();
                     data[7] = String.valueOf(posts.get(i).getPostUserLiked());
                     data[8] = posts.get(i).getPostImage();
+                    data[9] = posts.get(i).getPostTime();
                     postsList.add(data);
                 }
             } catch (Exception e) {

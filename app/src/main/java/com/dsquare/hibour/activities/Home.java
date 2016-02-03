@@ -1,5 +1,6 @@
 package com.dsquare.hibour.activities;
 
+import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.LabeledIntent;
@@ -20,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.adapters.NavigationDrawerAdapter;
 import com.dsquare.hibour.fragments.AboutUs;
@@ -28,10 +30,22 @@ import com.dsquare.hibour.fragments.Message;
 import com.dsquare.hibour.fragments.Settings;
 import com.dsquare.hibour.fragments.Socializes;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
+import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
+import com.dsquare.hibour.network.NetworkDetector;
+import com.dsquare.hibour.network.PostsClient;
+import com.dsquare.hibour.pojos.posttype.Datum;
+import com.dsquare.hibour.pojos.posttype.PostTypeCatg;
+import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Hibour;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Home extends AppCompatActivity implements NavDrawerCallback, AdapterView.OnItemClickListener{
 
@@ -42,6 +56,10 @@ public class Home extends AppCompatActivity implements NavDrawerCallback, Adapte
     private boolean isHome = true;
     boolean doubleBackToExitPressedOnce = false;
     private Hibour application;
+    private Gson gson;
+    private PostsClient postsClient;
+    private ProgressDialog dialog;
+    private NetworkDetector networkDetector;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,11 +67,14 @@ public class Home extends AppCompatActivity implements NavDrawerCallback, Adapte
         initializeViews();
         initializeDrawerAdapter();
         initializeEventListeners();
-        loadDefaultFragment();
+        getAllCategoriesTypes();
     }
 
     /*initialize views*/
     private void initializeViews(){
+        gson = new Gson();
+        networkDetector = new NetworkDetector(this);
+        postsClient = new PostsClient(this);
         drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
         manager = getSupportFragmentManager();
         drawerList = (ListView)findViewById(R.id.left_drawer);
@@ -197,6 +218,63 @@ public class Home extends AppCompatActivity implements NavDrawerCallback, Adapte
             startActivity(chooserIntent);
         } else {
 
+        }
+    }
+    /* parse categories types*/
+    private void parseAllCategoriesTypes(JSONObject jsonObject){
+        try {
+            PostTypeCatg proofsData = gson.fromJson(jsonObject.toString(),PostTypeCatg.class);
+            List<Datum> data = proofsData.getData();
+            if(data.size()>0) {
+                if(Constants.postTypesMap.size()>0){
+                    Constants.postTypesMap.clear();
+                }
+                for (Datum d : data) {
+                    Map<String,String> postsTypesMap = new LinkedHashMap<>();
+                    postsTypesMap.put("id",d.getId()+"");
+                    postsTypesMap.put("name",d.getPosttypename());
+                    postsTypesMap.put("placeholder",d.getPlaceholder());
+                    Constants.postTypesMap.put(d.getPosttypename(),postsTypesMap);
+                }
+            }
+            loadDefaultFragment();
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+    }
+    /* get all categories types*/
+    private void getAllCategoriesTypes(){
+        if(networkDetector.isConnected()){
+            dialog = ProgressDialog.show(this, "", getResources()
+                    .getString(R.string.progress_dialog_text));
+            postsClient.getAllcategoriesTypes(new WebServiceResponseCallback() {
+                @Override
+                public void onSuccess(JSONObject jsonObject) {
+                    parseAllCategoriesTypes(jsonObject);
+                    closeCategoriesDialog();
+                }
+
+                @Override
+                public void onFailure(VolleyError error) {
+                    Log.d("govt", error.toString());
+                    closeCategoriesDialog();
+                }
+            });
+        }else{
+            Toast.makeText(this, "Network connection error", Toast.LENGTH_LONG).show();
+        }
+    }
+    /* close post types dialog*/
+    private void closeCategoriesDialog(){
+        try {
+            if(dialog!=null){
+                if(dialog.isShowing()){
+                    dialog.dismiss();
+                    dialog = null;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

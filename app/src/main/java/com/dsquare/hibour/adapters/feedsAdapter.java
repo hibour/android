@@ -80,7 +80,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
             Bitmap likesIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_likes_icon);
             holder.likesImage.setImageBitmap(likesIcon);
         }
-        holder.timeStamp.setText(getTimeStamp(listItems.get(position)[1],""));
+        holder.timeStamp.setText(getTimeStamp(listItems.get(position)[1],listItems.get(position)[9]));
 
     }
 
