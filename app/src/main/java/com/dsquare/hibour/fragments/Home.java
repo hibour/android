@@ -48,6 +48,7 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
     private TextView textView,invite;
     private FloatingActionButton createPost;
     private DialogFragment categoriesDialog;
+    private String categoryName = "";
     public Home() {
         // Required empty public constructor
     }
@@ -71,7 +72,7 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
 //       newPostIcon = (ImageView) view.findViewById(R.id.home_new_post);
         channelsIcon = (ImageView) view.findViewById(R.id.home_channels);
         moreIcon = (ImageView) view.findViewById(R.id.home_more_icon);
-        postimage = (ImageView) view.findViewById(R.id.home_post);
+        //postimage = (ImageView) view.findViewById(R.id.home_post);
       bottomBar1 = (LinearLayout) view.findViewById(R.id.home_bottom_menu);
 
         Constants.categoriesMap.put("1","General");
@@ -95,7 +96,7 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
 //        newPostIcon.setOnClickListener(this);
         channelsIcon.setOnClickListener(this);
         moreIcon.setOnClickListener(this);
-        postimage.setOnClickListener(this);
+//        postimage.setOnClickListener(this);
         createPost.setOnClickListener(this);
 //        searchIcon.setOnClickListener(this);
     }
@@ -179,7 +180,7 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
                 if(bottomBar1.getVisibility() == View.VISIBLE) {
 //                    newPostIcon.setVisibility(View.GONE);
                 bottomBar1.setVisibility(View.GONE);
-                postimage.setVisibility(View.VISIBLE);
+//                postimage.setVisibility(View.VISIBLE);
                 createPost.setVisibility(View.GONE);
                 }
                 categoriesDialog = new PostsTypesDialog();
@@ -194,14 +195,6 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
             case R.id.home_more_icon:
                 applyCurrentStateToAppBarIcons(R.drawable.more_filled, moreIcon);
                 callback.drawerOpen();
-                break;
-            case R.id.home_post:
-                if(createPost.getVisibility()==View.GONE)
-                    createPost.setVisibility(View.VISIBLE);
-                bottomBar1.setVisibility(View.VISIBLE);
-    //            newPostIcon.setVisibility(View.VISIBLE);
-                postimage.setVisibility(View.GONE);
-                replaceContainer(0);
                 break;
         }
     }
@@ -240,6 +233,9 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
             case 3:
                 isHome = true;
                 fragment = new NewPost();
+                Bundle args = new Bundle();
+                args.putString("category",categoryName);
+                fragment.setArguments(args);
                 break;
             case 4:
                 isHome = true;
@@ -260,7 +256,10 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
     }
 
     @Override
-    public void onCategorySelected(String categoryName) {
-
+    public void onCategorySelected(String categoryName,DialogFragment dialog) {
+        this.categoryName = "";
+        this.categoryName = categoryName;
+        dialog.dismiss();
+        replaceContainer(3);
     }
 }

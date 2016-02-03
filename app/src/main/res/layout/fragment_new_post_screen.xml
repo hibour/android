@@ -180,22 +180,23 @@
                         android:layout_gravity="center"
                         android:layout_centerVertical="true"
                         />
-                    <com.dsquare.hibour.utils.Proxima
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="TO:"
-                        android:layout_toLeftOf="@+id/newpost_spinner_negibourhood"
-                        android:layout_centerVertical="true"
-                     />
                     <Spinner
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:spinnerMode="dropdown"
                         android:id="@+id/newpost_categories_spinner"
                         android:textSize="@dimen/edit_text_size"
-                       android:layout_centerVertical="true"
+                        android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"
-                ></Spinner>
+                        ></Spinner>
+                    <com.dsquare.hibour.utils.Proxima
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Category:"
+                        android:layout_toLeftOf="@+id/newpost_categories_spinner"
+                        android:layout_centerVertical="true"
+                     />
+
                 </RelativeLayout>
 
 

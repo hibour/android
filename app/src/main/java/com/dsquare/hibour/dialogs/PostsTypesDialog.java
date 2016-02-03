@@ -23,6 +23,7 @@ import android.widget.ImageView;
 
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.adapters.CategoriesAdapter;
+import com.dsquare.hibour.interfaces.CategoriesCallback;
 import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.GridLayoutSpacing;
 
@@ -32,12 +33,12 @@ import java.util.List;
 /**
  * Created by Dsquare Android on 2/3/2016.
  */
-public class PostsTypesDialog  extends DialogFragment implements View.OnClickListener {
+public class PostsTypesDialog  extends DialogFragment implements View.OnClickListener
+        ,CategoriesCallback{
     public interface categoryChooserListener {
         void onCancel(DialogFragment dialog);
-        void onCategorySelected(String categoryName);
+        void onCategorySelected(String categoryName,DialogFragment dialog);
     }
-
     categoryChooserListener listener;
     private Context context;
     private RecyclerView categoriesRecycler;
@@ -107,14 +108,14 @@ public class PostsTypesDialog  extends DialogFragment implements View.OnClickLis
             for (String type : Constants.postTypesMap.keySet()) {
                 categoriesList.add(type);
             }
-            categoriesRecycler.setAdapter(new CategoriesAdapter(getActivity(), categoriesList));
-            categoriesRecycler.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d("clicked","yes");
-                }
-            });
+            CategoriesAdapter adapter = new CategoriesAdapter(getActivity(),categoriesList);
+            adapter.setCallback(this);
+            categoriesRecycler.setAdapter(adapter);
         }
     }
 
+    @Override
+    public void onCategoryChoosed(String categoryName) {
+        listener.onCategorySelected(categoryName,this);
+    }
 }

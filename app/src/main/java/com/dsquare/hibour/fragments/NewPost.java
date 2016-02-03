@@ -99,6 +99,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     private View views;
     private ListView categoriesRecycler;
     private String[] details;
+    private String catFrmPre="";
     public NewPost() {
         // Required empty public constructor
     }
@@ -106,7 +107,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_post_screen, container, false);
-
+        catFrmPre = getArguments().getString("category","");
         initializeViews(view);
         initializeEventListeners();
         getNeighbourHoods(application.getUserId());
@@ -115,11 +116,12 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     }
 
     private void initializeEventListeners() {
-        categoriesRecycler.setOnItemClickListener(this);
+//        categoriesRecycler.setOnItemClickListener(this);
         done.setOnClickListener(this);
         gallary.setOnClickListener(this);
         delete.setOnClickListener(this);
-        editPost.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        editPost.requestFocus();
+        /*editPost.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -127,7 +129,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                     in.showSoftInput(editPost, InputMethodManager.SHOW_IMPLICIT);
                 }
             }
-        });
+        });*/
     }
 
     @Override
@@ -455,15 +457,18 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         if(Constants.postTypesMap.size()>0){
             categoriesList.clear();
             categoriesMap.clear();
+            int i=0;
+            int j=0;
             for(String type:Constants.postTypesMap.keySet()){
-                categoriesMap.put(type, Constants.postTypesMap.get(type).get("id"));
-                categoriesList.add(type);
-                details= new String[]{type};
-                categoriesLists.add(details);
+                categoriesList.add(type);i++;
+                if(catFrmPre.equals(type)){
+                    j=i;
+                }
             }
             categoriesAdapter = new ArrayAdapter<String>(getActivity()
                     , android.R.layout.simple_dropdown_item_1line, categoriesList);
             categoriesSpinner.setAdapter(categoriesAdapter);
+            categoriesSpinner.setSelection(j);
         }
     }
 
