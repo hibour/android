@@ -203,10 +203,6 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
                 postimage.setVisibility(View.GONE);
                 replaceContainer(0);
                 break;
-//            case R.id.home_search_icon:
-//
-//                break;
-
         }
     }
 
@@ -259,7 +255,12 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
     }
 
     @Override
-    public void onChoose(int choice) {
-        categoriesDialog.dismiss();
+    public void onCancel(DialogFragment dialog) {
+        dialog.dismiss();
+    }
+
+    @Override
+    public void onCategorySelected(String categoryName) {
+
     }
 }

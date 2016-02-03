@@ -36,6 +36,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.categoryName.setText(categories.get(position));
+        //holder.categoryName.setOnClickListener(this);
 
     }
 

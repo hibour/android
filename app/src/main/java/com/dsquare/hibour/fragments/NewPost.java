@@ -65,7 +65,8 @@ import java.util.Map;
 /**
  * Created by Dsquare Android on 2/1/2016.
  */
-public class NewPost extends android.support.v4.app.Fragment implements View.OnClickListener,ImagePicker,AdapterView.OnItemClickListener {
+public class NewPost extends android.support.v4.app.Fragment implements View.OnClickListener
+        ,ImagePicker,AdapterView.OnItemClickListener {
 
     private String category;
     private Button send;
@@ -92,21 +93,15 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     private Bitmap bitmap;
     private Hibour application;
     private ImageView postImage,gallary,delete;
-    private LinearLayout generalCat, suggestionsCat, classifiedsCat, crimeSafetyCat, lostFoundCat,home;
     private EditText editPost;
-    private Spinner spinner,spinner1;
+    private Spinner categoriesSpinner,neighboursSpinner;
     private RelativeLayout layout,layout1;
     private View views;
     private ListView categoriesRecycler;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private CategoriesRecycler cateAdapter;
     private String[] details;
-    private String[] bgColors;
     public NewPost() {
         // Required empty public constructor
     }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -120,7 +115,6 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     }
 
     private void initializeEventListeners() {
-
         categoriesRecycler.setOnItemClickListener(this);
         done.setOnClickListener(this);
         gallary.setOnClickListener(this);
@@ -139,30 +133,6 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.category_general:
-                onCategorySelected("general");
-//                getAllCategoriesTypes();
-                break;
-
-            case R.id.category_suggestions:
-                onCategorySelected("suggestions");
-//                getAllCategoriesTypes();
-                break;
-
-            case R.id.category_classifieds:
-                onCategorySelected("classifieds");
-//                getAllCategoriesTypes();
-                break;
-
-            case R.id.category_crime_safety:
-                onCategorySelected("crime_safety");
-//                getAllCategoriesTypes();
-                break;
-
-            case R.id.category_lost_found:
-                onCategorySelected("lost_found");
-//                getAllCategoriesTypes();
-                break;
             case R.id.create_post_done:
                 validatepostData();
                 break;
@@ -256,54 +226,8 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
         return encodedImage;
     }
-    private void onCategorySelected(String cat) {
-        category = cat;
-        LinearLayout postFragment = (LinearLayout) this.getActivity().findViewById(R.id.post_fragment);
-        LinearLayout postWidget = (LinearLayout) this.getActivity().findViewById(R.id.post_widget);
-        RelativeLayout categoryList = (RelativeLayout) this.getActivity().findViewById(R.id.category_list);
-        LinearLayout relativeLayout = (LinearLayout) this.getActivity().findViewById(R.id.post_liner_layout);
-//        ImageView cancel = (ImageView) this.getActivity().findViewById(R.id.home_new_post);
 
-        ViewGroup.LayoutParams lp = postFragment.getLayoutParams();
-        lp.height = ViewGroup.LayoutParams.MATCH_PARENT;
-        postFragment.setGravity(Gravity.TOP);
-        postFragment.setLayoutParams(lp);
 
-        categoryList.setVisibility(View.GONE);
-        postWidget.setVisibility(View.VISIBLE);
-        relativeLayout.setVisibility(View.VISIBLE);
-
-        setPlaceholderText(category);
-        editPost.requestFocus();
-    }
-
-    private void setPlaceholderText(String category) {
-        switch (category) {
-            case "general":
-                editPost.setHint(R.string.cat_ph_general);
-                break;
-
-            case "suggestions":
-                editPost.setHint(R.string.cat_ph_suggestions);
-                break;
-
-            case "classifieds":
-                editPost.setHint(R.string.cat_ph_classifieds);
-                break;
-
-            case "crime_safety":
-                editPost.setHint(R.string.cat_ph_crime_safety);
-                break;
-
-            case "lost_found":
-                editPost.setHint(R.string.cat_ph_lost_found);
-                break;
-
-            default:
-                editPost.setHint(R.string.cat_ph_general);
-                break;
-        }
-    }
 
     public void slideToTop(View view) {
         TranslateAnimation animate = new TranslateAnimation(0, 0, 0, -view.getHeight());
@@ -359,14 +283,6 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         Log.d("json", jsonObject.toString());
         try {
             JSONObject data = jsonObject.getJSONObject("data");
-            //String result = data.getString("result");
-            /*if (result.endsWith("true")) {
-                Toast.makeText(getActivity(), "Post update successfully", Toast.LENGTH_LONG).show();
-//                postImage.setVisibility(View.GONE);
-                text.setText("");
-            } else {
-                Toast.makeText(getActivity(), "Post updation failed", Toast.LENGTH_LONG).show();
-            }*/
             Toast.makeText(getActivity(), "Post update successfully", Toast.LENGTH_LONG).show();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -386,14 +302,9 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     }
 
     private void initializeViews(View view) {
-//        generalCat = (LinearLayout) view.findViewById(R.id.category_general);
-//        suggestionsCat = (LinearLayout) view.findViewById(R.id.category_suggestions);
-//        classifiedsCat = (LinearLayout) view.findViewById(R.id.category_classifieds);
-//        crimeSafetyCat = (LinearLayout) view.findViewById(R.id.category_crime_safety);
-//        lostFoundCat = (LinearLayout) view.findViewById(R.id.category_lost_found);
-        bgColors = getActivity().getResources().getStringArray(R.array.movie_serial_bg);
-        spinner = (Spinner)view.findViewById(R.id.newpost_spinner);
-        spinner1 = (Spinner)view.findViewById(R.id.newpost_spinner_negibourhood);
+      //  bgColors = getActivity().getResources().getStringArray(R.array.movie_serial_bg);
+        categoriesSpinner = (Spinner)view.findViewById(R.id.newpost_categories_spinner);
+        neighboursSpinner = (Spinner)view.findViewById(R.id.newpost_neighbourhood_spinner);
         editPost = (EditText) view.findViewById(R.id.newposts_edittest);
         done = (TextView) view.findViewById(R.id.create_post_done);
        // cancel = (TextView) view.findViewById(R.id.creat_post_cancel);
@@ -402,10 +313,9 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         delete = (ImageView) view.findViewById(R.id.create_delete_image);
         layout = (RelativeLayout)view.findViewById(R.id.create_relative);
         layout1 = (RelativeLayout)view.findViewById(R.id.home_app_bar1);
-        home = (LinearLayout) view.findViewById(R.id.post_liner_layout);
         views = (View)view.findViewById(R.id.views);
         application = Hibour.getInstance(getActivity());
-        categoriesRecycler = (ListView) view.findViewById(R.id.categories_recycler);
+       // categoriesRecycler = (ListView) view.findViewById(R.id.categories_recycler);
 
         prepareCategoriesList();
 //        send = (Button) view.findViewById(R.id.newpost_send);
@@ -418,8 +328,8 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         proxima = Typeface.createFromAsset(getActivity().getAssets(), Fonts.getTypeFaceName());
         categoriesAdapter = new ArrayAdapter<String>(getActivity()
                 ,android.R.layout.simple_dropdown_item_1line,categoriesList);
-        spinner.setAdapter(categoriesAdapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        categoriesSpinner.setAdapter(categoriesAdapter);
+        categoriesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (parent != null && parent.getChildAt(0) != null) {
@@ -447,8 +357,8 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
 
         neighoursAdapter = new ArrayAdapter<String>(getActivity()
                 ,android.R.layout.simple_dropdown_item_1line,neighourList);
-        spinner1.setAdapter(neighoursAdapter);
-        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        neighboursSpinner.setAdapter(neighoursAdapter);
+        neighboursSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (parent != null && parent.getChildAt(0) != null) {
@@ -518,7 +428,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                 }
                 neighoursAdapter = new ArrayAdapter<String>(getActivity()
                         , android.R.layout.simple_dropdown_item_1line, neighourList);
-                spinner1.setAdapter(neighoursAdapter);
+                neighboursSpinner.setAdapter(neighoursAdapter);
             }
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
@@ -553,66 +463,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
             }
             categoriesAdapter = new ArrayAdapter<String>(getActivity()
                     , android.R.layout.simple_dropdown_item_1line, categoriesList);
-            spinner.setAdapter(categoriesAdapter);
-
-//                categoriesRecycler.setAdapter(adapter);
-            MyBaseAdaper adaper = new MyBaseAdaper();
-            categoriesRecycler.setAdapter(adaper);
-        }
-    }
-    /* get all categories types*/
-    private void getAllCategoriesTypes(){
-        if(networkDetector.isConnected()){
-            newpostDialogue = ProgressDialog.show(getActivity(),"",getResources()
-                    .getString(R.string.progress_dialog_text));
-            postsClient.getAllcategoriesTypes(new WebServiceResponseCallback() {
-                @Override
-                public void onSuccess(JSONObject jsonObject) {
-                    parseAllCategoriesTypes(jsonObject);
-                    closePostDialog();
-                }
-
-                @Override
-                public void onFailure(VolleyError error) {
-                    Log.d("govt", error.toString());
-                    closePostDialog();
-                }
-            });
-        }else{
-            Toast.makeText(getActivity(), "Network connection error", Toast.LENGTH_LONG).show();
-        }
-    }
-    /* parse categories types*/
-    private void parseAllCategoriesTypes(JSONObject jsonObject){
-        try {
-            PostTypeCatg proofsData = gson.fromJson(jsonObject.toString(),PostTypeCatg.class);
-            List<Datum> data = proofsData.getData();
-            if(data.size()>0) {
-                categoriesList.clear();
-//                categoriesList.add("Select Categories");
-                categoriesMap.clear();
-                Constants.postTypesMap.clear();
-                for (Datum d : data) {
-                    categoriesMap.put(d.getPosttypename(), d.getId() + "");
-                    categoriesList.add(d.getPosttypename());
-                     details= new String[]{d.getPosttypename()};
-                    categoriesLists.add(details);
-                    Map<String,String> postsTypesMap = new LinkedHashMap<>();
-                    postsTypesMap.put("id",d.getId()+"");
-                    postsTypesMap.put("name",d.getPosttypename());
-                    postsTypesMap.put("placeholder",d.getPlaceholder());
-                    Constants.postTypesMap.put(d.getPosttypename(),postsTypesMap);
-                }
-                categoriesAdapter = new ArrayAdapter<String>(getActivity()
-                        , android.R.layout.simple_dropdown_item_1line, categoriesList);
-                spinner.setAdapter(categoriesAdapter);
-
-//                categoriesRecycler.setAdapter(adapter);
-                MyBaseAdaper adaper = new MyBaseAdaper();
-                categoriesRecycler.setAdapter(adaper);
-            }
-        } catch (JsonSyntaxException e) {
-            e.printStackTrace();
+            categoriesSpinner.setAdapter(categoriesAdapter);
         }
     }
 
@@ -634,38 +485,8 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         categoryList.setVisibility(View.GONE);
         postWidget.setVisibility(View.VISIBLE);
         relativeLayout.setVisibility(View.VISIBLE);
-        spinner.setSelection(position);
+        categoriesSpinner.setSelection(position);
         editPost.setHint(Constants.postTypesMap.get(s).get("placeholder"));
     }
-    class MyBaseAdaper extends BaseAdapter {
 
-        @Override
-        public int getCount() {
-            return categoriesLists.size();
-        }
-
-        @Override
-        public Object getItem(int arg0) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView,
-                            ViewGroup parent) {
-
-            View view = getActivity().getLayoutInflater()
-                    .inflate(R.layout.adapter_categorys, null);
-            TextView title2 = (TextView) view
-                    .findViewById(R.id.adapter_categories_item_name);
-            String color = bgColors[position % bgColors.length];
-            title2.setTextColor(Color.parseColor(color));
-          title2.setText(categoriesLists.get(position)[0]);
-            return view;
-        }
-    }
 }

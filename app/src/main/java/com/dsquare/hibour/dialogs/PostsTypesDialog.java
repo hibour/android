@@ -3,6 +3,9 @@ package com.dsquare.hibour.dialogs;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
@@ -13,6 +16,10 @@ import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.adapters.CategoriesAdapter;
@@ -27,13 +34,15 @@ import java.util.List;
  */
 public class PostsTypesDialog  extends DialogFragment implements View.OnClickListener {
     public interface categoryChooserListener {
-        void onChoose(int choice);
+        void onCancel(DialogFragment dialog);
+        void onCategorySelected(String categoryName);
     }
 
     categoryChooserListener listener;
     private Context context;
     private RecyclerView categoriesRecycler;
     private List<String> categoriesList = new ArrayList<>();
+    private ImageView cancelPost;
 
     @Override
     public void onAttach(Activity activity) {
@@ -49,19 +58,25 @@ public class PostsTypesDialog  extends DialogFragment implements View.OnClickLis
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(),
-                R.style.DialogSlideAnim));
+       // getActivity().requestWindowFeature(Window.FEATURE_NO_TITLE);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),R.style.DialogSlideAnim);
+
+        //builder.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_cateogries_chooser, null);
-        getActivity().getWindow().setGravity(Gravity.BOTTOM);
-        builder.setView(view);
+        AlertDialog d = builder.setView(view).create();
+
+        WindowManager.LayoutParams wmlp = d.getWindow().getAttributes();
+        wmlp.gravity = Gravity.BOTTOM;
+
         initializeViews(view);
         initializeEventListeners();
-        return builder.create();
+        return d;
     }
 
     /* initialize Views*/
     private void initializeViews(View view) {
+        cancelPost = (ImageView)view.findViewById(R.id.new_post_cancel_button);
         categoriesRecycler = (RecyclerView) view.findViewById(R.id.post_categories_list);
         categoriesRecycler.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         categoriesRecycler.addItemDecoration(new GridLayoutSpacing(2, 5, true));
@@ -69,20 +84,18 @@ public class PostsTypesDialog  extends DialogFragment implements View.OnClickLis
         setCategories();
     }
 
+
     /* initialize event listeners*/
     private void initializeEventListeners() {
-
+        cancelPost.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-           /* case R.id.gallary_layout:
-                listener.onChoose(0);
+            case R.id.new_post_cancel_button:
+                listener.onCancel(this);
                 break;
-            case R.id.camera_layout:
-                listener.onChoose(1);
-                break;*/
         }
     }
 
@@ -95,6 +108,13 @@ public class PostsTypesDialog  extends DialogFragment implements View.OnClickLis
                 categoriesList.add(type);
             }
             categoriesRecycler.setAdapter(new CategoriesAdapter(getActivity(), categoriesList));
+            categoriesRecycler.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("clicked","yes");
+                }
+            });
         }
     }
+
 }

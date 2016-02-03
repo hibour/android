@@ -74,10 +74,10 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
         }
         Log.d("user liked",listItems.get(position)[7]);
         if(listItems.get(position)[7].equals("true")){
-            Bitmap likesIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_like_red);
+            Bitmap likesIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_thumb_up_filled);
             holder.likesImage.setImageBitmap(likesIcon);
         }else{
-            Bitmap likesIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_likes_icon);
+            Bitmap likesIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_thumb_up);
             holder.likesImage.setImageBitmap(likesIcon);
         }
         holder.timeStamp.setText(getTimeStamp(listItems.get(position)[1],listItems.get(position)[9]));
