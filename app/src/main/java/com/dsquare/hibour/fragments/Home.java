@@ -9,6 +9,7 @@ import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -23,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.dialogs.PostsTypesDialog;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
 import com.dsquare.hibour.utils.Constants;
 
@@ -32,7 +34,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Home extends Fragment implements View.OnClickListener {
+public class Home extends Fragment implements View.OnClickListener,PostsTypesDialog.categoryChooserListener {
 
     private FragmentManager manager;
     private FragmentTransaction transaction;
@@ -45,6 +47,7 @@ public class Home extends Fragment implements View.OnClickListener {
     private LinearLayout bottomBar1;
     private TextView textView,invite;
     private FloatingActionButton createPost;
+    private DialogFragment categoriesDialog;
     public Home() {
         // Required empty public constructor
     }
@@ -179,8 +182,11 @@ public class Home extends Fragment implements View.OnClickListener {
                 postimage.setVisibility(View.VISIBLE);
                 createPost.setVisibility(View.GONE);
                 }
+                categoriesDialog = new PostsTypesDialog();
 
-                replaceContainer(3);
+                categoriesDialog.show(getActivity().getSupportFragmentManager(),"categories");
+                categoriesDialog.setTargetFragment(this, 0);
+                //replaceContainer(3);
                 break;
             case R.id.home_channels:
                 applyCurrentStateToAppBarIcons(R.drawable.channels_filled, channelsIcon);
@@ -250,5 +256,10 @@ public class Home extends Fragment implements View.OnClickListener {
             fragmentTransaction.replace(R.id.home_fragment_container, fragment);
             fragmentTransaction.commit();
         }
+    }
+
+    @Override
+    public void onChoose(int choice) {
+        categoriesDialog.dismiss();
     }
 }

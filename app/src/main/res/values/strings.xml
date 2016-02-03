@@ -93,6 +93,7 @@
     <string name="err_msg_email">Enter valid email address</string>
     <string name="err_msg_password">Enter the password</string>
 
+    <string name="cat_chooser_title">Choose a category for your post.</string>
     <!--Category List-->
     <string name="cat_general">General</string>
     <string name="cat_suggestions">Suggestions</string>

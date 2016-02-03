@@ -115,16 +115,12 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         initializeViews(view);
         initializeEventListeners();
         getNeighbourHoods(application.getUserId());
-        getAllCategoriesTypes();
+        setCategories();
         return view;
     }
 
     private void initializeEventListeners() {
-//        generalCat.setOnClickListener(this);
-//        suggestionsCat.setOnClickListener(this);
-//        classifiedsCat.setOnClickListener(this);
-//        crimeSafetyCat.setOnClickListener(this);
-//        lostFoundCat.setOnClickListener(this);
+
         categoriesRecycler.setOnItemClickListener(this);
         done.setOnClickListener(this);
         gallary.setOnClickListener(this);
@@ -543,6 +539,26 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                 break;
         }
         chooserDialog.dismiss();
+    }
+    /* set categories*/
+    private void setCategories(){
+        if(Constants.postTypesMap.size()>0){
+            categoriesList.clear();
+            categoriesMap.clear();
+            for(String type:Constants.postTypesMap.keySet()){
+                categoriesMap.put(type, Constants.postTypesMap.get(type).get("id"));
+                categoriesList.add(type);
+                details= new String[]{type};
+                categoriesLists.add(details);
+            }
+            categoriesAdapter = new ArrayAdapter<String>(getActivity()
+                    , android.R.layout.simple_dropdown_item_1line, categoriesList);
+            spinner.setAdapter(categoriesAdapter);
+
+//                categoriesRecycler.setAdapter(adapter);
+            MyBaseAdaper adaper = new MyBaseAdaper();
+            categoriesRecycler.setAdapter(adaper);
+        }
     }
     /* get all categories types*/
     private void getAllCategoriesTypes(){

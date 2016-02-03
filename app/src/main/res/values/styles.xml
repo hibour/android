@@ -35,4 +35,9 @@
     <style name="tab" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorAccent">@color/tabsScrollColor</item>
     </style>
+    <style name="DialogSlideAnim" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
 </resources>
