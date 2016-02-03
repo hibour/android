@@ -33,6 +33,7 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
     private ProgressDialog phoneDialog;
     private  Gson gson;
     private Hibour application;
+    private String genderstring="",serviceString="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +50,32 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
         sumbit.setTypeface(numbers);
         gender = (RadioGroup) findViewById(R.id.group_gender);
         services = (RadioGroup) findViewById(R.id.group_services);
+        gender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton button = (RadioButton)findViewById(checkedId);
+                String string= button.getText().toString();
+                if(button.getText().toString().equals("Male")){
+                    genderstring="0";
+                }else {
+                    genderstring="1";
+                }
+            }
+
+        });
+        services.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton button = (RadioButton)findViewById(checkedId);
+                String string= button.getText().toString();
+                if(button.getText().toString().equals("Personal")){
+                    serviceString="0";
+                }else {
+                    serviceString="1";
+                }
+            }
+
+        });
         accountsClient = new AccountsClient(this);
         networkDetector = new NetworkDetector(this);
         gson = new Gson();
@@ -69,14 +96,8 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
         if(mobile.getText().toString().length() < 11 && mobile.getText().toString().length() > 9){
             if (gender.getCheckedRadioButtonId() != -1) {
                 if (services.getCheckedRadioButtonId() != -1) {
-                    int selected = services.getCheckedRadioButtonId();
-                    String serices_type = ((RadioButton) findViewById(selected)).getText().toString();
-                    Log.d("servicetype",serices_type);
-                    Intent intent = new Intent(getApplicationContext(), VerifyOtp.class);
-                    intent.putExtra("number", mobile.getText().toString());
-                    intent.putExtra("services",serices_type);
-                    startActivity(intent);
-                    finish();
+                    sendtoMobilenumUser();
+
                 }else {
                     Toast.makeText(getApplicationContext(), "Please select Services", Toast.LENGTH_SHORT).show();
                 }
@@ -92,7 +113,7 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
         if(networkDetector.isConnected()){
             phoneDialog = ProgressDialog.show(this,"",getResources()
                     .getString(R.string.progress_dialog_text));
-            accountsClient.mobilenumUser(mobile.getText().toString()
+            accountsClient.mobilenumUser(application.getUserId(),serviceString,genderstring,mobile.getText().toString()
                     ,new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
@@ -110,7 +131,15 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
         }
     }
     private void parsemobileDetails(JSONObject jsonObject){
-
+        closeMobileDialog();
+        int selected = services.getCheckedRadioButtonId();
+        String serices_type = ((RadioButton) findViewById(selected)).getText().toString();
+        Log.d("servicetype",serices_type);
+        Intent intent = new Intent(getApplicationContext(), VerifyOtp.class);
+        intent.putExtra("number", mobile.getText().toString());
+        intent.putExtra("services",serices_type);
+        startActivity(intent);
+        finish();
     }
     /* close signup dialog*/
     private void closeMobileDialog(){

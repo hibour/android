@@ -363,6 +363,7 @@ a*/
     /* close proof dialog*/
     private void closeProofsDialog(){
         if(uploadProofsDialog!=null){
+
             if(uploadProofsDialog.isShowing()){
                 uploadProofsDialog.dismiss();
                 uploadProofsDialog=null;

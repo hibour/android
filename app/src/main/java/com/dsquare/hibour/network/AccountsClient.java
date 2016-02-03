@@ -406,7 +406,42 @@ public class AccountsClient {
             e.printStackTrace();
         }
     }
-
+    /* get all categories types*/
+    public void getAllUpdateSettings(String userId,String userName,String email,String password,String gender,String userNum,String image, final WebServiceResponseCallback callback) {
+        try {
+            String urlStr = Constants.URL_PROFILE_UPDATE+ userId + "/edit?"+Constants.KEYWORD_USER_NAME + "=" + userName + "&"
+                    + Constants.KEYWORD_EMAIL + "=" + email + "&" + Constants.KEYWORD_PASSWORD + "=" + password + "&"+
+                    Constants.KEYWORD_GENDER+ "=" +gender+ "&" +Constants.KEYWORD_MOBILE_NUMBER1 + "=" + userNum+ "&"+
+                     Constants.KEYWORD_SIGNUP_TYPE + "=" + "modifiy"+"&"+"profileimage"+"="+image+"&"
+                    + Constants.KEYWORD_SIGNATURE + "=" + Constants.SIGNATURE_VALUE;
+            URL url = new URL(urlStr);
+            URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
+                    , url.getPath(), url.getQuery(), url.getRef());
+            url = uri.toURL();
+            Log.d("url",""+url);
+            JsonObjectRequest proofsRequest = new JsonObjectRequest(Request.Method.GET
+                    , url.toString(), (String) null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    callback.onSuccess(response);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    callback.onFailure(error);
+                }
+            });
+            proofsRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    MY_SOCKET_TIMEOUT_MS,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            HibourConnector.getInstance(context).addToRequestQueue(proofsRequest);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
     /* get user details*/
     public void getUserDetails(String userId, final WebServiceResponseCallback callback) {
         try {
@@ -440,10 +475,10 @@ public class AccountsClient {
     }
 
   /* get user phoneno url String*/
-  public void mobilenumUser(String userNum
+  public void mobilenumUser(String id,String accttype,String gender, String userNum
       , final WebServiceResponseCallback callback) {
       try {
-          String urlStr = getPhoneUserUrl(userNum);
+          String urlStr = getPhoneUserUrl(id,accttype,gender,userNum);
           URL url = new URL(urlStr);
           URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
                   , url.getPath(), url.getQuery(), url.getRef());
@@ -474,9 +509,9 @@ public class AccountsClient {
   }
 
     /* get mobilenumUser url string*/
-    private String getPhoneUserUrl(String userNum) {
-        String url = Constants.URL_MOBILE_NUMBER + Constants.KEYWORD_MOBILE_NUMBER + "=" + userNum + "&"
-                + Constants.KEYWORD_SIGNATURE + "=" + Constants.SIGNATURE_VALUE + "&";
+    private String getPhoneUserUrl(String id,String accttype,String gender, String userNum) {
+        String url = Constants.URL_MOBILE_NUMBER +Constants.KEYWORD_ID+"="+id+"&"+Constants.KEYWORD_ACCOUNT_TYPE+ "=" +accttype+ "&" +Constants.KEYWORD_GENDER1+ "=" +gender+ "&" +Constants.KEYWORD_MOBILE_NUMBER + "=" + userNum + "&"
+                + Constants.KEYWORD_SIGNATURE + "=" + Constants.SIGNATURE_VALUE;
         Log.d("url", url);
         return url;
     }

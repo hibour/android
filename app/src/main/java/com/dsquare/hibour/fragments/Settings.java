@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +47,7 @@ import com.google.gson.JsonSyntaxException;
 
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +81,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
     private ProgressDialog uploadProofsDialog;
     private Gson gson;
     private Hibour application;
+    private String genderstring="",cardImageString="a";
     public Settings() {
         // Required empty public constructor
     }
@@ -124,6 +129,19 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         password.setTypeface(proxima);
         dob.setTypeface(proxima);
         moblie.setTypeface(proxima);
+        gender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton button = (RadioButton) group.findViewById(checkedId);
+                String string = button.getText().toString();
+                if (button.getText().toString().equals("Male")) {
+                    genderstring = "0";
+                } else {
+                    genderstring = "1";
+                }
+            }
+
+        });
     }
     /* initialize event listeners*/
      private void initializeEventListeners(){
@@ -150,6 +168,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
              openNotifications();
              break;
          case R.id.settings_submit:
+             updateprofileActivity();
              break;
          case R.id.setting_image_editer:
              openImageChooser();
@@ -162,7 +181,6 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
              break;
          case R.id.settings_name_dob:
              final DialogFragment newFragment = new SelectDateFragment();
-
                  Bundle args = new Bundle();
                  args.putString("data", "a");  //This method is used to send the data from one fragment to another fragment
                  newFragment.setArguments(args);
@@ -198,7 +216,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
     private void openImageChooser(){
         chooserDialog = new PostsImagePicker();
         chooserDialog.show(getActivity().getSupportFragmentManager(), "chooser dialog");
-        chooserDialog.setTargetFragment(this,0);
+        chooserDialog.setTargetFragment(this, 0);
     }
     /* open gallary intent*/
     private void openGallary(){
@@ -227,6 +245,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
                 bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
 //                postimagesstring=getStringImage(bitmap);
                 inputImage.setImageBitmap(bitmap);
+                cardImageString=getStringImage(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -239,10 +258,24 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
                 bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
 //                postimagesstring=getStringImage(bitmap);
                 inputImage.setImageBitmap(bitmap);
+                cardImageString=getStringImage(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public String getStringImage(Bitmap bmp){
+        BitmapFactory.Options options = null;
+        options = new BitmapFactory.Options();
+        options.inSampleSize = 3;
+//        bitmap = BitmapFactory.decodeFile(imgPath,
+//                options);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
     }
     @Override
     public void onAttach(Activity activity) {
@@ -262,6 +295,57 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         }
         chooserDialog.dismiss();
     }
+    private void updateprofileActivity() {
+        String userName = name.getText().toString();
+        String userMail = email.getText().toString();
+        String userPass = password.getText().toString();
+        if (!userName.equals(null) && !userName.equals("null") && !userName.equals("") &&
+                !userMail.equals(null) && !userMail.equals("null") && !userMail.equals("") &&
+                !userPass.equals(null) && !userPass.equals("null") && !userPass.equals("")) {
+            if (application.validateEmail(userMail)) {
+                if (moblie.getText().toString().length() < 11 && moblie.getText().toString().length() > 9) {
+                    if (gender.getCheckedRadioButtonId() != -1) {
+                    updateProfiletoUser(userName, userMail, userPass,moblie.getText().toString());
+                    } else {
+                        Toast.makeText(getActivity(), "Please select Gender", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getActivity(), "Invalid mobile number", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(getActivity(), "Enter valid email", Toast.LENGTH_LONG).show();
+            }
+        }else {
+            Toast.makeText(getActivity(), "Enter valid credentials", Toast.LENGTH_LONG).show();
+        }
+    }
+    private void updateProfiletoUser(String userName, String userMail, String userPass, String mobile) {
+        if(networkDetector.isConnected()){
+            dialog = ProgressDialog.show(getActivity(),"",getResources()
+                    .getString(R.string.progress_dialog_text));
+            accountsClient.getAllUpdateSettings(application.getUserId(), userName, userMail, userPass, genderstring, mobile
+                  ,  cardImageString  , new WebServiceResponseCallback() {
+                @Override
+                public void onSuccess(JSONObject jsonObject) {
+                    parseUpdateDetails(jsonObject);
+                    closeDialog();
+                }
+
+                @Override
+                public void onFailure(VolleyError error) {
+                    Log.d("signup", error.toString());
+                    closeDialog();
+                }
+            });
+        }else{
+            Toast.makeText(getActivity(), "Network not connected.", Toast.LENGTH_LONG).show();
+        }
+
+    }
+     public void parseUpdateDetails(JSONObject jsonObject){
+         closeDialog();
+         getAllPrefs();
+     }
 
     /* get all prefs*/
     private void getAllPrefs(){
@@ -288,10 +372,11 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
     private void parseUserPrefs(JSONObject jsonObject){
         try {
         Settingspojo settingspojo = gson.fromJson(jsonObject.toString(), Settingspojo.class);
-          Data data = settingspojo.getData();
+            Data data = settingspojo.getData();
         name.setText(data.getUsername());
         email.setText(data.getEmail());
         password.setText(data.getPassword());
+        moblie.setText(data.getMobileNumber());
         String genderValue = data.getGender();
          Log.d("gender",  data.getGender());
         if(genderValue != null && genderValue.equalsIgnoreCase("0")){

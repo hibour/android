@@ -127,7 +127,7 @@
                             android:id="@+id/radioMale"
                             android:layout_width="@dimen/dp_90"
                             android:layout_height="wrap_content"
-                            android:checked="true"
+                            android:checked="false"
                             android:text="Male" />
 
                         <RadioButton
@@ -168,7 +168,7 @@
                             android:id="@+id/radioPersonal"
                             android:layout_width="@dimen/dp_90"
                             android:layout_height="wrap_content"
-                            android:checked="true"
+                            android:checked="false"
                             android:text="Personal" />
 
                         <RadioButton

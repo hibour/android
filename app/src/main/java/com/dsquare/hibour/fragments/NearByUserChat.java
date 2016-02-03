@@ -82,9 +82,7 @@ public class NearByUserChat extends Fragment {
     View view = inflater.inflate(R.layout.fragment_nearby_user_chat, container, false);
     socializeClient = new SocializeClient(getContext());
     application = Hibour.getInstance(getContext());
-
     initializeViews(view);
-
     socializeClient.getNearByUser(application.getUserId(), nearbyUserResultCallBack);
     return view;
   }

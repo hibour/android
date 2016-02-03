@@ -10,10 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.dsquare.hibour.R;
-import com.dsquare.hibour.adapters.FeedsAdapter;
 
 /**
  * A simple {@link Fragment} subclass.

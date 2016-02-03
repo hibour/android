@@ -19,7 +19,7 @@ public class Constants {
   public static final String URL_DOMAIN = "http://api.hibour.com/v1/";
   public static final String URL_SIGN_IN = URL_DOMAIN + "Userreg/check?";
   public static final String URL_SIGN_UP = URL_DOMAIN + "Userreg/create?";
-  public static final String URL_MOBILE_NUMBER = URL_DOMAIN + "Userreg/mobile?";
+  public static final String URL_MOBILE_NUMBER = URL_DOMAIN + "Userreg/userAdditionalDetails?";
   public static final String URL_TERMS = URL_DOMAIN + "";
   public static final String URL_GET_ALL_PROOFS = URL_DOMAIN + "Proof";
     public static final String URL_GET_ALL_BUSINEES_TYPES= URL_DOMAIN+"Business";
@@ -37,6 +37,7 @@ public class Constants {
   public static final String URL_POST_LIKE = URL_DOMAIN + "Likepost/create?";
   public static final String URL_POST_GET_COMMENT = URL_DOMAIN + "getcomments/";
   public static final String URL_SETTINGS = URL_DOMAIN + "Userreg/userdetails?";
+  public static final String URL_PROFILE_UPDATE = URL_DOMAIN + "Userreg/";
   public static final String URL_USER_DETAIL = URL_DOMAIN + "Userreg/aboutuser?userid=%s&signature=%s";
   public static final String URL_GET_SOCIAL_NEIGHBOURS = URL_DOMAIN + "Preferences/members?";
   public static final String URL_GET_NEIGHBOURHOODS = URL_DOMAIN + "Userreg/address?";
@@ -52,7 +53,8 @@ public class Constants {
   public static final String KEYWORD_SIGNIN_TYPE = "signinType";
   public static final String KEYWORD_SIGNUP_TYPE = "Regtype";
   public static final String KEYWORD_USR_ID = "userid";
-  public static final String KEYWORD_MOBILE_NUMBER = "phonenumber";
+  public static final String KEYWORD_MOBILE_NUMBER = "mobile_number";
+  public static final String KEYWORD_MOBILE_NUMBER1 = "Mobilenumber";
   public static final String KEYWORD_PREFS_IDS = "preferencesid";
   public static final String KEYWORD_PROOF_IMAGE = "profileimage";
   public static final String KEYWORD_PROOF_ID = "Prooftypeid";
@@ -60,8 +62,11 @@ public class Constants {
   public static final String KEYWORD_LAT = "latitude";
   public static final String KEYWORD_LON = "longitude";
   public static final String KEYWORD_ADDRESS = "Address";
-    public static final String KEYWORD_ADDRESS1="Address1";
-    public static final String KEYWORD_GENDER = "Gender";
+  public static final String KEYWORD_ADDRESS1="Address1";
+  public static final String KEYWORD_GENDER = "Gender";
+  public static final String KEYWORD_ACCOUNT_TYPE = "account_type";
+  public static final String KEYWORD_GENDER1 = "gender";
+  public static final String KEYWORD_ID = "id";
   public static final String KEYWORD_USER_ID = "Userid";
   public static final String KEYWORD_POST_ID = "Postid";
   public static final String KEYWORD_POST_TYPE = "Posttype";

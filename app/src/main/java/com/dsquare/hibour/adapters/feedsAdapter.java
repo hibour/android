@@ -1,6 +1,5 @@
 package com.dsquare.hibour.adapters;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -13,19 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.activities.PostComments;
-import com.dsquare.hibour.pojos.message.UserMessage;
 import com.dsquare.hibour.utils.Constants;
-import com.dsquare.hibour.utils.Hibour;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -37,7 +31,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
 
     private List<String[]> listItems = new ArrayList<>();
     private Context context;
-    public FeedsAdapter(Context context,List<String[]> listItems) {
+    public FeedsAdapter(Context context, List<String[]> listItems) {
         this.context = context;
         this.listItems = listItems;
         Log.d("s",listItems.size()+"");

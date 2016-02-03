@@ -46,7 +46,7 @@ public class Chat extends AppCompatActivity implements View.OnClickListener {
   private Button sendMessage;
   private EditText userMessage;
   private DatabaseHandler dbHandler;
-  private TextView userStatus;
+  private TextView userStatus,username;
   private UIHelper uiHelper;
   private AccountsClient accountsClient;
   private Hibour application;
@@ -71,7 +71,7 @@ public class Chat extends AppCompatActivity implements View.OnClickListener {
     }
   };
   private String secondUserId;
-
+  private String UserName;
   private MessageStateResultCallBack<UserMessage> messageSendResultCallback = new MessageStateResultCallBack<UserMessage>() {
     @Override
     public void onResultCallBack(UserMessage message, int state, Exception e) {
@@ -156,6 +156,7 @@ public class Chat extends AppCompatActivity implements View.OnClickListener {
     application = Hibour.getInstance(this);
 
     secondUserId = getIntent().getExtras().getString(Constants.KEYWORD_USER_ID, "");
+    UserName = getIntent().getExtras().getString(Constants.KEYWORD_USER_NAME, "");
 
     initializeViews();
     initializeEventListeners();
@@ -175,6 +176,8 @@ public class Chat extends AppCompatActivity implements View.OnClickListener {
     sendMessage = (Button) findViewById(R.id.chating_msg_send);
     userMessage = (EditText) findViewById(R.id.chating_message_edittest);
     userStatus = (TextView) findViewById(R.id.user_status);
+    username = (TextView) findViewById(R.id.chating_text_name);
+    username.setText(UserName);
 
     LinearLayoutManager layoutManager = new LinearLayoutManager(this);
     layoutManager.setReverseLayout(true);

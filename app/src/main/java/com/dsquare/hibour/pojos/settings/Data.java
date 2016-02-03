@@ -21,116 +21,136 @@ public class Data {
     @SerializedName("Email")
     @Expose
     private String Email;
+    @SerializedName("Mobile Number")
+    @Expose
+    private String MobileNumber;
     @SerializedName("Address")
     @Expose
     private String Address;
 
     /**
-     * 
+     *
      * @return
-     *     The Username
+     * The Username
      */
     public String getUsername() {
         return Username;
     }
 
     /**
-     * 
+     *
      * @param Username
-     *     The Username
+     * The Username
      */
     public void setUsername(String Username) {
         this.Username = Username;
     }
 
     /**
-     * 
+     *
      * @return
-     *     The Password
+     * The Password
      */
     public String getPassword() {
         return Password;
     }
 
     /**
-     * 
+     *
      * @param Password
-     *     The Password
+     * The Password
      */
     public void setPassword(String Password) {
         this.Password = Password;
     }
 
     /**
-     * 
+     *
      * @return
-     *     The Image
+     * The Image
      */
     public String getImage() {
         return Image;
     }
 
     /**
-     * 
+     *
      * @param Image
-     *     The Image
+     * The Image
      */
     public void setImage(String Image) {
         this.Image = Image;
     }
 
     /**
-     * 
+     *
      * @return
-     *     The Gender
+     * The Gender
      */
     public String getGender() {
         return Gender;
     }
 
     /**
-     * 
+     *
      * @param Gender
-     *     The Gender
+     * The Gender
      */
     public void setGender(String Gender) {
         this.Gender = Gender;
     }
 
     /**
-     * 
+     *
      * @return
-     *     The Email
+     * The Email
      */
     public String getEmail() {
         return Email;
     }
 
     /**
-     * 
+     *
      * @param Email
-     *     The Email
+     * The Email
      */
     public void setEmail(String Email) {
         this.Email = Email;
     }
 
     /**
-     * 
+     *
      * @return
-     *     The Address
+     * The MobileNumber
+     */
+    public String getMobileNumber() {
+        return MobileNumber;
+    }
+
+    /**
+     *
+     * @param MobileNumber
+     * The Mobile Number
+     */
+    public void setMobileNumber(String MobileNumber) {
+        this.MobileNumber = MobileNumber;
+    }
+
+    /**
+     *
+     * @return
+     * The Address
      */
     public String getAddress() {
         return Address;
     }
 
     /**
-     * 
+     *
      * @param Address
-     *     The Address
+     * The Address
      */
     public void setAddress(String Address) {
         this.Address = Address;
     }
-
 }
