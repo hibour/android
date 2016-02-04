@@ -37,13 +37,12 @@ import com.dsquare.hibour.interfaces.ImagePicker;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.network.PostsClient;
-import com.dsquare.hibour.pojos.neighours.Neighourhoodpojo;
 import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Fonts;
 import com.dsquare.hibour.utils.Hibour;
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -51,7 +50,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -98,7 +96,6 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     }
     private PostsListener mListener;
     public NewPost() {
-        // Required empty public constructor
     }
     @Override
     public void onAttach(Activity activity) {
@@ -123,21 +120,11 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     }
 
     private void initializeEventListeners() {
-//        categoriesRecycler.setOnItemClickListener(this);
         done.setOnClickListener(this);
         gallary.setOnClickListener(this);
         delete.setOnClickListener(this);
         cancel.setOnClickListener(this);
         editPost.requestFocus();
-        /*editPost.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    InputMethodManager in = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    in.showSoftInput(editPost, InputMethodManager.SHOW_IMPLICIT);
-                }
-            }
-        });*/
     }
 
     @Override
@@ -159,7 +146,6 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
 
     private void opendeleteImage() {
         gallary.setVisibility(View.VISIBLE);
-//        postImage.setImageBitmap(null);
         layout.setVisibility(View.GONE);
     }
 
@@ -181,7 +167,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         Intent intent = new Intent(
                 android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-            startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+            this.startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
         }
     }
 
@@ -191,8 +177,8 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK
                 &&  data != null && data.getData() != null) {
 //            imageUploaded.setVisibility(View.VISIBLE);
+            Log.d("camera","yes");
             Uri filePath = data.getData();
-
             try {
                 //Getting the Bitmap from Gallery
                 bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
@@ -205,12 +191,9 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
         }else if(requestCode == REQUEST_IMAGE_SELECTOR && resultCode == Activity.RESULT_OK
                 &&  data != null && data.getData() != null){
-//            imageUploaded.setVisibility(View.VISIBLE);
-
+            Log.d("gallery","yes");
             Uri filePath = data.getData();
             try {
                 //Getting the Bitmap from Gallery
@@ -230,8 +213,6 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         BitmapFactory.Options options = null;
         options = new BitmapFactory.Options();
         options.inSampleSize = 3;
-//        bitmap = BitmapFactory.decodeFile(imgPath,
-//                options);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.JPEG, 50, baos);
         byte[] imageBytes = baos.toByteArray();
@@ -378,7 +359,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                     String categoriesType = neighourList.get(position);
                     Log.d("categoriestype", categoriesType);
                     if (!categoriesType.equals("Select neighbours")) {
-                        neighoursTypeId = neighourMap.get(categoriesType);
+                        //neighoursTypeId = neighourMap.get(categoriesType);
                         Log.d("categoriestype", categoriesType);
                     }
                     ((TextView) parent.getChildAt(0)).setTextColor(getResources()
@@ -424,18 +405,18 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     private void parseNeighbourHoods(JSONObject jsonObject){
         Log.d("data",jsonObject.toString());
         try {
-            Neighourhoodpojo neighour = gson.fromJson(jsonObject.toString(), Neighourhoodpojo.class);
-            List<com.dsquare.hibour.pojos.neighours.Datum> data = neighour.getData();
-            if(data.size()>0) {
+            JSONArray data = jsonObject.getJSONArray("data");
+            if(data.length()>0) {
                 neighourList.clear();
                 neighourList.add("Select neighbours");
                 neighourMap.clear();
-                for (com.dsquare.hibour.pojos.neighours.Datum d : data) {
-                    neighourMap.put(d.getAddress(), d.getId() + "");
-                    if(!d.getAddress().equals("") && !d.getAddress().equals(null)
-                            && !d.getAddress().equals("null")) {
-                        if(!neighourList.contains(d.getAddress())){
-                            neighourList.add(d.getAddress());
+                for (int i=0;i<data.length();i++) {
+                    //neighourMap.put(d.getAddress(), d.getId() + "");
+                    String  hood = data.getString(i);
+                    if(!hood.equals("") && !hood.equals(null)
+                            && !hood.equals("null")) {
+                        if(!neighourList.contains(hood)){
+                            neighourList.add(hood);
                         }
                     }
                 }
@@ -443,7 +424,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                         , android.R.layout.simple_dropdown_item_1line, neighourList);
                 neighboursSpinner.setAdapter(neighoursAdapter);
             }
-        } catch (JsonSyntaxException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
