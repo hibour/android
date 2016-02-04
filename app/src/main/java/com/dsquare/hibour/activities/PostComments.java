@@ -2,6 +2,8 @@ package com.dsquare.hibour.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +36,7 @@ import java.util.List;
 
 public class PostComments extends AppCompatActivity implements View.OnClickListener{
 
-    private ImageView postIcon;
+    private ImageView postIcon,likeIcon;
     private EditText commentsText;
     private RecyclerView commentsList;
     private List<String[]> commentslist = new ArrayList<>();
@@ -49,6 +52,8 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
     private PostsClient postsClient;
     private ProgressDialog postsDialog;
     private List<String[]> postsList = new ArrayList<>();
+    private String liked="";
+    private RelativeLayout likesLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,8 +64,18 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
     }
     /* initialize views*/
     private void initializeViews(){
+        likeIcon = (ImageView)findViewById(R.id.comments_like_icon);
+        likesLayout = (RelativeLayout)findViewById(R.id.comments_likes_layout);
         postId = getIntent().getStringExtra("postId");
         likes = getIntent().getStringExtra("likes");
+        liked = getIntent().getStringExtra("liked");
+        if(liked.equals("true")){
+            Bitmap likesIcon = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_thumb_up);
+            likeIcon.setImageBitmap(likesIcon);
+        }else{
+            Bitmap likesIcon = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_thumb_up);
+            likeIcon.setImageBitmap(likesIcon);
+        }
         likesText = (TextView)findViewById(R.id.comments_likes_text);
         likesText.setText(likes+" members liked this");
         postIcon = (ImageView)findViewById(R.id.comments_post_icon);
@@ -75,12 +90,13 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         commentsList.setLayoutManager(layoutManager);
         commentsList.setHasFixedSize(true);
-
     }
     /* initialize event listeners*/
     private void initializeEventListeners(){
         postIcon.setOnClickListener(this);
         sumbit.setOnClickListener(this);
+        likeIcon.setOnClickListener(this);
+        likesLayout.setOnClickListener(this);
     }
     @Override
     public void onClick(View v) {
@@ -92,9 +108,31 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
                 postComment(application.getUserId(),postId,commentsText.getText().toString());
                 commentsText.setText("");
                 break;
+            case R.id.comments_like_icon:
+                changeLikes();
+                break;
+            case R.id.comments_likes_layout:
+                openLikesScreen();
+                break;
         }
     }
 
+    /* change likes count and icon*/
+    private void changeLikes(){
+        if(liked.equals("true")){
+            liked = "fale";
+            Bitmap likesIcon = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_thumb_up);
+            likeIcon.setImageBitmap(likesIcon);
+            likesText.setText(Integer.valueOf(likes)-1+" members liked this");
+            likes = Integer.valueOf(likes)-1+"";
+        }else{
+            liked = "true";
+            Bitmap likesIcon = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_thumb_up_filled);
+            likeIcon.setImageBitmap(likesIcon);
+            likesText.setText(Integer.valueOf(likes)+1+" members liked this");
+            likes = Integer.valueOf(likes)+1+"";
+        }
+    }
     private void openLikesScreen() {
         Intent intent = new Intent(getApplicationContext(),PostLikes.class);
         intent.putExtra("postId",postId);
