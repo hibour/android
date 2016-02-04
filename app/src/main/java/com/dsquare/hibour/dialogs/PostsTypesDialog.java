@@ -3,21 +3,15 @@ package com.dsquare.hibour.dialogs;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
@@ -59,10 +53,7 @@ public class PostsTypesDialog  extends DialogFragment implements View.OnClickLis
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-       // getActivity().requestWindowFeature(Window.FEATURE_NO_TITLE);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),R.style.DialogSlideAnim);
-
-        //builder.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_cateogries_chooser, null);
         AlertDialog d = builder.setView(view).create();
