@@ -145,17 +145,17 @@
                 android:layout_marginBottom="10dp"
                 android:src="@drawable/post" />-->
 
-           <!-- <ImageView
-                android:layout_width="@dimen/app_bar_post_icon"
-                android:layout_height="@dimen/app_bar_post_icon"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="@dimen/fab_govt_left_margin"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="70dp"
-                android:src="@drawable/cancel_filled"
-                android:id="@+id/home_post"
-                android:visibility="gone"     />-->
+            <!-- <ImageView
+                 android:layout_width="@dimen/app_bar_post_icon"
+                 android:layout_height="@dimen/app_bar_post_icon"
+                 android:layout_gravity="center_vertical"
+                 android:layout_marginRight="@dimen/fab_govt_left_margin"
+                 android:layout_alignParentRight="true"
+                 android:layout_alignParentBottom="true"
+                 android:layout_marginBottom="70dp"
+                 android:src="@drawable/cancel_filled"
+                 android:id="@+id/home_post"
+                 android:visibility="gone"     />-->
 
         </RelativeLayout>
         <android.support.design.widget.FloatingActionButton

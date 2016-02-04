@@ -76,7 +76,7 @@ public class CategoriesRecycler extends RecyclerView.Adapter<CategoriesRecycler.
             LinearLayout postFragment = (LinearLayout) this.itemView.findViewById(R.id.post_fragment);
             LinearLayout postWidget = (LinearLayout) this.itemView.findViewById(R.id.post_widget);
             RelativeLayout categoryList = (RelativeLayout) this.itemView.findViewById(R.id.category_list);
-            LinearLayout relativeLayout = (LinearLayout) this.itemView.findViewById(R.id.post_liner_layout);
+           // LinearLayout relativeLayout = (LinearLayout) this.itemView.findViewById(R.id.post_liner_layout);
         }
     }
 }

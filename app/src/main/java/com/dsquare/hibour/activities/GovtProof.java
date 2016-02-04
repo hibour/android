@@ -165,7 +165,7 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
 
         //cardsSpinner.setOnItemSelectedListener(this);
     }
-       /*prepare cards list*/
+    /*prepare cards list*/
     private void prepareCardsList(){
         cardsList.add("Select Card");
     }
@@ -192,7 +192,7 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
                 &&!cardnum.getText().toString().equals("null")&&
                 !cardnum.getText().toString().equals("")&&
                 !cardImageString.equals("")&& !genderString.equals("")){
-           // Toast.makeText(this,"All fields are required",Toast.LENGTH_LONG).show();
+            // Toast.makeText(this,"All fields are required",Toast.LENGTH_LONG).show();
             sendProofsData(application.getUserId(),cardTypeId,cardnum.getText().toString()
                     ,cardImageString);
         }else{

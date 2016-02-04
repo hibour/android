@@ -53,7 +53,7 @@ public class FeedsPager extends Fragment {
         postsRecycler.setLayoutManager(layoutManager);
         postsRecycler.setHasFixedSize(true);
         setAdapter();
-       // new setFeedsTask().execute(categoryName);
+        // new setFeedsTask().execute(categoryName);
     }
     /*set adapter*/
     private void setAdapter(){

@@ -124,7 +124,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
     }
     /* change likes count*/
     private void changeLikesCount(int position){
-        String[] data = new String[9];
+        String[] data = new String[10];
         data[0] = listItems.get(position)[0];
         data[1] = listItems.get(position)[1];
         data[2] = listItems.get(position)[2];

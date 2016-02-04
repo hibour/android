@@ -35,7 +35,9 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Home extends Fragment implements View.OnClickListener,PostsTypesDialog.categoryChooserListener,NewPost.ChooserListener {
+
+
+public class Home extends Fragment implements View.OnClickListener,PostsTypesDialog.categoryChooserListener {
 
     private FragmentManager manager;
     private FragmentTransaction transaction;
@@ -74,7 +76,7 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
         channelsIcon = (ImageView) view.findViewById(R.id.home_channels);
         moreIcon = (ImageView) view.findViewById(R.id.home_more_icon);
         //postimage = (ImageView) view.findViewById(R.id.home_post);
-      bottomBar1 = (LinearLayout) view.findViewById(R.id.home_bottom_menu);
+        bottomBar1 = (LinearLayout) view.findViewById(R.id.home_bottom_menu);
 
         Constants.categoriesMap.put("1","General");
         Constants.categoriesMap.put("2","Suggestions");
@@ -180,9 +182,9 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
             case R.id.feeds_create_fab:
                 if(bottomBar1.getVisibility() == View.VISIBLE) {
 //                    newPostIcon.setVisibility(View.GONE);
-                bottomBar1.setVisibility(View.GONE);
+                    bottomBar1.setVisibility(View.GONE);
 //                postimage.setVisibility(View.VISIBLE);
-                createPost.setVisibility(View.GONE);
+                    createPost.setVisibility(View.GONE);
                 }
                 categoriesDialog = new PostsTypesDialog();
 
@@ -209,7 +211,7 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
     public void applyCurrentStateToAppBarIcons(int res, ImageView icon) {
         feedIcon.setImageResource(R.drawable.feed);
         socializeIcon.setImageResource(R.drawable.socialize);
-      //  newPostIcon.setImageResource(R.drawable.post);
+        //  newPostIcon.setImageResource(R.drawable.post);
         channelsIcon.setImageResource(R.drawable.channels);
         moreIcon.setImageResource(R.drawable.more);
         icon.setImageResource(res);
@@ -253,6 +255,10 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
 
     @Override
     public void onCancel(DialogFragment dialog) {
+        if(bottomBar1.getVisibility() == View.GONE) {
+            bottomBar1.setVisibility(View.VISIBLE);
+            createPost.setVisibility(View.VISIBLE);
+        }
         dialog.dismiss();
     }
 
@@ -262,17 +268,5 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
         this.categoryName = categoryName;
         dialog.dismiss();
         replaceContainer(3);
-    }
-
-    @Override
-    public void onChoose(int choice) {
-        switch (choice){
-            case 0:
-                replaceContainer(0);
-                break;
-            case 1:
-                replaceContainer(0);
-                break;
-        }
     }
 }

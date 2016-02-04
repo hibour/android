@@ -20,6 +20,7 @@ import com.dsquare.hibour.listener.MessageStateResultCallBack;
 import com.dsquare.hibour.listener.ResultCallBack;
 import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.SocializeClient;
+import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.pojos.message.UserMessage;
 import com.dsquare.hibour.pojos.user.UserDetail;
 import com.dsquare.hibour.utils.Constants;
@@ -36,194 +37,195 @@ import java.util.List;
 
 import de.greenrobot.event.EventBus;
 
+import java.util.List;
 
 public class Chat extends AppCompatActivity implements View.OnClickListener {
-  private static final String LOG_TAG = Chat.class.getSimpleName();
-  private ImageView backIcon;
-  private RecyclerView chatRecycler;
-  private List<UserMessage> chatList = new ArrayList<>();
-  private ChatingAdapter chatAdapter;
-  private Button sendMessage;
-  private EditText userMessage;
-  private DatabaseHandler dbHandler;
-  private TextView userStatus,username;
-  private UIHelper uiHelper;
-  private AccountsClient accountsClient;
-  private Hibour application;
-  private UserDetail user;
-  private SocializeClient socializeClient;
-  private WebServiceResponseCallback userDetailsResultCallback = new WebServiceResponseCallback() {
-    @Override
-    public void onSuccess(JSONObject jsonObject) {
-      try {
-        Log.e(LOG_TAG, jsonObject.toString());
-        user = new Gson().fromJson(jsonObject.getString("data"), UserDetail.class);
-        dbHandler.insertUserDetails(user);
-        updateUserUI();
-      } catch (JSONException e) {
-        e.printStackTrace();
-      }
-    }
-
-    @Override
-    public void onFailure(VolleyError error) {
-
-    }
-  };
-  private String secondUserId;
-  private String UserName;
-  private MessageStateResultCallBack<UserMessage> messageSendResultCallback = new MessageStateResultCallBack<UserMessage>() {
-    @Override
-    public void onResultCallBack(UserMessage message, int state, Exception e) {
-      if (e == null) {
-        message.messageState = state;
-        dbHandler.insertUserMessage(message);
-        for (UserMessage m : chatList) {
-          if (m.local_id.getTime() == message.local_id.getTime()) {
-            m.messageState = state;
-            break;
-          }
+    private static final String LOG_TAG = Chat.class.getSimpleName();
+    private ImageView backIcon;
+    private RecyclerView chatRecycler;
+    private List<UserMessage> chatList = new ArrayList<>();
+    private ChatingAdapter chatAdapter;
+    private Button sendMessage;
+    private EditText userMessage;
+    private DatabaseHandler dbHandler;
+    private TextView userStatus,username;
+    private UIHelper uiHelper;
+    private AccountsClient accountsClient;
+    private Hibour application;
+    private UserDetail user;
+    private SocializeClient socializeClient;
+    private WebServiceResponseCallback userDetailsResultCallback = new WebServiceResponseCallback() {
+        @Override
+        public void onSuccess(JSONObject jsonObject) {
+            try {
+                Log.e(LOG_TAG, jsonObject.toString());
+                user = new Gson().fromJson(jsonObject.getString("data"), UserDetail.class);
+                dbHandler.insertUserDetails(user);
+                updateUserUI();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
-        chatAdapter.notifyDataSetChanged();
-      }
-    }
-  };
-  private View.OnClickListener sendMessageListener = new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-      if (userMessage.getText().length() > 0) {
-        UserMessage message = new UserMessage(new Date(), application.getUserId(), secondUserId + "", userMessage.getText().toString(), Constants.MESSAGE_SENDING);
-        socializeClient.sendMessage(message, messageSendResultCallback);
-        chatList.add(0, message);
-        chatAdapter.notifyDataSetChanged();
-        userMessage.setText("");
-        chatRecycler.scrollToPosition(0);
-        dbHandler.insertUserMessage(message);
-      }
-    }
-  };
-  private ResultCallBack<UserMessage> resendMessageResultCallback = new ResultCallBack<UserMessage>() {
-    @Override
-    public void onResultCallBack(UserMessage message, Exception e) {
-      message.messageState = Constants.MESSAGE_SENDING;
-      dbHandler.insertUserMessage(message);
-      socializeClient.sendMessage(message, messageSendResultCallback);
-      chatAdapter.notifyDataSetChanged();
-    }
-  };
 
-  @Override
-  protected void onResume() {
-    super.onResume();
-    showUserStatus();
-    EventBus.getDefault().register(this);
-    refreshUserMessages();
-  }
+        @Override
+        public void onFailure(VolleyError error) {
 
-  private void refreshUserMessages() {
-    if (chatList.size() == 0) {
-      for (UserMessage message : dbHandler.getUserMessage(secondUserId + "", application.getUserId())) {
-        chatList.add(message);
-      }
-      return;
-    }
-    List<UserMessage> temp = new ArrayList<>();
-    for (UserMessage message : dbHandler.getUserMessage(secondUserId + "", application.getUserId())) {
-      if (message.local_id.getTime() != chatList.get(0).local_id.getTime())
-        temp.add(0, message);
-      else
-        break;
-    }
-    for (UserMessage message : temp)
-      chatList.add(0, message);
-    chatAdapter.notifyDataSetChanged();
-  }
-
-  @Override
-  protected void onPause() {
-    super.onPause();
-    EventBus.getDefault().unregister(this);
-  }
-
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_chating);
-    dbHandler = new DatabaseHandler(this);
-    uiHelper = new UIHelper(this);
-    accountsClient = new AccountsClient(this);
-    socializeClient = new SocializeClient(this);
-    application = Hibour.getInstance(this);
-
-    secondUserId = getIntent().getExtras().getString(Constants.KEYWORD_USER_ID, "");
-    UserName = getIntent().getExtras().getString(Constants.KEYWORD_USER_NAME, "");
-
-    initializeViews();
-    initializeEventListeners();
-  }
-
-  public void showUserStatus() {
-//    uiHelper.zoomInView(userStatus);
-  }
-
-  public void hideUserStatus() {
-//    uiHelper.zoomOutView(userStatus);
-  }
-
-  private void initializeViews() {
-    backIcon = (ImageView) findViewById(R.id.chat_back_icon);
-    chatRecycler = (RecyclerView) findViewById(R.id.chating_list);
-    sendMessage = (Button) findViewById(R.id.chating_msg_send);
-    userMessage = (EditText) findViewById(R.id.chating_message_edittest);
-    userStatus = (TextView) findViewById(R.id.user_status);
-    username = (TextView) findViewById(R.id.chating_text_name);
-    username.setText(UserName);
-
-    LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-    layoutManager.setReverseLayout(true);
-    layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-    chatRecycler.setLayoutManager(layoutManager);
-    chatRecycler.setHasFixedSize(true);
-
-    refreshUserMessages();
-    user = dbHandler.getUserDetail(secondUserId);
-    if (user == null)
-      accountsClient.getUserDetails(secondUserId + "", userDetailsResultCallback);
-    else
-      updateUserUI();
-    chatAdapter = new ChatingAdapter(this, chatList, resendMessageResultCallback);
-    chatRecycler.setAdapter(chatAdapter);
-  }
-
-  private void updateUserUI() {
-
-  }
-
-  private void initializeEventListeners() {
-    backIcon.setOnClickListener(this);
-    sendMessage.setOnClickListener(sendMessageListener);
-  }
-
-  @Override
-  public void onClick(View view) {
-    switch (view.getId()) {
-      case R.id.chat_back_icon:
-        onBackPressed();
-        break;
-    }
-  }
-
-  public void onEvent(UserMessage message) {
-    if (message != null) {
-      if (message.fromUserID.equalsIgnoreCase(secondUserId + "")) {
-        chatList.add(0, message);
-        runOnUiThread(new Runnable() {
-          @Override
-          public void run() {
+        }
+    };
+    private String secondUserId;
+    private String UserName;
+    private MessageStateResultCallBack<UserMessage> messageSendResultCallback = new MessageStateResultCallBack<UserMessage>() {
+        @Override
+        public void onResultCallBack(UserMessage message, int state, Exception e) {
+            if (e == null) {
+                message.messageState = state;
+                dbHandler.insertUserMessage(message);
+                for (UserMessage m : chatList) {
+                    if (m.local_id.getTime() == message.local_id.getTime()) {
+                        m.messageState = state;
+                        break;
+                    }
+                }
+                chatAdapter.notifyDataSetChanged();
+            }
+        }
+    };
+    private View.OnClickListener sendMessageListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (userMessage.getText().length() > 0) {
+                UserMessage message = new UserMessage(new Date(), application.getUserId(), secondUserId + "", userMessage.getText().toString(), Constants.MESSAGE_SENDING);
+                socializeClient.sendMessage(message, messageSendResultCallback);
+                chatList.add(0, message);
+                chatAdapter.notifyDataSetChanged();
+                userMessage.setText("");
+                chatRecycler.scrollToPosition(0);
+                dbHandler.insertUserMessage(message);
+            }
+        }
+    };
+    private ResultCallBack<UserMessage> resendMessageResultCallback = new ResultCallBack<UserMessage>() {
+        @Override
+        public void onResultCallBack(UserMessage message, Exception e) {
+            message.messageState = Constants.MESSAGE_SENDING;
+            dbHandler.insertUserMessage(message);
+            socializeClient.sendMessage(message, messageSendResultCallback);
             chatAdapter.notifyDataSetChanged();
-          }
-        });
-      }
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showUserStatus();
+        EventBus.getDefault().register(this);
+        refreshUserMessages();
     }
-  }
+
+    private void refreshUserMessages() {
+        if (chatList.size() == 0) {
+            for (UserMessage message : dbHandler.getUserMessage(secondUserId + "", application.getUserId())) {
+                chatList.add(message);
+            }
+            return;
+        }
+        List<UserMessage> temp = new ArrayList<>();
+        for (UserMessage message : dbHandler.getUserMessage(secondUserId + "", application.getUserId())) {
+            if (message.local_id.getTime() != chatList.get(0).local_id.getTime())
+                temp.add(0, message);
+            else
+                break;
+        }
+        for (UserMessage message : temp)
+            chatList.add(0, message);
+        chatAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_chating);
+        dbHandler = new DatabaseHandler(this);
+        uiHelper = new UIHelper(this);
+        accountsClient = new AccountsClient(this);
+        socializeClient = new SocializeClient(this);
+        application = Hibour.getInstance(this);
+
+        secondUserId = getIntent().getExtras().getString(Constants.KEYWORD_USER_ID, "");
+        UserName = getIntent().getExtras().getString(Constants.KEYWORD_USER_NAME, "");
+
+        initializeViews();
+        initializeEventListeners();
+    }
+
+    public void showUserStatus() {
+//    uiHelper.zoomInView(userStatus);
+    }
+
+    public void hideUserStatus() {
+//    uiHelper.zoomOutView(userStatus);
+    }
+
+    private void initializeViews() {
+        backIcon = (ImageView) findViewById(R.id.chat_back_icon);
+        chatRecycler = (RecyclerView) findViewById(R.id.chating_list);
+        sendMessage = (Button) findViewById(R.id.chating_msg_send);
+        userMessage = (EditText) findViewById(R.id.chating_message_edittest);
+        userStatus = (TextView) findViewById(R.id.user_status);
+        username = (TextView) findViewById(R.id.chating_text_name);
+        username.setText(UserName);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setReverseLayout(true);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        chatRecycler.setLayoutManager(layoutManager);
+        chatRecycler.setHasFixedSize(true);
+
+        refreshUserMessages();
+        user = dbHandler.getUserDetail(secondUserId);
+        if (user == null)
+            accountsClient.getUserDetails(secondUserId + "", userDetailsResultCallback);
+        else
+            updateUserUI();
+        chatAdapter = new ChatingAdapter(this, chatList, resendMessageResultCallback);
+        chatRecycler.setAdapter(chatAdapter);
+    }
+
+    private void updateUserUI() {
+
+    }
+
+    private void initializeEventListeners() {
+        backIcon.setOnClickListener(this);
+        sendMessage.setOnClickListener(sendMessageListener);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.chat_back_icon:
+                onBackPressed();
+                break;
+        }
+    }
+
+    public void onEvent(UserMessage message) {
+        if (message != null) {
+            if (message.fromUserID.equalsIgnoreCase(secondUserId + "")) {
+                chatList.add(0, message);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        chatAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        }
+    }
 }

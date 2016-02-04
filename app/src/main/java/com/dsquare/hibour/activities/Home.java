@@ -27,6 +27,7 @@ import com.dsquare.hibour.adapters.NavigationDrawerAdapter;
 import com.dsquare.hibour.fragments.AboutUs;
 import com.dsquare.hibour.fragments.Groups;
 import com.dsquare.hibour.fragments.Message;
+import com.dsquare.hibour.fragments.NewPost;
 import com.dsquare.hibour.fragments.Settings;
 import com.dsquare.hibour.fragments.Socializes;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
@@ -47,7 +48,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Home extends AppCompatActivity implements NavDrawerCallback, AdapterView.OnItemClickListener{
+public class Home extends AppCompatActivity implements NavDrawerCallback
+        , AdapterView.OnItemClickListener,NewPost.PostsListener{
 
     private FragmentManager manager;
     private FragmentTransaction transaction;
@@ -276,6 +278,16 @@ public class Home extends AppCompatActivity implements NavDrawerCallback, Adapte
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onCancelClicked() {
+        replaceWithNewFragment(0);
+    }
+
+    @Override
+    public void onDoneClicked() {
+        replaceWithNewFragment(0);
     }
 }
 

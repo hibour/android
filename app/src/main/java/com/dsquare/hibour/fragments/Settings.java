@@ -28,10 +28,10 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.activities.Notifications;
 import com.dsquare.hibour.activities.Proof;
 import com.dsquare.hibour.activities.SocialPrefernce;
 import com.dsquare.hibour.adapters.SelectDateFragment;
-import com.dsquare.hibour.activities.Notifications;
 import com.dsquare.hibour.dialogs.PostsImagePicker;
 import com.dsquare.hibour.interfaces.ImagePicker;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
@@ -56,7 +56,6 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class Settings extends Fragment implements View.OnClickListener,ImagePicker {
-
     private ImageView menuIcon,notifIcon,inputImage,imageUploaded,dobimage;
     private RadioGroup gender;
     private EditText name;
@@ -144,15 +143,15 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         });
     }
     /* initialize event listeners*/
-     private void initializeEventListeners(){
-         menuIcon.setOnClickListener(this);
-         notifIcon.setOnClickListener(this);
-         submitButton.setOnClickListener(this);
-         imageUploaded.setOnClickListener(this);
-         proof.setOnClickListener(this);
-         soclize.setOnClickListener(this);
-         dobimage.setOnClickListener(this);
-     }
+    private void initializeEventListeners(){
+        menuIcon.setOnClickListener(this);
+        notifIcon.setOnClickListener(this);
+        submitButton.setOnClickListener(this);
+        imageUploaded.setOnClickListener(this);
+        proof.setOnClickListener(this);
+        soclize.setOnClickListener(this);
+        dobimage.setOnClickListener(this);
+    }
     /*prepare cards list*/
     private void prepareCardsList(){
         cardsList.add("Select Card");
@@ -160,34 +159,34 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
 
     @Override
     public void onClick(View view) {
-     switch (view.getId()){
-         case R.id.settings_menu_icon:
-             callback.drawerOpen();
-             break;
-         case R.id.settings_notif_icon:
-             openNotifications();
-             break;
-         case R.id.settings_submit:
-             updateprofileActivity();
-             break;
-         case R.id.setting_image_editer:
-             openImageChooser();
-             break;
-         case R.id.settings_proof:
-             openproofActivity();
-             break;
-         case R.id.settings_prefernce:
-             openprefernceActivity();
-             break;
-         case R.id.settings_name_dob:
-             final DialogFragment newFragment = new SelectDateFragment();
-                 Bundle args = new Bundle();
-                 args.putString("data", "a");  //This method is used to send the data from one fragment to another fragment
-                 newFragment.setArguments(args);
-                 newFragment.show(getFragmentManager(), "DatePicker");
+        switch (view.getId()){
+            case R.id.settings_menu_icon:
+                callback.drawerOpen();
+                break;
+            case R.id.settings_notif_icon:
+                openNotifications();
+                break;
+            case R.id.settings_submit:
+                updateprofileActivity();
+                break;
+            case R.id.setting_image_editer:
+                openImageChooser();
+                break;
+            case R.id.settings_proof:
+                openproofActivity();
+                break;
+            case R.id.settings_prefernce:
+                openprefernceActivity();
+                break;
+            case R.id.settings_name_dob:
+                final DialogFragment newFragment = new SelectDateFragment();
+                Bundle args = new Bundle();
+                args.putString("data", "a");  //This method is used to send the data from one fragment to another fragment
+                newFragment.setArguments(args);
+                newFragment.show(getFragmentManager(), "DatePicker");
 
-             break;
-     }
+                break;
+        }
     }
     //Method to display the text
     public static String showDate(int year, int month, int day) {
@@ -305,7 +304,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
             if (application.validateEmail(userMail)) {
                 if (moblie.getText().toString().length() < 11 && moblie.getText().toString().length() > 9) {
                     if (gender.getCheckedRadioButtonId() != -1) {
-                    updateProfiletoUser(userName, userMail, userPass,moblie.getText().toString());
+                        updateProfiletoUser(userName, userMail, userPass,moblie.getText().toString());
                     } else {
                         Toast.makeText(getActivity(), "Please select Gender", Toast.LENGTH_SHORT).show();
                     }
@@ -324,7 +323,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
             dialog = ProgressDialog.show(getActivity(),"",getResources()
                     .getString(R.string.progress_dialog_text));
             accountsClient.getAllUpdateSettings(application.getUserId(), userName, userMail, userPass, genderstring, mobile
-                  ,  cardImageString  , new WebServiceResponseCallback() {
+                    ,  cardImageString  , new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parseUpdateDetails(jsonObject);
@@ -342,10 +341,10 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         }
 
     }
-     public void parseUpdateDetails(JSONObject jsonObject){
-         closeDialog();
-         getAllPrefs();
-     }
+    public void parseUpdateDetails(JSONObject jsonObject){
+        closeDialog();
+        getAllPrefs();
+    }
 
     /* get all prefs*/
     private void getAllPrefs(){
@@ -371,26 +370,26 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
     /* parse user prefs*/
     private void parseUserPrefs(JSONObject jsonObject){
         try {
-        Settingspojo settingspojo = gson.fromJson(jsonObject.toString(), Settingspojo.class);
+            Settingspojo settingspojo = gson.fromJson(jsonObject.toString(), Settingspojo.class);
             Data data = settingspojo.getData();
-        name.setText(data.getUsername());
-        email.setText(data.getEmail());
-        password.setText(data.getPassword());
-        moblie.setText(data.getMobileNumber());
-        String genderValue = data.getGender();
-         Log.d("gender",  data.getGender());
-        if(genderValue != null && genderValue.equalsIgnoreCase("0")){
-            gender.check(R.id.radioMale);
-        }else{
-            gender.check(R.id.radioFemale);
-        }
+            name.setText(data.getUsername());
+            email.setText(data.getEmail());
+            password.setText(data.getPassword());
+            moblie.setText(data.getMobileNumber());
+            String genderValue = data.getGender();
+            Log.d("gender",  data.getGender());
+            if(genderValue != null && genderValue.equalsIgnoreCase("0")){
+                gender.check(R.id.radioMale);
+            }else{
+                gender.check(R.id.radioFemale);
+            }
 
-    }catch (JsonSyntaxException e) {
-        e.printStackTrace();
-    }catch (final IllegalArgumentException e) {
-        // Handle or log or ignore
-        e.printStackTrace();
-    }}
+        }catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }catch (final IllegalArgumentException e) {
+            // Handle or log or ignore
+            e.printStackTrace();
+        }}
     /* close dialog*/
     private void closeDialog(){
         if(dialog!=null){

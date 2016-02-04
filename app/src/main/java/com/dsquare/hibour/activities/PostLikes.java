@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.adapters.AdapterPostLikes;
 import com.dsquare.hibour.pojos.posts.PostLikedUser;
+import com.dsquare.hibour.pojos.posts.Postpojos;
 import com.dsquare.hibour.utils.Constants;
 
 import java.util.ArrayList;
@@ -20,7 +21,6 @@ import java.util.List;
  * Created by Dsquare Android on 1/28/2016.
  */
 public class PostLikes  extends AppCompatActivity implements View.OnClickListener {
-
     private ImageView backIcon;
     private RecyclerView likesList;
     private List<String[]> likeList = new ArrayList<>();
@@ -63,22 +63,16 @@ public class PostLikes  extends AppCompatActivity implements View.OnClickListene
     private void prepareLikesList(){
         likeList.clear();
         Log.d("id",postId);
-            List<PostLikedUser> posts = Constants.postlikesMap.get(postId);
-            try {
-                for(int i=0;i<posts.size();i++) {
-                        String[] data = new String[1];
-                        data[0] =  posts.get(i).getName();
-                        likeList.add(data);
+        List<PostLikedUser> posts = Constants.postlikesMap.get(postId);
+        try {
+            for(int i=0;i<posts.size();i++) {
+                String[] data = new String[1];
+                data[0] =  posts.get(i).getName();
+                likeList.add(data);
 
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-//        for(int i=0;i<10;i++){
-//            String[] data = new String[1];
-//            data[0] = "Ashok Madduru";
-//            likeList.add(data);
-//        }
-
+    }
 }
