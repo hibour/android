@@ -17,6 +17,9 @@ import android.util.Base64;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.util.Base64;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,9 +68,9 @@ import java.util.Map;
 /**
  * Created by Dsquare Android on 2/1/2016.
  */
+
 public class NewPost extends android.support.v4.app.Fragment implements View.OnClickListener
         ,ImagePicker,AdapterView.OnItemClickListener {
-
     private String category;
     private Button send;
     private EditText text;
@@ -304,12 +307,12 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     }
 
     private void initializeViews(View view) {
-      //  bgColors = getActivity().getResources().getStringArray(R.array.movie_serial_bg);
+        //  bgColors = getActivity().getResources().getStringArray(R.array.movie_serial_bg);
         categoriesSpinner = (Spinner)view.findViewById(R.id.newpost_categories_spinner);
         neighboursSpinner = (Spinner)view.findViewById(R.id.newpost_neighbourhood_spinner);
         editPost = (EditText) view.findViewById(R.id.newposts_edittest);
         done = (TextView) view.findViewById(R.id.create_post_done);
-       // cancel = (TextView) view.findViewById(R.id.creat_post_cancel);
+        // cancel = (TextView) view.findViewById(R.id.creat_post_cancel);
         gallary = (ImageView) view.findViewById(R.id.creat_imageview_post_icon);
         postImage = (ImageView) view.findViewById(R.id.creat_imageview_display_icon);
         delete = (ImageView) view.findViewById(R.id.create_delete_image);
@@ -317,7 +320,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         layout1 = (RelativeLayout)view.findViewById(R.id.home_app_bar1);
         views = (View)view.findViewById(R.id.views);
         application = Hibour.getInstance(getActivity());
-       // categoriesRecycler = (ListView) view.findViewById(R.id.categories_recycler);
+        // categoriesRecycler = (ListView) view.findViewById(R.id.categories_recycler);
 
         prepareCategoriesList();
 //        send = (Button) view.findViewById(R.id.newpost_send);
@@ -475,7 +478,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     @Override
     public void onItemClick(AdapterView<?> arg0, View view, int position, long arg3) {
         String s = categoriesLists.get(position)[0];
-       // categoriesList.add(s);
+        // categoriesList.add(s);
 
         LinearLayout postFragment = (LinearLayout) this.getActivity().findViewById(R.id.post_fragment);
         LinearLayout postWidget = (LinearLayout) this.getActivity().findViewById(R.id.post_widget);
@@ -493,5 +496,4 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         categoriesSpinner.setSelection(position);
         editPost.setHint(Constants.postTypesMap.get(s).get("placeholder"));
     }
-
 }

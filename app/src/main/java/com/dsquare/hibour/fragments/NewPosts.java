@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
@@ -35,6 +36,7 @@ import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.network.PostsClient;
 import com.dsquare.hibour.pojos.posttype.Datum;
 import com.dsquare.hibour.pojos.posttype.PostTypeCatg;
+import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Fonts;
 import com.dsquare.hibour.utils.Hibour;
 import com.google.gson.Gson;
@@ -45,10 +47,21 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.BufferedInputStream;
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Created by Aditya Ravikanti on 1/19/2016.
@@ -169,7 +182,7 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
                 &&!text.getText().toString().equals("null")&&
                 !text.getText().toString().equals("")&&
                 !postimagesstring.equals("")){
-             Toast.makeText(getActivity(),"All fields are required",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),"All fields are required",Toast.LENGTH_LONG).show();
 //            sendPostData(categoriesTypeId ,text.getText().toString()
 //                    , postimagesstring);
         }else{
@@ -243,7 +256,7 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
             newpostDialogue = ProgressDialog.show(getActivity(),"",getResources()
                     .getString(R.string.progress_dialog_text));
             postsClient.insertonPost(application.getUserId(),posttypeid,posttypeid,postMessage,postImage
-                     ,posttypeid,new WebServiceResponseCallback() {
+                    ,posttypeid,new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parsePostDetails(jsonObject);
@@ -360,51 +373,5 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
         }
         chooserDialog.dismiss();
     }
-
-   /* private class sendToServer extends AsyncTask<ArrayList<String>, Integer, String> {
-
-        @Override
-        protected String doInBackground(ArrayList<String>... param) {
-            // TODO Auto-generated method stub
-
-
-            try {
-                URL url = new URL("http://yoururl.com");
-                HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
-                conn.setReadTimeout(10000);
-                conn.setConnectTimeout(15000);
-                conn.setRequestMethod("POST");
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new BasicNameValuePair("firstParam", paramValue1));
-                params.add(new BasicNameValuePair("secondParam", paramValue2));
-                params.add(new BasicNameValuePair("thirdParam", paramValue3));
-
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
-                writer.write(getQuery(params));
-                writer.flush();
-                writer.close();
-                os.close();
-
-                conn.connect();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return loc_resp;
-
-        }
-        @Override
-        protected void onPostExecute(String result) {
-            // TODO Auto-generated method stub
-            super.onPostExecute(result);
-
-
-
-        }
-    }*/
 
 }

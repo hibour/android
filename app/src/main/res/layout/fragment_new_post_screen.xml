@@ -10,69 +10,69 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/post_liner_layout">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="?android:actionBarSize"
-        android:background="@color/white"
-        android:id="@+id/home_app_bar1"
-       >
-        <com.dsquare.hibour.utils.Proxima
-            android:id="@+id/creat_post_cancel"
-            android:layout_width="@dimen/dp_60"
-            android:layout_height="40dp"
-            android:layout_gravity="center_vertical"
-            android:gravity="center"
-            android:contentDescription="Invite"
-            android:layout_centerVertical="true"
-            android:clickable="true"
-            android:textSize="14sp"
-            android:textColor="@color/outline_blue"
-            android:text="Cancel" />
-        <com.dsquare.hibour.utils.ProximaExtraBold
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Post"
-            android:textColor="@color/brand"
-            android:id="@+id/home_fragment_title"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:textSize="@dimen/app_bar_title_text_size"/>
-        <com.dsquare.hibour.utils.ProximaExtraBold
-            android:layout_width="@dimen/dp_60"
-            android:layout_height="@dimen/dp_40"
-            android:text="Post"
-            android:gravity="center"
-            android:textColor="@color/outline_blue"
-            android:id="@+id/create_post_done"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:textSize="14sp"/>
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/nav_bottom_line_height"
-            android:id="@+id/nav_drawer_bottom_line"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_alignParentBottom="true"/>
-        <!--<ImageView-->
-        <!--android:layout_width="@dimen/dp_30"-->
-        <!--android:layout_height="@dimen/dp_30"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:src="@drawable/ic_search_white"-->
-        <!--android:layout_marginRight="@dimen/dp_20"-->
-        <!--android:padding="@dimen/dp_3"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:id="@+id/home_search_icon"/>-->
+            android:layout_height="?android:actionBarSize"
+            android:background="@color/white"
+            android:id="@+id/home_app_bar1"
+            >
+            <com.dsquare.hibour.utils.Proxima
+                android:id="@+id/creat_post_cancel"
+                android:layout_width="@dimen/dp_60"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:contentDescription="Invite"
+                android:layout_centerVertical="true"
+                android:clickable="true"
+                android:textSize="14sp"
+                android:textColor="@color/outline_blue"
+                android:text="Cancel" />
+            <com.dsquare.hibour.utils.ProximaExtraBold
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Post"
+                android:textColor="@color/brand"
+                android:id="@+id/home_fragment_title"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:textSize="@dimen/app_bar_title_text_size"/>
+            <com.dsquare.hibour.utils.ProximaExtraBold
+                android:layout_width="@dimen/dp_60"
+                android:layout_height="@dimen/dp_40"
+                android:text="Post"
+                android:gravity="center"
+                android:textColor="@color/outline_blue"
+                android:id="@+id/create_post_done"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:textSize="14sp"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/nav_bottom_line_height"
+                android:id="@+id/nav_drawer_bottom_line"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_alignParentBottom="true"/>
+            <!--<ImageView-->
+            <!--android:layout_width="@dimen/dp_30"-->
+            <!--android:layout_height="@dimen/dp_30"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:src="@drawable/ic_search_white"-->
+            <!--android:layout_marginRight="@dimen/dp_20"-->
+            <!--android:padding="@dimen/dp_3"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:id="@+id/home_search_icon"/>-->
 
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/horiz_line_height"
-        android:layout_marginTop="@dimen/dp_5"
-        android:background="@color/gray"
-        android:id="@+id/views"
-        android:layout_below="@+id/home_app_bar1"
-        />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/horiz_line_height"
+            android:layout_marginTop="@dimen/dp_5"
+            android:background="@color/gray"
+            android:id="@+id/views"
+            android:layout_below="@+id/home_app_bar1"
+            />
     </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -106,15 +106,15 @@
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/dp_20"/>
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:spinnerMode="dropdown"
-                android:id="@+id/newpost_neighbourhood_spinner"
-                android:textSize="@dimen/edit_text_size"
-                android:layout_alignParentRight="true"
-                android:layout_marginLeft="@dimen/dp_5"
-                ></Spinner>
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dropdown"
+                    android:id="@+id/newpost_neighbourhood_spinner"
+                    android:textSize="@dimen/edit_text_size"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    ></Spinner>
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
@@ -143,17 +143,17 @@
                     android:layout_gravity="center"
                     android:layout_centerVertical="true"
                     android:id="@+id/create_relative">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_200"
-                    android:id="@+id/creat_imageview_display_icon"
-                    android:layout_gravity="center"
-                    android:layout_centerVertical="true"
-                    android:adjustViewBounds="true"
-                    android:scaleType="center"
-                    android:layout_weight="1"
-                    android:layout_marginTop="@dimen/dp_20"
-                    />
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_200"
+                        android:id="@+id/creat_imageview_display_icon"
+                        android:layout_gravity="center"
+                        android:layout_centerVertical="true"
+                        android:adjustViewBounds="true"
+                        android:scaleType="center"
+                        android:layout_weight="1"
+                        android:layout_marginTop="@dimen/dp_20"
+                        />
                     <ImageView
                         android:layout_width="@dimen/dp_20"
                         android:layout_height="@dimen/dp_20"
@@ -195,7 +195,7 @@
                         android:text="Category:"
                         android:layout_toLeftOf="@+id/newpost_categories_spinner"
                         android:layout_centerVertical="true"
-                     />
+                        />
 
                 </RelativeLayout>
 

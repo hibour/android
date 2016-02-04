@@ -179,38 +179,38 @@ public class Posts extends Fragment implements View.OnClickListener {
             for (Postpojos p:postpojos) {
                 Constants.postlikesMap.put(p.getPostId(),p.getPostLikedUsers());
                 Constants.postpojosMap.put(p.getPostId(),postpojos);
-                    String key = " ";
-                    if (Constants.categoriesMap.containsKey(p.getPostType()))
-                        key = Constants.categoriesMap.get(p.getPostType());
-                    if (!Constants.postsMap.containsKey(key)) {
-                        List<Postpojos> data = new ArrayList<>();
-                        data.add(p);
-                        Log.d("key",key);
-                        Constants.postsMap.put(key, data);
-                    } else {
-                        List<Postpojos> postslist = Constants.postsMap.get(key);
-                        postslist.add(p);
-                        Log.d("key",key);
-                        Constants.postsMap.put(key, postslist);
-                    }
-                    if (!tabsList.contains(key))
-                        tabsList.add(key);
-                    String[] data = new String[8];
-                    data[0] = p.getUser().getName();
-                    data[1] = p.getPostId();
-                    data[2] = p.getPostMessage();
-                    data[3] = key;
-                    data[4] = String.valueOf(p.getPostLikesCount());
-                    data[5] = Arrays.toString(new int[]{p.getPostComments().size()})
-                            .replaceAll("\\[|\\]", "");
-                    data[6] = p.getPostId();
-                    data[7] = String.valueOf(p.getPostUserLiked());
+                String key = " ";
+                if (Constants.categoriesMap.containsKey(p.getPostType()))
+                    key = Constants.categoriesMap.get(p.getPostType());
+                if (!Constants.postsMap.containsKey(key)) {
+                    List<Postpojos> data = new ArrayList<>();
+                    data.add(p);
+                    Log.d("key",key);
+                    Constants.postsMap.put(key, data);
+                } else {
+                    List<Postpojos> postslist = Constants.postsMap.get(key);
+                    postslist.add(p);
+                    Log.d("key",key);
+                    Constants.postsMap.put(key, postslist);
+                }
+                if (!tabsList.contains(key))
+                    tabsList.add(key);
+                String[] data = new String[8];
+                data[0] = p.getUser().getName();
+                data[1] = p.getPostId();
+                data[2] = p.getPostMessage();
+                data[3] = key;
+                data[4] = String.valueOf(p.getPostLikesCount());
+                data[5] = Arrays.toString(new int[]{p.getPostComments().size()})
+                        .replaceAll("\\[|\\]", "");
+                data[6] = p.getPostId();
+                data[7] = String.valueOf(p.getPostUserLiked());
 
-                    postsList.add(data);
-                    Log.d("data",""+data);
-                    autocompleteList.add(p.getPostMessage());
+                postsList.add(data);
+                Log.d("data",""+data);
+                autocompleteList.add(p.getPostMessage());
 
-                    setPager();
+                setPager();
             }
         }else{
             noFeedsLayout.setVisibility(View.VISIBLE);
@@ -306,5 +306,4 @@ public class Posts extends Fragment implements View.OnClickListener {
 
         }
     }
-
 }
