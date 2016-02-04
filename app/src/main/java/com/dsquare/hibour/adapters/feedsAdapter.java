@@ -95,7 +95,8 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
         final int position = viewHolder.getAdapterPosition();
         switch (view.getId()){
             case R.id.feeds_comments_layout:
-                openCommentsDialog(listItems.get(position)[6],listItems.get(position)[4]);
+                openCommentsDialog(listItems.get(position)[6],listItems.get(position)[4]
+                        ,listItems.get(position)[7]);
                 break;
             case R.id.feeds_likes_layout:
                 changeLikesCount(position);
@@ -208,10 +209,11 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
     }
 
     /* open post comments*/
-    private void openCommentsDialog(String postId,String likes){
+    private void openCommentsDialog(String postId,String likes,String liked){
         Intent commentsIntent = new Intent(context, PostComments.class);
         commentsIntent.putExtra("postId",postId);
         commentsIntent.putExtra("likes",likes);
+        commentsIntent.putExtra("liked",liked);
         context.startActivity(commentsIntent);
     }
 }
