@@ -12,6 +12,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.util.Log;
@@ -73,7 +75,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     private EditText text;
     private Typeface proxima;
     private DialogFragment chooserDialog;
-    private TextView done,cancel;
+    private TextView done, cancel;
     private ArrayAdapter<String> categoriesAdapter;
     private ArrayAdapter<String> neighoursAdapter;
     private String[] List = {"General", "Suggestions", "Classifieds", "Crime & Safety", "Lost & Found"};
@@ -89,25 +91,33 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     private ProgressDialog newpostDialogue;
     private Gson gson;
     private String categoriesString = "", postimagesstring = "aa";
-    private String categoriesTypeId = "",neighoursTypeId = "";
+    private String categoriesTypeId = "", neighoursTypeId = "";
     private Bitmap bitmap;
     private Hibour application;
-    private ImageView postImage,gallary,delete;
+    private ImageView postImage, gallary, delete;
     private EditText editPost;
-    private Spinner categoriesSpinner,neighboursSpinner;
-    private RelativeLayout layout,layout1;
+    private Spinner categoriesSpinner, neighboursSpinner;
+    private RelativeLayout layout, layout1;
     private View views;
     private ListView categoriesRecycler;
     private String[] details;
-    private String catFrmPre="";
+    private String catFrmPre = "";
+
     public NewPost() {
         // Required empty public constructor
     }
+
+    public interface ChooserListener {
+        void onChoose(int choice);
+    }
+
+    ChooserListener listener;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_post_screen, container, false);
-        catFrmPre = getArguments().getString("category","");
+        catFrmPre = getArguments().getString("category", "");
         initializeViews(view);
         initializeEventListeners();
         getNeighbourHoods(application.getUserId());
@@ -121,6 +131,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         gallary.setOnClickListener(this);
         delete.setOnClickListener(this);
         editPost.requestFocus();
+        cancel.setOnClickListener(this);
         /*editPost.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -144,7 +155,20 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
             case R.id.create_delete_image:
                 opendeleteImage();
                 break;
+            case R.id.creat_post_cancel:
+                openfeedscreen();
+                break;
         }
+    }
+
+    private void openfeedscreen() {
+        listener.onChoose(1);
+        Posts fragment2 = new Posts();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.home_fragment_container, fragment2);
+        fragmentTransaction.commit();
+
     }
 
     private void opendeleteImage() {
@@ -153,7 +177,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         layout.setVisibility(View.GONE);
     }
 
-    private void openImageChooser(){
+    private void openImageChooser() {
         chooserDialog = new PostsImagePicker();
         chooserDialog.show(getActivity().getSupportFragmentManager(), "chooser dialog");
         chooserDialog.setTargetFragment(this, 0);
@@ -161,13 +185,14 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
 
 
     /* open gallary intent*/
-    private void openGallary(){
+    private void openGallary() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         this.startActivityForResult(galleryIntent, REQUEST_IMAGE_SELECTOR);
     }
+
     /* open camera*/
-    private void openCamera(){
+    private void openCamera() {
         Intent intent = new Intent(
                 android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
@@ -179,44 +204,45 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK
-                &&  data != null && data.getData() != null) {
+                && data != null && data.getData() != null) {
 //            imageUploaded.setVisibility(View.VISIBLE);
             Uri filePath = data.getData();
 
             try {
                 //Getting the Bitmap from Gallery
                 bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
-                if(layout.getVisibility()==View.GONE){
+                if (layout.getVisibility() == View.GONE) {
                     layout.setVisibility(View.VISIBLE);
                     postImage.setImageBitmap(bitmap);
                     gallary.setVisibility(View.GONE);
                 }
-                postimagesstring=getStringImage(bitmap);
+                postimagesstring = getStringImage(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
 
-        }else if(requestCode == REQUEST_IMAGE_SELECTOR && resultCode == Activity.RESULT_OK
-                &&  data != null && data.getData() != null){
+        } else if (requestCode == REQUEST_IMAGE_SELECTOR && resultCode == Activity.RESULT_OK
+                && data != null && data.getData() != null) {
 //            imageUploaded.setVisibility(View.VISIBLE);
 
             Uri filePath = data.getData();
             try {
                 //Getting the Bitmap from Gallery
                 bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
-                if(layout.getVisibility()==View.GONE){
+                if (layout.getVisibility() == View.GONE) {
                     layout.setVisibility(View.VISIBLE);
                     postImage.setImageBitmap(bitmap);
                     gallary.setVisibility(View.GONE);
                 }
-                postimagesstring=getStringImage(bitmap);
+                postimagesstring = getStringImage(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
-    public String getStringImage(Bitmap bmp){
+
+    public String getStringImage(Bitmap bmp) {
         BitmapFactory.Options options = null;
         options = new BitmapFactory.Options();
         options.inSampleSize = 3;
@@ -230,7 +256,6 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     }
 
 
-
     public void slideToTop(View view) {
         TranslateAnimation animate = new TranslateAnimation(0, 0, 0, -view.getHeight());
         animate.setDuration(500);
@@ -241,7 +266,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
 
     /*validate proof data*/
     private void validatepostData() {
-        if (!categoriesTypeId.equals("") && text.getText().toString().equals(null)
+        if (!categoriesTypeId.equals("") && text.getText().toString().equals("null")
                 && !text.getText().toString().equals("null") &&
                 !text.getText().toString().equals("") &&
                 !postimagesstring.equals("")) {
@@ -286,6 +311,12 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         try {
             JSONObject data = jsonObject.getJSONObject("data");
             Toast.makeText(getActivity(), "Post update successfully", Toast.LENGTH_LONG).show();
+            listener.onChoose(0);
+//            Posts fragment2 = new Posts();
+//            FragmentManager fragmentManager = getFragmentManager();
+//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//            fragmentTransaction.replace(R.id.home_fragment_container, fragment2);
+//            fragmentTransaction.commit();
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(getActivity(), "Post updation failed", Toast.LENGTH_LONG).show();
@@ -304,20 +335,20 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     }
 
     private void initializeViews(View view) {
-      //  bgColors = getActivity().getResources().getStringArray(R.array.movie_serial_bg);
-        categoriesSpinner = (Spinner)view.findViewById(R.id.newpost_categories_spinner);
-        neighboursSpinner = (Spinner)view.findViewById(R.id.newpost_neighbourhood_spinner);
+        //  bgColors = getActivity().getResources().getStringArray(R.array.movie_serial_bg);
+        categoriesSpinner = (Spinner) view.findViewById(R.id.newpost_categories_spinner);
+        neighboursSpinner = (Spinner) view.findViewById(R.id.newpost_neighbourhood_spinner);
         editPost = (EditText) view.findViewById(R.id.newposts_edittest);
         done = (TextView) view.findViewById(R.id.create_post_done);
-       // cancel = (TextView) view.findViewById(R.id.creat_post_cancel);
+        cancel = (TextView) view.findViewById(R.id.creat_post_cancel);
         gallary = (ImageView) view.findViewById(R.id.creat_imageview_post_icon);
         postImage = (ImageView) view.findViewById(R.id.creat_imageview_display_icon);
         delete = (ImageView) view.findViewById(R.id.create_delete_image);
-        layout = (RelativeLayout)view.findViewById(R.id.create_relative);
-        layout1 = (RelativeLayout)view.findViewById(R.id.home_app_bar1);
-        views = (View)view.findViewById(R.id.views);
+        layout = (RelativeLayout) view.findViewById(R.id.create_relative);
+        layout1 = (RelativeLayout) view.findViewById(R.id.home_app_bar1);
+        views = (View) view.findViewById(R.id.views);
         application = Hibour.getInstance(getActivity());
-       // categoriesRecycler = (ListView) view.findViewById(R.id.categories_recycler);
+        // categoriesRecycler = (ListView) view.findViewById(R.id.categories_recycler);
 
         prepareCategoriesList();
 //        send = (Button) view.findViewById(R.id.newpost_send);
@@ -329,7 +360,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
 
         proxima = Typeface.createFromAsset(getActivity().getAssets(), Fonts.getTypeFaceName());
         categoriesAdapter = new ArrayAdapter<String>(getActivity()
-                ,android.R.layout.simple_dropdown_item_1line,categoriesList);
+                , android.R.layout.simple_dropdown_item_1line, categoriesList);
         categoriesSpinner.setAdapter(categoriesAdapter);
         categoriesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -358,7 +389,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         });
 
         neighoursAdapter = new ArrayAdapter<String>(getActivity()
-                ,android.R.layout.simple_dropdown_item_1line,neighourList);
+                , android.R.layout.simple_dropdown_item_1line, neighourList);
         neighboursSpinner.setAdapter(neighoursAdapter);
         neighboursSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -390,40 +421,42 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
 
 
     /*get all neighbourhoods */
-    private void getNeighbourHoods(String userId){
-        if(networkDetector.isConnected()){
+    private void getNeighbourHoods(String userId) {
+        if (networkDetector.isConnected()) {
 //            newpostDialogue = ProgressDialog.show(getActivity(),"","Please Wait...");
-            postsClient.getAllNeighbourhoods(userId,new WebServiceResponseCallback() {
+            postsClient.getAllNeighbourhoods(userId, new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parseNeighbourHoods(jsonObject);
                     closePostDialog();
                 }
+
                 @Override
                 public void onFailure(VolleyError error) {
                     closePostDialog();
-                    Log.d("error",error.toString());
+                    Log.d("error", error.toString());
                 }
             });
-        }else{
+        } else {
 
         }
     }
+
     /* parse neighbourhoods*/
-    private void parseNeighbourHoods(JSONObject jsonObject){
-        Log.d("data",jsonObject.toString());
+    private void parseNeighbourHoods(JSONObject jsonObject) {
+        Log.d("data", jsonObject.toString());
         try {
             Neighourhoodpojo neighour = gson.fromJson(jsonObject.toString(), Neighourhoodpojo.class);
             List<com.dsquare.hibour.pojos.neighours.Datum> data = neighour.getData();
-            if(data.size()>0) {
+            if (data.size() > 0) {
                 neighourList.clear();
                 neighourList.add("Select neighbours");
                 neighourMap.clear();
                 for (com.dsquare.hibour.pojos.neighours.Datum d : data) {
                     neighourMap.put(d.getAddress(), d.getId() + "");
-                    if(!d.getAddress().equals("") && !d.getAddress().equals(null)
+                    if (!d.getAddress().equals("") && !d.getAddress().equals(null)
                             && !d.getAddress().equals("null")) {
-                        if(!neighourList.contains(d.getAddress())){
+                        if (!neighourList.contains(d.getAddress())) {
                             neighourList.add(d.getAddress());
                         }
                     }
@@ -436,13 +469,15 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
             e.printStackTrace();
         }
     }
-    private void prepareCategoriesList(){
+
+    private void prepareCategoriesList() {
 //        categoriesList.add("Select Categories");
         neighourList.add("Select neighbours");
     }
+
     @Override
     public void pickerSelection(int choice) {
-        switch (choice){
+        switch (choice) {
             case 0:
                 openGallary();
                 break;
@@ -452,17 +487,19 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         }
         chooserDialog.dismiss();
     }
+
     /* set categories*/
-    private void setCategories(){
-        if(Constants.postTypesMap.size()>0){
+    private void setCategories() {
+        if (Constants.postTypesMap.size() > 0) {
             categoriesList.clear();
             categoriesMap.clear();
-            int i=0;
-            int j=0;
-            for(String type:Constants.postTypesMap.keySet()){
-                categoriesList.add(type);i++;
-                if(catFrmPre.equals(type)){
-                    j=i;
+            int i = 0;
+            int j = 0;
+            for (String type : Constants.postTypesMap.keySet()) {
+                categoriesList.add(type);
+                i++;
+                if (catFrmPre.equals(type)) {
+                    j = i;
                 }
             }
             categoriesAdapter = new ArrayAdapter<String>(getActivity()
@@ -475,7 +512,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     @Override
     public void onItemClick(AdapterView<?> arg0, View view, int position, long arg3) {
         String s = categoriesLists.get(position)[0];
-       // categoriesList.add(s);
+        // categoriesList.add(s);
 
         LinearLayout postFragment = (LinearLayout) this.getActivity().findViewById(R.id.post_fragment);
         LinearLayout postWidget = (LinearLayout) this.getActivity().findViewById(R.id.post_widget);
@@ -494,4 +531,15 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         editPost.setHint(Constants.postTypesMap.get(s).get("placeholder"));
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            listener = (ChooserListener) activity;
+
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement NoticeDialogListener");
+        }
+    }
 }

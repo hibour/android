@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.dialogs.PostsTypesDialog;
+import com.dsquare.hibour.interfaces.ImagePicker;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
 import com.dsquare.hibour.utils.Constants;
 
@@ -34,7 +35,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Home extends Fragment implements View.OnClickListener,PostsTypesDialog.categoryChooserListener {
+public class Home extends Fragment implements View.OnClickListener,PostsTypesDialog.categoryChooserListener,NewPost.ChooserListener {
 
     private FragmentManager manager;
     private FragmentTransaction transaction;
@@ -78,8 +79,8 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
         Constants.categoriesMap.put("1","General");
         Constants.categoriesMap.put("2","Suggestions");
         Constants.categoriesMap.put("3","Classifieds");
-        Constants.categoriesMap.put("4","Crime & saftey");
-        Constants.categoriesMap.put("5","Lost & Found");
+        Constants.categoriesMap.put("4", "Crime & saftey");
+        Constants.categoriesMap.put("5", "Lost & Found");
 //        autoCompleteTextView = (AutoCompleteTextView)view.findViewById(R.id.home_search_autocomplete);
 //        searchLayout = (RelativeLayout)view.findViewById(R.id.home_search_layout);
 //        searchIcon = (ImageView)view.findViewById(R.id.home_search_icon);
@@ -261,5 +262,17 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
         this.categoryName = categoryName;
         dialog.dismiss();
         replaceContainer(3);
+    }
+
+    @Override
+    public void onChoose(int choice) {
+        switch (choice){
+            case 0:
+                replaceContainer(0);
+                break;
+            case 1:
+                replaceContainer(0);
+                break;
+        }
     }
 }
