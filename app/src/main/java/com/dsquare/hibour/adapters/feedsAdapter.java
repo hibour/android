@@ -143,6 +143,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
             data[4] = likesCount+"";
         }
         data[8] = listItems.get(position)[8];
+        data[9] = listItems.get(position)[9];
         listItems.set(position,data);
         notifyItemChanged(position);
     }
