@@ -70,14 +70,18 @@
             android:label="@string/app_name"
             android:theme="@style/FullScreenTheme" />
         <activity
+            android:name=".activities.Social"
+            android:label="@string/app_name"
+            android:theme="@style/FullScreenTheme" />
+        <activity
             android:name=".activities.SignIn"
             android:label="@string/app_name"
             android:theme="@style/FullScreenTheme" />
         <activity
             android:name=".activities.SignUp"
-            android:configChanges="keyboardHidden|orientation|screenLayout"
             android:label="@string/title_activity_sign_up"
-            android:theme="@style/FullScreenTheme" />
+            android:theme="@style/FullScreenTheme"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -117,8 +121,10 @@
         <activity
             android:name=".activities.GroupPosts"
             android:label="@string/title_activity_group_posts" />
-        <activity android:name=".activities.MobileNumber" />
-        <activity android:name=".activities.VerifyOtp"/>
+        <activity android:name=".activities.MobileNumber"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".activities.VerifyOtp"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".activities.PreferencesViews"
             android:label="@string/title_PreferenceViews" />

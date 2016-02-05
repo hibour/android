@@ -252,7 +252,6 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
             fragmentTransaction.commit();
         }
     }
-
     @Override
     public void onCancel(DialogFragment dialog) {
         if(bottomBar1.getVisibility() == View.GONE) {
@@ -261,7 +260,6 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
         }
         dialog.dismiss();
     }
-
     @Override
     public void onCategorySelected(String categoryName,DialogFragment dialog) {
         this.categoryName = "";

@@ -454,7 +454,7 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
 
     /* open socialize activity*/
     private void openSocializeActivity(){
-        Intent socialIntent = new Intent(this,SignUp.class);
+        Intent socialIntent = new Intent(this,Social.class);
         startActivity(socialIntent);
 
     }

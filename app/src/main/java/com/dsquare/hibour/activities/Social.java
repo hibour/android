@@ -1,33 +1,27 @@
 package com.dsquare.hibour.activities;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
-import com.dsquare.hibour.gcm.GcmRegistration;
-import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
-import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
-import com.dsquare.hibour.pojos.register.Data;
-import com.dsquare.hibour.pojos.register.Registers;
-import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Fonts;
-import com.dsquare.hibour.utils.Hibour;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -43,16 +37,20 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SignUp extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
-
+/**
+ * Created by Aditya Ravikanti on 2/5/2016.
+ */
+public class Social extends FragmentActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+    ViewPager viewPager;
+    ImageFragmentPagerAdapter imageFragmentPagerAdapter;
+    static final int NUM_ITEMS = 4;
+    public static final String[] IMAGE_NAME = {"a", "bg_googleplaces", "a", "bg_googleplaces",};
     private static final int RC_SIGN_IN = 9001;
     private static final String intentText = "pintent";
     protected GoogleApiClient mGoogleApiClient;
@@ -62,88 +60,62 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     private LoginButton facebookLoginButton;
     private CallbackManager callbackManager;
     private Button submitButton;
-    private EditText name,email,password;
-    private TextInputLayout inputLayoutName, inputLayoutemail,inputLayoutpassword;
-    private TextView signInText,termsText;
-    private NetworkDetector networkDetector;
-    private AccountsClient accountsClient;
-    private ProgressDialog signUpDialog;
-    private Hibour application;
     private Typeface tf;
-    private Gson gson;
-    private Intent data;
-    private String string;
-    private String userName="",userNumber="",userMail="",socialType="",userpassword="",userfirst="",userlast="";
+    private NetworkDetector networkDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
-        setContentView(R.layout.signup);
-        submitButton = (Button)findViewById(R.id.signup_next);
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),MobileNumber.class);
-                startActivity(intent);
-            }
-        });
-        TextView back = (TextView)findViewById(R.id.signup_back);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext(), Social.class);
-                    startActivity(intent);
-                }
-
-        });
-//        initializeViews();
-//        initializeEventlisteners();
-//        initializeGplus();
-//        initializeFb();
-    }
-    /* initialize views*/
-    private void initializeViews(){
-        submitButton = (Button)findViewById(R.id.signup_signup_button);
-        name = (EditText)findViewById(R.id.signup_name);
-        email= (EditText)findViewById(R.id.signup_email);
-        password= (EditText)findViewById(R.id.signup_password);
-        password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                boolean handled = false;
-                if (i == EditorInfo.IME_ACTION_DONE) {
-                    validateData();
-                    handled = true;
-                }
-                return handled;
-            }
-        });
-        inputLayoutName=(TextInputLayout)findViewById(R.id.signup_name_inputlayout);
-        inputLayoutemail=(TextInputLayout)findViewById(R.id.signup_mail_inputlayout);
-        inputLayoutpassword=(TextInputLayout)findViewById(R.id.signup_password_inputlayout);
-        signInText = (TextView)findViewById(R.id.signup_signin_text);
-        termsText = (TextView)findViewById(R.id.signup_terms);
-        accountsClient = new AccountsClient(this);
+        setContentView(R.layout.activity_social);
         networkDetector = new NetworkDetector(this);
-        gson = new Gson();
-        application = Hibour.getInstance(this);
-        application.initializeSharedPrefs();
         tf = Typeface.createFromAsset(getAssets(), Fonts.getTypeFaceName());
-        submitButton.setTypeface(tf);
-        name.setTypeface(tf);
-        email.setTypeface(tf);
-        password.setTypeface(tf);
-        inputLayoutName.setTypeface(tf);
-        inputLayoutemail.setTypeface(tf);
-        inputLayoutpassword.setTypeface(tf);
+        submitButton = (Button)findViewById(R.id.social_signup);
+        submitButton.setOnClickListener(this);
+        initializeGplus();
+        initializeFb();
+        imageFragmentPagerAdapter = new ImageFragmentPagerAdapter(getSupportFragmentManager());
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager.setAdapter(imageFragmentPagerAdapter);
     }
 
-    /*initialize event listeners*/
-    private void initializeEventlisteners() {
-        submitButton.setOnClickListener(this);
-        signInText.setOnClickListener(this);
-        termsText.setOnClickListener(this);
+    public static class ImageFragmentPagerAdapter extends FragmentPagerAdapter {
+        public ImageFragmentPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public int getCount() {
+            return NUM_ITEMS;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            SwipeFragment fragment = new SwipeFragment();
+            return SwipeFragment.newInstance(position);
+        }
+        public static class SwipeFragment extends Fragment {
+            @Override
+            public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                     Bundle savedInstanceState) {
+                View swipeView = inflater.inflate(R.layout.adapter_swipe, container, false);
+                ImageView imageView = (ImageView) swipeView.findViewById(R.id.imageView);
+                Bundle bundle = getArguments();
+                int position = bundle.getInt("position");
+                String imageFileName = IMAGE_NAME[position];
+                int imgResId = getResources().getIdentifier(imageFileName, "drawable", "com.dsquare.hibour");
+                imageView.setImageResource(imgResId);
+                return swipeView;
+            }
+
+            static SwipeFragment newInstance(int position) {
+                SwipeFragment swipeFragment = new SwipeFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("position", position);
+                swipeFragment.setArguments(bundle);
+                return swipeFragment;
+            }
+        }
     }
     public void initializeGplus(){
         signInButton = (SignInButton) findViewById(R.id.btn_sign_in);
@@ -244,8 +216,8 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                                         Log.d("email",object.optString("email"));
                                         Log.d("id",object.optString("id"));
                                         Log.d("name",object.optString("name"));
-                                        signUpUser(object.optString("name"), object.optString("email")
-                                                , "", "fb");
+//                                        signUpUser(object.optString("name"), object.optString("email")
+//                                                , "", "fb");
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
@@ -260,12 +232,12 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
 
                 @Override
                 public void onCancel() {
-                    Toast.makeText(SignUp.this, "User cancelled", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Social.this, "User cancelled", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onError(FacebookException exception) {
-                    Toast.makeText(SignUp.this, "Error on Login, check your facebook app_id", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Social.this, "Error on Login, check your facebook app_id", Toast.LENGTH_LONG).show();
                 }
             });
 
@@ -290,13 +262,13 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
 
                 try {
                     if(acct.getDisplayName()!=null){
-                        userName = acct.getDisplayName();
+//                        userName = acct.getDisplayName();
                     }
                     if(acct.getEmail()!=null){
-                        userMail = acct.getEmail();
+//                        userMail = acct.getEmail();
                     }
-                    Log.d("gplus",userMail+userName);
-                    signUpUser(userName, userMail, "", "gp");
+//                    Log.d("gplus",userMail+userName);
+//                    signUpUser(userName, userMail, "", "gp");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -332,14 +304,11 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.signup_signup_button:
-                validateData();
-                break;
-            case R.id.signup_signin_text:
-                openSignInActivity();
-                break;
-            case R.id.signup_terms:
-                openTermsDialog();
+            case R.id.social_signup:
+                Intent intent = new Intent(getApplicationContext(),SignUp.class);
+                startActivity(intent);
+                finish();
+//                validateData();
                 break;
             case R.id.btn_sign_in:
                 Log.d("social","clicked on gplus");
@@ -350,103 +319,5 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                 break;
         }
     }
-    /*open govt proof activity*/
-    private void openProofActivity(){
-        Intent proofIntent = new Intent(this,GovtProof.class);
-        startActivity(proofIntent);
-    }
-    /* open sign in activity*/
-    private void openSignInActivity(){
-        Intent signInIntent = new Intent(this,SignIn.class);
-        startActivity(signInIntent);
-        this.finish();
-    }
-    /* open terms dialog*/
-    private void openTermsDialog(){
-        Intent termsDialog = new Intent(this,TermsAndConditions.class);
-        startActivity(termsDialog);
-    }
-    /*validate data*/
-    private void validateData(){
-        String userName = name.getText().toString();
-        String userMail = email.getText().toString();
-        String userPass = password.getText().toString();
-        if(!userName.equals(null)&&!userName.equals("null")&&!userName.equals("")&&
-                !userMail.equals(null)&&!userMail.equals("null")&& ! userMail.equals("")&&
-                !userPass.equals(null)&&!userPass.equals("null") && ! userPass.equals("")){
-            if(application.validateEmail(userMail)){
-                signUpUser(userName, userMail, userPass, "normal");
-            }else{
-                Toast.makeText(this,"Enter valid email",Toast.LENGTH_LONG).show();
-            }
-        }else{
-            Toast.makeText(this,"Enter valid credentials",Toast.LENGTH_LONG).show();
-        }
-    }
-    /* sign up the user*/
-    private void signUpUser(String userName,String email,String password,String regType){
-        if(networkDetector.isConnected()){
-            signUpDialog = ProgressDialog.show(this,"",getResources()
-                    .getString(R.string.progress_dialog_text));
-            if (application.getGCMToken().equalsIgnoreCase("")) {
-                Toast.makeText(this, "Check Internet Connectivity.", Toast.LENGTH_SHORT).show();
-                if (application.checkPlayServices(this, null)) {
-                    // Start IntentService to register this application with GCM.
-                    Intent intent = new Intent(this, GcmRegistration.class);
-                    startService(intent);
-                }
-                return;
-            }
-            accountsClient.signUpUser(userName,email,password,regType, Constants.userAddress
-                , application.getGCMToken(), new WebServiceResponseCallback() {
-                @Override
-                public void onSuccess(JSONObject jsonObject) {
-                    parseSigUpDetails(jsonObject);
-                    closeSignUpDialog();
-                }
 
-                @Override
-                public void onFailure(VolleyError error) {
-                    Log.d("signup", error.toString());
-                    closeSignUpDialog();
-                }
-            });
-        }else{
-            Toast.makeText(this,"Network not connected.",Toast.LENGTH_LONG).show();
-        }
-    }
-    /* parse sign up details*/
-    private void parseSigUpDetails(JSONObject jsonObject){
-        try {
-            closeSignUpDialog();
-            Log.d("details", jsonObject.toString());
-            Registers registers = gson.fromJson(jsonObject.toString(), Registers.class);
-            Data data = registers.getData();
-//            Integer integer = data.getId();
-            String s = String.valueOf(data.getId());
-            Log.d("integer", s);
-            String[] regidetails = {String.valueOf(data.getId()), data.getUsername(), data.getEmail(), data.getRegtype()};
-            application.setLoginDetails(regidetails);
-//            Log.d("integer", String.valueOf(integer));
-            Log.d("regidetails", String.valueOf(regidetails));
-            Intent homeIntent = new Intent(this, GovtProof.class);
-            startActivity(homeIntent);
-            this.finish();
-        } catch (JsonSyntaxException e) {
-            e.printStackTrace();
-        }catch (final IllegalArgumentException e) {
-            // Handle or log or ignore
-            e.printStackTrace();
-        }
-    }
-    /* close signup dialog*/
-    private void closeSignUpDialog(){
-        if(signUpDialog!=null){
-            if(signUpDialog.isShowing()){
-                signUpDialog.dismiss();
-                signUpDialog=null;
-            }
-        }
-
-    }
 }

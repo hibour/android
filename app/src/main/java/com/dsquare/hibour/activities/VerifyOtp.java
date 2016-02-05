@@ -31,10 +31,26 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_verify_otp);
-        data = getIntent();
-        initializeViews();
-        initializeEventListeners();
+        setContentView(R.layout.otp);
+        Button submitButton = (Button)findViewById(R.id.otp_next);
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SocialCategories.class);
+                startActivity(intent);
+            }
+        });
+        TextView back = (TextView)findViewById(R.id.otp_back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MobileNumber.class);
+                startActivity(intent);
+            }
+        });
+//        data = getIntent();
+//        initializeViews();
+//        initializeEventListeners();
     }
 
     private void initializeViews() {
@@ -68,7 +84,6 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
                 if (myBundle != null) {
                     Object [] pdus = (Object[]) myBundle.get("pdus");
                     messages = new SmsMessage[pdus.length];
-
                     for (int i = 0; i < messages.length; i++) {
                         messages[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
                         strMessage += "SMS From: " + messages[i].getOriginatingAddress();
@@ -154,13 +169,12 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
         Log.d("otp",otp);
         if(ot.contains(otp)){
             Log.d("otp","in if of ot");
-            if(otpStatus==false){
+            if(otpStatus==false) {
                 otpStatus = true;
                 enterOtp.setText(otp);
-                Log.d("otp","text setted");
+                Log.d("otp", "text setted");
                 verifyReceivedOTP();
             }
-
         }
     }
 

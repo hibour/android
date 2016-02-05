@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
@@ -32,14 +33,30 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
     private AccountsClient accountsClient;
     private ProgressDialog phoneDialog;
     private  Gson gson;
-    private Hibour application;
+    private Hibour  application;
     private String genderstring="",serviceString="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mobile_number);
-        initializeViews();
-        initializeEventListeners();
+        setContentView(R.layout.mobilenumber);
+       Button submitButton = (Button)findViewById(R.id.moblie_send);
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), VerifyOtp.class);
+                startActivity(intent);
+            }
+        });
+        TextView back = (TextView)findViewById(R.id.mobile_back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), SignUp.class);
+                    startActivity(intent);
+            }
+        });
+//        initializeViews();
+//        initializeEventListeners();
     }
     private void initializeViews() {
         Typeface numbers = Typeface.createFromAsset(getAssets(),
@@ -97,7 +114,6 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
             if (gender.getCheckedRadioButtonId() != -1) {
                 if (services.getCheckedRadioButtonId() != -1) {
                     sendtoMobilenumUser();
-
                 }else {
                     Toast.makeText(getApplicationContext(), "Please select Services", Toast.LENGTH_SHORT).show();
                 }

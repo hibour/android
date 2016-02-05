@@ -333,6 +333,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
             return "";
         }
         @Override
+
         protected void onPostExecute(String resultString) {
 
             if(isAutoComplete){
