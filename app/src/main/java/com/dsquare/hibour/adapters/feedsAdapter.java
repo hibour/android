@@ -1,5 +1,6 @@
 package com.dsquare.hibour.adapters;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -14,9 +15,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.activities.PostComments;
+import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
+import com.dsquare.hibour.network.NetworkDetector;
+import com.dsquare.hibour.network.PostsClient;
 import com.dsquare.hibour.utils.Constants;
+import com.dsquare.hibour.utils.Hibour;
+import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,10 +40,18 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
 
     private List<String[]> listItems = new ArrayList<>();
     private Context context;
+    private NetworkDetector networkDetector;
+    private Gson gson;
+    private PostsClient postsClient;
+    private Hibour application;
+    private ProgressDialog dialog;
     public FeedsAdapter(Context context, List<String[]> listItems) {
         this.context = context;
         this.listItems = listItems;
-        Log.d("s",listItems.size()+"");
+        networkDetector = new NetworkDetector(context);
+        gson = new Gson();
+        postsClient = new PostsClient(context);
+        application = Hibour.getInstance(context);
     }
 
     @Override
@@ -99,6 +116,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
                         ,listItems.get(position)[7]);
                 break;
             case R.id.feeds_likes_layout:
+                likePost(listItems.get(position)[6]);
                 changeLikesCount(position);
                 break;
         }
@@ -215,5 +233,39 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
         commentsIntent.putExtra("likes",likes);
         commentsIntent.putExtra("liked",liked);
         context.startActivity(commentsIntent);
+    }
+    /* like a post*/
+    private void likePost(String postId){
+        if(networkDetector.isConnected()){
+            dialog = ProgressDialog.show(context,"","Please Wait...");
+            postsClient.likePost(application.getUserId(),postId,new WebServiceResponseCallback() {
+                @Override
+                public void onSuccess(JSONObject jsonObject) {
+                    parseLike(jsonObject);
+                    closeDialog();
+                }
+
+                @Override
+                public void onFailure(VolleyError error) {
+                    Log.d("error in liking",error.toString());
+                    closeDialog();
+                }
+            });
+        }else{
+
+        }
+    }
+    /* parse likes */
+    private void parseLike(JSONObject jsonObject){
+        Log.d("data",jsonObject.toString());
+    }
+    /* close likes dialog*/
+    private void closeDialog(){
+        if(dialog!=null){
+            if(dialog.isShowing()){
+                dialog.dismiss();
+                dialog=null;
+            }
+        }
     }
 }

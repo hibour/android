@@ -255,7 +255,8 @@ public class PostsClient {
     /* get Likesonposts*/
     public void getLikesonPosts(String userId,String Postid,final WebServiceResponseCallback callback){
         try {
-            String urlStr = Constants.URL_POST_LIKE+"Userid"+"="+userId+"&"+Constants.KEYWORD_POST_ID+"="+Postid+"&"+Constants.KEYWORD_SIGNATURE+"="
+            String urlStr = Constants.URL_POST_LIKE+"Userid"+"="+userId+"&"
+                    +Constants.KEYWORD_POST_ID+"="+Postid+"&"+Constants.KEYWORD_SIGNATURE+"="
                     +Constants.SIGNATURE_VALUE;
             URL url = new URL(urlStr);
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
@@ -279,6 +280,39 @@ public class PostsClient {
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             HibourConnector.getInstance(context).addToRequestQueue(neighbourhoodsRequest);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
+    public void likePost(String userId,String postId,final WebServiceResponseCallback callback){
+        try {
+            String urlStr = Constants.URL_POST_LIKE+Constants.KEYWORD_USER_ID+"="+userId+"&"
+                    +Constants.KEYWORD_POST_ID+"="+postId+"&"+Constants.KEYWORD_SIGNATURE+"="
+                    +Constants.SIGNATURE_VALUE;
+            URL url = new URL(urlStr);
+            URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
+                    , url.getPath(), url.getQuery(), url.getRef());
+            url = uri.toURL();
+            Log.d("url",""+url);
+            JsonObjectRequest insertLikeRequest = new JsonObjectRequest(Request.Method.GET
+                    , url.toString(), (String) null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    callback.onSuccess(response);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    callback.onFailure(error);
+                }
+            });
+            insertLikeRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    MY_SOCKET_TIMEOUT_MS,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            HibourConnector.getInstance(context).addToRequestQueue(insertLikeRequest);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {
