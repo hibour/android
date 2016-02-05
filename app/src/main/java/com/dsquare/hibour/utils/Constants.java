@@ -34,6 +34,7 @@ public class Constants {
     public static final String URL_GET_ABOUT_US = URL_DOMAIN + "";
     public static final String URL_POST_COMMENT = URL_DOMAIN + "Commentpost/create?";
     public static final String URL_POST_LIKE = URL_DOMAIN + "Likepost/create?";
+    public static final String URL_GET_LIKES = URL_DOMAIN+"getlikes?";
     public static final String URL_POST_GET_COMMENT = URL_DOMAIN + "getcomments/";
     public static final String URL_SETTINGS = URL_DOMAIN + "Userreg/userdetails?";
     public static final String URL_PROFILE_UPDATE = URL_DOMAIN + "Userreg/";

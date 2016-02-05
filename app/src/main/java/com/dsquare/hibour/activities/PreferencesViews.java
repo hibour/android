@@ -134,11 +134,6 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
         UserDetail userDetail;
         int i;
         for (i = 0; i < 10; i++) {
-            userDetail = new UserDetail();
-            userDetail.id = i + "";
-            userDetail.Username = "Ashok Madduru";
-            userDetail.Address = "Hardware Engineer";
-            neighboursList.add(userDetail);
             if (frmAdapter) {
                 List<ChoosedUser> user = Constants.prefsMap.get(getIntent()
                         .getStringExtra("prefId")).getChoosedUsers();
@@ -149,6 +144,7 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
                         userDetail.id = user.get(i).getUserId();
                         userDetail.Image = user.get(i).getUserImage();
                         neighboursList.add(userDetail);
+                        Log.d("auto",user.get(i).getUserName());
                         autocompleteList.add(user.get(i).getUserName());
                     }
                 }

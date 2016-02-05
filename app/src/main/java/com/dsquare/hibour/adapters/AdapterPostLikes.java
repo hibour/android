@@ -38,7 +38,7 @@ public class AdapterPostLikes extends RecyclerView.Adapter<AdapterPostLikes.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.userName.setText(listItems.get(position)[0]);
+        holder.userName.setText(listItems.get(position)[1]);
     }
 
     @Override

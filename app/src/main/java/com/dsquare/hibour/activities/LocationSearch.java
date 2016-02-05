@@ -227,6 +227,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
             case R.id.places_signup:
                 Intent intent1 = new Intent(getApplicationContext(), SignIn.class);
                 startActivity(intent1);
+                this.finish();
                 break;
 
         }
