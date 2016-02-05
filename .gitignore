@@ -69,3 +69,7 @@ work.iml
 build/
 hibour-android.iml
 local.properties
+app/gradlew
+app/gradlew.bat
+app/gradle/wrapper/gradle-wrapper.jar
+app/gradle/wrapper/gradle-wrapper.properties
