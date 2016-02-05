@@ -109,6 +109,7 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
                 commentsText.setText("");
                 break;
             case R.id.comments_like_icon:
+                likePost(postId);
                 changeLikes();
                 break;
             case R.id.comments_likes_layout:
@@ -123,13 +124,13 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
             liked = "fale";
             Bitmap likesIcon = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_thumb_up);
             likeIcon.setImageBitmap(likesIcon);
-            likesText.setText(Integer.valueOf(likes)-1+" members liked this");
             likes = Integer.valueOf(likes)-1+"";
+            setLikesText(Integer.valueOf(likes)-1);
         }else{
             liked = "true";
             Bitmap likesIcon = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_thumb_up_filled);
             likeIcon.setImageBitmap(likesIcon);
-            likesText.setText(Integer.valueOf(likes)+1+" members liked this");
+            setLikesText(Integer.valueOf(likes)+1);
             likes = Integer.valueOf(likes)+1+"";
         }
     }
@@ -137,7 +138,7 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(getApplicationContext(),PostLikes.class);
         intent.putExtra("postId",postId);
         startActivity(intent);
-        this.finish();
+        //this.finish();
         }
 
     /* prepare comments list*/
@@ -217,5 +218,40 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
                 dialog=null;
             }
         }
+    }
+    /* set likes text*/
+    private void setLikesText(int likesCount){
+        if(likesCount==0){
+            likesText.setText("Be the first one to like this post.");
+        }else if(likesCount==1){
+            likesText.setText("1 member liked this");
+        }else{
+            likesText.setText(likesCount+" members liked this");
+        }
+    }
+    /* like a post*/
+    private void likePost(String postId){
+        if(networkDetector.isConnected()){
+            dialog = ProgressDialog.show(this,"","Please Wait...");
+            postsClient.likePost(application.getUserId(),postId,new WebServiceResponseCallback() {
+                @Override
+                public void onSuccess(JSONObject jsonObject) {
+                    parseLike(jsonObject);
+                    closeDialog();
+                }
+
+                @Override
+                public void onFailure(VolleyError error) {
+                    Log.d("error in liking",error.toString());
+                    closeDialog();
+                }
+            });
+        }else{
+
+        }
+    }
+    /* parse likes */
+    private void parseLike(JSONObject jsonObject){
+        Log.d("data",jsonObject.toString());
     }
 }
