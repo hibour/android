@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.activities.PostComments;
+import com.dsquare.hibour.fragments.FeedsPager;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.network.PostsClient;
@@ -75,6 +76,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
         String categoryString = "";
         if(Constants.categoriesMap.containsKey(listItems.get(position)[3]))
             categoryString = Constants.categoriesMap.get(listItems.get(position)[3]);
+        holder.userText.setText(listItems.get(position)[10]);
         holder.categoryName.setText(categoryString);
         holder.likes.setText(listItems.get(position)[4]);
         holder.comments.setText(listItems.get(position)[5]);
@@ -123,7 +125,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView timeStamp,message,categoryName,likes,comments;
+        private TextView timeStamp,message,categoryName,likes,comments,userText;
         private ImageView userImage,shareImage,likesImage,feedImage;
         private LinearLayout commentsLayout,likesLayout;
 
@@ -135,6 +137,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
             likes = (TextView)itemView.findViewById(R.id.feeds_likes_text);
             comments = (TextView)itemView.findViewById(R.id.feeds_comments_text);
             userImage = (ImageView)itemView.findViewById(R.id.feeds_user_image);
+            userText=(TextView)itemView.findViewById(R.id.feeds_user_textview);
             likesImage = (ImageView)itemView.findViewById(R.id.feeds_likes_image);
             feedImage = (ImageView)itemView.findViewById(R.id.feeds_image);
             commentsLayout = (LinearLayout)itemView.findViewById(R.id.feeds_comments_layout);

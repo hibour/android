@@ -187,7 +187,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 
 
         autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.loc_search_autocomplete);
-        autoCompleteTextView1 = (AutoCompleteTextView) findViewById(R.id.loc_search_autocomplete1);
+//        autoCompleteTextView1 = (AutoCompleteTextView) findViewById(R.id.loc_search_autocomplete1);
         autoCompleteTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
@@ -200,18 +200,18 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 
             }
         });
-        autoCompleteTextView1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-
-                if (b) {
-                    autoCompleteTextView1.setHint("");
-                } else {
-                    autoCompleteTextView1.setHint(R.string.loc_locality);
-                }
-
-            }
-        });
+//        autoCompleteTextView1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View view, boolean b) {
+//
+//                if (b) {
+//                    autoCompleteTextView1.setHint("");
+//                } else {
+//                    autoCompleteTextView1.setHint(R.string.loc_locality);
+//                }
+//
+//            }
+//        });
         networkDetector = new NetworkDetector(this);
         accountsClient = new AccountsClient(this);
 
@@ -244,36 +244,36 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 
             }
         });
-        autoCompleteTextView1.setOnItemClickListener(mAutocompleteClickListener);
-        placeAutoCompleteAdapter = new PlaceAutoCompleteAdapter(this, android.R.layout.simple_list_item_1,
-                mGoogleApiClient, BOUNDS_INDIA, AutocompleteFilter.create(filterTypes));
-        autoCompleteTextView1.setAdapter(placeAutoCompleteAdapter);
-
-        autoCompleteTextView1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(autoCompleteTextView1.equals(null)||autoCompleteTextView1.getText().toString().equals("")){
-
-                }else{
-                    /*Intent intent = new Intent(getApplicationContext(), ChooseLocation.class);
-                    intent.putExtra("latitude",Constants.Latitude);
-                    intent.putExtra("longitude",Constants.Longitude);
-                    intent.putExtra("address",autoCompleteTextView.getText().toString());
-                    startActivity(intent);*/
-                }
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+//        autoCompleteTextView1.setOnItemClickListener(mAutocompleteClickListener);
+//        placeAutoCompleteAdapter = new PlaceAutoCompleteAdapter(this, android.R.layout.simple_list_item_1,
+//                mGoogleApiClient, BOUNDS_INDIA, AutocompleteFilter.create(filterTypes));
+//        autoCompleteTextView1.setAdapter(placeAutoCompleteAdapter);
+//
+//        autoCompleteTextView1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                if(autoCompleteTextView1.equals(null)||autoCompleteTextView1.getText().toString().equals("")){
+//
+//                }else{
+//                    /*Intent intent = new Intent(getApplicationContext(), ChooseLocation.class);
+//                    intent.putExtra("latitude",Constants.Latitude);
+//                    intent.putExtra("longitude",Constants.Longitude);
+//                    intent.putExtra("address",autoCompleteTextView.getText().toString());
+//                    startActivity(intent);*/
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
         tf = Typeface.createFromAsset(getAssets(), Fonts.getTypeFaceName());
         search.setTypeface(tf);
         signin.setTypeface(tf);
         autoCompleteTextView.setTypeface(tf);
-        autoCompleteTextView1.setTypeface(tf);
+//        autoCompleteTextView1.setTypeface(tf);
     }
 
     private void initializeEventListeners() {
