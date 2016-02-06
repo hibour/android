@@ -178,7 +178,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>
     }
     /* get all posts from server*/
     private void getLikesPost(String postid){
-        if(networkDetector.isConnected()){
+       /* if(networkDetector.isConnected()){
             postsDialog = ProgressDialog.show(context,"","Please wait...");
             postsClient.getLikesonPosts(application.getUserId(), postid, new WebServiceResponseCallback() {
                 @Override
@@ -195,7 +195,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>
             });
         }else{
             Toast.makeText(context, "Check network connection", Toast.LENGTH_LONG).show();
-        }
+        }*/
     }
 
     /* close posts dialog*/

@@ -2,6 +2,7 @@ package com.dsquare.hibour.fragments;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -125,7 +127,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         gallary.setOnClickListener(this);
         delete.setOnClickListener(this);
         cancel.setOnClickListener(this);
-        editPost.requestFocus();
+        //editPost.requestFocus();
         cancel.setOnClickListener(this);
         /*editPost.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -314,6 +316,36 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         categoriesSpinner = (Spinner)view.findViewById(R.id.newpost_categories_spinner);
         neighboursSpinner = (Spinner)view.findViewById(R.id.newpost_neighbourhood_spinner);
         editPost = (EditText) view.findViewById(R.id.newposts_edittest);
+        editPost.requestFocus();
+        ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(editPost,
+                InputMethodManager.SHOW_FORCED);
+        editPost.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            @Override
+            public void onFocusChange(View v, boolean hasFocus){
+                Log.d("edit text","On Foucs. Has Focus = " + hasFocus);
+
+                if (hasFocus){
+                    //open keyboard
+                    ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(v,
+                            InputMethodManager.SHOW_FORCED);
+                }
+                else{
+                    //close keyboard
+                    ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
+                            v.getWindowToken(), 0);
+                }
+            }
+        });
+
+        //Set on click listener to clear focus
+        editPost.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View clickedView)
+            {
+                clickedView.clearFocus();
+                clickedView.requestFocus();
+            }
+        });
         done = (TextView) view.findViewById(R.id.create_post_done);
          cancel = (TextView) view.findViewById(R.id.creat_post_cancel);
         gallary = (ImageView) view.findViewById(R.id.creat_imageview_post_icon);
@@ -323,16 +355,10 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         layout1 = (RelativeLayout) view.findViewById(R.id.home_app_bar1);
         views = (View) view.findViewById(R.id.views);
         application = Hibour.getInstance(getActivity());
-        // categoriesRecycler = (ListView) view.findViewById(R.id.categories_recycler);
-
-//        prepareCategoriesList();
-//        send = (Button) view.findViewById(R.id.newpost_send);
         text = (EditText) view.findViewById(R.id.newposts_edittest);
-//        postImage = (ImageView) view.findViewById(R.id.post_image);
         networkDetector = new NetworkDetector(getActivity());
         postsClient = new PostsClient(getActivity());
         gson = new Gson();
-
         proxima = Typeface.createFromAsset(getActivity().getAssets(), Fonts.getTypeFaceName());
         categoriesAdapter = new ArrayAdapter<String>(getActivity()
                 , android.R.layout.simple_spinner_dropdown_item, categoriesList);
@@ -345,6 +371,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                     Log.d("categoriestype", categoriesType);
                     if (!categoriesType.equals("Select Categories")) {
                         categoriesTypeId = Constants.postTypesMap.get(categoriesType).get("id");
+                        editPost.setHint(Constants.postTypesMap.get(categoriesType).get("placeholder"));
                         Log.d("categoriestype", categoriesType);
                     }
                     ((TextView) parent.getChildAt(0)).setTextColor(getResources()

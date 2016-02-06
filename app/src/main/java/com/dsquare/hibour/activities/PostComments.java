@@ -66,6 +66,7 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
     private void initializeViews(){
         likeIcon = (ImageView)findViewById(R.id.comments_like_icon);
         likesLayout = (RelativeLayout)findViewById(R.id.comments_likes_layout);
+        postsClient = new PostsClient(this);
         postId = getIntent().getStringExtra("postId");
         likes = getIntent().getStringExtra("likes");
         liked = getIntent().getStringExtra("liked");
@@ -77,7 +78,8 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
             likeIcon.setImageBitmap(likesIcon);
         }
         likesText = (TextView)findViewById(R.id.comments_likes_text);
-        likesText.setText(likes+" members liked this");
+        setLikesText(Integer.valueOf(likes));
+        //likesText.setText(likes+" members liked this");
         postIcon = (ImageView)findViewById(R.id.comments_post_icon);
         commentsText = (EditText)findViewById(R.id.comments_edit_text);
         commentsList = (RecyclerView)findViewById(R.id.comments_post_list);
@@ -221,12 +223,13 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
     }
     /* set likes text*/
     private void setLikesText(int likesCount){
-        if(likesCount==0){
-            likesText.setText("Be the first one to like this post.");
+        Log.d("likes count",likesCount+"");
+        if(likesCount>1){
+            likesText.setText(likesCount+" members liked this");
         }else if(likesCount==1){
             likesText.setText("1 member liked this");
         }else{
-            likesText.setText(likesCount+" members liked this");
+            likesText.setText("Be the first one to like this post.");
         }
     }
     /* like a post*/

@@ -253,10 +253,9 @@ public class PostsClient {
     }
 
     /* get Likesonposts*/
-    public void getLikesonPosts(String userId,String Postid,final WebServiceResponseCallback callback){
+    public void getLikesonPosts(String Postid,final WebServiceResponseCallback callback){
         try {
-            String urlStr = Constants.URL_POST_LIKE+"Userid"+"="+userId+"&"
-                    +Constants.KEYWORD_POST_ID+"="+Postid+"&"+Constants.KEYWORD_SIGNATURE+"="
+            String urlStr = Constants.URL_GET_LIKES+"post_id="+Postid+"&"+Constants.KEYWORD_SIGNATURE+"="
                     +Constants.SIGNATURE_VALUE;
             URL url = new URL(urlStr);
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()

@@ -365,7 +365,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
   private void openHomeActivity() {
     Intent homeIntent = new Intent(this, Home.class);
     startActivity(homeIntent);
-    this.finish();
+    this.finishAffinity();
   }
 
   /*validate signin data*/

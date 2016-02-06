@@ -192,14 +192,29 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
                 date2 = cal.getTime();
                 long result = date1.getTime()-date2.getTime();
                 int secs = (int)result/(1000);
-                int mins = (int) secs/(60);
-                int hours = (int)mins/(60);
-                if(hours>0){
-                    return hours+" hours ago";
-                }else if(mins>0){
-                    return mins+" minutes ago";
+
+
+                if(secs>0){
+                    int mins = (int) secs/(60);
+                    int hours = (int)mins/(60);
+                    if(hours>0){
+                        return hours+" hours ago";
+                    }else if(mins>0){
+                        return mins+" minutes ago";
+                    }else{
+                        return secs+" seconds ago";
+                    }
                 }else{
-                    return secs+" seconds ago";
+                    secs = secs*(-1);
+                    int mins = (int) secs/(60);
+                    int hours = (int)mins/(60);
+                    if(hours>0){
+                        return hours+" hours ago";
+                    }else if(mins>0){
+                        return mins+" minutes ago";
+                    }else{
+                        return secs+" seconds ago";
+                    }
                 }
             }
         } catch (Exception e) {
