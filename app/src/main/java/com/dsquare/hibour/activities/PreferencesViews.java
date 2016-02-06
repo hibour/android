@@ -24,11 +24,6 @@ import com.dsquare.hibour.pojos.Socialize.ChoosedUser;
 import com.dsquare.hibour.pojos.user.UserDetail;
 import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Fonts;
-import com.dsquare.hibour.pojos.user.UserDetail;
-import com.dsquare.hibour.pojos.user.UserDetail;
-import com.dsquare.hibour.pojos.Socialize.ChoosedUser;
-import com.dsquare.hibour.utils.Constants;
-import com.dsquare.hibour.utils.Fonts;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,7 +128,7 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
     private void prepareNeighboursList() {
         UserDetail userDetail;
         int i;
-        for (i = 0; i < 10; i++) {
+        //for (i = 0; i < 10; i++) {
             if (frmAdapter) {
                 List<ChoosedUser> user = Constants.prefsMap.get(getIntent()
                         .getStringExtra("prefId")).getChoosedUsers();
@@ -161,6 +156,6 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
                     }
                 }
             }
-        }
+        //}
     }
 }

@@ -25,7 +25,6 @@ import android.widget.TextView;
 
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.dialogs.PostsTypesDialog;
-import com.dsquare.hibour.interfaces.ImagePicker;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
 import com.dsquare.hibour.utils.Constants;
 
@@ -160,18 +159,6 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
                     createPost.setVisibility(View.VISIBLE);
                 applyCurrentStateToAppBarIcons(R.drawable.feed_filled, feedIcon);
                 replaceContainer(0);
-                /*if(bottomBar1.getVisibility() == View.VISIBLE){
-//                    newPostIcon.setVisibility(View.GONE);
-                    bottomBar1.setVisibility(View.GONE);
-                    postimage.setVisibility(View.VISIBLE);
-                    replaceContainer(0);
-                }else {
-                    //TODO: Need to clean this up
-                    applyCurrentStateToAppBarIcons(R.drawable.feed, feedIcon);
-                    replaceContainer(3);
-                    bottomBar1.setVisibility(View.VISIBLE);
-  //                  newPostIcon.setVisibility(View.VISIBLE);
-                }*/
                 break;
             case R.id.home_socialize_icon:
                 applyCurrentStateToAppBarIcons(R.drawable.socialize_filled, socializeIcon);

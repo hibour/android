@@ -91,7 +91,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     private ListView categoriesRecycler;
     private String[] details;
     private String catFrmPre="";
-
+    private boolean[] filled = {false,false,false,false};
     public interface PostsListener{
         void onCancelClicked();
         void onDoneClicked();
@@ -203,6 +203,12 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                     gallary.setVisibility(View.GONE);
                 }
                 postimagesstring = getStringImage(bitmap);
+                filled[2] = true;
+                if(filled[0] == true && filled[1] == true && filled[3] ==true){
+                    if(done.getVisibility() == View.GONE){
+                        done.setVisibility(View.VISIBLE);
+                    }
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -220,6 +226,12 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                     gallary.setVisibility(View.GONE);
                 }
                 postimagesstring = getStringImage(bitmap);
+                filled[2] = true;
+                if(filled[0] == true && filled[1] == true && filled[3] ==true){
+                    if(done.getVisibility() == View.GONE){
+                        done.setVisibility(View.VISIBLE);
+                    }
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -312,6 +324,10 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     }
 
     private void initializeViews(View view) {
+        done = (TextView) view.findViewById(R.id.create_post_done);
+        if(done.getVisibility()==View.VISIBLE){
+            done.setVisibility(View.GONE);
+        }
         //  bgColors = getActivity().getResources().getStringArray(R.array.movie_serial_bg);
         categoriesSpinner = (Spinner)view.findViewById(R.id.newpost_categories_spinner);
         neighboursSpinner = (Spinner)view.findViewById(R.id.newpost_neighbourhood_spinner);
@@ -325,6 +341,12 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                 Log.d("edit text","On Foucs. Has Focus = " + hasFocus);
 
                 if (hasFocus){
+                    filled[1] = true;
+                    if(filled[0] == true && filled[2] == true && filled[3] ==true){
+                        if(done.getVisibility() == View.GONE){
+                            done.setVisibility(View.VISIBLE);
+                        }
+                    }
                     //open keyboard
                     ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(v,
                             InputMethodManager.SHOW_FORCED);
@@ -346,7 +368,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                 clickedView.requestFocus();
             }
         });
-        done = (TextView) view.findViewById(R.id.create_post_done);
+
          cancel = (TextView) view.findViewById(R.id.creat_post_cancel);
         gallary = (ImageView) view.findViewById(R.id.creat_imageview_post_icon);
         postImage = (ImageView) view.findViewById(R.id.creat_imageview_display_icon);
@@ -368,16 +390,19 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (parent != null && parent.getChildAt(0) != null) {
                     String categoriesType = categoriesList.get(position);
-                    Log.d("categoriestype", categoriesType);
                     if (!categoriesType.equals("Select Categories")) {
                         categoriesTypeId = Constants.postTypesMap.get(categoriesType).get("id");
                         editPost.setHint(Constants.postTypesMap.get(categoriesType).get("placeholder"));
-                        Log.d("categoriestype", categoriesType);
+                        filled[0] = true;
+                        if(filled[1] == true && filled[2] == true && filled[3] ==true){
+                            if(done.getVisibility() == View.GONE){
+                                done.setVisibility(View.VISIBLE);
+                            }
+                        }
                     }
                     ((TextView) parent.getChildAt(0)).setTextColor(getResources()
                             .getColor(R.color.gray));
                     ((TextView) parent.getChildAt(0)).setTypeface(proxima);
-                    Log.d("padding", parent.getChildAt(0).getPaddingLeft() + "");
                     ((TextView) parent.getChildAt(0)).setPadding(0, 0, 0, 0);
                     ((TextView) parent.getChildAt(0)).setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
                 }
@@ -400,6 +425,12 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                     if (!categoriesType.equals("Select neighbours")) {
                         //neighoursTypeId = neighourMap.get(categoriesType);
                         Log.d("categoriestype", categoriesType);
+                        filled[3] = true;
+                        if(filled[0] == true && filled[1] == true && filled[2] ==true){
+                            if(done.getVisibility() == View.GONE){
+                                done.setVisibility(View.VISIBLE);
+                            }
+                        }
                     }
                     ((TextView) parent.getChildAt(0)).setTextColor(getResources()
                             .getColor(R.color.gray));

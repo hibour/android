@@ -29,7 +29,15 @@
                     android:layout_height="@dimen/comments_icon_size"
                     android:layout_width="@dimen/comments_icon_size"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:src="@mipmap/ic_back_gray"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/comments_bacl_icon"/>
+                <ImageView
+                    android:layout_height="@dimen/comments_icon_size"
+                    android:layout_width="@dimen/comments_icon_size"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:src="@drawable/ic_thumb_up"
+                    android:layout_toRightOf="@id/comments_bacl_icon"
                     android:layout_centerVertical="true"
                     android:id="@+id/comments_like_icon"/>
                 <RelativeLayout
@@ -44,7 +52,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/black_1"
                         android:id="@+id/comments_likes_text"
-                        android:textSize="@dimen/text_size_level3"
+                        android:textSize="@dimen/text_size_level4"
                         android:layout_marginTop="@dimen/dp_20"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/dp_10"/>

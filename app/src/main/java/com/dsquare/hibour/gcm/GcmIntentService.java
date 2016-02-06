@@ -14,7 +14,6 @@ import org.json.JSONObject;
 import java.util.Date;
 
 import de.greenrobot.event.EventBus;
-import com.google.android.gms.gcm.GcmListenerService;
 public class GcmIntentService extends GcmListenerService {
 
     private static final String LOG_TAG = GcmIntentService.class.getSimpleName();

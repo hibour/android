@@ -36,7 +36,7 @@ import java.util.List;
 
 public class PostComments extends AppCompatActivity implements View.OnClickListener{
 
-    private ImageView postIcon,likeIcon;
+    private ImageView postIcon,likeIcon,backIcon;
     private EditText commentsText;
     private RecyclerView commentsList;
     private List<String[]> commentslist = new ArrayList<>();
@@ -65,6 +65,7 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
     /* initialize views*/
     private void initializeViews(){
         likeIcon = (ImageView)findViewById(R.id.comments_like_icon);
+        backIcon = (ImageView)findViewById(R.id.comments_bacl_icon);
         likesLayout = (RelativeLayout)findViewById(R.id.comments_likes_layout);
         postsClient = new PostsClient(this);
         postId = getIntent().getStringExtra("postId");
@@ -99,6 +100,7 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
         sumbit.setOnClickListener(this);
         likeIcon.setOnClickListener(this);
         likesLayout.setOnClickListener(this);
+        backIcon.setOnClickListener(this);
     }
     @Override
     public void onClick(View v) {
@@ -116,6 +118,9 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.comments_likes_layout:
                 openLikesScreen();
+                break;
+            case R.id.comments_bacl_icon:
+                this.finish();
                 break;
         }
     }

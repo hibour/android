@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
+import com.dsquare.hibour.database.table.FeedsTable;
 import com.dsquare.hibour.database.table.NotificationTable;
 import com.dsquare.hibour.database.table.UserDetailTable;
 import com.dsquare.hibour.database.table.UserMessageTable;
@@ -13,8 +14,6 @@ import com.dsquare.hibour.utils.Hibour;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseHandler {
@@ -26,14 +25,24 @@ public class DatabaseHandler {
         this.application = Hibour.getInstance(context);
     }
 
+    /* insert posts in posts table*/
+   /* public void insertFeeds(String postid, String date, String time,String description
+            , String imgurl,FeedsUserTable posteduser){
+        new FeedsTable(postid,date,time,description,imgurl,posteduser);
+    }*/
+    /**/
     public void insertUserMessage(UserMessage userMessage) {
         new UserMessageTable(userMessage, application.getUserId()).save();
+    }
+    public  List<FeedsTable> getFeeds(){
+        return new Select().from(FeedsTable.class).execute();
     }
 
     public List<UserMessage> getUserMessage(String user_1, String user_2) {
         List<UserMessageTable> userMessageTableList = new Select().from(UserMessageTable.class)
                 .where("((to_user = \"" + user_1 + "\" and from_user = \"" + user_2 + "\") or (to_user = \""
-                        + user_2 + "\" and from_user = \"" + user_1 + "\") ) and session_user = " + application.getUserId()).orderBy("message_time DESC")
+                        + user_2 + "\" and from_user = \"" + user_1 + "\") ) and session_user = "
+                        + application.getUserId()).orderBy("message_time DESC")
                 .execute();
         List<UserMessage> userMessageList = new ArrayList<>();
         for (UserMessageTable message : userMessageTableList) {
