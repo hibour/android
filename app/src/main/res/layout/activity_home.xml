@@ -7,14 +7,51 @@
     <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        />
+    <LinearLayout
+        android:id="@+id/list_slidermenu"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/dp_20"
+        android:orientation="vertical">
+        <com.dsquare.hibour.dialogs.RoundImageView
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_100"
+            android:src="@drawable/avatar1"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"/>
+        <com.dsquare.hibour.utils.ProximaExtraBold
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ashok"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_10"/>
+
+    </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/nav_bottom_line_height"
+            android:background="@color/brand"
+            android:id="@+id/nav_drawer_bottom_line"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_alignParentBottom="true"/>
     <!-- The navigation drawer -->
     <ListView android:id="@+id/left_drawer"
         android:layout_width="240dp"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
+        android:layout_gravity="end"
         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp"
-        android:background="@color/black_1"/>
+        android:background="@color/black_1"/> </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

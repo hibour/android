@@ -14,17 +14,23 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.adapters.PlaceAutoCompleteAdapter;
+import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Fonts;
+import com.dsquare.hibour.utils.Hibour;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -36,8 +42,16 @@ import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -55,7 +69,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
     private Place place;
     private ProgressDialog pDialog;
     public Button search, signin;
-    private AutoCompleteTextView autoCompleteTextView;
+    private AutoCompleteTextView autoCompleteTextView,autoCompleteTextView1;
     protected Location mLastLocation;
     private double latitude, longitude;
     private String locAddress;
@@ -65,7 +79,13 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
     private ProgressDialog locInsertDialog;
     private NetworkDetector networkDetector;
     private AccountsClient accountsClient;
+    private Hibour application;
+    private Gson gson;
     private boolean isAutoComplete = false;
+    private WebView locMap;
+    private TextView locationDisplayTextView,countText;
+    private Button next;
+    private RelativeLayout auto,map;
     private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
             = new ResultCallback<PlaceBuffer>() {
         @Override
@@ -139,7 +159,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_places);
+        setContentView(R.layout.activity_select_places);
         initializeViews();
         initializeEventListeners();
     }
@@ -154,7 +174,20 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 .build();
         search = (Button) findViewById(R.id.places_search);
         signin = (Button) findViewById(R.id.places_signup);
+        auto = (RelativeLayout) findViewById(R.id.relative_auto);
+        map = (RelativeLayout) findViewById(R.id.relative_map);
+        locationDisplayTextView = (TextView)findViewById(R.id.loc_curr_loc_textview);
+        locMap = (WebView)findViewById(R.id.map);
+        countText = (TextView)findViewById(R.id.loc_members_count);
+        accountsClient = new AccountsClient(this);
+        application = Hibour.getInstance(this);
+        application.initializeSharedPrefs();
+        gson = new Gson();
+        next = (Button)findViewById(R.id.serach_sumbit);
+
+
         autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.loc_search_autocomplete);
+        autoCompleteTextView1 = (AutoCompleteTextView) findViewById(R.id.loc_search_autocomplete1);
         autoCompleteTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
@@ -163,6 +196,18 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                     autoCompleteTextView.setHint("");
                 } else {
                     autoCompleteTextView.setHint(R.string.loc_locality);
+                }
+
+            }
+        });
+        autoCompleteTextView1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+
+                if (b) {
+                    autoCompleteTextView1.setHint("");
+                } else {
+                    autoCompleteTextView1.setHint(R.string.loc_locality);
                 }
 
             }
@@ -182,7 +227,32 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
         autoCompleteTextView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(autoCompleteTextView.equals(null)||autoCompleteTextView.getText().toString().equals("")){
+                if (autoCompleteTextView.equals(null) || autoCompleteTextView.getText().toString().equals("")) {
+
+                } else {
+                    /*Intent intent = new Intent(getApplicationContext(), ChooseLocation.class);
+                    intent.putExtra("latitude",Constants.Latitude);
+                    intent.putExtra("longitude",Constants.Longitude);
+                    intent.putExtra("address",autoCompleteTextView.getText().toString());
+                    startActivity(intent);*/
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        autoCompleteTextView1.setOnItemClickListener(mAutocompleteClickListener);
+        placeAutoCompleteAdapter = new PlaceAutoCompleteAdapter(this, android.R.layout.simple_list_item_1,
+                mGoogleApiClient, BOUNDS_INDIA, AutocompleteFilter.create(filterTypes));
+        autoCompleteTextView1.setAdapter(placeAutoCompleteAdapter);
+
+        autoCompleteTextView1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(autoCompleteTextView1.equals(null)||autoCompleteTextView1.getText().toString().equals("")){
 
                 }else{
                     /*Intent intent = new Intent(getApplicationContext(), ChooseLocation.class);
@@ -203,30 +273,38 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
         search.setTypeface(tf);
         signin.setTypeface(tf);
         autoCompleteTextView.setTypeface(tf);
+        autoCompleteTextView1.setTypeface(tf);
     }
 
     private void initializeEventListeners() {
         search.setOnClickListener(this);
         signin.setOnClickListener(this);
+        next.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.places_search:
-                Intent intent = new Intent(getApplicationContext(), ChooseLocation.class);
-                if(autoCompleteTextView.getText()!=null && !autoCompleteTextView.getText().toString().equals("")){
-                    intent.putExtra("latitude",Constants.Latitude);
-                    intent.putExtra("longitude",Constants.Longitude);
-                    intent.putExtra("address",autoCompleteTextView.getText().toString());
-                    startActivity(intent);
-                }else{
-                    Toast.makeText(this,"Choose neighbourhood",Toast.LENGTH_LONG).show();
-                }
+
+//                Intent intent = new Intent(getApplicationContext(), ChooseLocation.class);
+//                if(autoCompleteTextView.getText()!=null && !autoCompleteTextView.getText().toString().equals("")){
+//                    intent.putExtra("latitude",Constants.Latitude);
+//                    intent.putExtra("longitude",Constants.Longitude);
+//                    intent.putExtra("address",autoCompleteTextView.getText().toString());
+//                    startActivity(intent);
+//                }else{
+//                    Toast.makeText(this,"Choose neighbourhood",Toast.LENGTH_LONG).show();
+//                }
                 break;
             case R.id.places_signup:
                 Intent intent1 = new Intent(getApplicationContext(), SignIn.class);
                 startActivity(intent1);
+                this.finish();
+                break;
+            case R.id.serach_sumbit:
+                Intent intent2 = new Intent(getApplicationContext(), Social.class);
+                startActivity(intent2);
                 this.finish();
                 break;
 
@@ -338,14 +416,81 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
         protected void onPostExecute(String resultString) {
 
             if(isAutoComplete){
-                Intent intent = new Intent(getApplicationContext(), ChooseLocation.class);
-                intent.putExtra("latitude",Constants.Latitude);
-                intent.putExtra("longitude",Constants.Longitude);
-                intent.putExtra("address",locAddress);//autoCompleteTextView.getText().toString());
+//                Intent intent = new Intent(getApplicationContext(), ChooseLocation.class);
+//                intent.putExtra("latitude",Constants.Latitude);
+//                intent.putExtra("longitude",Constants.Longitude);
+//                intent.putExtra("address",locAddress);//autoCompleteTextView.getText().toString());
+                auto.setVisibility(View.GONE);
+                map.setVisibility(View.VISIBLE);
+                locationDisplayTextView.setText(locAddress);
+                Constants.userAddress = locAddress;
+                if(networkDetector.isConnected()){
+                    try {
+                        URL url = new URL("http://hibour.com/test.php?area="+locAddress);
+                        URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
+                                , url.getPath(), url.getQuery(), url.getRef());
+                        url = uri.toURL();
+                        locMap.loadUrl(url.toString());
+                        locMap.getSettings().setJavaScriptEnabled(true);
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+                }else{
+                    Toast.makeText(getApplicationContext(),"Can't connect to network.",Toast.LENGTH_LONG).show();
+                }
                 isAutoComplete = false;
-                startActivity(intent);
+                getMembersCount(autoCompleteTextView.getText().toString());
+
+//                startActivity(intent);
             }
 //            startMap();
         }
     }
+
+    private void getMembersCount(String loc){
+        if(networkDetector.isConnected()){
+            locInsertDialog = ProgressDialog.show(this,""
+                    ,getResources().getString(R.string.progress_dialog_text));
+            accountsClient.getMembersCount(loc, new WebServiceResponseCallback() {
+                @Override
+                public void onSuccess(JSONObject jsonObject) {
+                    parseLocDetails(jsonObject);
+                    closeLocDialog();
+                }
+
+                @Override
+                public void onFailure(VolleyError error) {
+                    Log.d("loc", error.toString());
+                    closeLocDialog();
+                }
+            });
+        }else{
+            Toast.makeText(this,"Network error",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /* parse loc data*/
+    private void parseLocDetails(JSONObject jsonObject){
+        try {
+            JSONObject data = jsonObject.getJSONObject("data");
+            Log.d("data",data.toString());
+            int count = data.getInt("Count");
+            countText.setText("There are about "+count+" members registered from your area.");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /* close loc dialog*/
+    private void closeLocDialog(){
+        if(locInsertDialog!=null){
+            if(locInsertDialog.isShowing()){
+                locInsertDialog.dismiss();
+                locInsertDialog=null;
+            }
+        }
+    }
+
 }

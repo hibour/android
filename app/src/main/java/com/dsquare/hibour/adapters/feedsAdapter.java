@@ -259,7 +259,6 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
                     parseLike(jsonObject);
                     closeDialog();
                 }
-
                 @Override
                 public void onFailure(VolleyError error) {
                     Log.d("error in liking",error.toString());

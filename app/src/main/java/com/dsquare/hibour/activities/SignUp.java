@@ -14,6 +14,8 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,7 +76,8 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     private Intent data;
     private String string;
     private String userName="",userNumber="",userMail="",socialType="",userpassword="",userfirst="",userlast="";
-
+    private ImageView male,female;
+    private LinearLayout linearmale,linearfemale;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +99,24 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                     startActivity(intent);
                 }
 
+        });
+        male = (ImageView)findViewById(R.id.image_male);
+        female = (ImageView)findViewById(R.id.image_female);
+        linearmale = (LinearLayout)findViewById(R.id.linear_male);
+        linearfemale = (LinearLayout)findViewById(R.id.linear_female);
+        linearmale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                male.setImageResource(R.mipmap.ic_men_filed_icon);
+                female.setImageResource(R.mipmap.ic_female_icon);
+            }
+        });
+        linearfemale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                female.setImageResource(R.mipmap.ic_female_filed_icon);
+                male.setImageResource(R.mipmap.ic_men_icon);
+            }
         });
 //        initializeViews();
 //        initializeEventlisteners();

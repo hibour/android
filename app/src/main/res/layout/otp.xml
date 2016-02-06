@@ -9,6 +9,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:background="@color/white">
 
 
@@ -89,9 +91,11 @@
                     android:inputType="phone"
                     android:textColor="@color/black_1"
                     android:gravity="center"
+                    android:focusable="true"
                     android:hint="Code"
                     android:singleLine="true"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    />
                 <requestFocus />
             </LinearLayout>
             <LinearLayout
@@ -151,9 +155,8 @@
 
     </RelativeLayout>
     <Button
-        android:layout_width="@dimen/dp_140"
-        android:layout_height="@dimen/dp_40"
-        android:layout_marginBottom="@dimen/dp_10"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
         android:layout_gravity="center"
         android:text="NEXT"
         android:elevation="@dimen/button_elevation"

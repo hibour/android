@@ -70,6 +70,8 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
         searchLayout = (RelativeLayout) findViewById(R.id.neighbours_search_layout);
         searchIcon = (ImageView) findViewById(R.id.messages_search_icon);
         neighboursTitle = (TextView) findViewById(R.id.neighbours_title);
+        neighboursTitle.setText(getIntent()
+                .getStringExtra("prefName"));
         neighboursRecycler = (RecyclerView) findViewById(R.id.prefernce_neighbours_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);

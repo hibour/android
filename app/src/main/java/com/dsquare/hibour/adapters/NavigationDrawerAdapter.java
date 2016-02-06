@@ -67,14 +67,15 @@ public class NavigationDrawerAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         try{
-            if(getItem(position).equals("GROUPS")){
-                RelativeLayout layout = (RelativeLayout)convertView.findViewById(R.id.nav_bottom_layout);
-                layout.setVisibility(View.VISIBLE);
-                RelativeLayout l = (RelativeLayout)convertView.findViewById(R.id.nav_drawer_bottom_line1);
-                l.setVisibility(View.VISIBLE);
-                RelativeLayout navBottomLine = (RelativeLayout)convertView.findViewById(R.id.nav_drawer_bottom_line);
-                navBottomLine.setVisibility(View.GONE);
-            }else if(getItem(position).equals("HOME")){
+//            if(getItem(position).equals("GROUPS")){
+//                RelativeLayout layout = (RelativeLayout)convertView.findViewById(R.id.nav_bottom_layout);
+//                layout.setVisibility(View.VISIBLE);
+//                RelativeLayout l = (RelativeLayout)convertView.findViewById(R.id.nav_drawer_bottom_line1);
+//                l.setVisibility(View.VISIBLE);
+//                RelativeLayout navBottomLine = (RelativeLayout)convertView.findViewById(R.id.nav_drawer_bottom_line);
+//                navBottomLine.setVisibility(View.GONE);
+//            }else
+            if(getItem(position).equals("HOME")){
                 RelativeLayout topLayout=(RelativeLayout)convertView.findViewById(R.id.nav_drawer_row_layout);
                 topLayout.setVisibility(View.VISIBLE);
             }else if(getItem(position).equals("LOGOUT")){
@@ -84,6 +85,8 @@ public class NavigationDrawerAdapter extends BaseAdapter {
                 navBottomLine.setVisibility(View.GONE);
                 RelativeLayout bottomLayout = (RelativeLayout)convertView.findViewById(R.id.nav_logout_layout);
                 bottomLayout.setVisibility(View.VISIBLE);
+                RelativeLayout l = (RelativeLayout)convertView.findViewById(R.id.nav_drawer_bottom_line1);
+                l.setVisibility(View.VISIBLE);
             } else if(getItem(position).equals("SETTINGS")){
                 RelativeLayout navBottomLine = (RelativeLayout)convertView.findViewById(R.id.nav_drawer_bottom_line);
                 navBottomLine.setVisibility(View.GONE);

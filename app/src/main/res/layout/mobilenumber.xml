@@ -7,6 +7,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:background="@color/white">
     <LinearLayout
         android:layout_width="match_parent"
@@ -81,9 +83,11 @@
                 android:inputType="phone"
                 android:textColor="@color/black_1"
                 android:gravity="center"
+                android:focusable="true"
                 android:hint="10 Digit Mobile Number"
                 android:singleLine="true"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:windowSoftInputMode="adjustPan"/>
             <requestFocus />
         </LinearLayout>
         <LinearLayout
@@ -108,7 +112,7 @@
             <com.dsquare.hibour.utils.ProximaSemiBold
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black_1"
+                android:textColor="@color/light_gray"
                 android:gravity="center"
                 android:text="We Promise not to \n Share your phone number"
                 android:layout_weight="1"/>
@@ -137,9 +141,8 @@
     </LinearLayout>
     </RelativeLayout>
     <Button
-        android:layout_width="@dimen/dp_140"
-        android:layout_height="@dimen/dp_40"
-        android:layout_marginBottom="@dimen/dp_10"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
         android:layout_gravity="center"
         android:text="SEND CODE"
         android:elevation="@dimen/button_elevation"

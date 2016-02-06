@@ -98,12 +98,12 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
 
     @Override
     public void drawerOpen() {
-        drawer.openDrawer(GravityCompat.START);
+        drawer.openDrawer(GravityCompat.END);
     }
 
     @Override
     public void hideDrawer() {
-        drawer.closeDrawer(GravityCompat.START);
+        drawer.closeDrawer(GravityCompat.END);
     }
 
     @Override
