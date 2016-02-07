@@ -123,7 +123,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     }
 
     private void initializeEventListeners() {
-        done.setOnClickListener(this);
+
         gallary.setOnClickListener(this);
         delete.setOnClickListener(this);
         cancel.setOnClickListener(this);
@@ -203,12 +203,6 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                     gallary.setVisibility(View.GONE);
                 }
                 postimagesstring = getStringImage(bitmap);
-                filled[2] = true;
-                if(filled[0] == true && filled[1] == true && filled[3] ==true){
-                    if(done.getVisibility() == View.GONE){
-                        done.setVisibility(View.VISIBLE);
-                    }
-                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -226,12 +220,6 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                     gallary.setVisibility(View.GONE);
                 }
                 postimagesstring = getStringImage(bitmap);
-                filled[2] = true;
-                if(filled[0] == true && filled[1] == true && filled[3] ==true){
-                    if(done.getVisibility() == View.GONE){
-                        done.setVisibility(View.VISIBLE);
-                    }
-                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -325,9 +313,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
 
     private void initializeViews(View view) {
         done = (TextView) view.findViewById(R.id.create_post_done);
-        if(done.getVisibility()==View.VISIBLE){
-            done.setVisibility(View.GONE);
-        }
+        done.setTextColor(getActivity().getResources().getColor(R.color.gray));
         //  bgColors = getActivity().getResources().getStringArray(R.array.movie_serial_bg);
         categoriesSpinner = (Spinner)view.findViewById(R.id.newpost_categories_spinner);
         neighboursSpinner = (Spinner)view.findViewById(R.id.newpost_neighbourhood_spinner);
@@ -342,10 +328,9 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
 
                 if (hasFocus){
                     filled[1] = true;
-                    if(filled[0] == true && filled[2] == true && filled[3] ==true){
-                        if(done.getVisibility() == View.GONE){
-                            done.setVisibility(View.VISIBLE);
-                        }
+                    if(filled[0] == true  && filled[3] ==true){
+                        done.setTextColor(getActivity().getResources().getColor(R.color.black_1));
+                        setOnClickForDone();
                     }
                     //open keyboard
                     ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(v,
@@ -394,10 +379,9 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                         categoriesTypeId = Constants.postTypesMap.get(categoriesType).get("id");
                         editPost.setHint(Constants.postTypesMap.get(categoriesType).get("placeholder"));
                         filled[0] = true;
-                        if(filled[1] == true && filled[2] == true && filled[3] ==true){
-                            if(done.getVisibility() == View.GONE){
-                                done.setVisibility(View.VISIBLE);
-                            }
+                        if(filled[1] == true && filled[3] ==true){
+                            done.setTextColor(getActivity().getResources().getColor(R.color.black_1));
+                            setOnClickForDone();
                         }
                     }
                     ((TextView) parent.getChildAt(0)).setTextColor(getResources()
@@ -426,10 +410,9 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                         //neighoursTypeId = neighourMap.get(categoriesType);
                         Log.d("categoriestype", categoriesType);
                         filled[3] = true;
-                        if(filled[0] == true && filled[1] == true && filled[2] ==true){
-                            if(done.getVisibility() == View.GONE){
-                                done.setVisibility(View.VISIBLE);
-                            }
+                        if(filled[0] == true && filled[1] == true ){
+                            done.setTextColor(getActivity().getResources().getColor(R.color.black_1));
+                            setOnClickForDone();
                         }
                     }
                     ((TextView) parent.getChildAt(0)).setTextColor(getResources()
@@ -448,6 +431,9 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
             }
         });
 
+    }
+    private void setOnClickForDone(){
+        done.setOnClickListener(this);
     }
 
 

@@ -187,9 +187,9 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
         return otp;
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        this.unregisterReceiver(otpReceiver);
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        this.unregisterReceiver(otpReceiver);
+//    }
 }

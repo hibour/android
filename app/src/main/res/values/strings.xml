@@ -46,24 +46,24 @@
     <!-- nav drawer items -->
     <string-array name="drawerItems">
         <item>HOME</item>
-        <item>MESSAGES</item>
-        <item>SOCIALIZE</item>
-        <item>GROUPS</item>
+        <!--<item>MESSAGES</item>-->
+        <!--<item>SOCIALIZE</item>-->
+        <!--<item>GROUPS</item>-->
         <item>ABOUT US</item>
         <item>INVITE FRIENDS</item>
-        <item>PRODUCT TOUR</item>
+        <!--<item>PRODUCT TOUR</item>-->
         <item>SETTINGS</item>
         <item>LOGOUT</item>
     </string-array>
 
     <string-array name="drawerImages">
         <item>home</item>
-        <item>messages</item>
-        <item>socialize_color</item>
-        <item>groups</item>
+        <!--<item>messages</item>-->
+        <!--<item>socialize_color</item>-->
+        <!--<item>groups</item>-->
         <item>about</item>
         <item>ic_share</item>
-        <item>tour</item>
+        <!--<item>tour</item>-->
         <item>settings</item>
         <item>logout</item>
     </string-array>

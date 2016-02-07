@@ -80,8 +80,7 @@
         <activity
             android:name=".activities.SignUp"
             android:label="@string/title_activity_sign_up"
-            android:theme="@style/FullScreenTheme"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -122,9 +121,9 @@
             android:name=".activities.GroupPosts"
             android:label="@string/title_activity_group_posts" />
         <activity android:name=".activities.MobileNumber"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity android:name=".activities.VerifyOtp"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity
             android:name=".activities.PreferencesViews"
             android:label="@string/title_PreferenceViews" />
