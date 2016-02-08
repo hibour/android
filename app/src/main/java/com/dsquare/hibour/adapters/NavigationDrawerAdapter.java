@@ -3,6 +3,7 @@ package com.dsquare.hibour.adapters;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,9 +77,11 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 //                navBottomLine.setVisibility(View.GONE);
 //            }else
             if(getItem(position).equals("HOME")){
+                Log.d("Navigation drawer","home");
                 RelativeLayout topLayout=(RelativeLayout)convertView.findViewById(R.id.nav_drawer_row_layout);
                 topLayout.setVisibility(View.VISIBLE);
             }else if(getItem(position).equals("LOGOUT")){
+                Log.d("navigation drawer","logout");
                 RelativeLayout topLayout=(RelativeLayout)convertView.findViewById(R.id.nav_drawer_row_layout);
                 topLayout.setVisibility(View.VISIBLE);
                 RelativeLayout navBottomLine = (RelativeLayout)convertView.findViewById(R.id.nav_drawer_bottom_line);
@@ -88,6 +91,7 @@ public class NavigationDrawerAdapter extends BaseAdapter {
                 RelativeLayout l = (RelativeLayout)convertView.findViewById(R.id.nav_drawer_bottom_line1);
                 l.setVisibility(View.VISIBLE);
             } else if(getItem(position).equals("SETTINGS")){
+                Log.d("Navigation drawer","about us");
                 RelativeLayout navBottomLine = (RelativeLayout)convertView.findViewById(R.id.nav_drawer_bottom_line);
                 navBottomLine.setVisibility(View.GONE);
             }

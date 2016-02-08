@@ -29,10 +29,6 @@ public class Splash extends AppCompatActivity {
         rotate.setDuration(1000);
         img_view.startAnimation(rotate);*/
         new Handler().postDelayed(new Runnable() {
-
-
-
-
             @Override
             public void run() {
                     if(application.getUserId().equals("")){

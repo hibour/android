@@ -125,17 +125,23 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
                 break;
             case 1:
                 isHome = false;
-                transaction.replace(R.id.content_frame,new Message());
+                transaction.replace(R.id.content_frame,new AboutUs());
                 break;
             case 2:
                 isHome = false;
-                transaction.replace(R.id.content_frame,new Socializes());
+                inviteFriends("");
                 break;
             case 3:
                 isHome = false;
-                transaction.replace(R.id.content_frame,new Groups());
+                transaction.replace(R.id.content_frame,new Settings());
                 break;
             case 4:
+                isHome = false;
+                application.removeUserDetails();
+                Intent signInIntent = new Intent(this,SignIn.class);
+                startActivity(signInIntent);
+                this.finish();
+           /* case 4:
                 isHome = false;
                 transaction.replace(R.id.content_frame,new AboutUs());
                 break;
@@ -152,7 +158,7 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
                 application.removeUserDetails();
                 Intent signInIntent = new Intent(this,SignIn.class);
                 startActivity(signInIntent);
-                this.finish();
+                this.finish();*/
         }
         transaction.commit();
         hideDrawer();
