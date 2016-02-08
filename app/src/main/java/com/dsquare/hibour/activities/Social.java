@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -37,6 +38,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.plus.People;
+import com.google.android.gms.plus.Plus;
+import com.google.android.gms.plus.model.people.Person;
 
 import org.json.JSONObject;
 
@@ -216,6 +221,9 @@ public class Social extends FragmentActivity implements View.OnClickListener, Go
                                         Log.d("email",object.optString("email"));
                                         Log.d("id",object.optString("id"));
                                         Log.d("name",object.optString("name"));
+                                        Log.d("fname",object.optString("first_name"));
+                                        Log.d("lname",object.optString("last_name"));
+                                        Log.d("gender",object.optString("gender"));
 //                                        signUpUser(object.optString("name"), object.optString("email")
 //                                                , "", "fb");
                                     } catch (Exception e) {
@@ -225,7 +233,7 @@ public class Social extends FragmentActivity implements View.OnClickListener, Go
                             });
 
                     Bundle parameters = new Bundle();
-                    parameters.putString("fields", "id,name,email,gender, birthday");
+                    parameters.putString("fields", "id,name,first_name,last_name,email,gender, birthday");
                     request.setParameters(parameters);
                     request.executeAsync();
                 }
@@ -257,13 +265,29 @@ public class Social extends FragmentActivity implements View.OnClickListener, Go
             Log.d("social","gplus");
             // Signed in successfully, show authenticated UI.
             try {
+                Person.Gender gender;
                 GoogleSignInAccount acct = result.getSignInAccount();
 //                application.setSocialPreferences(Constants.USER_LOGIN_GPLUS);
+//                Person person = (Person) result.getSignInAccount();
+//                person.getGender();
+//                Log.d("gender", String.valueOf(person.getGender()));
 
+                Plus.PeopleApi.load(mGoogleApiClient, acct.getId()).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
+                    @Override
+                    public void onResult(@NonNull People.LoadPeopleResult loadPeopleResult) {
+                        Person person = loadPeopleResult.getPersonBuffer().get(0);
+//                        Log.d("Person loaded");
+                        Log.d("fname",person.getName().getGivenName());
+                        Log.d("lname",person.getName().getFamilyName());
+                        Log.d("name",person.getDisplayName());
+                        Log.d("gender",person.getGender() + "");
+                    }
+                });
                 try {
                     if(acct.getDisplayName()!=null){
 //                        userName = acct.getDisplayName();
                     }
+//                    acct.
                     if(acct.getEmail()!=null){
 //                        userMail = acct.getEmail();
                     }
@@ -290,6 +314,17 @@ public class Social extends FragmentActivity implements View.OnClickListener, Go
         if (requestCode == RC_SIGN_IN) {
             Log.d("social","gp");
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+//            Plus.PeopleApi.load(mGoogleApiClient, "signed_in_user_account_id").setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
+//                @Override
+//                public void onResult(@NonNull People.LoadPeopleResult loadPeopleResult) {
+//                    Person person = loadPeopleResult.getPersonBuffer().get(0);
+//                    Timber.d("Person loaded");
+//                    Timber.d(person.getName().getGivenName());
+//                    Timber.d(person.getName().getFamilyName());
+//                    Timber.d(person.getDisplayName());
+//                    Timber.d(person.getGender() + "");
+//                }
+//            });
             handleSignInResult(result);
         }
         callbackManager.onActivityResult(requestCode, resultCode, data);

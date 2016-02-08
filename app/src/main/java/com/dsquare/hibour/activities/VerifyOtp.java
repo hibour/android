@@ -1,5 +1,6 @@
 package com.dsquare.hibour.activities;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +9,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsMessage;
-import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,61 +16,53 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
+import com.dsquare.hibour.network.AccountsClient;
+import com.dsquare.hibour.network.NetworkDetector;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class VerifyOtp extends AppCompatActivity implements View.OnClickListener {
 
     Button sumbit;
     EditText enterOtp;
-    TextView welcome1, welcome2, resend, change;
+    TextView welcome1, welcome2, resend, change,back;
     private String mobileNo, otp,servicertype;
     private Intent data;
     private IntentFilter filter;
     private BroadcastReceiver otpReceiver;
     private boolean otpStatus = false;
+    private NetworkDetector networkDetector;
+    private AccountsClient accountsClient;
+    private ProgressDialog phoneDialog;
+    private Gson gson;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.otp);
-        Button submitButton = (Button)findViewById(R.id.otp_next);
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SocialCategories.class);
-                startActivity(intent);
-            }
-        });
-        TextView back = (TextView)findViewById(R.id.otp_back);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MobileNumber.class);
-                startActivity(intent);
-            }
-        });
-//        data = getIntent();
-//        initializeViews();
-//        initializeEventListeners();
+        data = getIntent();
+        initializeViews();
+        initializeEventListeners();
     }
 
     private void initializeViews() {
         filter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
         Typeface numbers = Typeface.createFromAsset(getAssets(),
                 "fonts/pn_regular.otf");
-        sumbit = (Button) findViewById(R.id.otp_sumbit);
+        sumbit = (Button) findViewById(R.id.otp_next);
         sumbit.setTypeface(numbers);
         enterOtp = (EditText) findViewById(R.id.otp_edittest);
 //        otp.setTypeface(numbers);
         resend = (TextView) findViewById(R.id.otp_resend);
-        change = (TextView) findViewById(R.id.otp_change_number);
-        welcome1 = (TextView) findViewById(R.id.otp_welcome1);
-        welcome2 = (TextView) findViewById(R.id.otp_welcome2);
-        welcome2.setText(welcome2.getText().toString() + " " + data.getStringExtra("number"));
-        String text = "<u>Resend</u>";
-        resend.setText(Html.fromHtml(text));
-        mobileNo = data.getExtras().getString("number");
-        servicertype = data.getExtras().getString("services");
-        otp = data.getExtras().getString("otp");
+        back = (TextView)findViewById(R.id.otp_back);
+        enterOtp.setText(data.getExtras().getString("otp"));
+        accountsClient = new AccountsClient(this);
+        networkDetector = new NetworkDetector(this);
+        gson = new Gson();
         otpReceiver = new BroadcastReceiver(){
             @Override
             public void onReceive(Context c, Intent intent) {
@@ -108,7 +100,7 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
     }
 
     private void initializeEventListeners() {
-        change.setOnClickListener(this);
+        back.setOnClickListener(this);
         resend.setOnClickListener(this);
         sumbit.setOnClickListener(this);
     }
@@ -116,13 +108,14 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.otp_sumbit:
+            case R.id.otp_next:
                 openSocilizeactivity();
                 break;
-            case R.id.otp_change_number:
+            case R.id.otp_back:
                 openMobileactivity();
                 break;
             case R.id.otp_resend:
+                sendtoMobilenumUser();
                 break;
         }
     }
@@ -134,15 +127,9 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
     }
 
     private void openSocilizeactivity() {
-        if (servicertype.equals("Business")){
-            Intent intent = new Intent(getApplicationContext(), BusinessServices.class);
-            startActivity(intent);
-            finish();
-        }else {
             Intent intent = new Intent(getApplicationContext(), SocialCategories.class);
             startActivity(intent);
             finish();
-        }
     }
 
     private void verifyReceivedOTP() {
@@ -186,7 +173,51 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
         }
         return otp;
     }
+    /* mobile the user*/
+    private void sendtoMobilenumUser(){
+        if(networkDetector.isConnected()){
+            phoneDialog = ProgressDialog.show(this,"",getResources()
+                    .getString(R.string.progress_dialog_text));
+            accountsClient.mobilenumUser(data.getExtras().getString("number")
+                    ,new WebServiceResponseCallback() {
+                @Override
+                public void onSuccess(JSONObject jsonObject) {
+                    parsemobileDetails(jsonObject);
+                    closeMobileDialog();
+                }
+                @Override
+                public void onFailure(VolleyError error) {
+                    Log.d("signup", error.toString());
+                    closeMobileDialog();
+                }
+            });
+        }else{
+            Toast.makeText(this, "Network not connected.", Toast.LENGTH_LONG).show();
+        }
+    }
+    private void parsemobileDetails(JSONObject jsonObject){
+        closeMobileDialog();
+        Log.d("json", jsonObject.toString());
+        try {
+            JSONObject data = jsonObject.getJSONObject("data");
+            String number = data.getString("Mobile Number");
+            String otp = data.getString("OTP");
+            enterOtp.setText(otp);
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
 
+
+    }
+    /* close signup dialog*/
+    private void closeMobileDialog(){
+        if(phoneDialog!=null){
+            if(phoneDialog.isShowing()){
+                phoneDialog.dismiss();
+                phoneDialog=null;
+            }
+        }
+    }
 //    @Override
 //    protected void onDestroy() {
 //        super.onDestroy();

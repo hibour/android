@@ -187,7 +187,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 
 
         autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.loc_search_autocomplete);
-//        autoCompleteTextView1 = (AutoCompleteTextView) findViewById(R.id.loc_search_autocomplete1);
+        autoCompleteTextView1 = (AutoCompleteTextView) findViewById(R.id.loc_search_autocomplete1);
         autoCompleteTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
@@ -200,18 +200,18 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 
             }
         });
-//        autoCompleteTextView1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View view, boolean b) {
-//
-//                if (b) {
-//                    autoCompleteTextView1.setHint("");
-//                } else {
-//                    autoCompleteTextView1.setHint(R.string.loc_locality);
-//                }
-//
-//            }
-//        });
+        autoCompleteTextView1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+
+                if (b) {
+                    autoCompleteTextView1.setHint("");
+                } else {
+                    autoCompleteTextView1.setHint(R.string.loc_locality);
+                }
+
+            }
+        });
         networkDetector = new NetworkDetector(this);
         accountsClient = new AccountsClient(this);
 
@@ -244,6 +244,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 
             }
         });
+
 //        autoCompleteTextView1.setOnItemClickListener(mAutocompleteClickListener);
 //        placeAutoCompleteAdapter = new PlaceAutoCompleteAdapter(this, android.R.layout.simple_list_item_1,
 //                mGoogleApiClient, BOUNDS_INDIA, AutocompleteFilter.create(filterTypes));
@@ -252,17 +253,18 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 //        autoCompleteTextView1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 //            @Override
 //            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//
 //                if(autoCompleteTextView1.equals(null)||autoCompleteTextView1.getText().toString().equals("")){
 //
-//                }else{
+//            }else{
 //                    /*Intent intent = new Intent(getApplicationContext(), ChooseLocation.class);
 //                    intent.putExtra("latitude",Constants.Latitude);
 //                    intent.putExtra("longitude",Constants.Longitude);
 //                    intent.putExtra("address",autoCompleteTextView.getText().toString());
 //                    startActivity(intent);*/
-//                }
-//
 //            }
+//
+//        }
 //
 //            @Override
 //            public void onNothingSelected(AdapterView<?> adapterView) {
@@ -273,7 +275,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
         search.setTypeface(tf);
         signin.setTypeface(tf);
         autoCompleteTextView.setTypeface(tf);
-//        autoCompleteTextView1.setTypeface(tf);
+        autoCompleteTextView1.setTypeface(tf);
     }
 
     private void initializeEventListeners() {
@@ -398,6 +400,12 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                     locAddress = address.getAddressLine(1);
                     latitude=params[0];
                     longitude = params[1];
+                    Constants.latitude="";
+                    Constants.longitude="";
+                    Constants.locationaddress="";
+                    Constants.latitude=String.valueOf(latitude);
+                    Constants.longitude=String.valueOf(longitude);
+                    Constants.locationaddress=locAddress;
                     Constants.Latitude=latitude;
                     Constants.Longitude=longitude;
                     Constants.LocationAddress=locAddress;
@@ -422,11 +430,14 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 //                intent.putExtra("address",locAddress);//autoCompleteTextView.getText().toString());
                 auto.setVisibility(View.GONE);
                 map.setVisibility(View.VISIBLE);
+                signin.setVisibility(View.VISIBLE);
                 locationDisplayTextView.setText(locAddress);
+                autoCompleteTextView1.setText(autoCompleteTextView.getText().toString());
+//                autoCompleteTextView1.setText(locAddress);
                 Constants.userAddress = locAddress;
                 if(networkDetector.isConnected()){
                     try {
-                        URL url = new URL("http://hibour.com/test.php?area="+locAddress);
+                        URL url = new URL("http://hibour.com/test.php?area="+autoCompleteTextView.getText().toString());
                         URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
                                 , url.getPath(), url.getQuery(), url.getRef());
                         url = uri.toURL();

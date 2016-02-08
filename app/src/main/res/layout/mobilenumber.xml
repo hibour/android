@@ -87,7 +87,8 @@
                 android:hint="10 Digit Mobile Number"
                 android:singleLine="true"
                 android:layout_weight="1"
-                android:windowSoftInputMode="adjustPan"/>
+                android:windowSoftInputMode="adjustPan"
+                android:id="@+id/mobile_edit"/>
             <requestFocus />
         </LinearLayout>
         <LinearLayout

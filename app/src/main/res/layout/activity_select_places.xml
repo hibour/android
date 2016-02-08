@@ -25,7 +25,8 @@
             android:background="@color/brand"
             android:text="@string/signin_button"
             android:layout_alignParentRight="true"
-            android:id="@+id/places_signup"/>
+            android:id="@+id/places_signup"
+            android:visibility="gone"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"

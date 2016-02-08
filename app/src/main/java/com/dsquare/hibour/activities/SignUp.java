@@ -265,6 +265,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                                         Log.d("email",object.optString("email"));
                                         Log.d("id",object.optString("id"));
                                         Log.d("name",object.optString("name"));
+                                        Log.d("gender",object.optString("gender"));
                                         signUpUser(object.optString("name"), object.optString("email")
                                                 , "", "fb");
                                     } catch (Exception e) {
