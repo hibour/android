@@ -41,7 +41,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/edit_text_bottom_line_height"
-            android:background="@color/gray"
+            android:background="@color/light_gray"
             android:layout_marginTop="@dimen/dp_5"></View>
         <LinearLayout
             android:layout_width="match_parent"
@@ -68,7 +68,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_bottom_line_height"
-                android:background="@color/gray"
+                android:background="@color/light_gray"
                 android:layout_marginTop="@dimen/dp_5"></View>
         </LinearLayout>
         <LinearLayout
@@ -87,7 +87,8 @@
                 android:hint="10 Digit Mobile Number"
                 android:singleLine="true"
                 android:layout_weight="1"
-                android:windowSoftInputMode="adjustPan"/>
+                android:windowSoftInputMode="adjustPan"
+                android:maxLength="10"/>
             <requestFocus />
         </LinearLayout>
         <LinearLayout
@@ -99,7 +100,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_bottom_line_height"
-                android:background="@color/gray"
+                android:background="@color/light_gray"
                 android:layout_marginTop="@dimen/dp_5"></View>
         </LinearLayout>
         <LinearLayout
@@ -135,7 +136,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_bottom_line_height"
-                android:background="@color/gray"
+                android:background="@color/light_gray"
                 android:layout_marginTop="@dimen/dp_5"></View>
         </LinearLayout>
     </LinearLayout>

@@ -41,7 +41,8 @@ import java.util.Map;
 
 public class SocialCategories extends AppCompatActivity implements View.OnClickListener{
 
-    private Button doneButton,previous;
+    private Button next;
+    private TextView back;
     private AutoCompleteTextView searchText;
     private Typeface proxima;
     private RecyclerView prefsRecycler;
@@ -71,8 +72,9 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
         networkDetector = new NetworkDetector(this);
         gson = new Gson();
         application = Hibour.getInstance(this);
-        doneButton = (Button)findViewById(R.id.socialize_done_button);
-        previous = (Button)findViewById(R.id.socialize_prev_button);
+
+        back=(TextView)findViewById(R.id.social_back);
+        next=(Button)findViewById(R.id.socialize_next_button);
         searchText = (AutoCompleteTextView)findViewById(R.id.search_box);
         prefsRecycler = (RecyclerView)findViewById(R.id.social_prefs_list);
         prefsRecycler.setLayoutManager(new GridLayoutManager(this, 3));
@@ -110,17 +112,17 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
 
     /* initialize event listeners*/
     private void initializeEventListeners(){
-        doneButton.setOnClickListener(this);
-        previous.setOnClickListener(this);
+        back.setOnClickListener(this);
+        next.setOnClickListener(this);
     }
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.socialize_done_button:
-                //openHomeActivity();
-                sendUserPrefs();
+            case R.id.socialize_next_button:
+                openHomeActivity();
+//                sendUserPrefs();
                 break;
-            case R.id.socialize_prev_button:
+            case R.id.social_back:
                 openPreviousActivity();
                 break;
         }
@@ -129,11 +131,11 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
     private void openHomeActivity(){
         Intent homeIntent = new Intent(this,Home.class);
         startActivity(homeIntent);
-        this.finishAffinity();
+    //    this.finishAffinity();
     }
     private void openPreviousActivity(){
-        Intent locationIntent = new Intent(this,Home.class);
-        startActivity(locationIntent);
+        Intent otpIntent = new Intent(this,VerifyOtp.class);
+        startActivity(otpIntent);
         finish();
     }
     /*send user prefs to server*/

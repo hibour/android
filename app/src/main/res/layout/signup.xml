@@ -32,7 +32,8 @@
              android:textSize="@dimen/sp_16"
              android:layout_marginLeft="@dimen/dp_10"
              android:textColor="@color/black_1"
-             android:id="@+id/signup_back"/>
+             android:id="@+id/signup_back"
+             />
          <com.dsquare.hibour.utils.ProximaExtraBold
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
@@ -48,39 +49,37 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/edit_text_bottom_line_height"
             android:background="@color/gray"
-            android:layout_marginTop="@dimen/dp_5"></View>
-
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal">-->
-            <!--<com.dsquare.hibour.dialogs.RoundImageView-->
-                <!--android:id="@+id/settings_name_image4"-->
-                <!--android:layout_width="@dimen/dp_50"-->
-                <!--android:layout_height="@dimen/dp_50"-->
-                <!--android:src="@drawable/avatar1"-->
-                <!--android:gravity="center"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:layout_marginTop="@dimen/dp_10"-->
-                <!--android:layout_marginLeft="@dimen/dp_5"/>-->
+            android:layout_marginTop="@dimen/dp_10"></View>
 
             <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-                android:layout_marginTop="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_10"
             android:layout_marginLeft="@dimen/dp_10"
-            android:layout_marginRight="@dimen/dp_10">
-            <com.dsquare.hibour.utils.ProximaEditText
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50"
-                android:inputType="text"
-                android:textColor="@color/black_1"
-                android:layout_marginLeft="@dimen/dp_30"
-                android:hint="First Name"
-                android:singleLine="true"
-                android:layout_weight="1"
-                />
+            android:layout_marginRight="@dimen/dp_10"
+                android:layout_gravity="center_horizontal"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/signup_firstname_inputlayout"
+                    android:layout_width="140dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="@dimen/dp_40"
+                    app:hintTextAppearance="@style/ThemeTextInputLayout">
+                    <EditText
+                        android:id="@+id/signup_firstname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/signup_first_name"
+                        android:gravity="center_vertical"
+                        android:singleLine="true"
+                        android:textColor="@color/black_1"
+                        android:textColorHint="@color/gray"
+                        />
+                </android.support.design.widget.TextInputLayout>
+
                 <requestFocus />
             <View
                 android:layout_width="3dp"
@@ -88,16 +87,24 @@
                 android:background="@color/gray"
                 ></View>
 
-            <com.dsquare.hibour.utils.ProximaEditText
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50"
-                android:inputType="text"
-                android:textColor="@color/black_1"
-                android:hint="Last Name"
-                android:gravity="center"
-                android:singleLine="true"
-                android:layout_weight="1"/>
-        </LinearLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/signup_lastname_inputlayout"
+                    android:layout_width="140dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="@dimen/dp_30"
+                    app:hintTextAppearance="@style/ThemeTextInputLayout">
+                    <EditText
+                        android:id="@+id/signup_lastname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/signup_last_name"
+                        android:singleLine="true"
+                        android:textColor="@color/black_1"
+                        android:textColorHint="@color/gray" />
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
         <!--</LinearLayout>-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -109,26 +116,74 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_bottom_line_height"
                 android:background="@color/gray"
-                android:layout_marginTop="@dimen/dp_5"></View>
+                android:layout_marginTop="@dimen/dp_10"></View>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/dp_10"
             android:layout_marginLeft="@dimen/dp_10"
-            android:layout_marginRight="@dimen/dp_10">
-            <com.dsquare.hibour.utils.ProximaEditText
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_gravity="center_horizontal"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/signup_email_inputlayout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:inputType="textEmailAddress"
-                android:textColor="@color/black_1"
-                android:layout_marginLeft="@dimen/dp_30"
-                android:hint="@string/signup_email_hint"
-                android:singleLine="true"
-                android:layout_weight="1"/>
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="@dimen/dp_40"
+                app:hintTextAppearance="@style/ThemeTextInputLayout">
+                <EditText
+                    android:id="@+id/signup_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/signup_email_address"
+                    android:gravity="center_vertical"
+                    android:inputType="textEmailAddress"
+                    android:singleLine="true"
+                    android:textColor="@color/black_1"
+                    android:textColorHint="@color/gray" />
+            </android.support.design.widget.TextInputLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_bottom_line_height"
+                android:background="@color/gray"
+                android:layout_marginTop="@dimen/dp_10"></View>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/signup_pwd_inputlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="@dimen/dp_40"
+                android:layout_marginTop="@dimen/dp_10"
+                app:hintTextAppearance="@style/ThemeTextInputLayout">
+                <EditText
+                    android:id="@+id/signup_pwd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/signup_password"
+                    android:gravity="center_vertical"
+                    android:inputType="textPassword"
+                    android:singleLine="true"
+                    android:textColor="@color/black_1"
+                    android:textColorHint="@color/gray"
+                    />
+            </android.support.design.widget.TextInputLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_bottom_line_height"
+                android:background="@color/gray"
+                android:layout_marginTop="@dimen/dp_10"></View>
+
+
         </LinearLayout>
-        <LinearLayout
+        <!--<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -138,7 +193,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_bottom_line_height"
                 android:background="@color/gray"
-                android:layout_marginTop="@dimen/dp_5"></View>
+                android:layout_marginTop="@dimen/dp_10"></View>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -167,7 +222,7 @@
                 android:layout_height="@dimen/edit_text_bottom_line_height"
                 android:background="@color/gray"
                 android:layout_marginTop="@dimen/dp_5"></View>
-        </LinearLayout>
+        </LinearLayout>-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

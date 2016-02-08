@@ -4,6 +4,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="android:editTextBackground">@null</item>
+        <item name="colorAccent">@color/gray</item>
     </style>
     <style name="FullScreenTheme" parent="AppTheme">
         <item name="windowNoTitle">true</item>
