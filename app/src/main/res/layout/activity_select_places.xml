@@ -26,11 +26,9 @@
             android:text="@string/signin_button"
             android:layout_alignParentRight="true"
             android:id="@+id/places_signup"
-<<<<<<< HEAD
-            android:visibility="gone"/>
-=======
+            android:visibility="gone"
             android:layout_centerVertical="true"/>
->>>>>>> 20d05c590a93c258052f2b4e4bc6e951fd8d341d
+
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
@@ -131,6 +129,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/relative_map"
+        android:background="@color/white"
         android:visibility="gone">
         <ScrollView
             android:layout_width="match_parent"

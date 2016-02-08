@@ -405,7 +405,8 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                     Constants.locationaddress="";
                     Constants.latitude=String.valueOf(latitude);
                     Constants.longitude=String.valueOf(longitude);
-                    Constants.locationaddress=locAddress;
+                    Constants.locationaddress=autoCompleteTextView.getText().toString();
+                    Constants.locationaddress1=locAddress;
                     Constants.Latitude=latitude;
                     Constants.Longitude=longitude;
                     Constants.LocationAddress=locAddress;

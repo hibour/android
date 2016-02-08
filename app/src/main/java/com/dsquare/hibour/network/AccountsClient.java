@@ -42,7 +42,7 @@ public class AccountsClient {
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
                     , url.getPath(), url.getQuery(), url.getRef());
             url = uri.toURL();
-            JsonObjectRequest signInRequest = new JsonObjectRequest(Request.Method.GET
+            JsonObjectRequest signInRequest = new JsonObjectRequest(Request.Method.POST
                     , url.toString(), (String) null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
@@ -75,10 +75,11 @@ public class AccountsClient {
     }
 
     /* get user sign up url String*/
-    public void signUpUser(String userName, String email, String password, String regType,
-                           String address, String gcmToken, final WebServiceResponseCallback callback) {
+    public void signUpUser(String userFname,String userLname, String email, String password,String gender, String regType,
+                           String userlat,String userlog,String address,
+                           String address1, String gcmToken, final WebServiceResponseCallback callback) {
         try {
-            String urlStr = getSignUpUrl(userName, email, password, regType, address, gcmToken);
+            String urlStr = getSignUpUrl(userFname,userLname, email, password,gender, regType,userlat,userlog,address,address1, gcmToken);
             URL url = new URL(urlStr);
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
                     , url.getPath(), url.getQuery(), url.getRef());
@@ -108,15 +109,19 @@ public class AccountsClient {
     }
 
     /* get signup url string*/
-    private String getSignUpUrl(String userName, String email, String password, String regType
-            , String address, String gcmToken) {
-        String url = Constants.URL_SIGN_UP + Constants.KEYWORD_USER_NAME + "=" + userName + "&"
+    private String getSignUpUrl(String userFname,String userLname, String email, String password,String gender, String regType,
+                                String userlat,String userlog,String address,
+                                String address1, String gcmToken) {
+        String url = Constants.URL_SIGN_UP +Constants.KEYWORD_USER_NAME+"="+userFname+"&"+Constants.KEYWORD_USER_FIRSTNAME + "=" +userFname+"&"+
+                Constants.KEYWORD_USER_LASTNAME + "=" +userLname+ "&"
                 + Constants.KEYWORD_EMAIL + "=" + email + "&" + Constants.KEYWORD_PASSWORD + "=" + password + "&"
-                + Constants.KEYWORD_SIGNUP_TYPE + "=" + regType + "&"
-                + Constants.KEYWORD_SIGNATURE + "=" + Constants.SIGNATURE_VALUE + "&"
+                + Constants.KEYWORD_GENDER1 + "=" + gender + "&"+Constants.KEYWORD_SIGNUP_TYPE + "=" + regType + "&"+
+                Constants.KEYWORD_USER_LATITUDE + "=" + userlat + "&" +
+                  Constants.KEYWORD_USER_LONGITUDE + "=" + userlog + "&"
                 + Constants.KEYWORD_GCM + "=" + gcmToken + "&" +
                 Constants.KEYWORD_ADDRESS + "=" + address + "&" +
-                Constants.KEYWORD_ADDRESS1 + "=" + address;
+                Constants.KEYWORD_ADDRESS1 + "=" + address1  + "&"   +
+                Constants.KEYWORD_SIGNATURE + "=" + Constants.SIGNATURE_VALUE ;
         Log.d("url", url);
         return url;
     }

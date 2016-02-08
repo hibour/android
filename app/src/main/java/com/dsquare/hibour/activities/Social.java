@@ -1,10 +1,10 @@
 package com.dsquare.hibour.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -20,9 +20,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.gcm.GcmRegistration;
+import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
+import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
+import com.dsquare.hibour.pojos.signup.Data;
+import com.dsquare.hibour.pojos.signup.SignupPojo;
+import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Fonts;
+import com.dsquare.hibour.utils.Hibour;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -38,10 +46,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.plus.People;
-import com.google.android.gms.plus.Plus;
-import com.google.android.gms.plus.model.people.Person;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import org.json.JSONObject;
 
@@ -67,6 +73,10 @@ public class Social extends FragmentActivity implements View.OnClickListener, Go
     private Button submitButton;
     private Typeface tf;
     private NetworkDetector networkDetector;
+    private AccountsClient accountsClient;
+    private ProgressDialog signUpDialog;
+    private Gson gson;
+    private Hibour application;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +84,10 @@ public class Social extends FragmentActivity implements View.OnClickListener, Go
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_social);
         networkDetector = new NetworkDetector(this);
+        gson = new Gson();
+        application = Hibour.getInstance(this);
+        application.initializeSharedPrefs();
+        accountsClient = new AccountsClient(this);
         tf = Typeface.createFromAsset(getAssets(), Fonts.getTypeFaceName());
         submitButton = (Button)findViewById(R.id.social_signup);
         submitButton.setOnClickListener(this);
@@ -224,8 +238,8 @@ public class Social extends FragmentActivity implements View.OnClickListener, Go
                                         Log.d("fname",object.optString("first_name"));
                                         Log.d("lname",object.optString("last_name"));
                                         Log.d("gender",object.optString("gender"));
-//                                        signUpUser(object.optString("name"), object.optString("email")
-//                                                , "", "fb");
+                                        signUpUser(object.optString("first_name"),object.optString("last_name"), object.optString("email")
+                                                , "",object.optString("gender"), "fb");
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
@@ -265,24 +279,20 @@ public class Social extends FragmentActivity implements View.OnClickListener, Go
             Log.d("social","gplus");
             // Signed in successfully, show authenticated UI.
             try {
-                Person.Gender gender;
                 GoogleSignInAccount acct = result.getSignInAccount();
-//                application.setSocialPreferences(Constants.USER_LOGIN_GPLUS);
-//                Person person = (Person) result.getSignInAccount();
-//                person.getGender();
-//                Log.d("gender", String.valueOf(person.getGender()));
 
-                Plus.PeopleApi.load(mGoogleApiClient, acct.getId()).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
-                    @Override
-                    public void onResult(@NonNull People.LoadPeopleResult loadPeopleResult) {
-                        Person person = loadPeopleResult.getPersonBuffer().get(0);
-//                        Log.d("Person loaded");
-                        Log.d("fname",person.getName().getGivenName());
-                        Log.d("lname",person.getName().getFamilyName());
-                        Log.d("name",person.getDisplayName());
-                        Log.d("gender",person.getGender() + "");
-                    }
-                });
+//                Plus.PeopleApi.load(mGoogleApiClient, acct.getId()).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
+//                    @Override
+//                    public void onResult(@NonNull People.LoadPeopleResult loadPeopleResult) {
+//                        Person person = loadPeopleResult.getPersonBuffer().get(0);
+////                        Log.d("Person loaded");
+//                        Log.d("fname",person.getName().getGivenName());
+//                        Log.d("lname",person.getName().getFamilyName());
+//                        Log.d("name",person.getDisplayName());
+//                        Log.d("gender",person.getGender() + "");
+//                    }
+//                });
+
                 try {
                     if(acct.getDisplayName()!=null){
 //                        userName = acct.getDisplayName();
@@ -314,17 +324,6 @@ public class Social extends FragmentActivity implements View.OnClickListener, Go
         if (requestCode == RC_SIGN_IN) {
             Log.d("social","gp");
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-//            Plus.PeopleApi.load(mGoogleApiClient, "signed_in_user_account_id").setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
-//                @Override
-//                public void onResult(@NonNull People.LoadPeopleResult loadPeopleResult) {
-//                    Person person = loadPeopleResult.getPersonBuffer().get(0);
-//                    Timber.d("Person loaded");
-//                    Timber.d(person.getName().getGivenName());
-//                    Timber.d(person.getName().getFamilyName());
-//                    Timber.d(person.getDisplayName());
-//                    Timber.d(person.getGender() + "");
-//                }
-//            });
             handleSignInResult(result);
         }
         callbackManager.onActivityResult(requestCode, resultCode, data);
@@ -354,5 +353,71 @@ public class Social extends FragmentActivity implements View.OnClickListener, Go
                 break;
         }
     }
+    /* sign up the user*/
+    private void signUpUser(String userFname,String userLname, String email,String password,String gender, String regType){
+        if(networkDetector.isConnected()){
+            signUpDialog = ProgressDialog.show(this, "", getResources()
+                    .getString(R.string.progress_dialog_text));
+            if (application.getGCMToken().equalsIgnoreCase("")) {
+                Toast.makeText(this, "Check Internet Connectivity.", Toast.LENGTH_SHORT).show();
+                if (application.checkPlayServices(this, null)) {
+                    // Start IntentService to register this application with GCM.
+                    Intent intent = new Intent(this, GcmRegistration.class);
+                    startService(intent);
+                }
+                return;
+            }
+            accountsClient.signUpUser(userFname,userLname,email,password,gender,regType,Constants.latitude,Constants.longitude,
+                    Constants.locationaddress, Constants.locationaddress1,
+                    application.getGCMToken(), new WebServiceResponseCallback() {
+                        @Override
+                        public void onSuccess(JSONObject jsonObject) {
+                            parseSigUpDetails(jsonObject);
+                            closeSignUpDialog();
+                        }
 
+                        @Override
+                        public void onFailure(VolleyError error) {
+                            Log.d("signup", error.toString());
+                            closeSignUpDialog();
+                        }
+                    });
+        }else{
+            Toast.makeText(this,"Network not connected.",Toast.LENGTH_LONG).show();
+        }
+    }
+    /* parse sign up details*/
+    private void parseSigUpDetails(JSONObject jsonObject){
+        try {
+            closeSignUpDialog();
+            Log.d("details", jsonObject.toString());
+            SignupPojo registers = gson.fromJson(jsonObject.toString(), SignupPojo.class);
+            Data data = registers.getData();
+//            Integer integer = data.getId();
+            String s = String.valueOf(data.getId());
+            Log.d("integer", s);
+            String[] regidetails = {String.valueOf(data.getId()), data.getFirstName(),data.getLastName(), data.getEmail(),data.getGender(), data.getRegtype()};
+            application.setLoginDetails(regidetails);
+//            Log.d("integer", String.valueOf(integer));
+            Log.d("regidetails", String.valueOf(regidetails));
+            Intent homeIntent = new Intent(this, MobileNumber.class);
+            startActivity(homeIntent);
+            this.finish();
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }catch (final IllegalArgumentException e) {
+            // Handle or log or ignore
+            e.printStackTrace();
+        }
+    }
+    /* close signup dialog*/
+    private void closeSignUpDialog(){
+        if(signUpDialog!=null){
+            if(signUpDialog.isShowing()){
+                signUpDialog.dismiss();
+                signUpDialog=null;
+            }
+        }
+
+    }
 }

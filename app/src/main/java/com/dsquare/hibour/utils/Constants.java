@@ -47,10 +47,14 @@ public class Constants {
 
     /*user constants*/
     public static final String KEYWORD_USER_NAME = "Username";
+    public static final String KEYWORD_USER_FIRSTNAME = "first_name";
+    public static final String KEYWORD_USER_LASTNAME = "last_name";
     public static final String KEYWORD_EMAIL = "Email";
     public static final String KEYWORD_PASSWORD = "Password";
     public static final String KEYWORD_GCM = "gcm";
     public static final String KEYWORD_SIGNIN_TYPE = "signinType";
+    public static final String KEYWORD_USER_LATITUDE = "geo_lat";
+    public static final String KEYWORD_USER_LONGITUDE = "geo_long";
     public static final String KEYWORD_SIGNUP_TYPE = "Regtype";
     public static final String KEYWORD_USR_ID = "userid";
     public static final String KEYWORD_MOBILE_NUMBER = "mobile_number";
@@ -84,8 +88,10 @@ public class Constants {
     public static final String PREFERENCE_FILE_NAME = "Hibour";
     public static final String PREFERENCE_USER_ID = "userId";
     public static final String SF_ID = "userID";
-    public static final String SF_FIRST = "userName";
+    public static final String SF_FIRST = "firstname";
+    public static final String SF_LAST = "lastname";
     public static final String SF_EMAIL = "Email";
+    public static final String SF_GENDER = "Gender";
     public static final String SF_REGTYPE = "Regtype";
     //animation constants
     public static final int DURATION_DEFAULT = 300;
@@ -103,6 +109,7 @@ public class Constants {
     public static String longitude;
     public static String latitude;
     public static String locationaddress;
+    public static String locationaddress1;
     public static String LocationAddress;
     public static String userAddress = "";
     // message view types

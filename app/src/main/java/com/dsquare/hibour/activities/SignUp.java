@@ -25,8 +25,8 @@ import com.dsquare.hibour.gcm.GcmRegistration;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
-import com.dsquare.hibour.pojos.register.Data;
-import com.dsquare.hibour.pojos.register.Registers;
+import com.dsquare.hibour.pojos.signup.Data;
+import com.dsquare.hibour.pojos.signup.SignupPojo;
 import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Hibour;
 import com.facebook.CallbackManager;
@@ -94,7 +94,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
         fname = (EditText)findViewById(R.id.signup_firstname);
         lname = (EditText)findViewById(R.id.signup_lastname);
         email= (EditText)findViewById(R.id.signup_email);
-//        password= (EditText)findViewById(R.id.signup_pwd);
+        password= (EditText)findViewById(R.id.signup_pwd);
         male = (ImageView)findViewById(R.id.image_male);
         female = (ImageView)findViewById(R.id.image_female);
         linearmale = (LinearLayout)findViewById(R.id.linear_male);
@@ -136,7 +136,8 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
         gson = new Gson();
         application = Hibour.getInstance(this);
         application.initializeSharedPrefs();
-        inputLayoutName.setTypeface(tf);
+        inputLayoutfName.setTypeface(tf);
+        inputLayoutlName.setTypeface(tf);
         inputLayoutemail.setTypeface(tf);
         inputLayoutpassword.setTypeface(tf);
     }
@@ -144,6 +145,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     /*initialize event listeners*/
     private void initializeEventlisteners() {
         submitButton.setOnClickListener(this);
+        back.setOnClickListener(this);
     }
     public void initializeGplus(){
         signInButton = (SignInButton) findViewById(R.id.btn_sign_in);
@@ -245,8 +247,8 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                                         Log.d("id",object.optString("id"));
                                         Log.d("name",object.optString("name"));
                                         Log.d("gender",object.optString("gender"));
-                                        signUpUser(object.optString("name"), object.optString("email")
-                                                , "", "fb");
+//                                        signUpUser(object.optString("name"), object.optString("email")
+//                                                , "", "fb");
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
@@ -297,7 +299,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                         userMail = acct.getEmail();
                     }
                     Log.d("gplus",userMail+userName);
-                    signUpUser(userName, userMail, "", "gp");
+//                    signUpUser(userName, userMail, "", "gp");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -336,7 +338,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
             case R.id.signup_next:
                 validateData();
                 break;
-            case R.id.signup_signin_text:
+            case R.id.signup_back:
                 openSignInActivity();
                 break;
             case R.id.signup_terms:
@@ -358,7 +360,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     }
     /* open sign in activity*/
     private void openSignInActivity(){
-        Intent signInIntent = new Intent(this,SignIn.class);
+        Intent signInIntent = new Intent(this,Social.class);
         startActivity(signInIntent);
         this.finish();
     }
@@ -378,7 +380,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                 !userMail.equals(null)&&!userMail.equals("null")&& ! userMail.equals("")&&
                 !userPass.equals(null)&&!userPass.equals("null") && ! userPass.equals("")&& ! Gender.equals("")){
             if(application.validateEmail(userMail)){
-                signUpUser(userName, userMail, userPass, "normal");
+                signUpUser(userFname,userLname, userMail, userPass, "normal");
             }else{
                 Toast.makeText(this,"Enter valid email",Toast.LENGTH_LONG).show();
             }
@@ -387,7 +389,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
         }
     }
     /* sign up the user*/
-    private void signUpUser(String userName,String email,String password,String regType){
+    private void signUpUser(String userFname,String userLname, String email,String password,String regType){
         if(networkDetector.isConnected()){
             signUpDialog = ProgressDialog.show(this,"",getResources()
                     .getString(R.string.progress_dialog_text));
@@ -400,8 +402,9 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                 }
                 return;
             }
-            accountsClient.signUpUser(userName,email,password,regType, Constants.userAddress
-                , application.getGCMToken(), new WebServiceResponseCallback() {
+            accountsClient.signUpUser(userFname,userLname,email,password,Gender,regType, Constants.latitude,Constants.longitude,
+                    Constants.locationaddress,Constants.locationaddress1,
+                 application.getGCMToken(), new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parseSigUpDetails(jsonObject);
@@ -423,16 +426,16 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
         try {
             closeSignUpDialog();
             Log.d("details", jsonObject.toString());
-            Registers registers = gson.fromJson(jsonObject.toString(), Registers.class);
+            SignupPojo registers = gson.fromJson(jsonObject.toString(), SignupPojo.class);
             Data data = registers.getData();
 //            Integer integer = data.getId();
             String s = String.valueOf(data.getId());
             Log.d("integer", s);
-            String[] regidetails = {String.valueOf(data.getId()), data.getUsername(), data.getEmail(), data.getRegtype()};
+            String[] regidetails = {String.valueOf(data.getId()), data.getFirstName(),data.getLastName(), data.getEmail(),data.getGender(), data.getRegtype()};
             application.setLoginDetails(regidetails);
 //            Log.d("integer", String.valueOf(integer));
             Log.d("regidetails", String.valueOf(regidetails));
-            Intent homeIntent = new Intent(this, GovtProof.class);
+            Intent homeIntent = new Intent(this, MobileNumber.class);
             startActivity(homeIntent);
             this.finish();
         } catch (JsonSyntaxException e) {

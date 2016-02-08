@@ -659,19 +659,19 @@ public class ChooseLocation extends AppCompatActivity implements View.OnClickLis
                 return;
             }
 
-            accountsClient.signUpUser(userName,email,password,regType, Constants.userAddress
-                , application.getGCMToken(), new WebServiceResponseCallback() {
-                @Override
-                public void onSuccess(JSONObject jsonObject) {
-                    parseSigUpDetails(jsonObject);
-                    closeSignUpDialog();
-                }
-                @Override
-                public void onFailure(VolleyError error) {
-                    Log.d("signup", error.toString());
-                    closeSignUpDialog();
-                }
-            });
+//            accountsClient.signUpUser(userName,email,password,regType, Constants.userAddress
+//                , application.getGCMToken(), new WebServiceResponseCallback() {
+//                @Override
+//                public void onSuccess(JSONObject jsonObject) {
+//                    parseSigUpDetails(jsonObject);
+//                    closeSignUpDialog();
+//                }
+//                @Override
+//                public void onFailure(VolleyError error) {
+//                    Log.d("signup", error.toString());
+//                    closeSignUpDialog();
+//                }
+//            });
         }else{
             Toast.makeText(this,"Network not connected.",Toast.LENGTH_LONG).show();
         }

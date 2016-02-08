@@ -88,11 +88,8 @@
                 android:singleLine="true"
                 android:layout_weight="1"
                 android:windowSoftInputMode="adjustPan"
-<<<<<<< HEAD
-                android:id="@+id/mobile_edit"/>
-=======
+                android:id="@+id/mobile_edit"
                 android:maxLength="10"/>
->>>>>>> 20d05c590a93c258052f2b4e4bc6e951fd8d341d
             <requestFocus />
         </LinearLayout>
         <LinearLayout

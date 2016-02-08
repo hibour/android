@@ -41,8 +41,10 @@ public class Hibour {
         initializeSharedPrefs();
         editor.putString(Constants.PREFERENCE_USER_ID, details[0]);
         editor.putString(Constants.SF_FIRST, details[1]);
-        editor.putString(Constants.SF_EMAIL, details[2]);
-        editor.putString(Constants.SF_REGTYPE, details[3]);
+        editor.putString(Constants.SF_LAST, details[2]);
+        editor.putString(Constants.SF_EMAIL, details[3]);
+        editor.putString(Constants.SF_GENDER, details[4]);
+        editor.putString(Constants.SF_REGTYPE, details[5]);
         editor.commit();
     }
     public void setuserId(String userId){
