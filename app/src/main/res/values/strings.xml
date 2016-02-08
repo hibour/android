@@ -14,6 +14,12 @@
     <string name="signup_password_hint">Password</string>
     <string name="signup_button">sign up</string>
     <string name="signup_terms_text">Terms &amp; Conditions</string>
+
+    <string name="signup_first_name">First Name</string>
+    <string name="signup_last_name">Last Name</string>
+    <string name="signup_email_address">Email Address</string>
+    <string name="signup_password">Password</string>
+
     <string name="title_activity_govt_proof">GovtProof</string>
     <string name="govt_proof_text">hi\'bour is highly secure. please upload any \n Govt.Issued Id proof
         for verifications</string>
@@ -29,8 +35,8 @@
     <string name="settings_prefernce">Open Socilize activity</string>
     <string name="settings_proof">Open Proof activity</string>
     <string name="title_activity_social_categories">SocialCategories</string>
-    <string name="socialize_text">Pick your interest to socialize</string>
-    <string name="done_text">Done</string>
+    <string name="socialize_text">Pick as many interests as you like</string>
+    <string name="done_text">Next</string>
     <string name="title_activity_choose_location">ChooseLocation</string>
     <string name="loc_text">Pin Your Home Location</string>
     <string name="button_next">Continue</string>

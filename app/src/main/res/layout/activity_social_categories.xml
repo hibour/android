@@ -14,14 +14,27 @@
             android:layout_height="?actionBarSize"
             android:id="@+id/socialize_toolbar"
             android:background="@color/white">
+
+            <com.dsquare.hibour.utils.Proxima
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:text="Back"
+                android:textSize="@dimen/sp_16"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:textColor="@color/black_1"
+                android:id="@+id/social_back"
+                android:layout_toLeftOf="@+id/social_category_image"/>
             <ImageView
+                android:id="@+id/social_category_image"
                 android:layout_width="120dp"
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_centerInParent="true"
-                android:layout_alignParentLeft="true"
                 android:layout_marginLeft="@dimen/dp_10"
-                android:background="@drawable/lll"/>
+                android:background="@drawable/log"
+                />
 
         </RelativeLayout>
 
@@ -56,6 +69,7 @@
                 android:cursorVisible="false"
                 android:textCursorDrawable="@null"
                 android:id="@+id/search_box"
+                android:background="@null"
                 />
         </RelativeLayout>
 
@@ -69,17 +83,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:id="@+id/socialize_prev_button"
-                android:background="@color/black_button"
-                android:text="@string/govt_skip_button_text"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/button_text_size"/>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:background="@color/brand"
-                android:id="@+id/socialize_done_button"
+                android:id="@+id/socialize_next_button"
                 android:text="@string/done_text"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/button_text_size"/>
