@@ -37,7 +37,7 @@ import java.util.List;
 /**
  * Created by ASHOK on 1/31/2016.
  */
-public class FeeedsAdapter extends RecyclerView.Adapter<FeeedsAdapter.ViewHolder> implements View.OnClickListener {
+public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> implements View.OnClickListener {
 
     private List<Feeds> listItems = new ArrayList<>();
     private Context context;
@@ -46,7 +46,7 @@ public class FeeedsAdapter extends RecyclerView.Adapter<FeeedsAdapter.ViewHolder
     private PostsClient postsClient;
     private Hibour application;
     private ProgressDialog dialog;
-    public FeeedsAdapter(Context context, List<Feeds> listItems) {
+    public FeedsAdapter(Context context, List<Feeds> listItems) {
         this.context = context;
         this.listItems = listItems;
         networkDetector = new NetworkDetector(context);
@@ -56,7 +56,7 @@ public class FeeedsAdapter extends RecyclerView.Adapter<FeeedsAdapter.ViewHolder
     }
 
     @Override
-    public FeeedsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public FeedsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_feeds
                 ,parent,false);
         final ViewHolder holder = new ViewHolder(v);

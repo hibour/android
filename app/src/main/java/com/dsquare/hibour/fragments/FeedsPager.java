@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dsquare.hibour.R;
-import com.dsquare.hibour.adapters.FeeedsAdapter;
+import com.dsquare.hibour.adapters.FeedsAdapter;
 import com.dsquare.hibour.pojos.posts.Feeds;
 import com.dsquare.hibour.pojos.posts.Postpojos;
 import com.dsquare.hibour.utils.Constants;
@@ -27,7 +27,7 @@ public class FeedsPager extends Fragment {
 
     private RecyclerView postsRecycler;
     private List<Feeds> postsList = new ArrayList<>();
-    private FeeedsAdapter postsAdapter;
+    private FeedsAdapter postsAdapter;
     private String categoryName = "";
     public FeedsPager() {
         // Required empty public constructor
@@ -51,7 +51,7 @@ public class FeedsPager extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         postsRecycler.setLayoutManager(layoutManager);
         postsRecycler.setHasFixedSize(true);
-        postsAdapter = new FeeedsAdapter(getActivity(),postsList);
+        postsAdapter = new FeedsAdapter(getActivity(),postsList);
         setAdapter();
         // new setFeedsTask().execute(categoryName);
     }
@@ -113,7 +113,7 @@ public class FeedsPager extends Fragment {
 
     class FeedsTask extends AsyncTask<Void, String, Void>{
 
-        FeeedsAdapter feeds;
+        FeedsAdapter feeds;
 
         @Override
         protected void onPostExecute(Void result) {
