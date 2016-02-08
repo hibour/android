@@ -25,11 +25,8 @@ import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.adapters.NavigationDrawerAdapter;
 import com.dsquare.hibour.fragments.AboutUs;
-import com.dsquare.hibour.fragments.Groups;
-import com.dsquare.hibour.fragments.Message;
 import com.dsquare.hibour.fragments.NewPost;
 import com.dsquare.hibour.fragments.Settings;
-import com.dsquare.hibour.fragments.Socializes;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.NetworkDetector;
@@ -125,17 +122,23 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
                 break;
             case 1:
                 isHome = false;
-                transaction.replace(R.id.content_frame,new Message());
+                transaction.replace(R.id.content_frame,new AboutUs());
                 break;
             case 2:
                 isHome = false;
-                transaction.replace(R.id.content_frame,new Socializes());
+                inviteFriends("");
                 break;
             case 3:
                 isHome = false;
-                transaction.replace(R.id.content_frame,new Groups());
+                transaction.replace(R.id.content_frame,new Settings());
                 break;
             case 4:
+                isHome = false;
+                application.removeUserDetails();
+                Intent signInIntent = new Intent(this,SignIn.class);
+                startActivity(signInIntent);
+                this.finish();
+           /* case 4:
                 isHome = false;
                 transaction.replace(R.id.content_frame,new AboutUs());
                 break;
@@ -152,7 +155,7 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
                 application.removeUserDetails();
                 Intent signInIntent = new Intent(this,SignIn.class);
                 startActivity(signInIntent);
-                this.finish();
+                this.finish();*/
         }
         transaction.commit();
         hideDrawer();
