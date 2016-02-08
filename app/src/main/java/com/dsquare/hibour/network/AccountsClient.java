@@ -475,10 +475,10 @@ public class AccountsClient {
     }
 
     /* get user phoneno url String*/
-    public void mobilenumUser(String id,String accttype,String gender, String userNum
+    public void mobilenumUser(String userNum
             , final WebServiceResponseCallback callback) {
         try {
-            String urlStr = getPhoneUserUrl(id,accttype,gender,userNum);
+            String urlStr = getPhoneUserUrl(userNum);
             URL url = new URL(urlStr);
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
                     , url.getPath(), url.getQuery(), url.getRef());
@@ -509,8 +509,8 @@ public class AccountsClient {
     }
 
     /* get mobilenumUser url string*/
-    private String getPhoneUserUrl(String id,String accttype,String gender, String userNum) {
-        String url = Constants.URL_MOBILE_NUMBER +Constants.KEYWORD_ID+"="+id+"&"+Constants.KEYWORD_ACCOUNT_TYPE+ "=" +accttype+ "&" +Constants.KEYWORD_GENDER1+ "=" +gender+ "&" +Constants.KEYWORD_MOBILE_NUMBER + "=" + userNum + "&"
+    private String getPhoneUserUrl(String userNum) {
+        String url = Constants.URL_MOBILE_NUMBER +"MobileNumber" + "=" + userNum + "&"
                 + Constants.KEYWORD_SIGNATURE + "=" + Constants.SIGNATURE_VALUE;
         Log.d("url", url);
         return url;

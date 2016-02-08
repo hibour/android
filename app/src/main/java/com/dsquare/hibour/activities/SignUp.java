@@ -28,7 +28,6 @@ import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.pojos.register.Data;
 import com.dsquare.hibour.pojos.register.Registers;
 import com.dsquare.hibour.utils.Constants;
-import com.dsquare.hibour.utils.Fonts;
 import com.dsquare.hibour.utils.Hibour;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -64,9 +63,9 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     private LoginButton facebookLoginButton;
     private CallbackManager callbackManager;
     private Button submitButton;
-    private EditText name,email,password;
-    private TextInputLayout inputLayoutName, inputLayoutemail,inputLayoutpassword;
-    private TextView signInText,termsText;
+    private EditText name,email,password,fname,lname;
+    private TextInputLayout inputLayoutName, inputLayoutemail,inputLayoutpassword,inputLayoutfName,inputLayoutlName;
+    private TextView signInText,termsText,back;
     private NetworkDetector networkDetector;
     private AccountsClient accountsClient;
     private ProgressDialog signUpDialog;
@@ -78,37 +77,35 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     private String userName="",userNumber="",userMail="",socialType="",userpassword="",userfirst="",userlast="";
     private ImageView male,female;
     private LinearLayout linearmale,linearfemale;
+    private String Gender="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.signup);
+        initializeViews();
+        initializeEventlisteners();
+//        initializeGplus();
+//        initializeFb();
+    }
+    /* initialize views*/
+    private void initializeViews(){
         submitButton = (Button)findViewById(R.id.signup_next);
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),MobileNumber.class);
-                startActivity(intent);
-            }
-        });
-        TextView back = (TextView)findViewById(R.id.signup_back);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext(), Social.class);
-                    startActivity(intent);
-                }
-
-        });
+        fname = (EditText)findViewById(R.id.signup_firstname);
+        lname = (EditText)findViewById(R.id.signup_lastname);
+        email= (EditText)findViewById(R.id.signup_email);
+//        password= (EditText)findViewById(R.id.signup_pwd);
         male = (ImageView)findViewById(R.id.image_male);
         female = (ImageView)findViewById(R.id.image_female);
         linearmale = (LinearLayout)findViewById(R.id.linear_male);
         linearfemale = (LinearLayout)findViewById(R.id.linear_female);
+        back = (TextView)findViewById(R.id.signup_back);
         linearmale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 male.setImageResource(R.mipmap.ic_men_filed_icon);
                 female.setImageResource(R.mipmap.ic_female_icon);
+                Gender="0";
             }
         });
         linearfemale.setOnClickListener(new View.OnClickListener() {
@@ -116,19 +113,9 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
             public void onClick(View v) {
                 female.setImageResource(R.mipmap.ic_female_filed_icon);
                 male.setImageResource(R.mipmap.ic_men_icon);
+                Gender="1";
             }
         });
-//        initializeViews();
-//        initializeEventlisteners();
-//        initializeGplus();
-//        initializeFb();
-    }
-    /* initialize views*/
-    private void initializeViews(){
-        submitButton = (Button)findViewById(R.id.signup_signup_button);
-        name = (EditText)findViewById(R.id.signup_name);
-        email= (EditText)findViewById(R.id.signup_email);
-        password= (EditText)findViewById(R.id.signup_password);
         password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
@@ -140,21 +127,15 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                 return handled;
             }
         });
-        inputLayoutName=(TextInputLayout)findViewById(R.id.signup_name_inputlayout);
-        inputLayoutemail=(TextInputLayout)findViewById(R.id.signup_mail_inputlayout);
-        inputLayoutpassword=(TextInputLayout)findViewById(R.id.signup_password_inputlayout);
-        signInText = (TextView)findViewById(R.id.signup_signin_text);
-        termsText = (TextView)findViewById(R.id.signup_terms);
+        inputLayoutfName=(TextInputLayout)findViewById(R.id.signup_firstname_inputlayout);
+        inputLayoutlName=(TextInputLayout)findViewById(R.id.signup_lastname_inputlayout);
+        inputLayoutemail=(TextInputLayout)findViewById(R.id.signup_email_inputlayout);
+        inputLayoutpassword=(TextInputLayout)findViewById(R.id.signup_pwd_inputlayout);
         accountsClient = new AccountsClient(this);
         networkDetector = new NetworkDetector(this);
         gson = new Gson();
         application = Hibour.getInstance(this);
         application.initializeSharedPrefs();
-        tf = Typeface.createFromAsset(getAssets(), Fonts.getTypeFaceName());
-        submitButton.setTypeface(tf);
-        name.setTypeface(tf);
-        email.setTypeface(tf);
-        password.setTypeface(tf);
         inputLayoutName.setTypeface(tf);
         inputLayoutemail.setTypeface(tf);
         inputLayoutpassword.setTypeface(tf);
@@ -163,8 +144,6 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     /*initialize event listeners*/
     private void initializeEventlisteners() {
         submitButton.setOnClickListener(this);
-        signInText.setOnClickListener(this);
-        termsText.setOnClickListener(this);
     }
     public void initializeGplus(){
         signInButton = (SignInButton) findViewById(R.id.btn_sign_in);
@@ -265,6 +244,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                                         Log.d("email",object.optString("email"));
                                         Log.d("id",object.optString("id"));
                                         Log.d("name",object.optString("name"));
+                                        Log.d("gender",object.optString("gender"));
                                         signUpUser(object.optString("name"), object.optString("email")
                                                 , "", "fb");
                                     } catch (Exception e) {
@@ -353,7 +333,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.signup_signup_button:
+            case R.id.signup_next:
                 validateData();
                 break;
             case R.id.signup_signin_text:
@@ -389,12 +369,14 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     }
     /*validate data*/
     private void validateData(){
-        String userName = name.getText().toString();
+        String userFname = fname.getText().toString();
+        String userLname = lname.getText().toString();
         String userMail = email.getText().toString();
         String userPass = password.getText().toString();
-        if(!userName.equals(null)&&!userName.equals("null")&&!userName.equals("")&&
+        if(!userFname.equals(null)&&!userFname.equals("null")&&!userFname.equals("")&&
+                !userLname.equals(null)&&!userLname.equals("null")&&!userLname.equals("")&&
                 !userMail.equals(null)&&!userMail.equals("null")&& ! userMail.equals("")&&
-                !userPass.equals(null)&&!userPass.equals("null") && ! userPass.equals("")){
+                !userPass.equals(null)&&!userPass.equals("null") && ! userPass.equals("")&& ! Gender.equals("")){
             if(application.validateEmail(userMail)){
                 signUpUser(userName, userMail, userPass, "normal");
             }else{

@@ -18,7 +18,7 @@ public class Constants {
     public static final String URL_DOMAIN = "http://api.hibour.com/v1/";
     public static final String URL_SIGN_IN = URL_DOMAIN + "Userreg/check?";
     public static final String URL_SIGN_UP = URL_DOMAIN + "Userreg/create?";
-    public static final String URL_MOBILE_NUMBER = URL_DOMAIN + "Userreg/userAdditionalDetails?";
+    public static final String URL_MOBILE_NUMBER = URL_DOMAIN + "Userreg/GetOtp?";
     public static final String URL_TERMS = URL_DOMAIN + "";
     public static final String URL_GET_ALL_PROOFS = URL_DOMAIN + "Proof";
     public static final String URL_GET_ALL_BUSINEES_TYPES= URL_DOMAIN+"Business";
@@ -100,6 +100,9 @@ public class Constants {
     public static final String SERVER_SUCCESS = "success";
     public static Double Longitude = 78.00;
     public static Double Latitude = 21.00;
+    public static String longitude;
+    public static String latitude;
+    public static String locationaddress;
     public static String LocationAddress;
     public static String userAddress = "";
     // message view types

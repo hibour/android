@@ -50,7 +50,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAoCsOWz_mm413hjupw-hiGYatTrXmD7_E" />
+            android:value="AIzaSyACBUw7gESPWq-W41J8Z_-0HwsYsWHUu60" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
