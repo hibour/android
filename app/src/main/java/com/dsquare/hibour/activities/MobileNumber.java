@@ -90,7 +90,7 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
         if(networkDetector.isConnected()){
             phoneDialog = ProgressDialog.show(this,"",getResources()
                     .getString(R.string.progress_dialog_text));
-            accountsClient.mobilenumUser(mobile.getText().toString()
+            accountsClient.mobilenumUser(application.getUserId(),mobile.getText().toString()
                     ,new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
@@ -112,13 +112,17 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
         Log.d("json", jsonObject.toString());
         try {
             JSONObject data = jsonObject.getJSONObject("data");
-            String number = data.getString("Mobile Number");
-            String otp = data.getString("OTP");
-            Intent intent = new Intent(getApplicationContext(), VerifyOtp.class);
-            intent.putExtra("number", number);
-            intent.putExtra("otp",otp);
-            startActivity(intent);
-            finish();
+            String number = data.getString("number");
+            String otp = data.getString("otp");
+            if(!otp.equals(null)&&!otp.equals("null")&&!otp.equals("")) {
+                Intent intent = new Intent(getApplicationContext(), VerifyOtp.class);
+                intent.putExtra("number", number);
+                intent.putExtra("otp", otp);
+                startActivity(intent);
+                finish();
+            }else{
+                Toast.makeText(getApplicationContext(),"Invalid User",Toast.LENGTH_SHORT).show();
+            }
         }catch (JSONException e) {
             e.printStackTrace();
         }

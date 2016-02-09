@@ -119,8 +119,8 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.socialize_next_button:
-                openHomeActivity();
-//                sendUserPrefs();
+//                openHomeActivity();
+                sendUserPrefs();
                 break;
             case R.id.social_back:
                 openPreviousActivity();

@@ -21,6 +21,7 @@ import com.dsquare.hibour.R;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
+import com.dsquare.hibour.utils.Hibour;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -40,6 +41,7 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
     private AccountsClient accountsClient;
     private ProgressDialog phoneDialog;
     private Gson gson;
+    private Hibour application;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +65,7 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
         accountsClient = new AccountsClient(this);
         networkDetector = new NetworkDetector(this);
         gson = new Gson();
+        application = Hibour.getInstance(this);
         otpReceiver = new BroadcastReceiver(){
             @Override
             public void onReceive(Context c, Intent intent) {
@@ -84,7 +87,7 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
                         strMessage += "\n";
                         from = messages[i].getOriginatingAddress();
                     }
-                    // Toast.makeText(OtpActivity.this, strMessage, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(OtpActivity.this, strMessage, Toast.LENGTH_SHORT).show();
                     Log.d("message", strMessage);
                     Log.d("sb",from);
                     if(strMessage.contains("MD-ONLYHT")){
@@ -178,7 +181,7 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
         if(networkDetector.isConnected()){
             phoneDialog = ProgressDialog.show(this,"",getResources()
                     .getString(R.string.progress_dialog_text));
-            accountsClient.mobilenumUser(data.getExtras().getString("number")
+            accountsClient.mobilenumUser(application.getUserId(),data.getExtras().getString("number")
                     ,new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
@@ -200,14 +203,12 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
         Log.d("json", jsonObject.toString());
         try {
             JSONObject data = jsonObject.getJSONObject("data");
-            String number = data.getString("Mobile Number");
-            String otp = data.getString("OTP");
+            String number = data.getString("number");
+            String otp = data.getString("otp");
             enterOtp.setText(otp);
         }catch (JSONException e) {
             e.printStackTrace();
         }
-
-
     }
     /* close signup dialog*/
     private void closeMobileDialog(){

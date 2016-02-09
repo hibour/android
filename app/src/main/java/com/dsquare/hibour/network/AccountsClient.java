@@ -42,7 +42,7 @@ public class AccountsClient {
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
                     , url.getPath(), url.getQuery(), url.getRef());
             url = uri.toURL();
-            JsonObjectRequest signInRequest = new JsonObjectRequest(Request.Method.POST
+            JsonObjectRequest signInRequest = new JsonObjectRequest(Request.Method.GET
                     , url.toString(), (String) null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
@@ -344,6 +344,7 @@ public class AccountsClient {
         String url = Constants.URL_PREFS_INSERT + Constants.KEYWORD_USR_ID + "=" + userId + "&"
                 + Constants.KEYWORD_PREFS_IDS + "=" + prefs + "&" + Constants.KEYWORD_SIGNATURE + "="
                 + Constants.SIGNATURE_VALUE;
+        Log.d("url",url);
         return url;
     }
 
@@ -480,10 +481,10 @@ public class AccountsClient {
     }
 
     /* get user phoneno url String*/
-    public void mobilenumUser(String userNum
+    public void mobilenumUser(String userid,String userNum
             , final WebServiceResponseCallback callback) {
         try {
-            String urlStr = getPhoneUserUrl(userNum);
+            String urlStr = getPhoneUserUrl(userid,userNum);
             URL url = new URL(urlStr);
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
                     , url.getPath(), url.getQuery(), url.getRef());
@@ -514,8 +515,8 @@ public class AccountsClient {
     }
 
     /* get mobilenumUser url string*/
-    private String getPhoneUserUrl(String userNum) {
-        String url = Constants.URL_MOBILE_NUMBER +"MobileNumber" + "=" + userNum + "&"
+    private String getPhoneUserUrl(String userid,String userNum) {
+        String url = Constants.URL_MOBILE_NUMBER+"id"+"="+userid+ "&" +"mobile_number" + "=" + userNum + "&"
                 + Constants.KEYWORD_SIGNATURE + "=" + Constants.SIGNATURE_VALUE;
         Log.d("url", url);
         return url;
