@@ -6,6 +6,8 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -20,6 +22,7 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.database.DatabaseHandler;
+import com.dsquare.hibour.dialogs.WelcomeDialog;
 import com.dsquare.hibour.gcm.GcmRegistration;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
@@ -59,6 +62,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
   private String TAG = "signin";
   private GoogleSignInOptions googleSignInOptions;
   private SignInButton signInButton;
+
   private LoginButton facebookLoginButton;
   private CallbackManager callbackManager;
 
@@ -71,6 +75,8 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
   private AccountsClient accountsClient;
   private Typeface tf;
   private Hibour application;
+
+
 
   private String userName = "", userNumber = "", userMail = "", socialType = "", userpassword = "", userfirst = "", userlast = "";
   private WebServiceResponseCallback userDetailCallbackListener = new WebServiceResponseCallback() {
@@ -187,13 +193,13 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
         getDimensionPixelSize(R.dimen.fb_margin_override_textpadding));
 
     facebookLoginButton.setPadding(
-        this.getResources().getDimensionPixelSize(
-            R.dimen.fb_margin_override_lr),
-        this.getResources().getDimensionPixelSize(
-            R.dimen.fb_margin_override_top),
-        0,
-        this.getResources().getDimensionPixelSize(
-            R.dimen.fb_margin_override_bottom));
+            this.getResources().getDimensionPixelSize(
+                    R.dimen.fb_margin_override_lr),
+            this.getResources().getDimensionPixelSize(
+                    R.dimen.fb_margin_override_top),
+            0,
+            this.getResources().getDimensionPixelSize(
+                    R.dimen.fb_margin_override_bottom));
 
     callbackManager = CallbackManager.Factory.create();
     List<String> permissions = new ArrayList<>();
@@ -230,23 +236,23 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
         public void onSuccess(LoginResult loginResult) {
           // App code
           GraphRequest request = GraphRequest.newMeRequest(
-              loginResult.getAccessToken(),
-              new GraphRequest.GraphJSONObjectCallback() {
-                @Override
-                public void onCompleted(
-                    JSONObject object,
-                    GraphResponse response) {
-                  // Application code
-                  try {
-                    Log.d("email", object.optString("email"));
-                    Log.d("id", object.optString("id"));
-                    Log.d("name", object.optString("name"));
-                    sendDataToServer(object.optString("email"), "", "fb");
-                  } catch (Exception e) {
-                    e.printStackTrace();
-                  }
-                }
-              });
+                  loginResult.getAccessToken(),
+                  new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(
+                            JSONObject object,
+                            GraphResponse response) {
+                      // Application code
+                      try {
+                        Log.d("email", object.optString("email"));
+                        Log.d("id", object.optString("id"));
+                        Log.d("name", object.optString("name"));
+                        sendDataToServer(object.optString("email"), "", "fb");
+                      } catch (Exception e) {
+                        e.printStackTrace();
+                      }
+                    }
+                  });
           Bundle parameters = new Bundle();
           parameters.putString("fields", "id,name,email,gender, birthday");
           request.setParameters(parameters);
@@ -390,12 +396,13 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
       signInDialog = ProgressDialog.show(this, ""
           , getResources().getString(R.string.progress_dialog_text));
       if (application.getGCMToken().equalsIgnoreCase("")) {
-        Toast.makeText(this, "Check Internet Connectivity.", Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(this, "Check Internet Connectivity.", Toast.LENGTH_SHORT).show();
         if (application.checkPlayServices(this, null)) {
           // Start IntentService to register this application with GCM.
           Intent intent = new Intent(this, GcmRegistration.class);
           startService(intent);
         }
+        closeSignInDialog();
         return;
       }
       accountsClient.signIn(userName, password, signInType, application.getGCMToken(), new WebServiceResponseCallback() {
@@ -412,9 +419,12 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
         }
       });
     } else {
+      Toast.makeText(this,"check internet connectivity",Toast.LENGTH_SHORT).show();
 
     }
   }
+
+
 
   /*parse signin details*/
   private void parseSignInDetails(JSONObject jsonObject) {

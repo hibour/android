@@ -20,6 +20,13 @@
     <string name="signup_email_address">Email Address</string>
     <string name="signup_password">Password</string>
 
+    <string name="welcome">WELCOME TO</string>
+    <string name="hibour">HI\'BOUR</string>
+    <string name="we_hope_you">WE HOPE YOU</string>
+    <string name="get_to_know">GET TO KNOW</string>
+    <string name="your_nbours">YOUR N\'BOURS</string>
+    <string name="say_hi">SAY HI</string>
+
     <string name="title_activity_govt_proof">GovtProof</string>
     <string name="govt_proof_text">hi\'bour is highly secure. please upload any \n Govt.Issued Id proof
         for verifications</string>
