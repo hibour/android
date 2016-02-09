@@ -45,14 +45,14 @@
             android:name="AA_SERIALIZERS"
             android:value="com.dsquare.hibour.database.serializer.UtilDateSerializer"/>
 
-        <!--
+
             <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA4Wb6Gpp2MnF5F8yhBA32pQqNVwjHmAsg" />
-        -->
-        <meta-data
+
+       <!-- <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyACBUw7gESPWq-W41J8Z_-0HwsYsWHUu60" />
+            android:value="AIzaSyACBUw7gESPWq-W41J8Z_-0HwsYsWHUu60" />-->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
