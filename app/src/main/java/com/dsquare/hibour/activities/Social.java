@@ -44,8 +44,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.plus.Plus;
+import com.google.android.gms.plus.model.people.Person;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
@@ -77,7 +81,7 @@ public class Social extends FragmentActivity implements View.OnClickListener, Go
     private ProgressDialog signUpDialog;
     private Gson gson;
     private Hibour application;
-
+    private String Useremail="",Userfname="",Userlname="",Usergender="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,11 +147,14 @@ public class Social extends FragmentActivity implements View.OnClickListener, Go
                 .requestEmail()
                 .requestProfile()
                 .requestId()
+                .requestScopes(new Scope(Scopes.PLUS_ME))
+                .requestScopes(new Scope(Scopes.PLUS_LOGIN))
                 .build();
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this , this )
                 .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
+                .addApi(Plus.API)
                 .build();
         signInButton = (SignInButton) findViewById(R.id.btn_sign_in);
         signInButton.setColorScheme(SignInButton.COLOR_LIGHT);
@@ -280,19 +287,8 @@ public class Social extends FragmentActivity implements View.OnClickListener, Go
             // Signed in successfully, show authenticated UI.
             try {
                 GoogleSignInAccount acct = result.getSignInAccount();
-
-//                Plus.PeopleApi.load(mGoogleApiClient, acct.getId()).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
-//                    @Override
-//                    public void onResult(@NonNull People.LoadPeopleResult loadPeopleResult) {
-//                        Person person = loadPeopleResult.getPersonBuffer().get(0);
-////                        Log.d("Person loaded");
-//                        Log.d("fname",person.getName().getGivenName());
-//                        Log.d("lname",person.getName().getFamilyName());
-//                        Log.d("name",person.getDisplayName());
-//                        Log.d("gender",person.getGender() + "");
-//                    }
-//                });
-
+                Log.d("name",acct.getDisplayName());
+                Log.d("name",acct.getEmail());
                 try {
                     if(acct.getDisplayName()!=null){
 //                        userName = acct.getDisplayName();
@@ -324,8 +320,38 @@ public class Social extends FragmentActivity implements View.OnClickListener, Go
         if (requestCode == RC_SIGN_IN) {
             Log.d("social","gp");
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result);
-        }
+//            handleSignInResult(result);
+            if (result.isSuccess()) {
+                GoogleSignInAccount acct = result.getSignInAccount();
+                acct.getPhotoUrl();
+                acct.getId();
+                if(acct.getEmail()!=null){
+                    Useremail = acct.getEmail();
+                }
+                Log.e(TAG, acct.getDisplayName());
+                Log.e(TAG, acct.getEmail());
+
+                Person person  = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
+                if(String.valueOf(person.getGender())!=null){
+                    Usergender = String.valueOf(person.getGender());
+                }
+                if(person.getName().getGivenName()!=null){
+                    Userfname = person.getName().getGivenName();
+                }
+                if(person.getName().getGivenName()!=null){
+                   Userlname = person.getName().getFamilyName();
+                }
+                signUpUser(Userfname,Userlname, Useremail
+                        , "",Usergender, "gp");
+            Log.i(TAG, "--------------------------------");
+            Log.i(TAG, "Display Name: " + person.getDisplayName());
+            Log.i(TAG, "Gender: " + person.getGender());
+            Log.i(TAG, "fName: " + person.getName().getGivenName());
+            Log.i(TAG, "lname: " + person.getName().getFamilyName());
+            Log.i(TAG, "image: " + person.getImage());
+//            Log.i(TAG, "Current Location: " + person.getCurrentLocation());
+            Log.i(TAG, "Language: " + person.getLanguage());
+        }}
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
