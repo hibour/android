@@ -1,5 +1,6 @@
 package com.dsquare.hibour.activities;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -12,6 +13,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -119,6 +121,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
         password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                hideKeyboard();
                 boolean handled = false;
                 if (i == EditorInfo.IME_ACTION_DONE) {
                     validateData();
@@ -141,6 +144,13 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
         inputLayoutemail.setTypeface(tf);
         inputLayoutpassword.setTypeface(tf);
     }
+
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+      //  imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+    }
+
 
     /*initialize event listeners*/
     private void initializeEventlisteners() {

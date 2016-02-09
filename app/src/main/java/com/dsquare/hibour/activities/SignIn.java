@@ -390,12 +390,13 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
       signInDialog = ProgressDialog.show(this, ""
           , getResources().getString(R.string.progress_dialog_text));
       if (application.getGCMToken().equalsIgnoreCase("")) {
-        Toast.makeText(this, "Check Internet Connectivity.", Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(this, "Check Internet Connectivity.", Toast.LENGTH_SHORT).show();
         if (application.checkPlayServices(this, null)) {
           // Start IntentService to register this application with GCM.
           Intent intent = new Intent(this, GcmRegistration.class);
           startService(intent);
         }
+        closeSignInDialog();
         return;
       }
       accountsClient.signIn(userName, password, signInType, application.getGCMToken(), new WebServiceResponseCallback() {
@@ -412,6 +413,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
         }
       });
     } else {
+      Toast.makeText(this,"check internet connectivity",Toast.LENGTH_SHORT).show();
 
     }
   }
