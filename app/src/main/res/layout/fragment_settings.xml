@@ -84,10 +84,10 @@
 
                     <com.dsquare.hibour.dialogs.RoundImageView
                         android:id="@+id/settings_image"
-                        android:layout_width="@dimen/dp_100"
-                        android:layout_height="@dimen/dp_100"
+                        android:layout_width="@dimen/dp_140"
+                        android:layout_height="@dimen/dp_140"
                         android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/dp_10"
+
                         android:background="@drawable/avatar1" />
 
                     <ImageView

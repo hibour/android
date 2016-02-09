@@ -9,7 +9,9 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -29,6 +31,7 @@ import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.adapters.HomeTabsPager;
 import com.dsquare.hibour.adapters.PostsAdapter;
+import com.dsquare.hibour.dialogs.WelcomeDialog;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.network.PostsClient;
@@ -68,9 +71,11 @@ public class Posts extends Fragment implements View.OnClickListener {
     private ViewPager pager;
     private SlidingTabLayout tabs;
     private RelativeLayout noFeedsLayout;
+    private DialogFragment welcomeDialog;
     public Posts() {
         // Required empty public constructor
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -152,6 +157,8 @@ public class Posts extends Fragment implements View.OnClickListener {
                 public void onSuccess(JSONObject jsonObject) {
                     parsePostsDetails(jsonObject);
                     closePostsDialog();
+                    openWelcomeDialog();
+
                 }
                 @Override
                 public void onFailure(VolleyError error) {
@@ -163,6 +170,14 @@ public class Posts extends Fragment implements View.OnClickListener {
             Toast.makeText(getActivity(),"Check network connection",Toast.LENGTH_LONG).show();
         }
     }
+
+    private void openWelcomeDialog() {
+        Log.d("signin","welcome");
+        welcomeDialog=new WelcomeDialog();
+        welcomeDialog.show(getActivity().getSupportFragmentManager(), "chooser dialog");
+        welcomeDialog.setTargetFragment(this, 0);
+    }
+
     /* parse posts details*/
     private void parsePostsDetails(JSONObject jsonObject) {
         Log.d("post data", jsonObject.toString());
