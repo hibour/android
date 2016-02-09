@@ -319,40 +319,45 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         neighboursSpinner = (Spinner)view.findViewById(R.id.newpost_neighbourhood_spinner);
         editPost = (EditText) view.findViewById(R.id.newposts_edittest);
         editPost.requestFocus();
-        ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(editPost,
-                InputMethodManager.SHOW_FORCED);
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
         editPost.setOnFocusChangeListener(new View.OnFocusChangeListener(){
             @Override
             public void onFocusChange(View v, boolean hasFocus){
                 Log.d("edit text","On Foucs. Has Focus = " + hasFocus);
-
                 if (hasFocus){
                     filled[1] = true;
                     if(filled[0] == true  && filled[3] ==true){
                         done.setTextColor(getActivity().getResources().getColor(R.color.black_1));
                         setOnClickForDone();
                     }
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(v, InputMethodManager.SHOW_IMPLICIT);
                     //open keyboard
-                    ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(v,
-                            InputMethodManager.SHOW_FORCED);
+//                    ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(v,
+//                            InputMethodManager.SHOW_FORCED);
+//                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//                    imm.showSoftInput(editPost, InputMethodManager.SHOW_IMPLICIT);
                 }
                 else{
                     //close keyboard
-                    ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
-                            v.getWindowToken(), 0);
+//                    ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
+//                            v.getWindowToken(), 0);
+//                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//                    imm.showSoftInput(editPost, InputMethodManager.SHOW_IMPLICIT);
                 }
             }
         });
 
         //Set on click listener to clear focus
-        editPost.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View clickedView)
-            {
-                clickedView.clearFocus();
-                clickedView.requestFocus();
-            }
-        });
+//        editPost.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View clickedView)
+//            {
+//                clickedView.clearFocus();
+//                clickedView.requestFocus();
+//            }
+//        });
 
          cancel = (TextView) view.findViewById(R.id.creat_post_cancel);
         gallary = (ImageView) view.findViewById(R.id.creat_imageview_post_icon);

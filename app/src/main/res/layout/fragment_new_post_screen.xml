@@ -8,6 +8,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+      >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:orientation="vertical"
         android:id="@+id/post_liner_layout">
         <RelativeLayout
@@ -78,6 +87,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -125,6 +136,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 >
                 <com.dsquare.hibour.utils.ProximaEditText
                     android:id="@+id/newposts_edittest"
@@ -137,7 +150,9 @@
                     android:padding="@dimen/dp_10"
                     android:singleLine="false"
                     android:textColorHint="@color/gray"
-                    android:windowSoftInputMode="adjustPan" />
+                    android:windowSoftInputMode="adjustPan"
+                    />
+                <requestFocus />
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -201,8 +216,6 @@
                         />
 
                 </RelativeLayout>
-
-
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
@@ -210,5 +223,5 @@
                 android:background="@color/gray"
                 android:layout_below="@+id/create_linear"/>
         </LinearLayout>
-    </RelativeLayout>
+    </RelativeLayout></LinearLayout>
 </LinearLayout>

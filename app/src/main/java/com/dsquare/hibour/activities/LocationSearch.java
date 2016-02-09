@@ -138,6 +138,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
               */
             final PlaceAutoCompleteAdapter.PlaceAutocomplete item = placeAutoCompleteAdapter.getItem(position);
             final String placeId = String.valueOf(item.placeId);
+            Log.d("placeId",placeId);
             Log.i("On set ClickListener", "Autocomplete item selected: " + item.description);
 
             /*

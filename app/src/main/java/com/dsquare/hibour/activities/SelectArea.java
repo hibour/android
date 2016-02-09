@@ -130,7 +130,6 @@ public class SelectArea extends AppCompatActivity implements GoogleApiClient.Con
         super.onStart();
         mGoogleApiClient.connect();
     }
-
     @Override
     protected void onStop() {
         super.onStop();
@@ -168,8 +167,6 @@ public class SelectArea extends AppCompatActivity implements GoogleApiClient.Con
         // onConnectionFailed.
         Log.i("loc", "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
     }
-
-
     @Override
     public void onConnectionSuspended(int cause) {
         // The connection to Google Play services was lost for some reason. We call connect() to
