@@ -4,7 +4,6 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="android:editTextBackground">@null</item>
-        <item name="colorAccent">@color/gray</item>
     </style>
     <style name="FullScreenTheme" parent="AppTheme">
         <item name="windowNoTitle">true</item>
@@ -42,4 +41,12 @@
         <item name="android:layout_width">fill_parent</item>
 
     </style>
+
+        <style name="MyMaterialTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+            <item name="windowNoTitle">true</item>
+            <item name="windowActionBar">false</item>
+            <item name="colorPrimaryDark">@color/branddark</item>
+            <item name="android:editTextBackground">@null</item>
+        </style>
+
 </resources>

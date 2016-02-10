@@ -45,12 +45,12 @@
             android:name="AA_SERIALIZERS"
             android:value="com.dsquare.hibour.database.serializer.UtilDateSerializer"/>
 
-        <!--
-            <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyA4Wb6Gpp2MnF5F8yhBA32pQqNVwjHmAsg" />
-        -->
-        <meta-data
+
+            <!--<meta-data-->
+            <!--android:name="com.google.android.geo.API_KEY"-->
+            <!--android:value="AIzaSyA4Wb6Gpp2MnF5F8yhBA32pQqNVwjHmAsg" />-->
+
+      <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyACBUw7gESPWq-W41J8Z_-0HwsYsWHUu60" />
         <meta-data
@@ -107,7 +107,9 @@
         <activity
             android:name=".activities.Home"
             android:label="@string/title_activity_home"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/MyMaterialTheme"
+            />
         <activity
             android:name=".activities.TermsAndConditions"
             android:label="@string/title_activity_terms_and_conditions" />

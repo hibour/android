@@ -35,7 +35,8 @@
             android:layout_height="wrap_content"
             android:text="Ashok"
             android:textSize="@dimen/sp_18"
-            android:layout_marginTop="@dimen/dp_10"/>
+            android:layout_marginTop="@dimen/dp_10"
+            android:id="@+id/sidemenu_name"/>
 
     </LinearLayout>
         <RelativeLayout

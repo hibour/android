@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
@@ -52,6 +53,7 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
     private FragmentTransaction transaction;
     private DrawerLayout drawer;
     private ListView drawerList;
+    private TextView name;
     private boolean isHome = true;
     boolean doubleBackToExitPressedOnce = false;
     private Hibour application;
@@ -78,6 +80,7 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
         manager = getSupportFragmentManager();
         drawerList = (ListView)findViewById(R.id.left_drawer);
         application = Hibour.getInstance(this);
+        name = (TextView)findViewById(R.id.sidemenu_name);
     }
 
     private void loadDefaultFragment(){

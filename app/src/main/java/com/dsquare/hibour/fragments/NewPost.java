@@ -124,7 +124,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
 
         gallary.setOnClickListener(this);
         delete.setOnClickListener(this);
-        cancel.setOnClickListener(this);
+        done.setOnClickListener(this);
         //editPost.requestFocus();
         cancel.setOnClickListener(this);
         /*editPost.setOnFocusChangeListener(new View.OnFocusChangeListener() {

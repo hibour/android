@@ -18,7 +18,8 @@
             android:layout_height="@dimen/app_bar_icon_size"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp_20"
-            android:src="@drawable/ic_menu_white"/>
+            android:src="@drawable/ic_menu_white"
+            android:visibility="gone"/>
 
         <com.dsquare.hibour.utils.ProximaExtraBold
             android:layout_width="wrap_content"

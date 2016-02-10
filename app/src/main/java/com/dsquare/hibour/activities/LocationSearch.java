@@ -404,6 +404,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                     Constants.latitude="";
                     Constants.longitude="";
                     Constants.locationaddress="";
+                    Constants.locationaddress1="";
                     Constants.latitude=String.valueOf(latitude);
                     Constants.longitude=String.valueOf(longitude);
                     Constants.locationaddress=autoCompleteTextView.getText().toString();
@@ -426,16 +427,14 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
         protected void onPostExecute(String resultString) {
 
             if(isAutoComplete){
-//                Intent intent = new Intent(getApplicationContext(), ChooseLocation.class);
-//                intent.putExtra("latitude",Constants.Latitude);
-//                intent.putExtra("longitude",Constants.Longitude);
-//                intent.putExtra("address",locAddress);//autoCompleteTextView.getText().toString());
+               // auto.setVisibility(View.GONE);
+               // auto.animate().translationYBy(-100).setDuration(2000);
                 auto.setVisibility(View.GONE);
+                //auto.animate().translationY(100);
                 map.setVisibility(View.VISIBLE);
                 signin.setVisibility(View.VISIBLE);
                 locationDisplayTextView.setText(locAddress);
                 autoCompleteTextView1.setText(autoCompleteTextView.getText().toString());
-//                autoCompleteTextView1.setText(locAddress);
                 Constants.userAddress = locAddress;
                 if(networkDetector.isConnected()){
                     try {

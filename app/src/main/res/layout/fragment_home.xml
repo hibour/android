@@ -96,12 +96,12 @@
                             android:layout_height="@dimen/app_bar_icon_size"
                             android:gravity="center"
                             android:layout_marginTop="3dp"
-                            android:src="@drawable/channels" />
+                            android:src="@mipmap/ic_chat_gray" />
                         <com.dsquare.hibour.utils.Proxima
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="Services"
+                            android:text="Messages"
                             android:textColor="@color/app_bar_gray"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -159,11 +159,10 @@
 
         </RelativeLayout>
         <android.support.design.widget.FloatingActionButton
-            android:layout_width="@dimen/fab_govt_radius"
-            android:layout_height="@dimen/fab_govt_radius"
-            android:layout_gravity="bottom|right"
-            android:layout_marginRight="@dimen/fab_govt_left_margin"
-            android:layout_marginBottom="70dp"
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="@dimen/dp_50"
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="@dimen/dp_20"
             android:src="@drawable/ic_action_edit"
             android:id="@+id/feeds_create_fab"
             app:backgroundTint="@color/brand"

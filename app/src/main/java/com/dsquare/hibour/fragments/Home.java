@@ -180,7 +180,8 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
                 //replaceContainer(3);
                 break;
             case R.id.home_channels:
-                applyCurrentStateToAppBarIcons(R.drawable.channels_filled, channelsIcon);
+                applyCurrentStateToAppBarIcons(R.mipmap.ic_chat_filed, channelsIcon);
+                replaceContainer(5);
                 break;
             case R.id.home_more_icon:
                 applyCurrentStateToAppBarIcons(R.drawable.more_filled, moreIcon);
@@ -199,7 +200,7 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
         feedIcon.setImageResource(R.drawable.feed);
         socializeIcon.setImageResource(R.drawable.socialize);
         //  newPostIcon.setImageResource(R.drawable.post);
-        channelsIcon.setImageResource(R.drawable.channels);
+        channelsIcon.setImageResource(R.mipmap.ic_chat_gray);
         moreIcon.setImageResource(R.drawable.more);
         icon.setImageResource(res);
     }
@@ -230,6 +231,10 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
             case 4:
                 isHome = true;
                 fragment = new Socialize();
+                break;
+            case 5:
+                isHome = true;
+                fragment = new Message();
                 break;
         }
         if (fragment != null) {

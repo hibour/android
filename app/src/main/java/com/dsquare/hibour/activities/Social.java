@@ -245,6 +245,12 @@ public class Social extends FragmentActivity implements View.OnClickListener, Go
                                         Log.d("fname",object.optString("first_name"));
                                         Log.d("lname",object.optString("last_name"));
                                         Log.d("gender",object.optString("gender"));
+                                       if(object.optString("gender").equals("male")){
+                                            Usergender = String.valueOf(0);
+                                        }else
+                                       if(object.optString("gender").equals("female")){
+                                           Usergender= String.valueOf(1);
+                                       }
                                         signUpUser(object.optString("first_name"),object.optString("last_name"), object.optString("email")
                                                 , "",object.optString("gender"), "fb");
                                     } catch (Exception e) {
