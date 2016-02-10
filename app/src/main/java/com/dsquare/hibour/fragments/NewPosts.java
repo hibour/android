@@ -256,7 +256,7 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
             newpostDialogue = ProgressDialog.show(getActivity(),"",getResources()
                     .getString(R.string.progress_dialog_text));
             postsClient.insertonPost(application.getUserId(),posttypeid,posttypeid,postMessage,postImage
-                    ,posttypeid,new WebServiceResponseCallback() {
+                    ,posttypeid,"",new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parsePostDetails(jsonObject);
