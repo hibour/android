@@ -2,6 +2,7 @@ package com.dsquare.hibour.fragments;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -260,14 +262,14 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         }
     }
 
-    /* send data to server*/
+   //  send data to server
     private void sendPostData(String posttypeid, String postMessage, String postImage) {
         if (networkDetector.isConnected()) {
             String cat_str = categoriesTypeId;
             newpostDialogue = ProgressDialog.show(getActivity(), "", getResources()
                     .getString(R.string.progress_dialog_text));
             postsClient.insertonPost(application.getUserId(), cat_str, posttypeid, postMessage, postImage
-                    , "1", new WebServiceResponseCallback() {
+                    , "1","", new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parsePostDetails(jsonObject);
@@ -317,45 +319,43 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         neighboursSpinner = (Spinner)view.findViewById(R.id.newpost_neighbourhood_spinner);
         editPost = (EditText) view.findViewById(R.id.newposts_edittest);
         editPost.requestFocus();
-//        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-//        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
-//        editPost.setOnFocusChangeListener(new View.OnFocusChangeListener(){
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus){
-//                Log.d("edit text","On Foucs. Has Focus = " + hasFocus);
-//                if (hasFocus){
-//                    filled[1] = true;
-//                    if(filled[0] == true  && filled[3] ==true){
-//                        done.setTextColor(getActivity().getResources().getColor(R.color.black_1));
-//                        setOnClickForDone();
-//                    }
-//                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-//                    imm.showSoftInput(v, InputMethodManager.SHOW_IMPLICIT);
-//                    //open keyboard
-////                    ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(v,
-////                            InputMethodManager.SHOW_FORCED);
-////                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-////                    imm.showSoftInput(editPost, InputMethodManager.SHOW_IMPLICIT);
-//                }
-//                else{
-//                    //close keyboard
-////                    ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
-////                            v.getWindowToken(), 0);
-////                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-////                    imm.showSoftInput(editPost, InputMethodManager.SHOW_IMPLICIT);
-//                }
-//            }
-//        });
+      //  InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+       // imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+        editPost.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            @Override
+            public void onFocusChange(View v, boolean hasFocus){
+                Log.d("edit text","On Foucs. Has Focus = " + hasFocus);
+                if (hasFocus){
+                    filled[1] = true;
+                    if(filled[0] == true  && filled[3] ==true){
+                        done.setTextColor(getActivity().getResources().getColor(R.color.black_1));
+                        setOnClickForDone();
+                    }
+                    //open keyboard
+                    ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(v,
+                            InputMethodManager.SHOW_FORCED);
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(editPost, InputMethodManager.SHOW_IMPLICIT);
+                }
+                else{
+                    //close keyboard
+                    ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
+                            v.getWindowToken(), 0);
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(editPost, InputMethodManager.SHOW_IMPLICIT);
+                }
+            }
+        });
 
         //Set on click listener to clear focus
-//        editPost.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View clickedView)
-//            {
-//                clickedView.clearFocus();
-//                clickedView.requestFocus();
-//            }
-//        });
+        editPost.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View clickedView)
+            {
+                clickedView.clearFocus();
+                clickedView.requestFocus();
+            }
+        });
 
          cancel = (TextView) view.findViewById(R.id.creat_post_cancel);
         gallary = (ImageView) view.findViewById(R.id.creat_imageview_post_icon);

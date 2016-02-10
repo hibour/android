@@ -1,9 +1,12 @@
 package com.dsquare.hibour.fragments;
 
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Typeface;
@@ -32,6 +35,7 @@ import com.dsquare.hibour.R;
 import com.dsquare.hibour.adapters.HomeTabsPager;
 import com.dsquare.hibour.adapters.PostsAdapter;
 import com.dsquare.hibour.dialogs.WelcomeDialog;
+import com.dsquare.hibour.interfaces.PostsCallback;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.network.PostsClient;
@@ -43,6 +47,7 @@ import com.dsquare.hibour.utils.Hibour;
 import com.dsquare.hibour.utils.SlidingTabLayout;
 import com.google.gson.Gson;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -52,13 +57,12 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Posts extends Fragment implements View.OnClickListener {
+public class Posts extends Fragment implements View.OnClickListener,PostsCallback {
     private RecyclerView postsRecycler;
     private List<String[]> postsList = new ArrayList<>();
     private PostsAdapter postsAdapter;
     private NetworkDetector networkDetector;
     private Gson gson;
-    private Hibour application;
     private PostsClient postsClient;
     private ProgressDialog postsDialog;
     private AutoCompleteTextView autoCompleteTextView;
@@ -72,9 +76,16 @@ public class Posts extends Fragment implements View.OnClickListener {
     private SlidingTabLayout tabs;
     private RelativeLayout noFeedsLayout;
     private DialogFragment welcomeDialog;
+    private Context context;
+    private Hibour application;
+    private PostsCallback callback;
+    private ProgressDialog newpostDialogue;
+    private NewPost.PostsListener mListener;
+
     public Posts() {
         // Required empty public constructor
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -88,7 +99,6 @@ public class Posts extends Fragment implements View.OnClickListener {
     }
 
 
-
     /* initializeViews*/
     private void initializeViews(View view){
         noFeedsLayout = (RelativeLayout)view.findViewById(R.id.no_feeds_found_layout);
@@ -97,6 +107,9 @@ public class Posts extends Fragment implements View.OnClickListener {
         gson = new Gson();
         networkDetector = new NetworkDetector(getActivity());
         application =  Hibour.getInstance(getActivity());
+
+
+
 //        postsRecycler = (RecyclerView)view.findViewById(R.id.post_posts_list);
 //        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
 //        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -152,17 +165,18 @@ public class Posts extends Fragment implements View.OnClickListener {
     public void getAllposts(){
         if(networkDetector.isConnected()){
             postsDialog = ProgressDialog.show(getActivity(),"","Please wait...");
-            postsClient.getAllPosts(application.getUserId(),new WebServiceResponseCallback() {
+            postsClient.getAllPosts(application.getUserId(), new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parsePostsDetails(jsonObject);
                     closePostsDialog();
-                    openWelcomeDialog();
+                    welcomeDialog();
 
                 }
+
                 @Override
                 public void onFailure(VolleyError error) {
-                    Log.d("posts error",error.toString());
+                    Log.d("posts error", error.toString());
                     closePostsDialog();
                 }
             });
@@ -171,12 +185,36 @@ public class Posts extends Fragment implements View.OnClickListener {
         }
     }
 
+
+   public void welcomeDialog(){
+        Log.d("posts", "sharedpreferences");
+        if(application.getIsFirst()) {
+            Log.d("posts","if");
+            openWelcomeDialog();
+        }
+        else{
+
+        }
+    }
+
     private void openWelcomeDialog() {
-        Log.d("signin","welcome");
+        Log.d("Posts","welcome");
         welcomeDialog=new WelcomeDialog();
+
         welcomeDialog.show(getActivity().getSupportFragmentManager(), "chooser dialog");
         welcomeDialog.setTargetFragment(this, 0);
     }
+
+    @Override
+    public void openDialog(DialogFragment dialogFragment) {
+        Log.d("posts","close dialog");
+        application.setIsFirst(false) ;
+     /*   AlertDialog closeDialog = new AlertDialog.Builder(getActivity()).create();
+        closeDialog.dismiss();*/
+        sendPostData("Hi Iam new here");
+        welcomeDialog.dismiss();
+    }
+
 
     /* parse posts details*/
     private void parsePostsDetails(JSONObject jsonObject) {
@@ -235,6 +273,56 @@ public class Posts extends Fragment implements View.OnClickListener {
 
         //setAdapters(postsList);
     }
+
+    //  send data to server
+    private void sendPostData(String postMessage) {
+        if (networkDetector.isConnected()) {
+            String cat_str = "0";
+            newpostDialogue = ProgressDialog.show(getActivity(), "", getResources()
+                    .getString(R.string.progress_dialog_text));
+            postsClient.insertonPost(application.getUserId(), cat_str,"0", postMessage,""
+                    , "1","", new WebServiceResponseCallback() {
+                @Override
+                public void onSuccess(JSONObject jsonObject) {
+                    parsePostDetails(jsonObject);
+                    closePostDialog();
+                }
+
+                @Override
+                public void onFailure(VolleyError error) {
+                    Log.d("govt", error.toString());
+                    closePostDialog();
+                }
+            });
+        } else {
+            Toast.makeText(getActivity(), "Network connection error", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /* parse insert post  data*/
+    private void parsePostDetails(JSONObject jsonObject) {
+        Log.d("json", jsonObject.toString());
+        try {
+            JSONObject data = jsonObject.getJSONObject("data");
+            Toast.makeText(getActivity(), "Post update successfully", Toast.LENGTH_LONG).show();
+            mListener.onDoneClicked();
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(getActivity(), "Post updation failed", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    /* close post dialog*/
+    private void closePostDialog() {
+        if (newpostDialogue != null) {
+            if (newpostDialogue.isShowing()) {
+                newpostDialogue.dismiss();
+                newpostDialogue = null;
+            }
+        }
+    }
+
     /*set pager adapter*/
     private void setPager(){
 
@@ -321,4 +409,6 @@ public class Posts extends Fragment implements View.OnClickListener {
 
         }
     }
+
+
 }

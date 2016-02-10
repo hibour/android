@@ -82,6 +82,7 @@ public class Constants {
     public static final String KEYWORD_POST_COMMENT = "Commentmessage";
     public static final String KEYWORD_SIGNATURE = "signature";
     public static final String SIGNATURE_VALUE = "I0mkNPgu6h0M4YtOmG6Ib5BdFHy1Knrf";
+    public static final String KEYWORD_POST_LOC="post_loc";
     public static final String USER_LOGIN_FACEBOOK = "facebook";
 
     public static final String DATABASE_NAME = "Hibour.db";
@@ -142,4 +143,5 @@ public class Constants {
     public static String GCM_FIELDS_MESSAGE = "Messages";
     public static String GCM_FIELDS_RECEIVER_ID = "Receiveruserid";
     public static String GCM_FIELDS_SENDER_ID = "Senderuserid";
+
 }

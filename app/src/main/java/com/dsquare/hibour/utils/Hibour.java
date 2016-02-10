@@ -67,6 +67,15 @@ public class Hibour {
         initializeSharedPrefs();
         editor.remove(Constants.PREFERENCE_USER_ID);
     }
+    public void setIsFirst(boolean isFirst){
+        initializeSharedPrefs();
+        editor.putBoolean("isFirst",isFirst);
+        editor.commit();
+    }
+    public boolean getIsFirst(){
+        initializeSharedPrefs();
+        return sharedPreferences.getBoolean("isFirst",true);
+    }
     /* validate email*/
     public boolean validateEmail(String mail){
         if(!mail.contains("@")&& !mail.contains(" "))

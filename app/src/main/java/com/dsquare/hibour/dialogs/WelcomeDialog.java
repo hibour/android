@@ -12,6 +12,8 @@ import android.widget.Button;
 
 
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.fragments.Posts;
+import com.dsquare.hibour.interfaces.PostsCallback;
 
 /**
  * Created by Anji on 2/9/2016.
@@ -19,13 +21,7 @@ import com.dsquare.hibour.R;
 
 public class WelcomeDialog extends android.support.v4.app.DialogFragment implements View.OnClickListener{
     private Button hi;
-  //  NoticeDialogListener mListener;
-
-   /* public interface NoticeDialogListener {
-        public void onDialogPositiveClick(DialogFragment dialog);
-        public void onDialogNegativeClick(DialogFragment dialog);
-    }*/
-
+    private PostsCallback callback;
 
 
     @Override
@@ -44,14 +40,14 @@ public class WelcomeDialog extends android.support.v4.app.DialogFragment impleme
     public void onAttach(Activity activity){
         super.onAttach(activity);
         // Verify that the host activity implements the callback interface
-        /*try {
+        try {
             // Instantiate the NoticeDialogListener so we can send events to the host
-            mListener = (NoticeDialogListener) activity;
+            callback = (PostsCallback) getTargetFragment();
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(activity.toString()
                     + " must implement NoticeDialogListener");
-        }*/
+        }
     }
 
 
@@ -66,6 +62,8 @@ public class WelcomeDialog extends android.support.v4.app.DialogFragment impleme
 
     @Override
     public void onClick(View v) {
-        dismiss();
+        callback.openDialog(this);
+
+
     }
 }

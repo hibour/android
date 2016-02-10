@@ -149,7 +149,7 @@ public class PostsClient {
     /* insert on a post*/
     public void insertonPost(final String userId, final String postType,final String postsubType
             ,final String postMessages,final String postImages,final String status
-            ,final WebServiceResponseCallback callback){
+            ,final String loc,final WebServiceResponseCallback callback){
         try {
             String urlStr = Constants.URL_POST_INSERTS;
             Map<String, String> params = new HashMap<>();
@@ -162,6 +162,7 @@ public class PostsClient {
             params.put(Constants.KEYWORD_POST_STATUS,status);
             params.put(Constants.KEYWORD_SIGNATURE, Constants.SIGNATURE_VALUE);
             params.put(Constants.KEYWORD_POST_LIKESCOUNT,"0");
+            params.put(Constants.KEYWORD_POST_LOC,loc);
             CustomRequest postsRequest = new CustomRequest(Request.Method.POST,urlStr,params
                     ,new Response.Listener<JSONObject>() {
                 @Override
