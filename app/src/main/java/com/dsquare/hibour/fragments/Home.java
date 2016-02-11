@@ -181,6 +181,7 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
                 break;
             case R.id.home_channels:
                 applyCurrentStateToAppBarIcons(R.drawable.channels_filled, channelsIcon);
+                replaceContainer(5);
                 break;
             case R.id.home_more_icon:
                 applyCurrentStateToAppBarIcons(R.drawable.more_filled, moreIcon);
@@ -230,6 +231,10 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
             case 4:
                 isHome = true;
                 fragment = new Socialize();
+                break;
+            case 5:
+                isHome = false;
+                fragment = new Services();
                 break;
         }
         if (fragment != null) {
