@@ -138,4 +138,8 @@
         <item>NearBy</item>
         <item>Chats</item>
     </string-array>
+    <string name="back_text">Back</string>
+    <string name="profile_text">Profile</string>
+    <string name="profile_send_msg_text">SEND MESSAGE</string>
+    <string name="profile_interests_text">Interests:-</string>
 </resources>

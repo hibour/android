@@ -87,7 +87,6 @@
                         android:layout_width="@dimen/dp_140"
                         android:layout_height="@dimen/dp_140"
                         android:layout_gravity="center"
-
                         android:background="@drawable/avatar1" />
 
                     <ImageView
