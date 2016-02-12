@@ -171,6 +171,9 @@
             android:name=".gcm.GcmRegistration"
             android:exported="false">
         </service>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="2f47427ced6450172c46e707ce6a688080ae0f15" />
     </application>
 
 </manifest>
