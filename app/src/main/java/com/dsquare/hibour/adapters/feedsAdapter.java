@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.activities.PostComments;
+import com.dsquare.hibour.activities.Profile;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.network.PostsClient;
@@ -64,6 +65,8 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
         holder.likesLayout.setTag(holder);
         holder.commentsLayout.setOnClickListener(this);
         holder.commentsLayout.setTag(holder);
+        holder.userImage.setOnClickListener(this);
+        holder.userImage.setTag(holder);
         return holder;
     }
 
@@ -88,7 +91,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
         }else{
             holder.feedImage.setVisibility(View.GONE);
         }
-        Log.d("user liked",listItems.get(position).isUserLiked());
+        Log.d("user liked", listItems.get(position).isUserLiked());
         if(listItems.get(position).isUserLiked().equals("true")){
             Bitmap likesIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_thumb_up_filled);
             holder.likesImage.setImageBitmap(likesIcon);
@@ -97,7 +100,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
             holder.likesImage.setImageBitmap(likesIcon);
         }
         holder.timeStamp.setText(getTimeStamp(listItems.get(position).getPostDate()
-                ,listItems.get(position).getPostTime()));
+                , listItems.get(position).getPostTime()));
 
     }
 
@@ -119,7 +122,16 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
                 likePost(listItems.get(position).getPostId());
                 changeLikesCount(position);
                 break;
+            case R.id.feeds_user_image:
+                openUserProfile(listItems.get(position).getPostedUserId());
+                break;
         }
+    }
+    /*open user profile*/
+    private void openUserProfile(String userId){
+        Intent profileIntent  = new Intent(context,Profile.class);
+        profileIntent.putExtra("userId",userId);
+        context.startActivity(profileIntent);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

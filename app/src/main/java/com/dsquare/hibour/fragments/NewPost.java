@@ -91,7 +91,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     private ListView categoriesRecycler;
     private String[] details;
     private String catFrmPre="";
-    private boolean[] filled = {false,false,false,false};
+    private boolean isMessage = false;
     public interface PostsListener{
         void onCancelClicked();
         void onDoneClicked();
@@ -117,7 +117,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         catFrmPre = getArguments().getString("category", "");
         initializeViews(view);
         initializeEventListeners();
-        getNeighbourHoods(application.getUserId());
+      //  getNeighbourHoods(application.getUserId());
         setCategories();
         return view;
     }
@@ -127,17 +127,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         gallary.setOnClickListener(this);
         delete.setOnClickListener(this);
         done.setOnClickListener(this);
-        //editPost.requestFocus();
         cancel.setOnClickListener(this);
-        /*editPost.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    InputMethodManager in = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    in.showSoftInput(editPost, InputMethodManager.SHOW_IMPLICIT);
-                }
-            }
-        });*/
     }
 
     @Override
@@ -253,8 +243,6 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                 !text.getText().toString().equals("") &&
                 !postimagesstring.equals("")) {
             Toast.makeText(getActivity(), "All fields are required", Toast.LENGTH_LONG).show();
-//            sendPostData(categoriesTypeId ,text.getText().toString()
-//                    , postimagesstring);
         } else {
             Log.d("userid", application.getUserId());
             sendPostData("1", text.getText().toString()
@@ -316,7 +304,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         done.setTextColor(getActivity().getResources().getColor(R.color.gray));
         //  bgColors = getActivity().getResources().getStringArray(R.array.movie_serial_bg);
         categoriesSpinner = (Spinner)view.findViewById(R.id.newpost_categories_spinner);
-        neighboursSpinner = (Spinner)view.findViewById(R.id.newpost_neighbourhood_spinner);
+       // neighboursSpinner = (Spinner)view.findViewById(R.id.newpost_neighbourhood_spinner);
         editPost = (EditText) view.findViewById(R.id.newposts_edittest);
         editPost.requestFocus();
       //  InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -326,19 +314,14 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
             public void onFocusChange(View v, boolean hasFocus){
                 Log.d("edit text","On Foucs. Has Focus = " + hasFocus);
                 if (hasFocus){
-                    filled[1] = true;
-                    if(filled[0] == true  && filled[3] ==true){
-                        done.setTextColor(getActivity().getResources().getColor(R.color.black_1));
-                        setOnClickForDone();
-                    }
-                    //open keyboard
+                    done.setTextColor(getActivity().getResources().getColor(R.color.black_1));
+                    setOnClickForDone();
                     ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(v,
                             InputMethodManager.SHOW_FORCED);
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.showSoftInput(editPost, InputMethodManager.SHOW_IMPLICIT);
                 }
                 else{
-                    //close keyboard
                     ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
                             v.getWindowToken(), 0);
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -356,7 +339,6 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                 clickedView.requestFocus();
             }
         });
-
          cancel = (TextView) view.findViewById(R.id.creat_post_cancel);
         gallary = (ImageView) view.findViewById(R.id.creat_imageview_post_icon);
         postImage = (ImageView) view.findViewById(R.id.creat_imageview_display_icon);
@@ -381,11 +363,6 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                     if (!categoriesType.equals("Select Categories")) {
                         categoriesTypeId = Constants.postTypesMap.get(categoriesType).get("id");
                         editPost.setHint(Constants.postTypesMap.get(categoriesType).get("placeholder"));
-                        filled[0] = true;
-                        if(filled[1] == true && filled[3] ==true){
-                            done.setTextColor(getActivity().getResources().getColor(R.color.black_1));
-                            setOnClickForDone();
-                        }
                     }
                     ((TextView) parent.getChildAt(0)).setTextColor(getResources()
                             .getColor(R.color.gray));
@@ -402,7 +379,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
 
         neighoursAdapter = new ArrayAdapter<String>(getActivity()
                 , android.R.layout.simple_spinner_dropdown_item, neighourList);
-        neighboursSpinner.setAdapter(neighoursAdapter);
+        /*neighboursSpinner.setAdapter(neighoursAdapter);
         neighboursSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -432,7 +409,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
 
     }
     private void setOnClickForDone(){
@@ -483,7 +460,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                 }
                 neighoursAdapter = new ArrayAdapter<String>(getActivity()
                         , android.R.layout.simple_dropdown_item_1line, neighourList);
-                neighboursSpinner.setAdapter(neighoursAdapter);
+//                neighboursSpinner.setAdapter(neighoursAdapter);
             }
         } catch (JSONException e) {
             e.printStackTrace();
