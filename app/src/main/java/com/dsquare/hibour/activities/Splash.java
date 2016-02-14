@@ -6,8 +6,11 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
+import com.crashlytics.android.Crashlytics;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.utils.Hibour;
+
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by Dsquare Android on 1/14/2016.
@@ -21,6 +24,8 @@ public class Splash extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
+
         setContentView(R.layout.activity_splash);
 
         application = Hibour.getInstance(this);
