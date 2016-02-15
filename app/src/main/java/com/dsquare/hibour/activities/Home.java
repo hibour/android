@@ -138,7 +138,7 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
             case 4:
                 isHome = false;
                 application.removeUserDetails();
-                Intent signInIntent = new Intent(this,SignIn.class);
+                Intent signInIntent = new Intent(this,LocationSearch.class);
                 startActivity(signInIntent);
                 this.finish();
            /* case 4:

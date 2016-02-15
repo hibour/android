@@ -162,7 +162,7 @@ public class PostsClient {
             params.put(Constants.KEYWORD_POST_STATUS,status);
             params.put(Constants.KEYWORD_SIGNATURE, Constants.SIGNATURE_VALUE);
             params.put(Constants.KEYWORD_POST_LIKESCOUNT,"0");
-            params.put(Constants.KEYWORD_POST_LOC,loc);
+          //  params.put(Constants.KEYWORD_POST_LOC,loc);
             CustomRequest postsRequest = new CustomRequest(Request.Method.POST,urlStr,params
                     ,new Response.Listener<JSONObject>() {
                 @Override
