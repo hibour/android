@@ -84,11 +84,11 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
         holder.categoryName.setText(categoryString);
         holder.likes.setText(listItems.get(position).getLikesCount());
         holder.comments.setText(listItems.get(position).getCommentsCount());
-        if(listItems.get(position).getPostImage().length()>10 && listItems.get(position).getPostImage().length()<70){
+        if(listItems.get(position).getPostImage().length()>10){
             Log.d("image",listItems.get(position).getPostImage());
             try {
                // holder.feedImage.setImageBitmap(base64ToBitmap(listItems.get(position).getPostImage()));
-                imageLoader.get(listItems.get(position).getPostImage(),ImageLoader.getImageListener(holder.feedImage
+                imageLoader.get(listItems.get(position).getPostImage().replace("\\",""),ImageLoader.getImageListener(holder.feedImage
                         ,R.drawable.avatar1,R.drawable.avatar1));
             } catch (Exception e) {
                 e.printStackTrace();

@@ -77,7 +77,7 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
         //postimage = (ImageView) view.findViewById(R.id.home_post);
         bottomBar1 = (LinearLayout) view.findViewById(R.id.home_bottom_menu);
 
-        Constants.categoriesMap.put("1","General");
+        Constants.categoriesMap.put("6","General");
         Constants.categoriesMap.put("2","Suggestions");
         Constants.categoriesMap.put("3","Classifieds");
         Constants.categoriesMap.put("4", "Crime & saftey");

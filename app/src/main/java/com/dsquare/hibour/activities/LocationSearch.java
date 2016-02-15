@@ -14,6 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
@@ -106,6 +107,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 //            mapFragment.getMapAsync(ChooseLocation.this);
             Log.i("RESULT CALLBACK 2", "Place details received: " + place.getName());
 
+            hideSoftKeyboard();
             places.release();
             if (place == null)
                 Toast.makeText(LocationSearch.this, "Location Not Changed", Toast.LENGTH_SHORT).show();
@@ -436,6 +438,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 locationDisplayTextView.setText(locAddress);
                 autoCompleteTextView1.setText(autoCompleteTextView.getText().toString());
                 Constants.userAddress = locAddress;
+                //getMembersCount(autoCompleteTextView1.getText().toString());
                 if(networkDetector.isConnected()){
                     try {
                         URL url = new URL("http://hibour.com/test.php?area="+autoCompleteTextView.getText().toString());
@@ -453,7 +456,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                     Toast.makeText(getApplicationContext(),"Can't connect to network.",Toast.LENGTH_LONG).show();
                 }
                 isAutoComplete = false;
-                getMembersCount(autoCompleteTextView.getText().toString());
+                getMembersCount(autoCompleteTextView1.getText().toString());
 
 //                startActivity(intent);
             }
@@ -490,6 +493,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
             Log.d("data",data.toString());
             int count = data.getInt("Count");
             countText.setText("There are about "+count+" members registered from your area.");
+            closeLocDialog();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -505,4 +509,22 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    /**
+            * Hides the soft keyboard
+    */
+    public void hideSoftKeyboard() {
+        if(getCurrentFocus()!=null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+    }
+
+    /**
+     * Shows the soft keyboard
+     */
+    public void showSoftKeyboard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        view.requestFocus();
+        inputMethodManager.showSoftInput(view, 0);
+    }
 }
