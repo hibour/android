@@ -16,10 +16,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.activities.PostComments;
 import com.dsquare.hibour.activities.Profile;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
+import com.dsquare.hibour.network.HibourConnector;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.network.PostsClient;
 import com.dsquare.hibour.pojos.posts.Feeds;
@@ -47,6 +49,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
     private PostsClient postsClient;
     private Hibour application;
     private ProgressDialog dialog;
+    private ImageLoader imageLoader;
     public FeedsAdapter(Context context, List<Feeds> listItems) {
         this.context = context;
         this.listItems = listItems;
@@ -54,6 +57,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
         gson = new Gson();
         postsClient = new PostsClient(context);
         application = Hibour.getInstance(context);
+        imageLoader = HibourConnector.getInstance(context).getImageLoader();
     }
 
     @Override
@@ -80,10 +84,12 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
         holder.categoryName.setText(categoryString);
         holder.likes.setText(listItems.get(position).getLikesCount());
         holder.comments.setText(listItems.get(position).getCommentsCount());
-        if(listItems.get(position).getPostImage().length()>10){
+        if(listItems.get(position).getPostImage().length()>10 && listItems.get(position).getPostImage().length()<70){
             Log.d("image",listItems.get(position).getPostImage());
             try {
-                holder.feedImage.setImageBitmap(base64ToBitmap(listItems.get(position).getPostImage()));
+               // holder.feedImage.setImageBitmap(base64ToBitmap(listItems.get(position).getPostImage()));
+                imageLoader.get(listItems.get(position).getPostImage(),ImageLoader.getImageListener(holder.feedImage
+                        ,R.drawable.avatar1,R.drawable.avatar1));
             } catch (Exception e) {
                 e.printStackTrace();
                 holder.feedImage.setVisibility(View.GONE);
