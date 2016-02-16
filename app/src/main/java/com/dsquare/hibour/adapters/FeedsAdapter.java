@@ -97,7 +97,6 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
         }else{
             holder.feedImage.setVisibility(View.GONE);
         }
-        Log.d("user liked", listItems.get(position).isUserLiked());
         if(listItems.get(position).isUserLiked().equals("true")){
             Bitmap likesIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_thumb_up_filled);
             holder.likesImage.setImageBitmap(likesIcon);
@@ -107,7 +106,6 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
         }
         holder.timeStamp.setText(getTimeStamp(listItems.get(position).getPostDate()
                 , listItems.get(position).getPostTime()));
-
     }
 
     @Override
@@ -122,7 +120,8 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
         switch (view.getId()){
             case R.id.feeds_comments_layout:
                 openCommentsDialog(listItems.get(position).getPostId(),listItems.get(position).getLikesCount()
-                        ,listItems.get(position).isUserLiked());
+                        ,listItems.get(position).isUserLiked(),listItems.get(position).getPostDescription()
+                        ,listItems.get(position).getPostImage());
                 break;
             case R.id.feeds_likes_layout:
                 likePost(listItems.get(position).getPostId());
@@ -260,11 +259,13 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
     }
 
     /* open post comments*/
-    private void openCommentsDialog(String postId,String likes,String liked){
+    private void openCommentsDialog(String postId,String likes,String liked,String message,String imgUrl){
         Intent commentsIntent = new Intent(context, PostComments.class);
         commentsIntent.putExtra("postId",postId);
         commentsIntent.putExtra("likes",likes);
         commentsIntent.putExtra("liked",liked);
+        commentsIntent.putExtra("message",message);
+        commentsIntent.putExtra("img",imgUrl);
         context.startActivity(commentsIntent);
     }
     /* like a post*/

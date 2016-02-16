@@ -18,9 +18,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.adapters.AdapterPostComments;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
+import com.dsquare.hibour.network.HibourConnector;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.network.PostsClient;
 import com.dsquare.hibour.pojos.comments.Comments;
@@ -44,7 +46,7 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
     private ProgressDialog dialog;
     private PostsClient client;
     private String postId = "",likes = "";
-    private TextView likesText;
+    private TextView likesText,postMessage;
     private Button sumbit;
     private NetworkDetector networkDetector;
     private Gson gson;
@@ -52,8 +54,10 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
     private PostsClient postsClient;
     private ProgressDialog postsDialog;
     private List<String[]> postsList = new ArrayList<>();
-    private String liked="";
-    private RelativeLayout likesLayout;
+    private String liked="",message = "",image="";
+    private RelativeLayout likesLayout,noCommentsLayout;
+    private ImageView postImage;
+    private ImageLoader imageLoader;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,13 +68,19 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
     }
     /* initialize views*/
     private void initializeViews(){
+        imageLoader = HibourConnector.getInstance(this).getImageLoader();
         likeIcon = (ImageView)findViewById(R.id.comments_like_icon);
         backIcon = (ImageView)findViewById(R.id.comments_bacl_icon);
         likesLayout = (RelativeLayout)findViewById(R.id.comments_likes_layout);
+        postImage = (ImageView)findViewById(R.id.comments_image);
+        postMessage = (TextView)findViewById(R.id.comments_message);
+        noCommentsLayout = (RelativeLayout)findViewById(R.id.no_comments_layout);
         postsClient = new PostsClient(this);
         postId = getIntent().getStringExtra("postId");
         likes = getIntent().getStringExtra("likes");
         liked = getIntent().getStringExtra("liked");
+        message = getIntent().getStringExtra("message");
+        image = getIntent().getStringExtra("img");
         if(liked.equals("true")){
             Bitmap likesIcon = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_thumb_up);
             likeIcon.setImageBitmap(likesIcon);
@@ -78,9 +88,16 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
             Bitmap likesIcon = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_thumb_up);
             likeIcon.setImageBitmap(likesIcon);
         }
+        postMessage.setText(message);
+        if(image.length()>10){
+            postImage.setVisibility(View.VISIBLE);
+            imageLoader.get(image.replace("\\",""),ImageLoader.getImageListener(postImage
+                    ,R.drawable.avatar1,R.drawable.avatar1));
+        }else{
+            postImage.setVisibility(View.GONE);
+        }
         likesText = (TextView)findViewById(R.id.comments_likes_text);
         setLikesText(Integer.valueOf(likes));
-        //likesText.setText(likes+" members liked this");
         postIcon = (ImageView)findViewById(R.id.comments_post_icon);
         commentsText = (EditText)findViewById(R.id.comments_edit_text);
         commentsList = (RecyclerView)findViewById(R.id.comments_post_list);
@@ -152,24 +169,38 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
     private void prepareCommentsList(JSONObject jsonObject){
         Log.d("json",jsonObject.toString());
         try {
-            Comments comments = gson.fromJson(jsonObject.toString(),Comments.class);
+            Comments comments = gson.fromJson(jsonObject.toString(), Comments.class);
             List<Datum> data = comments.getData();
-            for(int i=0;i<data.size();i++){
-                String[] comment = new String[3];
-                comment[0] = String.valueOf(data.get(i).getUser().getName());
-                comment[1] = data.get(i).getCommentTime();
-                comment[2] = data.get(i).getCommentMessage();
-                postsList.add(comment);
+            if (data.size() > 0) {
+                for (int i = 0; i < data.size(); i++) {
+                    String[] comment = new String[4];
+                    comment[0] = String.valueOf(data.get(i).getUser().getName());
+                    comment[1] = data.get(i).getCommentTime();
+                    comment[2] = data.get(i).getCommentMessage();
+                    comment[3] = data.get(i).getCommentDate();
+                    postsList.add(comment);
+                }
+                setAdapters(postsList);
+            } else {
+                if (commentsList.getVisibility() == View.VISIBLE) {
+                    commentsList.setVisibility(View.GONE);
+                }
+                if (noCommentsLayout.getVisibility() == View.GONE) {
+                    noCommentsLayout.setVisibility(View.VISIBLE);
+                }
             }
-            setAdapters(postsList);
-            }
-
-         catch (JsonSyntaxException e) {
+        }catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
 
         }
     private void setAdapters(List<String[]> postsList){
+        if (commentsList.getVisibility() == View.GONE) {
+            commentsList.setVisibility(View.VISIBLE);
+        }
+        if (noCommentsLayout.getVisibility() == View.VISIBLE) {
+            noCommentsLayout.setVisibility(View.GONE);
+        }
         commentsList.setAdapter(new AdapterPostComments(this, postsList));
     }
     /* post comment*/
