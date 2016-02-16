@@ -14,6 +14,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.widget.AdapterView;
@@ -70,7 +72,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
     private Place place;
     private ProgressDialog pDialog;
     public Button search, signin;
-    private AutoCompleteTextView autoCompleteTextView,autoCompleteTextView1;
+    private AutoCompleteTextView autoCompleteTextView;//,autoCompleteTextView1;
     protected Location mLastLocation;
     private double latitude, longitude;
     private String locAddress;
@@ -86,7 +88,8 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
     private WebView locMap;
     private TextView locationDisplayTextView,countText;
     private Button next;
-    private RelativeLayout auto,map;
+    private RelativeLayout auto,map,locLayout;
+    private RelativeLayout searchLayout,mapLayout;
     private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
             = new ResultCallback<PlaceBuffer>() {
         @Override
@@ -162,7 +165,8 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_places);
+       // setContentView(R.layout.activity_select_places);
+        setContentView(R.layout.activity_loc_search);
         initializeViews();
         initializeEventListeners();
     }
@@ -175,10 +179,12 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 .addApi(Places.PLACE_DETECTION_API)
                 .addApi(LocationServices.API)
                 .build();
-        search = (Button) findViewById(R.id.places_search);
+        //search = (Button) findViewById(R.id.places_search);
         signin = (Button) findViewById(R.id.places_signup);
-        auto = (RelativeLayout) findViewById(R.id.relative_auto);
-        map = (RelativeLayout) findViewById(R.id.relative_map);
+       // searchLayout = (RelativeLayout)findViewById(R.id.loc_search_search_layout);
+        mapLayout = (RelativeLayout)findViewById(R.id.loc_search_second_layout);
+        //auto = (RelativeLayout) findViewById(R.id.relative_auto);
+        //map = (RelativeLayout) findViewById(R.id.relative_map);
         locationDisplayTextView = (TextView)findViewById(R.id.loc_curr_loc_textview);
         locMap = (WebView)findViewById(R.id.map);
         countText = (TextView)findViewById(R.id.loc_members_count);
@@ -186,11 +192,11 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
         application = Hibour.getInstance(this);
         application.initializeSharedPrefs();
         gson = new Gson();
+        searchLayout = (RelativeLayout)findViewById(R.id.loc_search_layout);
         next = (Button)findViewById(R.id.serach_sumbit);
 
-
         autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.loc_search_autocomplete);
-        autoCompleteTextView1 = (AutoCompleteTextView) findViewById(R.id.loc_search_autocomplete1);
+        //autoCompleteTextView1 = (AutoCompleteTextView) findViewById(R.id.loc_search_autocomplete1);
         autoCompleteTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
@@ -203,7 +209,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 
             }
         });
-        autoCompleteTextView1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        /*autoCompleteTextView1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
 
@@ -214,7 +220,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 }
 
             }
-        });
+        });*/
         networkDetector = new NetworkDetector(this);
         accountsClient = new AccountsClient(this);
 
@@ -223,10 +229,11 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
         filterTypes.add(Place.TYPE_GEOCODE);
 
         autoCompleteTextView.setOnItemClickListener(mAutocompleteClickListener);
+        //autoCompleteTextView1.setOnItemClickListener(mAutocompleteClickListener);
         placeAutoCompleteAdapter = new PlaceAutoCompleteAdapter(this, android.R.layout.simple_list_item_1,
                 mGoogleApiClient, BOUNDS_INDIA, AutocompleteFilter.create(filterTypes));
         autoCompleteTextView.setAdapter(placeAutoCompleteAdapter);
-
+        //autoCompleteTextView1.setAdapter(placeAutoCompleteAdapter);
         autoCompleteTextView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -275,14 +282,14 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 //            }
 //        });
         tf = Typeface.createFromAsset(getAssets(), Fonts.getTypeFaceName());
-        search.setTypeface(tf);
+//        search.setTypeface(tf);
         signin.setTypeface(tf);
         autoCompleteTextView.setTypeface(tf);
-        autoCompleteTextView1.setTypeface(tf);
+        //autoCompleteTextView1.setTypeface(tf);
     }
 
     private void initializeEventListeners() {
-        search.setOnClickListener(this);
+//        search.setOnClickListener(this);
         signin.setOnClickListener(this);
         next.setOnClickListener(this);
     }
@@ -291,16 +298,6 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.places_search:
-
-//                Intent intent = new Intent(getApplicationContext(), ChooseLocation.class);
-//                if(autoCompleteTextView.getText()!=null && !autoCompleteTextView.getText().toString().equals("")){
-//                    intent.putExtra("latitude",Constants.Latitude);
-//                    intent.putExtra("longitude",Constants.Longitude);
-//                    intent.putExtra("address",autoCompleteTextView.getText().toString());
-//                    startActivity(intent);
-//                }else{
-//                    Toast.makeText(this,"Choose neighbourhood",Toast.LENGTH_LONG).show();
-//                }
                 break;
             case R.id.places_signup:
                 Intent intent1 = new Intent(getApplicationContext(), SignIn.class);
@@ -364,11 +361,6 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 e.printStackTrace();
             }
             Log.d("lat+lon",mLastLocation.getLatitude()+" "+mLastLocation.getLongitude());
-            /*Intent intent = new Intent(getApplicationContext(), ChooseLocation.class);
-            intent.putExtra("latitude",Constants.Latitude);
-            intent.putExtra("longitude",Constants.Longitude);
-            intent.putExtra("address",autoCompleteTextView.getText().toString());
-            startActivity(intent);*/
         } else {
            // Toast.makeText(this, "location not found", Toast.LENGTH_LONG).show();
         }
@@ -431,14 +423,17 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
             if(isAutoComplete){
                // auto.setVisibility(View.GONE);
                // auto.animate().translationYBy(-100).setDuration(2000);
-                auto.setVisibility(View.GONE);
+     //           auto.setVisibility(View.GONE);
                 //auto.animate().translationY(100);
-                map.setVisibility(View.VISIBLE);
+            //    map.setVisibility(View.VISIBLE);
                 signin.setVisibility(View.VISIBLE);
                 locationDisplayTextView.setText(locAddress);
-                autoCompleteTextView1.setText(autoCompleteTextView.getText().toString());
+          //      autoCompleteTextView1.setText(autoCompleteTextView.getText().toString());
                 Constants.userAddress = locAddress;
                 //getMembersCount(autoCompleteTextView1.getText().toString());
+                if(mapLayout.getVisibility()==View.GONE){
+                    mapLayout.setVisibility(View.VISIBLE);
+                }
                 if(networkDetector.isConnected()){
                     try {
                         URL url = new URL("http://hibour.com/test.php?area="+autoCompleteTextView.getText().toString());
@@ -456,11 +451,28 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                     Toast.makeText(getApplicationContext(),"Can't connect to network.",Toast.LENGTH_LONG).show();
                 }
                 isAutoComplete = false;
-                getMembersCount(autoCompleteTextView1.getText().toString());
+                TranslateAnimation anim = new TranslateAnimation(0, 0, 0, -200);
+                anim.setDuration(1000);
+                anim.setAnimationListener(new TranslateAnimation.AnimationListener() {
 
-//                startActivity(intent);
+                    @Override
+                    public void onAnimationStart(Animation animation) { }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) { }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation)
+                    {
+                        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)searchLayout.getLayoutParams();
+                        params.topMargin += -200;
+                        params.leftMargin += 0;
+                        searchLayout.setLayoutParams(params);
+                    }
+                });
+                searchLayout.setAnimation(anim);
+                getMembersCount(autoCompleteTextView.getText().toString());
             }
-//            startMap();
         }
     }
 

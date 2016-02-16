@@ -48,6 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:id="@+id/loc_search_layout"
             android:background="@color/white">
             <com.dsquare.hibour.utils.Avenir
                 android:layout_width="wrap_content"
