@@ -142,7 +142,7 @@
                     android:layout_above="@id/serach_sumbit"
                     android:layout_marginBottom="@dimen/dp_20"
                     android:id="@+id/loc_members_count"
-                    android:text="There are 200 people joined from this area"/>
+                    android:text=""/>
 
             </RelativeLayout>
             <WebView
