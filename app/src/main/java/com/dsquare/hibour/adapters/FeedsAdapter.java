@@ -183,11 +183,6 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
         listItems.set(position,feed);
         notifyItemChanged(position);
     }
-    /* convert base64 string to image*/
-    private Bitmap base64ToBitmap(String myImageData){
-        byte[] imageAsBytes = Base64.decode(myImageData.getBytes(), Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
-    }
     /* get timestamp from feed*/
     private String getTimeStamp(String date,String time){
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

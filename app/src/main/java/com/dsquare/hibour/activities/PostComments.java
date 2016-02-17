@@ -69,9 +69,9 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
     /* initialize views*/
     private void initializeViews(){
         imageLoader = HibourConnector.getInstance(this).getImageLoader();
-        likeIcon = (ImageView)findViewById(R.id.comments_like_icon);
+//        likeIcon = (ImageView)findViewById(R.id.comments_like_icon);
         backIcon = (ImageView)findViewById(R.id.comments_bacl_icon);
-        likesLayout = (RelativeLayout)findViewById(R.id.comments_likes_layout);
+  //      likesLayout = (RelativeLayout)findViewById(R.id.comments_likes_layout);
         postImage = (ImageView)findViewById(R.id.comments_image);
         postMessage = (TextView)findViewById(R.id.comments_message);
         noCommentsLayout = (RelativeLayout)findViewById(R.id.no_comments_layout);
@@ -81,13 +81,13 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
         liked = getIntent().getStringExtra("liked");
         message = getIntent().getStringExtra("message");
         image = getIntent().getStringExtra("img");
-        if(liked.equals("true")){
+    /*    if(liked.equals("true")){
             Bitmap likesIcon = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_thumb_up);
             likeIcon.setImageBitmap(likesIcon);
         }else{
             Bitmap likesIcon = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_thumb_up);
             likeIcon.setImageBitmap(likesIcon);
-        }
+        }*/
         postMessage.setText(message);
         if(image.length()>10){
             postImage.setVisibility(View.VISIBLE);
@@ -96,9 +96,9 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
         }else{
             postImage.setVisibility(View.GONE);
         }
-        likesText = (TextView)findViewById(R.id.comments_likes_text);
-        setLikesText(Integer.valueOf(likes));
-        postIcon = (ImageView)findViewById(R.id.comments_post_icon);
+        //likesText = (TextView)findViewById(R.id.comments_likes_text);
+        //setLikesText(Integer.valueOf(likes));
+        //postIcon = (ImageView)findViewById(R.id.comments_post_icon);
         commentsText = (EditText)findViewById(R.id.comments_edit_text);
         commentsList = (RecyclerView)findViewById(R.id.comments_post_list);
         sumbit = (Button)findViewById(R.id.comments_sumbit);
@@ -113,29 +113,29 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
     }
     /* initialize event listeners*/
     private void initializeEventListeners(){
-        postIcon.setOnClickListener(this);
+        //postIcon.setOnClickListener(this);
         sumbit.setOnClickListener(this);
-        likeIcon.setOnClickListener(this);
-        likesLayout.setOnClickListener(this);
+        //likeIcon.setOnClickListener(this);
+        //likesLayout.setOnClickListener(this);
         backIcon.setOnClickListener(this);
     }
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.comments_post_icon:
+          /*  case R.id.comments_post_icon:
                 openLikesScreen();
-                break;
+                break;*/
             case R.id.comments_sumbit:
                 postComment(application.getUserId(),postId,commentsText.getText().toString());
                 commentsText.setText("");
                 break;
-            case R.id.comments_like_icon:
+            /*case R.id.comments_like_icon:
                 likePost(postId);
                 changeLikes();
                 break;
             case R.id.comments_likes_layout:
                 openLikesScreen();
-                break;
+                break;*/
             case R.id.comments_bacl_icon:
                 this.finish();
                 break;
