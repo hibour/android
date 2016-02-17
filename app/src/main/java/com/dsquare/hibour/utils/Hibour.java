@@ -66,6 +66,7 @@ public class Hibour {
     public void removeUserDetails(){
         initializeSharedPrefs();
         editor.remove(Constants.PREFERENCE_USER_ID);
+        editor.apply();
     }
     public void setIsFirst(boolean isFirst){
         initializeSharedPrefs();
@@ -78,7 +79,7 @@ public class Hibour {
     }
     /* validate email*/
     public boolean validateEmail(String mail){
-        if(!mail.contains("@")&& !mail.contains(" "))
+        if(!mail.contains("@")&& mail.contains(" "))
             return false;
         return true;
     }

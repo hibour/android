@@ -35,12 +35,12 @@ public class Splash extends AppCompatActivity {
         img_view = (ImageView) findViewById(R.id.splash_logo);
         RotateAnimation anim = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 
-//Setup anim with desired properties
+        //Setup anim with desired properties
         anim.setInterpolator(new LinearInterpolator());
         anim.setRepeatCount(Animation.INFINITE); //Repeat animation indefinitely
         anim.setDuration(700); //Put desired duration per anim cycle here, in milliseconds
 
-//Start animation
+        //Start animation
         img_view.startAnimation(anim);
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -52,11 +52,8 @@ public class Splash extends AppCompatActivity {
                         Intent homeIntent = new Intent(Splash.this,Home.class);
                         startActivity(homeIntent);
                     }
-
                     finish();
             }
         }, SPLASH_TIME_OUT);
     }
-
 }
-

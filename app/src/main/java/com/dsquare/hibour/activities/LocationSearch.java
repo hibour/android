@@ -168,7 +168,6 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_places);
-       // setContentView(R.layout.activity_loc_search);
         initializeViews();
         initializeEventListeners();
     }
@@ -181,10 +180,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 .addApi(Places.PLACE_DETECTION_API)
                 .addApi(LocationServices.API)
                 .build();
-        //search = (Button) findViewById(R.id.places_search);
         signin = (Button) findViewById(R.id.places_signup);
-       // searchLayout = (RelativeLayout)findViewById(R.id.loc_search_search_layout);
-        //mapLayout = (RelativeLayout)findViewById(R.id.loc_search_second_layout);
         auto = (LinearLayout) findViewById(R.id.loc_search_layout);
         map = (RelativeLayout) findViewById(R.id.relative_map);
         locationDisplayTextView = (TextView)findViewById(R.id.loc_curr_loc_textview);
@@ -242,11 +238,6 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 if (autoCompleteTextView.equals(null) || autoCompleteTextView.getText().toString().equals("")) {
 
                 } else {
-                    /*Intent intent = new Intent(getApplicationContext(), ChooseLocation.class);
-                    intent.putExtra("latitude",Constants.Latitude);
-                    intent.putExtra("longitude",Constants.Longitude);
-                    intent.putExtra("address",autoCompleteTextView.getText().toString());
-                    startActivity(intent);*/
                 }
 
             }
@@ -257,41 +248,13 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
             }
         });
 
-//        autoCompleteTextView1.setOnItemClickListener(mAutocompleteClickListener);
-//        placeAutoCompleteAdapter = new PlaceAutoCompleteAdapter(this, android.R.layout.simple_list_item_1,
-//                mGoogleApiClient, BOUNDS_INDIA, AutocompleteFilter.create(filterTypes));
-//        autoCompleteTextView1.setAdapter(placeAutoCompleteAdapter);
-//
-//        autoCompleteTextView1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//
-//                if(autoCompleteTextView1.equals(null)||autoCompleteTextView1.getText().toString().equals("")){
-//
-//            }else{
-//                    /*Intent intent = new Intent(getApplicationContext(), ChooseLocation.class);
-//                    intent.putExtra("latitude",Constants.Latitude);
-//                    intent.putExtra("longitude",Constants.Longitude);
-//                    intent.putExtra("address",autoCompleteTextView.getText().toString());
-//                    startActivity(intent);*/
-//            }
-//
-//        }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//            }
-//        });
         tf = Typeface.createFromAsset(getAssets(), Fonts.getTypeFaceName());
-//        search.setTypeface(tf);
         signin.setTypeface(tf);
         autoCompleteTextView.setTypeface(tf);
         autoCompleteTextView1.setTypeface(tf);
     }
 
     private void initializeEventListeners() {
-//        search.setOnClickListener(this);
         signin.setOnClickListener(this);
         next.setOnClickListener(this);
     }
@@ -311,7 +274,6 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 startActivity(intent2);
                 this.finish();
                 break;
-
         }
     }
 
@@ -341,14 +303,10 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onConnected(Bundle connectionHint) {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
             return;
         }
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
@@ -423,22 +381,13 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
         protected void onPostExecute(String resultString) {
 
             if(isAutoComplete){
-               // auto.setVisibility(View.GONE);
-               // auto.animate().translationYBy(-100).setDuration(2000);
-     //           auto.setVisibility(View.GONE);
-                //auto.animate().translationY(100);
                 map.setVisibility(View.VISIBLE);
                 signin.setVisibility(View.VISIBLE);
-//                locationDisplayTextView.setText(locAddress);
                 autoCompleteTextView1.setText(autoCompleteTextView.getText().toString());
                 Constants.userAddress = locAddress;
-                //getMembersCount(autoCompleteTextView1.getText().toString());
                 TranslateAnimation anim = new TranslateAnimation(0, 0, 0, -200);
                 anim.setDuration(1000);
                 auto.setAnimation(anim);
-                /*if(mapLayout.getVisibility()==View.GONE){
-                    mapLayout.setVisibility(View.VISIBLE);
-                }*/
                 if(networkDetector.isConnected()){
                     try {
                         URL url = new URL("http://hibour.com/test.php?area="+autoCompleteTextView.getText().toString());
