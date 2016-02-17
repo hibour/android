@@ -139,168 +139,120 @@
         android:layout_height="match_parent"
         android:id="@+id/relative_map"
         android:background="@color/white"
+        android:layout_below="@id/location_toolbar"
         android:visibility="gone">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_120"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            android:id="@+id/location_button_bar">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_Size_level5"
+                android:background="@color/brand"
+                android:text="Connect to your neighbours"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="@dimen/dp_10"
+                android:id="@+id/serach_sumbit"/>
+            <com.dsquare.hibour.utils.Avenir
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textColor="@color/black_1"
+                android:textSize="@dimen/text_size_level4"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_above="@id/serach_sumbit"
+                android:id="@+id/loc_members_count"
+                android:text="There are 200 people joined from this area"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:id="@+id/loc_search_top_layout"
+            android:background="@color/white">
+            <com.dsquare.hibour.utils.Avenir
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_activity_googleplace"
+                android:textSize="@dimen/dp_20"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:id="@+id/loc_search_text_temp3"
+                android:textColor="@color/black_1"/>
+            <com.dsquare.hibour.utils.Avenir
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_neighborhood"
+                android:textSize="@dimen/dp_20"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/loc_search_text_temp3"
+                android:id="@+id/loc_search_text_temp4"
+                android:textColor="@color/black_1"
+                android:layout_marginBottom="@dimen/dp_20"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/white"
+                android:layout_below="@id/loc_search_text_temp4">
 
-        <ScrollView
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_35"
+                    android:background="@drawable/loc_search_rectangle"
+                    android:descendantFocusability="beforeDescendants"
+                    android:focusableInTouchMode="true"
+                    android:layout_marginLeft="@dimen/dp_25"
+                    android:layout_marginRight="@dimen/dp_25"
+                    android:layout_above="@id/loc_location_display_layout">
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_25"
+                        android:layout_height="@dimen/dp_25"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:layout_alignParentRight="true"
+                        android:src="@mipmap/ic_location_icon"
+                        android:id="@+id/loc_search_icon1"/>
+
+                    <AutoCompleteTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_30"
+                        android:layout_centerInParent="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginRight="@dimen/dp_30"
+                        android:hint="@string/loc_locality"
+                        android:textColor="@color/gray"
+                        android:textColorHint="@color/gray"
+                        android:textSize="@dimen/edit_text_size"
+                        android:id="@+id/loc_search_autocomplete1"
+                        android:background="@null"
+                        android:gravity="center"/>
+                </RelativeLayout>
+            </LinearLayout>
+        </RelativeLayout>
+        <WebView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/location_toolbar">
+            android:layout_below="@id/loc_search_top_layout"
+            android:layout_above="@id/location_button_bar"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:id="@+id/map"></WebView>
+        <!--<ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white">
 
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
-                android:background="@color/white"
-                 >
-                <com.dsquare.hibour.utils.Avenir
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/title_activity_googleplace"
-                    android:textSize="@dimen/dp_20"
-                    android:layout_centerHorizontal="true"
-                    android:layout_gravity="center"
-                    android:id="@+id/loc_search_text_temp3"
-                    android:textColor="@color/black_1"
-                    />
-                <com.dsquare.hibour.utils.Avenir
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/title_neighborhood"
-                    android:textSize="@dimen/dp_20"
-                    android:layout_centerHorizontal="true"
-                    android:layout_below="@id/loc_search_text_temp3"
-                    android:id="@+id/loc_search_text_temp4"
-                    android:textColor="@color/black_1"
-                    android:layout_marginBottom="@dimen/dp_30"/>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_160"
-                    android:orientation="vertical"
-                    android:background="@color/white"
-                    android:layout_below="@id/loc_search_text_temp4">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_35"
-                        android:background="@drawable/loc_search_rectangle"
-                        android:descendantFocusability="beforeDescendants"
-                        android:focusableInTouchMode="true"
-                        android:layout_marginLeft="@dimen/dp_25"
-                        android:layout_marginRight="@dimen/dp_25"
-                        android:layout_above="@id/loc_location_display_layout">
-
-                        <ImageView
-                            android:layout_width="@dimen/dp_25"
-                            android:layout_height="@dimen/dp_25"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="@dimen/dp_10"
-                            android:layout_alignParentRight="true"
-                            android:src="@mipmap/ic_location_icon"
-                            android:id="@+id/loc_search_icon1"/>
-
-                        <AutoCompleteTextView
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/dp_30"
-                            android:layout_centerInParent="true"
-                            android:layout_alignParentLeft="true"
-                            android:layout_marginRight="@dimen/dp_30"
-                            android:hint="@string/loc_locality"
-                            android:textColor="@color/gray"
-                            android:textColorHint="@color/gray"
-                            android:textSize="@dimen/edit_text_size"
-                            android:id="@+id/loc_search_autocomplete1"
-                            android:background="@null"
-                            android:gravity="center"/>
-                    </RelativeLayout>
-                </LinearLayout>
-</RelativeLayout>
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:id="@+id/loc_map_layout"
-                    android:layout_marginTop="@dimen/dp_160"
-                    android:background="@color/white">
-                    <!-- <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-                         xmlns:tools="http://schemas.android.com/tools"
-                         android:layout_width="match_parent"
-                         android:layout_height="match_parent"
-                         android:id="@+id/map"
-                         tools:context="com.dsquare.hibour.activities.ChooseLocation"
-                         android:name="com.google.android.gms.maps.SupportMapFragment" />-->
-                    <WebView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:id="@+id/map"></WebView>
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white">
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_marginBottom="@dimen/dp_20"
-                            android:orientation="horizontal"
-                            android:layout_centerHorizontal="true"
-                            android:id="@+id/loc_location_display_layout"
-                            android:background="@color/white">
-                            <com.dsquare.hibour.utils.Avenir
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@android:color/white"
-                                android:text="@string/loc_current_loc_text"
-                                android:textSize="@dimen/sp_16"/>
-                            <com.dsquare.hibour.utils.Avenir
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/loc_curr_loc_textview"
-                                android:textColor="@android:color/white"
-                                android:textSize="@dimen/sp_16"/>
-                        </LinearLayout>
-                    </RelativeLayout>
-                </FrameLayout>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@id/loc_map_layout"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:background="@color/white"
-                    android:id="@+id/location_button_bar">
-
-                    <com.dsquare.hibour.utils.Avenir
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:textColor="@color/black_1"
-                        android:textSize="@dimen/text_size_level4"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:id="@+id/loc_members_count"
-                        android:text="There are 200 people joined from this area"/>
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_Size_level5"
-                        android:background="@color/brand"
-                        android:layout_below="@+id/loc_members_count"
-                        android:text="Connect to your neighbours"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:id="@+id/serach_sumbit"/>
-
-                </RelativeLayout>
-
             </RelativeLayout>
-        </ScrollView>
-
+        </ScrollView>-->
     </RelativeLayout>
-
 </LinearLayout>
