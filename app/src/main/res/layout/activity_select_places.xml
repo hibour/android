@@ -4,38 +4,6 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:id="@+id/govt_proof_toolbar"
-        android:background="@color/white">
-
-        <ImageView
-            android:layout_width="120dp"
-            android:layout_height="30dp"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:background="@drawable/log"/>
-        <Button
-            android:layout_width="50dp"
-            android:layout_marginRight="@dimen/dp_10"
-            android:textAllCaps="false"
-            android:layout_marginTop="@dimen/dp_10"
-            android:layout_height="@dimen/dp_20"
-            android:textColor="@color/white"
-            android:background="@color/brand"
-            android:text="@string/signin_button"
-            android:layout_alignParentRight="true"
-            android:id="@+id/places_signup"
-            android:visibility="gone"
-            android:layout_centerVertical="true"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/light_gray"/>
-    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -43,6 +11,7 @@
         android:background="@color/white"
         android:id="@+id/relative_auto"
         android:visibility="visible">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_centerVertical="true"
@@ -51,9 +20,9 @@
             android:background="@color/white">
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical">
-                <com.dsquare.hibour.utils.Avenir
+                android:layout_height="177dp"
+                >
+                <com.dsquare.hibour.utils.ProximaLight
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/title_activity_googleplace"
@@ -61,9 +30,10 @@
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
                     android:id="@+id/loc_search_text_temp1"
-                    android:textColor="@color/black_1"
+                    android:textColor="@color/textColor_discoverneighbourhood"
                     />
-                <com.dsquare.hibour.utils.Avenir
+
+                <com.dsquare.hibour.utils.ProximaLight
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/title_neighborhood"
@@ -71,7 +41,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_below="@id/loc_search_text_temp1"
                     android:id="@+id/loc_search_text_temp2"
-                    android:textColor="@color/black_1"
+                    android:textColor="@color/textColor_discoverneighbourhood"
                     android:layout_marginBottom="@dimen/dp_30"/>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -82,7 +52,7 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_35"
+                        android:layout_height="@dimen/dp_40"
                         android:background="@drawable/loc_search_rectangle"
                         android:descendantFocusability="beforeDescendants"
                         android:focusableInTouchMode="true"
@@ -96,7 +66,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginRight="@dimen/dp_10"
                             android:layout_alignParentRight="true"
-                            android:src="@mipmap/ic_location_icon"
+                            android:src="@mipmap/location_icon"
                             android:id="@+id/loc_search_icon"/>
 
                         <AutoCompleteTextView
@@ -132,6 +102,43 @@
 
         </LinearLayout>
 
+        <ImageView
+            android:layout_width="@dimen/dp_224"
+            android:layout_height="@dimen/dp_223"
+            android:id="@+id/hibour_logo_landing_page"
+            android:src="@mipmap/hibour_logo_landingpage"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_centerHorizontal="true"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView2"
+                android:src="@mipmap/house_animation"
+                android:layout_alignWithParentIfMissing="false"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/loc_search_layout"/>
+
+            <com.dsquare.hibour.utils.ProximaLight
+                android:id="@+id/sign_in_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/signup_signin_text"
+                android:textSize="18sp"
+                android:gravity="center_horizontal"
+                android:layout_below="@+id/imageView2"
+                android:layout_marginBottom="@dimen/dp_20"/>
+        </LinearLayout>
+
 
     </RelativeLayout>
     <RelativeLayout
@@ -141,6 +148,7 @@
         android:background="@color/white"
         android:layout_below="@id/location_toolbar"
         android:visibility="gone">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_120"
@@ -180,7 +188,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/title_activity_googleplace"
-                android:textSize="@dimen/dp_20"
+                android:textSize="30sp"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
                 android:id="@+id/loc_search_text_temp3"

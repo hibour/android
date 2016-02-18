@@ -4,8 +4,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_sign_up">SignUp</string>
-    <string name="title_activity_googleplace">Discover people in your</string>
-    <string name="title_neighborhood">neighborhood.</string>
+    <string name="title_activity_googleplace">Helping you find friends in your</string>
+    <string name="title_neighborhood">neighborhood</string>
     <string name="signup_text1">join</string>
     <string name="signup_text2">hi\'bour</string>
     <string name="signup_text3">community</string>
@@ -13,7 +13,10 @@
     <string name="signup_email_hint">Email Address</string>
     <string name="signup_password_hint">Password</string>
     <string name="signup_button">sign up</string>
+    <string name="signup_with_email">Signup with Email</string>
     <string name="signup_terms_text">Terms &amp; Conditions</string>
+
+    <string name="pre_sign_up_title">Ask for suggestions from your neighbours</string>
 
     <string name="signup_first_name">First Name</string>
     <string name="signup_last_name">Last Name</string>
@@ -51,7 +54,7 @@
     <string name="button_send">Post</string>
     <string name="loc_current_loc_text">Current Location - </string>
     <string name="loc_search_text">SEARCH</string>
-    <string name="loc_locality">Enter Your Locality</string>
+    <string name="loc_locality">Street/Locality/Colony</string>
     <string name="title_activity_home">Home</string>
     <string name="facebook_app_id">178406975851248</string>
     <string name="gplus_text">LOGIN</string>
@@ -89,7 +92,7 @@
     <string name="signin_signup_text">Don\'t have an account? join here.</string>
     <string name="progress_dialog_text">Please Wait...</string>
     <string name="title_activity_terms_and_conditions">TermsAndConditions</string>
-    <string name="signup_signin_text">Already have an account! enter here</string>
+    <string name="signup_signin_text">Already have an account? Sign In</string>
     <string name="dilaog_image_chooser_title">Choose image from</string>
     <string name="about_hibour">About hi\'bour</string>
     <string name="title_activity_post_comments">PostComments</string>

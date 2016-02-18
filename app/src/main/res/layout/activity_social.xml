@@ -1,92 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:id="@+id/govt_proof_toolbar"
-        android:background="@color/white">
-
-        <ImageView
-            android:layout_width="120dp"
-            android:layout_height="30dp"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:background="@drawable/log"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/light_gray"/>
-    </RelativeLayout>
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
-        android:layout_width="wrap_content"
-        android:layout_marginLeft="@dimen/dp_20"
-        android:layout_marginRight="@dimen/dp_20"
-        android:layout_height="200dp">
-    </android.support.v4.view.ViewPager>
-
-    <com.dsquare.hibour.utils.Avenir
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textColor="@color/gray"
-        android:textSize="@dimen/text_Size_level5"
-        android:text="--- QUICKLY CONNECT WITH ---"
-        android:layout_marginTop="@dimen/dp_40"/>
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:weightSum="4">
 
     <LinearLayout
+        android:id="@+id/screenshots"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_20"
-        android:layout_marginLeft="@dimen/dp_20"
-        android:layout_marginRight="@dimen/dp_20"
-        android:gravity="center"
-        >
+        android:layout_height="70dp"
+        android:orientation="vertical"
+        android:padding="@dimen/dp_10"
+        android:layout_weight="3">
 
-        <com.facebook.login.widget.LoginButton
-            xmlns:facebook="http://schemas.android.com/apk/res-auto"
-            facebook:com_facebook_login_text="LOGIN"
-            android:id="@+id/facebook_login_button"
-            android:layout_width="@dimen/dp_120"
-            android:layout_height="@dimen/dp_40"
-            android:layout_gravity="center"
-            android:layout_marginRight="@dimen/dp_10"
-            android:text="Sign in"
-            />
+        <com.dsquare.hibour.utils.ProximaLight
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:fontFamily="avenir"
+            android:gravity="center"
+            android:text="@string/pre_sign_up_title"
+            android:textSize="25sp" />
 
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/btn_sign_in"
-            android:layout_width="@dimen/dp_120"
-            android:layout_height="@dimen/dp_40"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/dp_10"/>
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_weight="0"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
 
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_alignParentTop="true"
+                android:background="@color/white"/>
+        </RelativeLayout>
     </LinearLayout>
 
-    <com.dsquare.hibour.utils.Avenir
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/location_button_bar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textColor="@color/gray"
-        android:textSize="@dimen/text_Size_level5"
-        android:text="--- OR USE YOUR EMAIL ---"
-        android:layout_marginTop="@dimen/dp_10"/>
-    <Button
-        android:layout_width="@dimen/button_width"
-        android:layout_height="40dp"
-        android:background="@color/brand"
-        android:id="@+id/social_signup"
-        android:text="@string/signup_button"
-        android:textColor="@android:color/white"
-        android:layout_gravity="bottom|center_horizontal"
+        android:layout_weight="1"
+        android:background="@color/off_white"
         android:gravity="center"
-        android:textSize="@dimen/button_text_size"
-        android:layout_marginTop="@dimen/dp_10"/>
+        android:orientation="vertical">
+
+        <com.dsquare.hibour.utils.Avenir
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center"
+            android:text="Quickly Connect With"
+            android:textColor="@color/newbrand"
+            android:textSize="@dimen/text_size_level2" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_20"
+            android:gravity="center">
+
+            <com.facebook.login.widget.LoginButton xmlns:facebook="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/facebook_login_button"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:width="0dp"
+                android:height="0dp"/>
+
+            <Button
+                android:id="@+id/custom_facebook"
+                android:layout_width="@dimen/dp_140"
+                android:layout_height="@dimen/dp_50"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginRight="@dimen/dp_25"
+                android:background="@drawable/white_rect_rounded"
+                android:text="Facebook"
+                android:textSize="@dimen/button_text_size"
+                android:textColor="@color/custom_fb_blue"
+                android:drawableLeft="@drawable/icon_facebook_light"
+                android:paddingLeft="@dimen/dp_10"
+                android:textAllCaps="false"/>
+
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/google_plus_signin"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:width="0dp"
+                android:height="0dp" />
+
+            <Button
+                android:id="@+id/custom_googleplus"
+                android:layout_width="@dimen/dp_140"
+                android:layout_height="@dimen/dp_50"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/white_rect_rounded"
+                android:text="Google"
+                android:textSize="@dimen/button_text_size"
+                android:textColor="@color/newbrand"
+                android:drawableLeft="@drawable/common_google_signin_btn_icon_dark_normal"
+                android:paddingLeft="@dimen/dp_10"
+                android:textAllCaps="false"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/social_signup"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginTop="@dimen/dp_30"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@drawable/brand_rect_rounded"
+            android:gravity="center"
+            android:text="@string/signup_with_email"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/button_text_size_lg"
+            android:textAllCaps="false"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:gravity="bottom|center_horizontal"
+            android:text="@string/signup_signin_text"/>
+    </LinearLayout>
 </LinearLayout>
 
 
