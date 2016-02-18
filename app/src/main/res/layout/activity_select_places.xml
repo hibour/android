@@ -128,15 +128,29 @@
                 android:layout_alignParentEnd="true"
                 android:layout_below="@+id/loc_search_layout"/>
 
-            <com.dsquare.hibour.utils.ProximaLight
-                android:id="@+id/sign_in_text"
-                android:layout_width="match_parent"
+
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/signup_signin_text"
-                android:textSize="18sp"
-                android:gravity="center_horizontal"
-                android:layout_below="@+id/imageView2"
-                android:layout_marginBottom="@dimen/dp_20"/>
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:id="@+id/sign_in_text"
+                android:gravity="center_horizontal">
+                <com.dsquare.hibour.utils.ProximaLight
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/signup_signin_text"
+                    android:textSize="18sp"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_marginBottom="@dimen/dp_20"/>
+                <com.dsquare.hibour.utils.ProximaLight
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/sp_18"
+                    android:textColor="@color/black_1"
+                    android:text="Sign in"/>
+            </LinearLayout>
+
         </LinearLayout>
 
 
@@ -176,7 +190,7 @@
                 android:layout_marginTop="@dimen/dp_10"
                 android:layout_above="@id/serach_sumbit"
                 android:id="@+id/loc_members_count"
-                android:text="There are 200 people joined from this area"/>
+                android:text=""/>
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="wrap_content"

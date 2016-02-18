@@ -92,7 +92,7 @@
     <string name="signin_signup_text">Don\'t have an account? join here.</string>
     <string name="progress_dialog_text">Please Wait...</string>
     <string name="title_activity_terms_and_conditions">TermsAndConditions</string>
-    <string name="signup_signin_text">Already have an account? Sign In</string>
+    <string name="signup_signin_text">Already have an account?</string>
     <string name="dilaog_image_chooser_title">Choose image from</string>
     <string name="about_hibour">About hi\'bour</string>
     <string name="title_activity_post_comments">PostComments</string>

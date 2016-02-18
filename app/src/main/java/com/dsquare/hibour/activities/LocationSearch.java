@@ -91,7 +91,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
     private Button next;
     private RelativeLayout map,locLayout;
     private RelativeLayout searchLayout,mapLayout;
-    private LinearLayout auto;
+    private LinearLayout auto,signInLayout;
     private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
             = new ResultCallback<PlaceBuffer>() {
         @Override
@@ -192,6 +192,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
         gson = new Gson();
         searchLayout = (RelativeLayout)findViewById(R.id.relative_auto);
         next = (Button)findViewById(R.id.serach_sumbit);
+        signInLayout = (LinearLayout)findViewById(R.id.sign_in_text);
 
         autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.loc_search_autocomplete);
         autoCompleteTextView1 = (AutoCompleteTextView) findViewById(R.id.loc_search_autocomplete1);
@@ -257,6 +258,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
     private void initializeEventListeners() {
 //        signin.setOnClickListener(this);
         next.setOnClickListener(this);
+        signInLayout.setOnClickListener(this);
     }
 
     @Override
@@ -274,6 +276,10 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 startActivity(intent2);
                 this.finish();
                 break;
+            case R.id.sign_in_text:
+                Intent signInIntent = new Intent(getApplicationContext(), SignIn.class);
+                startActivity(signInIntent);
+                this.finish();
         }
     }
 
@@ -417,11 +423,6 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onAnimationEnd(Animation animation)
                     {
-                       /* LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)auto.getLayoutParams();
-                       // RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)auto.getLayoutParams();
-                        params.topMargin += -200;
-                        params.leftMargin += 0;
-                        auto.setLayoutParams(params);*/
                         searchLayout.setVisibility(View.GONE);
                     }
                 });
