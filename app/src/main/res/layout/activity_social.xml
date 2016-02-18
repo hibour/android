@@ -51,7 +51,7 @@
         <com.dsquare.hibour.utils.Avenir
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="top|center"
             android:text="Quickly Connect With"
             android:textColor="@color/newbrand"
             android:textSize="@dimen/text_size_level2" />
@@ -69,31 +69,41 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:width="0dp"
-                android:height="0dp"
-                android:layout_gravity="center"
-                android:layout_marginRight="@dimen/dp_10"
-                android:padding="5dp"
-                android:text="Facebook"
-                android:background="@drawable/white_rect_rounded"
-                facebook:com_facebook_login_text="Facebook" />
+                android:height="0dp"/>
 
             <Button
                 android:id="@+id/custom_facebook"
-                android:layout_width="@dimen/dp_120"
-                android:layout_height="@dimen/dp_40"
-                android:layout_gravity="center"
-                android:layout_marginRight="@dimen/dp_10"
+                android:layout_width="@dimen/dp_140"
+                android:layout_height="@dimen/dp_50"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginRight="@dimen/dp_25"
                 android:background="@drawable/white_rect_rounded"
                 android:text="Facebook"
+                android:textSize="@dimen/button_text_size"
+                android:textColor="@color/custom_fb_blue"
                 android:drawableLeft="@drawable/icon_facebook_light"
+                android:paddingLeft="@dimen/dp_10"
                 android:textAllCaps="false"/>
 
             <com.google.android.gms.common.SignInButton
-                android:id="@+id/btn_sign_in"
-                android:layout_width="@dimen/dp_120"
-                android:layout_height="@dimen/dp_40"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/dp_10" />
+                android:id="@+id/google_plus_signin"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:width="0dp"
+                android:height="0dp" />
+
+            <Button
+                android:id="@+id/custom_googleplus"
+                android:layout_width="@dimen/dp_140"
+                android:layout_height="@dimen/dp_50"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/white_rect_rounded"
+                android:text="Google"
+                android:textSize="@dimen/button_text_size"
+                android:textColor="@color/newbrand"
+                android:drawableLeft="@drawable/common_google_signin_btn_icon_dark_normal"
+                android:paddingLeft="@dimen/dp_10"
+                android:textAllCaps="false"/>
         </LinearLayout>
 
         <Button
@@ -114,7 +124,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_20"
             android:gravity="bottom|center_horizontal"
             android:text="@string/signup_signin_text"/>
     </LinearLayout>

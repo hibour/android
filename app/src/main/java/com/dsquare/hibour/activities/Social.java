@@ -71,7 +71,7 @@ public class Social extends FragmentActivity implements View.OnClickListener, Go
     protected GoogleApiClient mGoogleApiClient;
     private String TAG = "signin";
     private GoogleSignInOptions googleSignInOptions;
-    private SignInButton signInButton;
+    private SignInButton googleSignInButton;
     private LoginButton facebookLoginButton;
     private CallbackManager callbackManager;
     private Button submitButton;
@@ -143,7 +143,8 @@ public class Social extends FragmentActivity implements View.OnClickListener, Go
         }
     }
     public void initializeGplus(){
-        signInButton = (SignInButton) findViewById(R.id.btn_sign_in);
+        googleSignInButton = (SignInButton) findViewById(R.id.google_plus_signin);
+        Button custom_googleplus = (Button)findViewById(R.id.custom_googleplus);
         Log.d("social", "initgplus");
         googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -158,13 +159,14 @@ public class Social extends FragmentActivity implements View.OnClickListener, Go
                 .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
                 .addApi(Plus.API)
                 .build();
-        signInButton = (SignInButton) findViewById(R.id.btn_sign_in);
-        signInButton.setColorScheme(SignInButton.COLOR_LIGHT);
+        googleSignInButton = (SignInButton) findViewById(R.id.google_plus_signin);
+        googleSignInButton.setColorScheme(SignInButton.COLOR_LIGHT);
         // signInButton.setSize(SignInButton.SIZE_STANDARD);
-        signInButton.setScopes(googleSignInOptions.getScopeArray());
-        signInButton.setOnClickListener(this);
-        for (int i = 0; i < signInButton.getChildCount(); i++) {
-            View v = signInButton.getChildAt(i);
+        googleSignInButton.setScopes(googleSignInOptions.getScopeArray());
+        custom_googleplus.setOnClickListener(googleConnectListener);
+
+        for (int i = 0; i < googleSignInButton.getChildCount(); i++) {
+            View v = googleSignInButton.getChildAt(i);
             if (v instanceof TextView) {
                 TextView mTextView = (TextView) v;
                 mTextView.setText("Google");
@@ -215,6 +217,13 @@ public class Social extends FragmentActivity implements View.OnClickListener, Go
         @Override
         public void onClick(View v) {
             facebookLoginButton.performClick();
+        }
+    };
+
+    private View.OnClickListener googleConnectListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            googleSignInButton.performClick();
         }
     };
     /* gplus signin*/
@@ -386,7 +395,7 @@ public class Social extends FragmentActivity implements View.OnClickListener, Go
                 finish();
 //                validateData();
                 break;
-            case R.id.btn_sign_in:
+            case R.id.google_plus_signin:
                 Log.d("social","clicked on gplus");
                 gplusSignIn();
                 break;
