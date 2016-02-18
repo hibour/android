@@ -34,6 +34,7 @@
     <dimen name="sp_12">12sp</dimen>
     <dimen name="sp_18">18sp</dimen>
     <dimen name="button_text_size">14sp</dimen>
+    <dimen name="button_text_size_lg">20sp</dimen>
     <dimen name="button_width">200dp</dimen>
     <dimen name="extended_toolbar_height">128dp</dimen>
     <dimen name="extended_tool_bar_text_size">15sp</dimen>
@@ -92,5 +93,6 @@
     <dimen name="comments_list_item_height">70dp</dimen>
     <dimen name="comments_icon_size">30dp</dimen>
 
+    <dimen name="title_lg">25sp</dimen>
 
 </resources>

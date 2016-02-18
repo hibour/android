@@ -2,6 +2,7 @@
 <resources>
     <color name="brand">#ff6b6b</color>
     <color name="branddark">#E53935</color>
+    <color name="newbrand">#F85659</color>
     <color name="brand_status_bar">#9575CD</color>
     <color name="black_button">#40403E</color>
     <color name="green">#75B640</color>
@@ -31,5 +32,7 @@
 
     <color name="tabsScrollColor">#FFFFFF</color>
     <color name="white_30">#b4ffffff</color>
+
+    <color name="off_white">#F8F9FA</color>
 
 </resources>

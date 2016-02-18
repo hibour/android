@@ -13,7 +13,10 @@
     <string name="signup_email_hint">Email Address</string>
     <string name="signup_password_hint">Password</string>
     <string name="signup_button">sign up</string>
+    <string name="signup_with_email">Signup with Email</string>
     <string name="signup_terms_text">Terms &amp; Conditions</string>
+
+    <string name="pre_sign_up_title">Ask for suggestions from your neighbours</string>
 
     <string name="signup_first_name">First Name</string>
     <string name="signup_last_name">Last Name</string>
@@ -89,7 +92,7 @@
     <string name="signin_signup_text">Don\'t have an account? join here.</string>
     <string name="progress_dialog_text">Please Wait...</string>
     <string name="title_activity_terms_and_conditions">TermsAndConditions</string>
-    <string name="signup_signin_text">Already have an account! enter here</string>
+    <string name="signup_signin_text">Already have an account? Sign In</string>
     <string name="dilaog_image_chooser_title">Choose image from</string>
     <string name="about_hibour">About hi\'bour</string>
     <string name="title_activity_post_comments">PostComments</string>

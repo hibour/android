@@ -65,7 +65,7 @@ public class Social extends FragmentActivity implements View.OnClickListener, Go
     ViewPager viewPager;
     ImageFragmentPagerAdapter imageFragmentPagerAdapter;
     static final int NUM_ITEMS = 4;
-    public static final String[] IMAGE_NAME = {"a", "bg_googleplaces", "a", "bg_googleplaces",};
+    public static final String[] IMAGE_NAME = {"presignup_img1", "presignup_img1", "presignup_img1", "presignup_img1",};
     private static final int RC_SIGN_IN = 9001;
     private static final String intentText = "pintent";
     protected GoogleApiClient mGoogleApiClient;
@@ -94,7 +94,9 @@ public class Social extends FragmentActivity implements View.OnClickListener, Go
         accountsClient = new AccountsClient(this);
         tf = Typeface.createFromAsset(getAssets(), Fonts.getTypeFaceName());
         submitButton = (Button)findViewById(R.id.social_signup);
+        submitButton.setTypeface(tf);
         submitButton.setOnClickListener(this);
+
         initializeGplus();
         initializeFb();
         imageFragmentPagerAdapter = new ImageFragmentPagerAdapter(getSupportFragmentManager());
@@ -165,7 +167,7 @@ public class Social extends FragmentActivity implements View.OnClickListener, Go
             View v = signInButton.getChildAt(i);
             if (v instanceof TextView) {
                 TextView mTextView = (TextView) v;
-                mTextView.setText(this.getResources().getString(R.string.gplus_text));
+                mTextView.setText("Google");
                 mTextView.setPadding(45, 0, 0, 0);
                 mTextView.setTypeface(tf);
                 return;
@@ -178,6 +180,7 @@ public class Social extends FragmentActivity implements View.OnClickListener, Go
     public void initializeFb(){
         Log.d("social","initfb");
         facebookLoginButton = (LoginButton)findViewById(R.id.facebook_login_button);
+        Button facebookCustomButton = (Button)findViewById(R.id.custom_facebook);
         facebookLoginButton.setTypeface(tf);
         float fbIconScale = 1.45F;
         Drawable drawable = this.getResources().getDrawable(
@@ -204,9 +207,16 @@ public class Social extends FragmentActivity implements View.OnClickListener, Go
         permissions.add("email");
         permissions.add("user_birthday");
         facebookLoginButton.setReadPermissions(permissions);
-        facebookLoginButton.setOnClickListener(this);
+        facebookCustomButton.setOnClickListener(facebookConnectListener);
         Log.d("social", "initialize fb");
     }
+
+    private View.OnClickListener facebookConnectListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            facebookLoginButton.performClick();
+        }
+    };
     /* gplus signin*/
     private void gplusSignIn() {
         if (networkDetector.isConnected()){ // check for network connectivity
