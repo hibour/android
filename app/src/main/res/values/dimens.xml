@@ -11,7 +11,7 @@
     <dimen name="dp_7">7dp</dimen>
     <dimen name="dp_10">10dp</dimen>
     <dimen name="dp_15">15dp</dimen>
-    <dimen name="dp_20">20dp</dimen>
+    <dimen name="dp_20">20sp</dimen>
     <dimen name="dp_22">22dp</dimen>
     <dimen name="dp_25">25dp</dimen>
     <dimen name="dp_30">30dp</dimen>
@@ -29,6 +29,8 @@
     <dimen name="dp_140">140dp</dimen>
     <dimen name="dp_160">140dp</dimen>
     <dimen name="dp_200">200dp</dimen>
+    <dimen name="dp_224">124dp</dimen>
+    <dimen name="dp_223">123dp</dimen>
     <dimen name="feeds_image_height">180dp</dimen>
     <dimen name="sp_16">16sp</dimen>
     <dimen name="sp_12">12sp</dimen>

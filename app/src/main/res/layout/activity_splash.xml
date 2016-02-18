@@ -9,4 +9,13 @@
         android:id="@+id/splash_logo"
         android:src="@drawable/iocon"
         android:layout_centerInParent="true"/>
+    <ImageView
+        android:layout_width="@dimen/dp_224"
+        android:layout_height="@dimen/dp_223"
+        android:src="@mipmap/house_animation"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
 </RelativeLayout>

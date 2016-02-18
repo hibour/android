@@ -180,7 +180,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 .addApi(Places.PLACE_DETECTION_API)
                 .addApi(LocationServices.API)
                 .build();
-        signin = (Button) findViewById(R.id.places_signup);
+//        signin = (Button) findViewById(R.id.places_signup);
         auto = (LinearLayout) findViewById(R.id.loc_search_layout);
         map = (RelativeLayout) findViewById(R.id.relative_map);
         locationDisplayTextView = (TextView)findViewById(R.id.loc_curr_loc_textview);
@@ -249,13 +249,13 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
         });
 
         tf = Typeface.createFromAsset(getAssets(), Fonts.getTypeFaceName());
-        signin.setTypeface(tf);
+//        signin.setTypeface(tf);
         autoCompleteTextView.setTypeface(tf);
         autoCompleteTextView1.setTypeface(tf);
     }
 
     private void initializeEventListeners() {
-        signin.setOnClickListener(this);
+//        signin.setOnClickListener(this);
         next.setOnClickListener(this);
     }
 
@@ -382,7 +382,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 
             if(isAutoComplete){
                 map.setVisibility(View.VISIBLE);
-                signin.setVisibility(View.VISIBLE);
+//                signin.setVisibility(View.VISIBLE);
                 autoCompleteTextView1.setText(autoCompleteTextView.getText().toString());
                 Constants.userAddress = locAddress;
                 TranslateAnimation anim = new TranslateAnimation(0, 0, 0, -200);

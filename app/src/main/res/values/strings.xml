@@ -4,8 +4,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_sign_up">SignUp</string>
-    <string name="title_activity_googleplace">Discover people in your</string>
-    <string name="title_neighborhood">neighborhood.</string>
+    <string name="title_activity_googleplace">Helping you find friends in your</string>
+    <string name="title_neighborhood">neighborhood</string>
     <string name="signup_text1">join</string>
     <string name="signup_text2">hi\'bour</string>
     <string name="signup_text3">community</string>
@@ -54,7 +54,7 @@
     <string name="button_send">Post</string>
     <string name="loc_current_loc_text">Current Location - </string>
     <string name="loc_search_text">SEARCH</string>
-    <string name="loc_locality">Enter Your Locality</string>
+    <string name="loc_locality">Street/Locality/Colony</string>
     <string name="title_activity_home">Home</string>
     <string name="facebook_app_id">178406975851248</string>
     <string name="gplus_text">LOGIN</string>
