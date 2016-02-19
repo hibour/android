@@ -145,4 +145,13 @@
     <string name="profile_text">Profile</string>
     <string name="profile_send_msg_text">SEND MESSAGE</string>
     <string name="profile_interests_text">Interests:-</string>
+
+    <!--Rating dialogue-->
+    <string name="rate_dialogue_title">Rate Hi\'bour</string>
+    <string name="rate_dialogue_desc">Please help us spread the neighbourly love. Give us a 5 star rating in the playstore.</string>
+    <string name="rate_positive">Rate Us</string>
+    <string name="rate_neutral">Give Us Feedback</string>
+    <string name="rate_negative">Later</string>
+    <string name="hibour_market_url">market://details?id=%s</string>
+
 </resources>
