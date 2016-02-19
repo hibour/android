@@ -1,6 +1,8 @@
 package com.dsquare.hibour.activities;
 
 import android.Manifest;
+import android.app.Activity;
+import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -170,6 +172,9 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_select_places);
         initializeViews();
         initializeEventListeners();
+        //Use this for rating
+//        DialogFragment rateDialogueFragment = new RateHibour();
+//        rateDialogueFragment.show(getFragmentManager(), "rate_dialog");
     }
 
     private void initializeViews() {
