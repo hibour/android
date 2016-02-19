@@ -15,6 +15,7 @@ import com.dsquare.hibour.R;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
+import com.dsquare.hibour.utils.Hibour;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -30,6 +31,7 @@ public class Profile extends AppCompatActivity implements View.OnClickListener{
     private String userId = "";
     private AccountsClient accountsClient;
     private ProgressDialog dialog;
+    private Hibour application;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +43,7 @@ public class Profile extends AppCompatActivity implements View.OnClickListener{
     private void initializeViews(){
         String id = getIntent().getStringExtra("userId");
         back = (TextView)findViewById(R.id.profile_back_text);
+        application = Hibour.getInstance(this);
         settings = (TextView)findViewById(R.id.profile_settings_text);
         interests = (TextView)findViewById(R.id.profile_interests);
         profileName = (TextView)findViewById(R.id.profile_name);
@@ -51,6 +54,8 @@ public class Profile extends AppCompatActivity implements View.OnClickListener{
         accountsClient = new AccountsClient(this);
         if(!id.equals(null)&& !id.equals("null")){
             userId = id;
+            if(userId.equals(application.getUserId()))
+                sendMessageButton.setVisibility(View.INVISIBLE);
             getUserDetails(userId);
         }
     }
