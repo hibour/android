@@ -1,6 +1,7 @@
 package com.dsquare.hibour.activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,7 @@ import com.dsquare.hibour.R;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
+import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Hibour;
 import com.google.gson.Gson;
 
@@ -75,8 +77,16 @@ public class Profile extends AppCompatActivity implements View.OnClickListener{
             case R.id.profile_settings_text:
                 break;
             case R.id.profile_send_msg_button:
+                openChatScreen();
                 break;
         }
+    }
+    /*open chat screen*/
+    private void openChatScreen(){
+        Intent chatIntent = new Intent(this,Chat.class);
+        chatIntent.putExtra(Constants.KEYWORD_USER_ID,userId);
+        chatIntent.putExtra(Constants.KEYWORD_USER_NAME,profileName.getText().toString());
+        startActivity(chatIntent);
     }
     /* get user details*/
     private void getUserDetails(String userId){
@@ -104,7 +114,7 @@ public class Profile extends AppCompatActivity implements View.OnClickListener{
         try {
             JSONObject data = jsonObject.getJSONObject("data");
             profileName.setText(data.getString("name"));
-
+            interests.setText(data.getString("preferences"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
