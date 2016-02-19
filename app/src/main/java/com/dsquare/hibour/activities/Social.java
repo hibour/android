@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,7 +62,8 @@ import java.util.List;
 /**
  * Created by Aditya Ravikanti on 2/5/2016.
  */
-public class Social extends FragmentActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+public class Social extends FragmentActivity implements View.OnClickListener
+        , GoogleApiClient.OnConnectionFailedListener, ViewPager.OnPageChangeListener{
     ViewPager viewPager;
     ImageFragmentPagerAdapter imageFragmentPagerAdapter;
     static final int NUM_ITEMS = 4;
@@ -80,8 +82,11 @@ public class Social extends FragmentActivity implements View.OnClickListener, Go
     private AccountsClient accountsClient;
     private ProgressDialog signUpDialog;
     private Gson gson;
+    private int pos=0;
     private Hibour application;
     private String Useremail="",Userfname="",Userlname="",Usergender="";
+    private View dot1,dot2,dot3,dot4;
+    private LinearLayout socialSignIn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,12 +101,64 @@ public class Social extends FragmentActivity implements View.OnClickListener, Go
         submitButton = (Button)findViewById(R.id.social_signup);
         submitButton.setTypeface(tf);
         submitButton.setOnClickListener(this);
-
+        dot1 = (View)findViewById(R.id.tour_one);
+        dot2 = (View)findViewById(R.id.tour_two);
+        dot3 = (View)findViewById(R.id.tour_three);
+        dot4 = (View)findViewById(R.id.tour_four);
+        socialSignIn = (LinearLayout)findViewById(R.id.social_signin);
+        socialSignIn.setOnClickListener(this);
         initializeGplus();
         initializeFb();
         imageFragmentPagerAdapter = new ImageFragmentPagerAdapter(getSupportFragmentManager());
         viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(imageFragmentPagerAdapter);
+        viewPager.setOnPageChangeListener(this);
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        Log.d("lposition",position+"");
+        switch(position){
+            case 0:
+                dot1.setBackgroundResource(R.drawable.tour_circle_filled);
+                dot2.setBackgroundResource(R.drawable.tour_circle_not_filled);
+                dot3.setBackgroundResource(R.drawable.tour_circle_not_filled);
+                dot4.setBackgroundResource(R.drawable.tour_circle_not_filled);
+                pos = position;
+                break;
+            case 1:
+                dot1.setBackgroundResource(R.drawable.tour_circle_not_filled);
+                dot2.setBackgroundResource(R.drawable.tour_circle_filled);
+                dot3.setBackgroundResource(R.drawable.tour_circle_not_filled);
+                dot4.setBackgroundResource(R.drawable.tour_circle_not_filled);
+                pos = position;
+                break;
+            case 2:
+                dot1.setBackgroundResource(R.drawable.tour_circle_not_filled);
+                dot2.setBackgroundResource(R.drawable.tour_circle_not_filled);
+                dot3.setBackgroundResource(R.drawable.tour_circle_filled);
+                dot4.setBackgroundResource(R.drawable.tour_circle_not_filled);
+                pos = position;
+                break;
+            case 3:
+                dot1.setBackgroundResource(R.drawable.tour_circle_not_filled);
+                dot2.setBackgroundResource(R.drawable.tour_circle_not_filled);
+                dot3.setBackgroundResource(R.drawable.tour_circle_not_filled);
+                dot4.setBackgroundResource(R.drawable.tour_circle_filled);
+                pos = position;
+                break;
+        }
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 
     public static class ImageFragmentPagerAdapter extends FragmentPagerAdapter {
@@ -401,6 +458,11 @@ public class Social extends FragmentActivity implements View.OnClickListener, Go
                 break;
             case R.id.facebook_login_button:
                 fbSignIn();
+                break;
+            case R.id.social_signin:
+                Intent signIntent = new Intent(this,SignIn.class);
+                startActivity(signIntent);
+                this.finish();
                 break;
         }
     }

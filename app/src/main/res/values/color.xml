@@ -11,6 +11,7 @@
     <color name="black_transparent">#726B6B</color>
     <color name="gray">#B4B4B4</color>
     <color name="gray_1">#707070</color>
+    <color name = "sign_in_gray1">#a6a6a6</color>
     <color name="app_bar_gray">#95a5a6</color>
     <color name="white">#FFFFFF</color>
     <color name="white_transparent">#88FFFFFF</color>
