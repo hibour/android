@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center">
+    android:layout_gravity="center"
+    android:layout_margin="@dimen/dp_25">
     <!--<ImageView-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content"-->
@@ -20,13 +21,15 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:gravity="center_horizontal"
-        android:text="@string/rate_dialogue_desc" />
+        android:text="@string/rate_dialogue_desc"
+        android:textSize="@dimen/text_size_level3"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:background="@color/com_facebook_button_login_silver_background_color_pressed">
 
         <Button
             android:id="@+id/btn_rate_us"
@@ -35,8 +38,11 @@
             android:clickable="true"
             android:text="Rate us"
             android:gravity="center_horizontal"
-            android:textColor="#5DBCD2"
-            android:textStyle="bold" />
+            android:textColor="@color/outline_blue"
+            android:textStyle="bold"
+            android:padding="@dimen/dp_10"
+            android:background="@color/white"
+            android:layout_marginTop="@dimen/dp_1"/>
 
         <Button
             android:id="@+id/btn_send_feedback"
@@ -45,9 +51,11 @@
             android:clickable="true"
             android:gravity="center_horizontal"
             android:text="Send Feedback"
-            android:textColor="#5DBCD2"
-            android:textStyle="bold" />
-
+            android:textColor="@color/outline_blue"
+            android:textStyle="bold"
+            android:background="@color/white"
+            android:padding="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_1"/>
 
         <Button
             android:id="@+id/btn_close"
@@ -56,8 +64,11 @@
             android:clickable="true"
             android:gravity="center_horizontal"
             android:text="Later"
-            android:textColor="#5DBCD2"
-            android:textStyle="bold" />
+            android:textColor="@color/outline_blue"
+            android:textStyle="bold"
+            android:background="@color/white"
+            android:padding="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_1"/>
 
     </LinearLayout>
 
