@@ -112,7 +112,8 @@ public class AccountsClient {
     private String getSignUpUrl(String userFname,String userLname, String email, String password,String gender, String regType,
                                 String userlat,String userlog,String address,
                                 String address1, String gcmToken) {
-        String url = Constants.URL_SIGN_UP +Constants.KEYWORD_USER_NAME+"="+userFname+"&"+Constants.KEYWORD_USER_FIRSTNAME + "=" +userFname+"&"+
+        String url = Constants.URL_SIGN_UP +Constants.KEYWORD_USER_NAME+"="+userFname+"&"
+                +Constants.KEYWORD_USER_FIRSTNAME + "=" +userFname+"&"+
                 Constants.KEYWORD_USER_LASTNAME + "=" +userLname+ "&"
                 + Constants.KEYWORD_EMAIL + "=" + email + "&" + Constants.KEYWORD_PASSWORD + "=" + password + "&"
                 + Constants.KEYWORD_GENDER1 + "=" + gender + "&"+Constants.KEYWORD_SIGNUP_TYPE + "=" + regType + "&"+

@@ -41,9 +41,7 @@
             android:value="1" />
         <meta-data
             android:name="AA_MODELS"
-            android:value="com.dsquare.hibour.database.table.NotificationTable,
-                    com.dsquare.hibour.database.table.UserMessageTable,
-                       com.dsquare.hibour.database.table.UserDetailTable" />
+            android:value="com.dsquare.hibour.database.table.NotificationTable,                     com.dsquare.hibour.database.table.UserMessageTable,                        com.dsquare.hibour.database.table.UserDetailTable" />
         <meta-data
             android:name="AA_SERIALIZERS"
             android:value="com.dsquare.hibour.database.serializer.UtilDateSerializer" />
@@ -109,8 +107,8 @@
             android:theme="@style/FullScreenTheme" />
         <activity
             android:name=".activities.Chat"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_social_categories" />
+            android:label="@string/title_activity_social_categories"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ChooseLocation"
             android:label="@string/title_activity_choose_location"
@@ -125,22 +123,23 @@
         <activity
             android:name=".activities.TermsAndConditions"
             android:label="@string/title_activity_terms_and_conditions"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.PostComments"
             android:label="@string/title_activity_post_comments"
-            android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.PostLikes"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activities.PostLikes"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.SelectArea"
             android:label="@string/title_activity_select_area"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.GroupPosts"
             android:label="@string/title_activity_group_posts"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.MobileNumber"
             android:screenOrientation="portrait"
@@ -152,19 +151,21 @@
         <activity
             android:name=".activities.PreferencesViews"
             android:label="@string/title_PreferenceViews"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.Proof"
             android:label="@string/title_Proof"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.SocialPrefernce"
             android:label="@string/title_activity_social_categories"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.Notifications"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.BusinessServices"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.Notifications"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.BusinessServices"
+            android:screenOrientation="portrait" />
         <!-- [START gcm_receiver] -->
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
@@ -200,13 +201,17 @@
         <!-- [END instanceId_listener] -->
         <service
             android:name=".gcm.GcmRegistration"
-            android:exported="false"></service>
+            android:exported="false" />
 
-        <activity android:name=".activities.Profile"
-            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activities.Profile"
+            android:screenOrientation="portrait" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="2f47427ced6450172c46e707ce6a688080ae0f15" />
+
+        <activity android:name=".activities.SearchInFeeds"></activity>
     </application>
 
 </manifest>

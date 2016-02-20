@@ -109,12 +109,6 @@ public class Posts extends Fragment implements View.OnClickListener,PostsCallbac
         application =  Hibour.getInstance(getActivity());
 
 
-
-//        postsRecycler = (RecyclerView)view.findViewById(R.id.post_posts_list);
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-//        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-//        postsRecycler.setLayoutManager(layoutManager);
-//        postsRecycler.setHasFixedSize(true);
         autoCompleteTextView = (AutoCompleteTextView)view.findViewById(R.id.home_search_autocomplete);
         searchLayout = (RelativeLayout)view.findViewById(R.id.home_search_layout);
         searchIcon = (ImageView)view.findViewById(R.id.home_search_icon);

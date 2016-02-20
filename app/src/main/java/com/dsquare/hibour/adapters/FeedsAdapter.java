@@ -90,6 +90,8 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
                // holder.feedImage.setImageBitmap(base64ToBitmap(listItems.get(position).getPostImage()));
                 imageLoader.get(listItems.get(position).getPostImage().replace("\\",""),ImageLoader.getImageListener(holder.feedImage
                         ,R.drawable.avatar1,R.drawable.avatar1));
+                //imageLoader.get(listItems.get(position).getPostImage().replace("\\","")
+                  //      ,ImageLoader.getImageListener(holder.feedImage,1,1));
             } catch (Exception e) {
                 e.printStackTrace();
                 holder.feedImage.setVisibility(View.GONE);
