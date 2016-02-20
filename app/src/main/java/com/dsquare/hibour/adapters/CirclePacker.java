@@ -104,27 +104,4 @@ public class CirclePacker
             }
         }
     }
-
-//    public void OnMouseDown(MouseEventArgs e)
-//    {
-//        Vector2 center = new Vector2(e.X, e.Y);
-//        mDraggingCircle = null;
-//
-//        for(Circle circle : mCircles){
-//            double dist = Vector2.distance(circle.mCenter, center);
-//            if (dist < (circle.mRadius * circle.mRadius))
-//            {
-//                mDraggingCircle = circle;
-//                break;
-//            }
-//        }
-//    }
-//
-//    public void OnMouseMove(MouseEventArgs e)
-//    {
-//        if (mDraggingCircle == null)
-//            return;
-//
-//        mDraggingCircle.mCenter = new Vector2(e.X, e.Y);
-//    }
 }
