@@ -165,7 +165,7 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
     }
 
     @Override
-    public void onBackPressed() {
+        public void onBackPressed() {
         //super.onBackPressed();
         if (isHome) {
             if (doubleBackToExitPressedOnce) {
