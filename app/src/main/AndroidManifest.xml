@@ -121,7 +121,7 @@
             android:label="@string/title_activity_home"
             android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme"
-            android:windowSoftInputMode="adjustResize" />
+             />
         <activity
             android:name=".activities.TermsAndConditions"
             android:label="@string/title_activity_terms_and_conditions"

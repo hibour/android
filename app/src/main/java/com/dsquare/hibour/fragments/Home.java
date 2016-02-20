@@ -44,6 +44,7 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
     private NavDrawerCallback callback;
     private boolean isHome = true;
     private ImageView feedIcon, socializeIcon, newPostIcon, channelsIcon, moreIcon,postimage,searchIcon;
+    private LinearLayout feedLayout,socializeLayout,messageLayout,moreLayout;
     private AutoCompleteTextView autoCompleteTextView;
     private RelativeLayout searchLayout;
     private LinearLayout bottomBar1;
@@ -76,6 +77,10 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
         moreIcon = (ImageView) view.findViewById(R.id.home_more_icon);
         //postimage = (ImageView) view.findViewById(R.id.home_post);
         bottomBar1 = (LinearLayout) view.findViewById(R.id.home_bottom_menu);
+        feedLayout = (LinearLayout) view.findViewById(R.id.home_feed_layout);
+        socializeLayout = (LinearLayout) view.findViewById(R.id.home_socialize_layout);
+        messageLayout = (LinearLayout) view.findViewById(R.id.home_message_layout);
+        moreLayout = (LinearLayout) view.findViewById(R.id.home_more_layout);
 
         Constants.categoriesMap.put("6","General");
         Constants.categoriesMap.put("2","Suggestions");
@@ -93,11 +98,11 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
     /* initialize event listeners*/
     private void initializeEventListeners() {
 //        inviteBtn.setOnClickListener(this);
-        feedIcon.setOnClickListener(this);
-        socializeIcon.setOnClickListener(this);
+        feedLayout.setOnClickListener(this);
+        socializeLayout.setOnClickListener(this);
 //        newPostIcon.setOnClickListener(this);
-        channelsIcon.setOnClickListener(this);
-        moreIcon.setOnClickListener(this);
+        messageLayout.setOnClickListener(this);
+        moreLayout.setOnClickListener(this);
 //        postimage.setOnClickListener(this);
         createPost.setOnClickListener(this);
 //        searchIcon.setOnClickListener(this);
@@ -154,13 +159,13 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
             case R.id.invite_button:
                 inviteFriends(getString(R.string.invite_msg));
                 break;
-            case R.id.home_feed:
+            case R.id.home_feed_layout:
                 if(createPost.getVisibility()==View.GONE)
                     createPost.setVisibility(View.VISIBLE);
                 applyCurrentStateToAppBarIcons(R.drawable.feed_filled, feedIcon);
                 replaceContainer(0);
                 break;
-            case R.id.home_socialize_icon:
+            case R.id.home_socialize_layout:
                 applyCurrentStateToAppBarIcons(R.drawable.socialize_filled, socializeIcon);
                 if(createPost.getVisibility()==View.GONE)
                     createPost.setVisibility(View.VISIBLE);
@@ -179,11 +184,11 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
                 categoriesDialog.setTargetFragment(this, 0);
                 //replaceContainer(3);
                 break;
-            case R.id.home_channels:
+            case R.id.home_message_layout:
                 applyCurrentStateToAppBarIcons(R.mipmap.ic_chat_filed, channelsIcon);
                 replaceContainer(5);
                 break;
-            case R.id.home_more_icon:
+            case R.id.home_more_layout:
                 applyCurrentStateToAppBarIcons(R.drawable.more_filled, moreIcon);
                 callback.drawerOpen();
                 break;

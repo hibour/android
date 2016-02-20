@@ -92,6 +92,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     private String[] details;
     private String catFrmPre="";
     private boolean isMessage = false;
+
     public interface PostsListener{
         void onCancelClicked();
         void onDoneClicked();
@@ -175,7 +176,6 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
             this.startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
         }
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -263,7 +263,6 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                     parsePostDetails(jsonObject);
                     closePostDialog();
                 }
-
                 @Override
                 public void onFailure(VolleyError error) {
                     Log.d("govt", error.toString());
@@ -305,8 +304,18 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         //  bgColors = getActivity().getResources().getStringArray(R.array.movie_serial_bg);
         categoriesSpinner = (Spinner)view.findViewById(R.id.newpost_categories_spinner);
        // neighboursSpinner = (Spinner)view.findViewById(R.id.newpost_neighbourhood_spinner);
+        cancel = (TextView) view.findViewById(R.id.creat_post_cancel);
+        gallary = (ImageView) view.findViewById(R.id.creat_imageview_post_icon);
+        postImage = (ImageView) view.findViewById(R.id.creat_imageview_display_icon);
+        delete = (ImageView) view.findViewById(R.id.create_delete_image);
+        layout = (RelativeLayout) view.findViewById(R.id.create_relative);
+        layout1 = (RelativeLayout) view.findViewById(R.id.home_app_bar1);
+        views = (View) view.findViewById(R.id.views);
+        application = Hibour.getInstance(getActivity());
+        text = (EditText) view.findViewById(R.id.newposts_edittest);
         editPost = (EditText) view.findViewById(R.id.newposts_edittest);
-        editPost.requestFocus();
+//        editPost.requestFocus();
+
       //  InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
        // imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
         editPost.setOnFocusChangeListener(new View.OnFocusChangeListener(){
@@ -316,16 +325,20 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                 if (hasFocus){
                     done.setTextColor(getActivity().getResources().getColor(R.color.black_1));
                     setOnClickForDone();
-                    ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(v,
-                            InputMethodManager.SHOW_FORCED);
-                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.showSoftInput(editPost, InputMethodManager.SHOW_IMPLICIT);
+                    InputMethodManager imm =(InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+                    if (layout.getVisibility() == View.VISIBLE) {
+                        layout.setVisibility(View.GONE);
+                    }
+                    Log.d("gg","13");
                 }
                 else{
-                    ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
-                            v.getWindowToken(), 0);
-                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.showSoftInput(editPost, InputMethodManager.SHOW_IMPLICIT);
+                    if (layout.getVisibility() == View.GONE) {
+                        layout.setVisibility(View.VISIBLE);
+                    }
+                    InputMethodManager imm =(InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(editPost.getWindowToken(), 0);
+                    Log.d("gg","12");
                 }
             }
         });
@@ -336,18 +349,9 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
             public void onClick(View clickedView)
             {
                 clickedView.clearFocus();
-                clickedView.requestFocus();
             }
         });
-         cancel = (TextView) view.findViewById(R.id.creat_post_cancel);
-        gallary = (ImageView) view.findViewById(R.id.creat_imageview_post_icon);
-        postImage = (ImageView) view.findViewById(R.id.creat_imageview_display_icon);
-        delete = (ImageView) view.findViewById(R.id.create_delete_image);
-        layout = (RelativeLayout) view.findViewById(R.id.create_relative);
-        layout1 = (RelativeLayout) view.findViewById(R.id.home_app_bar1);
-        views = (View) view.findViewById(R.id.views);
-        application = Hibour.getInstance(getActivity());
-        text = (EditText) view.findViewById(R.id.newposts_edittest);
+
         networkDetector = new NetworkDetector(getActivity());
         postsClient = new PostsClient(getActivity());
         gson = new Gson();
@@ -415,7 +419,6 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     private void setOnClickForDone(){
         done.setOnClickListener(this);
     }
-
 
     /*get all neighbourhoods */
     private void getNeighbourHoods(String userId) {

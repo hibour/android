@@ -31,6 +31,7 @@
                     android:paddingBottom="10dp">
 
                     <LinearLayout
+                        android:id="@+id/home_feed_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -54,6 +55,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/home_socialize_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -84,6 +86,7 @@
                         android:layout_weight="1" />
 
                     <LinearLayout
+                        android:id="@+id/home_message_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -106,6 +109,7 @@
                             android:textSize="12sp" />
                     </LinearLayout>
                     <LinearLayout
+                        android:id="@+id/home_more_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
