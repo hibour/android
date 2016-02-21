@@ -198,31 +198,11 @@
             android:layout_marginTop="@dimen/dp_10"
             android:id="@+id/loc_search_top_layout"
             android:background="@color/white">
-            <com.dsquare.hibour.utils.Avenir
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/title_activity_googleplace"
-                android:textSize="@dimen/text_size_level1"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center"
-                android:id="@+id/loc_search_text_temp3"
-                android:textColor="@color/black_1"/>
-            <com.dsquare.hibour.utils.Avenir
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/title_neighborhood"
-                android:textSize="@dimen/text_size_level1"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/loc_search_text_temp3"
-                android:id="@+id/loc_search_text_temp4"
-                android:textColor="@color/black_1"
-                android:layout_marginBottom="@dimen/dp_20"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@color/white"
-                android:layout_below="@id/loc_search_text_temp4">
+                android:background="@color/white">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
