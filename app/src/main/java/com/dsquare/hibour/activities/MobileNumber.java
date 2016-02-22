@@ -94,7 +94,9 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
                     ,new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
-                    parsemobileDetails(jsonObject);
+                    Intent intent = new Intent(getApplicationContext(), Home.class);
+                    startActivity(intent);
+              //      parsemobileDetails(jsonObject);
                     closeMobileDialog();
                 }
                 @Override
@@ -115,7 +117,8 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
             String number = data.getString("number");
             String otp = data.getString("otp");
             if(!otp.equals(null)&&!otp.equals("null")&&!otp.equals("")) {
-                Intent intent = new Intent(getApplicationContext(), VerifyOtp.class);
+             //   Intent intent = new Intent(getApplicationContext(), VerifyOtp.class);
+                Intent intent = new Intent(getApplicationContext(), Home.class);
                 intent.putExtra("number", number);
                 intent.putExtra("otp", otp);
                 startActivity(intent);

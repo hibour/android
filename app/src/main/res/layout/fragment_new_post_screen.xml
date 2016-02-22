@@ -63,15 +63,7 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_alignParentBottom="true"/>
-            <!--<ImageView-->
-            <!--android:layout_width="@dimen/dp_30"-->
-            <!--android:layout_height="@dimen/dp_30"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:src="@drawable/ic_search_white"-->
-            <!--android:layout_marginRight="@dimen/dp_20"-->
-            <!--android:padding="@dimen/dp_3"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:id="@+id/home_search_icon"/>-->
+
 
         </RelativeLayout>
         <View
@@ -86,12 +78,11 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:orientation="vertical">
 
-        <RelativeLayout
+       <!-- <RelativeLayout
             android:id="@+id/category_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -99,90 +90,94 @@
             android:background="#80000000"
             android:theme="@android:style/Theme.Translucent"
             android:visibility="visible">
-        </RelativeLayout>
+        </RelativeLayout>-->
 
         <LinearLayout
             android:id="@+id/post_widget"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <!--<LinearLayout
+            android:orientation="vertical"
+            android:windowSoftInputMode="adjustPan"
+            >
+
+          <!--  <RelativeLayout
+                android:id="@+id/newpost_editLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/light_gray">
-                <com.dsquare.hibour.utils.Proxima
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Neighbourhood:"
-                    android:gravity="center"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/dp_10"
-                    />
-                <Spinner
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:spinnerMode="dropdown"
-                    android:id="@+id/newpost_neighbourhood_spinner"
-                    android:textSize="@dimen/edit_text_size"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginLeft="@dimen/dp_5"
-                    ></Spinner>
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/horiz_line_height"
-                android:background="@color/gray"
-                android:layout_below="@+id/create_linear"/>-->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/dp_440"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                >
-                <com.dsquare.hibour.utils.ProximaEditText
-                    android:id="@+id/newposts_edittest"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:focusable="true"
-                    android:gravity="top|start"
-                    android:hint="@string/cat_ph_general"
-                    android:inputType="textMultiLine"
-                    android:padding="@dimen/dp_10"
-                    android:singleLine="false"
-                    android:textColorHint="@color/gray"
-                    android:windowSoftInputMode="adjustPan"
-                    />
-                <requestFocus />
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_centerVertical="true"
-                    android:visibility="visible"
-                    android:id="@+id/create_relative">
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_200"
-                        android:id="@+id/creat_imageview_display_icon"
-                        android:layout_gravity="center"
-                        android:layout_centerVertical="true"
-                        android:adjustViewBounds="true"
-                        android:scaleType="center"
-                        android:layout_weight="1"
-                        android:layout_marginTop="@dimen/dp_20"
-                        />
-                    <ImageView
-                        android:layout_width="@dimen/dp_20"
-                        android:layout_height="@dimen/dp_20"
-                        android:src="@mipmap/ic_delete_icon"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignTop="@id/creat_imageview_display_icon"
-                        android:layout_alignRight="@id/creat_imageview_display_icon"
-                        android:layout_marginRight="@dimen/dp_3"
-                        android:id="@+id/create_delete_image"
-                        />
-                </RelativeLayout>
-                <RelativeLayout
+                >-->
+
+            <RelativeLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center"
+                 android:layout_centerVertical="true"
+                 android:visibility="visible"
+                 android:id="@+id/create_relative">
+                 <ImageView
+                     android:layout_width="match_parent"
+                     android:layout_height="@dimen/dp_200"
+                     android:id="@+id/creat_imageview_display_icon"
+                     android:layout_gravity="center"
+                     android:layout_centerVertical="true"
+                     android:adjustViewBounds="true"
+                     android:scaleType="center"
+                     android:layout_weight="1"
+                     android:layout_marginTop="@dimen/dp_20"
+                     android:visibility="gone"
+                     />
+            </RelativeLayout>
+             <com.dsquare.hibour.utils.ProximaEditText
+                 android:id="@+id/newposts_edittest"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:focusable="true"
+                 android:gravity="top|start"
+                 android:hint="@string/cat_ph_general"
+                 android:inputType="textMultiLine"
+                 android:padding="@dimen/dp_10"
+                 android:singleLine="false"
+                 android:textColorHint="@color/gray"
+                 android:visibility="visible"
+                 />
+             <!--<requestFocus />-->
+             <!--<RelativeLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center"
+                 android:layout_centerVertical="true"
+                 android:visibility="visible"
+                 android:id="@+id/create_relative">
+                 <ImageView
+                     android:layout_width="match_parent"
+                     android:layout_height="@dimen/dp_200"
+                     android:id="@+id/creat_imageview_display_icon"
+                     android:layout_gravity="center"
+                     android:layout_centerVertical="true"
+                     android:adjustViewBounds="true"
+                     android:scaleType="center"
+                     android:layout_weight="1"
+                     android:layout_marginTop="@dimen/dp_20"
+                     />
+                 <ImageView
+                     android:layout_width="@dimen/dp_20"
+                     android:layout_height="@dimen/dp_20"
+                     android:src="@mipmap/ic_delete_icon"
+                     android:layout_alignParentRight="true"
+                     android:layout_alignTop="@id/creat_imageview_display_icon"
+                     android:layout_alignRight="@id/creat_imageview_display_icon"
+                     android:layout_marginRight="@dimen/dp_3"
+                     android:id="@+id/create_delete_image"
+                     />
+             </RelativeLayout>-->
+<!--
+            </RelativeLayout>
+-->
+
+        </LinearLayout>
+
+        <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_60"
                     android:layout_alignParentBottom="true"
@@ -216,12 +211,16 @@
                         />
 
                 </RelativeLayout>
+<!--
             </RelativeLayout>
+-->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/horiz_line_height"
                 android:background="@color/gray"
                 android:layout_below="@+id/create_linear"/>
+<!--
         </LinearLayout>
+-->
     </RelativeLayout></LinearLayout>
 </LinearLayout>

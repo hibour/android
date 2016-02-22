@@ -44,6 +44,7 @@
     <string name="prefernce_all">All</string>
     <string name="settings_prefernce">Open Socilize activity</string>
     <string name="settings_proof">Open Proof activity</string>
+    <string name="settings_location">change Location</string>
     <string name="title_activity_social_categories">SocialCategories</string>
     <string name="socialize_text">Pick as many interests as you like</string>
     <string name="done_text">Next</string>
