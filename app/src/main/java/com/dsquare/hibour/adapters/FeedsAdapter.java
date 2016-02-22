@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,6 +70,8 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
         holder.commentsLayout.setTag(holder);
         holder.userImage.setOnClickListener(this);
         holder.userImage.setTag(holder);
+        holder.userImageDefault.setOnClickListener(this);
+        holder.userImageDefault.setTag(holder);
         return holder;
     }
 
@@ -108,6 +109,20 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
         }
         holder.timeStamp.setText(getTimeStamp(listItems.get(position).getPostDate()
                 , listItems.get(position).getPostTime()));
+        if(listItems.get(position).getPostedUserImage() != null) {
+            Log.d("*****-----*****", listItems.get(position).getPostedUserImage());
+        }
+        holder.userImageDefault.setVisibility(View.VISIBLE);
+        holder.userImageDefault.setText(getInitials(listItems.get(position).getPostedUserName()));
+    }
+
+    private String getInitials(String uname) {
+        String[] list = uname.split("\\s+");
+        String initials = "";
+        for(int i = 0; i < list.length; i++) {
+            initials += list[i].charAt(0);
+        }
+        return initials.toUpperCase();
     }
 
     @Override
@@ -142,8 +157,8 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView timeStamp,message,categoryName,likes,comments,userText;
-        private ImageView userImage,shareImage,likesImage,feedImage;
+        private TextView timeStamp,message,categoryName,likes,comments,userText, userImageDefault;
+        private ImageView userImage, shareImage,likesImage,feedImage;
         private LinearLayout commentsLayout,likesLayout;
 
         public ViewHolder(View itemView) {
@@ -153,6 +168,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
             categoryName = (TextView)itemView.findViewById(R.id.feeds_category_name);
             likes = (TextView)itemView.findViewById(R.id.feeds_likes_text);
             comments = (TextView)itemView.findViewById(R.id.feeds_comments_text);
+            userImageDefault = (TextView)itemView.findViewById(R.id.feeds_user_image_text);
             userImage = (ImageView)itemView.findViewById(R.id.feeds_user_image);
             userText=(TextView)itemView.findViewById(R.id.feeds_user_textview);
             likesImage = (ImageView)itemView.findViewById(R.id.feeds_likes_image);

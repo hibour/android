@@ -1,12 +1,10 @@
 package com.dsquare.hibour.fragments;
 
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Typeface;
@@ -14,7 +12,6 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -142,14 +139,16 @@ public class Posts extends Fragment implements View.OnClickListener,PostsCallbac
 
         pager = (ViewPager)view.findViewById(R.id.posts_pager);
         tabs = (SlidingTabLayout)view.findViewById(R.id.posts_tabs);
+
         //tabs.setDistributeEvenly(false);
         tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
             @Override
             public int getIndicatorColor(int position) {
-                return getResources().getColor(R.color.white);
+                return getResources().getColor(R.color.newbrand);
             }
         });
-        tabs.setTabsBackgroundColor(getResources().getColor(R.color.brand));
+
+        tabs.setTabsBackgroundColor(getResources().getColor(R.color.white));
     }
     private void initializeEventListeners() {
         invite.setOnClickListener(this);
