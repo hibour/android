@@ -170,6 +170,7 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
         if (isHome) {
             if (doubleBackToExitPressedOnce) {
                 super.onBackPressed();
+
                 return;
             }
 

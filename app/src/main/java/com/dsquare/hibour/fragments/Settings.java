@@ -27,16 +27,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.activities.Notifications;
-import com.dsquare.hibour.activities.Proof;
 import com.dsquare.hibour.activities.SocialPrefernce;
+import com.dsquare.hibour.activities.UpdateLocation;
 import com.dsquare.hibour.adapters.SelectDateFragment;
 import com.dsquare.hibour.dialogs.PostsImagePicker;
 import com.dsquare.hibour.interfaces.ImagePicker;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
+import com.dsquare.hibour.network.HibourConnector;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.pojos.settings.Data;
 import com.dsquare.hibour.pojos.settings.Settingspojo;
@@ -58,7 +60,7 @@ import java.util.List;
 public class Settings extends Fragment implements View.OnClickListener,ImagePicker {
     private ImageView menuIcon,notifIcon,inputImage,imageUploaded,dobimage;
     private RadioGroup gender;
-    private EditText name;
+    private EditText name,lastname;
     private EditText email;
     private EditText password;
     private static EditText dob;
@@ -81,6 +83,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
     private Gson gson;
     private Hibour application;
     private String genderstring="",cardImageString="a";
+    private ImageLoader imageLoader;
     public Settings() {
         // Required empty public constructor
     }
@@ -111,19 +114,21 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         submitButton = (Button)view.findViewById(R.id.settings_submit);
         gender = (RadioGroup)view.findViewById(R.id.group_radio);
         name = (EditText)view.findViewById(R.id.settings_name_edit);
+        lastname = (EditText)view.findViewById(R.id.settings_Last_name_edit);
         email = (EditText)view.findViewById(R.id.settings_email_edit);
         password = (EditText)view.findViewById(R.id.settings_password_Edit);
         dob = (EditText)view.findViewById(R.id.settings_dob_edit);
         moblie = (EditText)view.findViewById(R.id.settings_phone_edit);
-        proof = (TextView)view.findViewById(R.id.settings_proof);
+        proof = (TextView)view.findViewById(R.id.settings_location);
         soclize = (TextView)view.findViewById(R.id.settings_prefernce);
-        String text = "<u>Change Proof</u>";
+        String text = "<u>Change Location</u>";
         String text1 = "<u>Change SocialPrefernce</u>";
         proof.setText(Html.fromHtml(text));
         soclize.setText(Html.fromHtml(text1));
         tf = Fonts.getTypeFace(getActivity());
         submitButton.setTypeface(proxima);
         name.setTypeface(proxima);
+        lastname.setTypeface(proxima);
         email.setTypeface(proxima);
         password.setTypeface(proxima);
         dob.setTypeface(proxima);
@@ -141,6 +146,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
             }
 
         });
+        imageLoader = HibourConnector.getInstance(getActivity()).getImageLoader();
     }
     /* initialize event listeners*/
     private void initializeEventListeners(){
@@ -172,8 +178,8 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
             case R.id.setting_image_editer:
                 openImageChooser();
                 break;
-            case R.id.settings_proof:
-                openproofActivity();
+            case R.id.settings_location:
+                openLocationActivity();
                 break;
             case R.id.settings_prefernce:
                 openprefernceActivity();
@@ -202,8 +208,8 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         startActivity(intent);
     }
 
-    private void openproofActivity() {
-        Intent intent = new Intent(getActivity(), Proof.class);
+    private void openLocationActivity() {
+        Intent intent = new Intent(getActivity(), UpdateLocation.class);
         startActivity(intent);
     }
 
@@ -296,15 +302,17 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
     }
     private void updateprofileActivity() {
         String userName = name.getText().toString();
+        String userLastName = lastname.getText().toString();
         String userMail = email.getText().toString();
         String userPass = password.getText().toString();
         if (!userName.equals(null) && !userName.equals("null") && !userName.equals("") &&
+                !userLastName.equals(null) && !userLastName.equals("null") && !userLastName.equals("") &&
                 !userMail.equals(null) && !userMail.equals("null") && !userMail.equals("") &&
                 !userPass.equals(null) && !userPass.equals("null") && !userPass.equals("")) {
             if (application.validateEmail(userMail)) {
                 if (moblie.getText().toString().length() < 11 && moblie.getText().toString().length() > 9) {
                     if (gender.getCheckedRadioButtonId() != -1) {
-                        updateProfiletoUser(userName, userMail, userPass,moblie.getText().toString());
+                        updateProfiletoUser(userName,userLastName, userMail, userPass,moblie.getText().toString());
                     } else {
                         Toast.makeText(getActivity(), "Please select Gender", Toast.LENGTH_SHORT).show();
                     }
@@ -318,11 +326,11 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
             Toast.makeText(getActivity(), "Enter valid credentials", Toast.LENGTH_LONG).show();
         }
     }
-    private void updateProfiletoUser(String userName, String userMail, String userPass, String mobile) {
+    private void updateProfiletoUser(String userName,String userLastName, String userMail, String userPass, String mobile) {
         if(networkDetector.isConnected()){
             dialog = ProgressDialog.show(getActivity(),"",getResources()
                     .getString(R.string.progress_dialog_text));
-            accountsClient.getAllUpdateSettings(application.getUserId(), userName, userMail, userPass, genderstring, mobile
+            accountsClient.getAllUpdateSettings(application.getUserId(), userName, userLastName, userMail, userPass, genderstring, mobile
                     ,  cardImageString  , new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
@@ -342,6 +350,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
 
     }
     public void parseUpdateDetails(JSONObject jsonObject){
+        Log.d("update data",jsonObject.toString());
         closeDialog();
         getAllPrefs();
     }
@@ -372,10 +381,13 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         try {
             Settingspojo settingspojo = gson.fromJson(jsonObject.toString(), Settingspojo.class);
             Data data = settingspojo.getData();
-            name.setText(data.getUsername());
+            name.setText(data.getFirstName());
+            lastname.setText(data.getLastName());
             email.setText(data.getEmail());
             password.setText(data.getPassword());
             moblie.setText(data.getMobileNumber());
+            imageLoader.get(data.getImage(),ImageLoader.getImageListener(inputImage
+                    ,R.drawable.avatar1,R.drawable.avatar1));
             String genderValue = data.getGender();
             Log.d("gender",  data.getGender());
             if(genderValue != null && genderValue.equalsIgnoreCase("0")){

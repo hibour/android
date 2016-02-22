@@ -45,6 +45,7 @@ public class Hibour {
         editor.putString(Constants.SF_EMAIL, details[3]);
         editor.putString(Constants.SF_GENDER, details[4]);
         editor.putString(Constants.SF_REGTYPE, details[5]);
+        editor.putString(Constants.SF_LOCADD, details[6]);
         editor.commit();
     }
     public void setuserId(String userId){
@@ -62,6 +63,12 @@ public class Hibour {
         initializeSharedPrefs();
         return sharedPreferences.getString(Constants.SF_FIRST, "");
     }
+
+    public String getUserLocation(){
+        initializeSharedPrefs();
+        return sharedPreferences.getString(Constants.SF_LOCADD, "");
+    }
+
     /* remove user id*/
     public void removeUserDetails(){
         initializeSharedPrefs();

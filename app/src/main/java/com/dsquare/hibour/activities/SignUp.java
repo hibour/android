@@ -441,8 +441,9 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
 //            Integer integer = data.getId();
             String s = String.valueOf(data.getId());
             Log.d("integer", s);
-            String[] regidetails = {String.valueOf(data.getId()), data.getFirstName(),data.getLastName(), data.getEmail(),data.getGender(), data.getRegtype()};
+            String[] regidetails = {String.valueOf(data.getId()), data.getFirstName(),data.getLastName(), data.getEmail(),data.getGender(), data.getRegtype(),Constants.locationaddress};
             application.setLoginDetails(regidetails);
+            application.setIsFirst(true);
 //            Log.d("integer", String.valueOf(integer));
             Log.d("regidetails", String.valueOf(regidetails));
             Intent homeIntent = new Intent(this, MobileNumber.class);

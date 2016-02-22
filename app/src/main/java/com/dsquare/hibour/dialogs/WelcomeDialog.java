@@ -2,17 +2,15 @@ package com.dsquare.hibour.dialogs;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-
+import android.widget.ImageView;
 
 import com.dsquare.hibour.R;
-import com.dsquare.hibour.fragments.Posts;
 import com.dsquare.hibour.interfaces.PostsCallback;
 
 /**
@@ -22,7 +20,7 @@ import com.dsquare.hibour.interfaces.PostsCallback;
 public class WelcomeDialog extends android.support.v4.app.DialogFragment implements View.OnClickListener{
     private Button hi;
     private PostsCallback callback;
-
+    private ImageView close;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -54,16 +52,17 @@ public class WelcomeDialog extends android.support.v4.app.DialogFragment impleme
 
     private void initializeViews(View view) {
         hi=(Button)view.findViewById(R.id.welcome_dialog_hi);
+        close = (ImageView) view.findViewById(R.id.welcome_dialog_close);
     }
 
     private void initializeEventListeners() {
         hi.setOnClickListener(this);
+        close.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         callback.openDialog(this);
-
-
+        callback.closeDialog(this);
     }
 }
