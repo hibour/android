@@ -65,7 +65,7 @@ public class PreviousChat extends Fragment {
     layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
     recyclerView.setLayoutManager(layoutManager);
     recyclerView.setHasFixedSize(true);
-    adapter = new NeighboursAdapter(getActivity(), chatUserList);
+    adapter = new NeighboursAdapter(getActivity(), chatUserList, R.layout.adapter_chats);
     recyclerView.setAdapter(adapter);
   }
 }

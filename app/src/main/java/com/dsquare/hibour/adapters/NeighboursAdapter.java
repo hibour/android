@@ -27,15 +27,17 @@ public class NeighboursAdapter extends RecyclerView.Adapter<NeighboursAdapter.Vi
     private ViewHolder globalHolder;
     private ProgressDialog detailsDialog;
     private Context context;
+    private int layout;
 
-    public NeighboursAdapter(Context context, List<UserDetail> listItems) {
+    public NeighboursAdapter(Context context, List<UserDetail> listItems, int layout) {
         this.context = context;
         this.listItems = listItems;
+        this.layout = layout;
     }
 
     @Override
     public NeighboursAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_neighbours
+        View v = LayoutInflater.from(parent.getContext()).inflate(this.layout
                 , parent, false);
         final ViewHolder holder = new ViewHolder(v);
         holder.itemView.setTag(holder);
@@ -45,8 +47,16 @@ public class NeighboursAdapter extends RecyclerView.Adapter<NeighboursAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final UserDetail item = listItems.get(position);
-        holder.userName.setText(listItems.get(position).Username);
-        holder.profession.setText(listItems.get(position).Address);
+        String displayName = "";
+        if(item.Username != null && item.Username.length() <= 0) {
+            displayName = item.Username;
+        } else {
+            displayName = item.Email;
+        }
+        holder.userName.setText(displayName);
+        if(holder.profession != null) {
+            holder.profession.setText(item.Address);
+        }
         holder.entireView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
