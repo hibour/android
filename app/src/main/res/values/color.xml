@@ -17,12 +17,14 @@
     <color name="white_transparent">#88FFFFFF</color>
     <color name="transparent">#00000000</color>
     <color name="light_gray">#f1f1f1</color>
+    <color name="feed_bg">#edeef2</color>
     <color name="light_grays">#F5F8FA</color>
     <color name="outline_green">#8CC152</color>
     <color name="outline_blue">#3BAFDA</color>
     <color name="outline_yellow">#37BC9B</color>
     <color name="outline_purple">#967ADC</color>
     <color name="textColor_discoverneighbourhood">#687897</color>
+    <color name="default_user_img_bg">#fd9757</color>
     <string-array name="movie_serial_bg">
         <item>#ff484d</item>
         <item>#57dd86</item>
