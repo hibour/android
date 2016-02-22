@@ -87,6 +87,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     private EditText editPost;
     private Spinner categoriesSpinner, neighboursSpinner;
     private RelativeLayout layout, layout1;
+    private LinearLayout postWidget;
     private View views;
     private ListView categoriesRecycler;
     private String[] details;
@@ -126,7 +127,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     private void initializeEventListeners() {
 
         gallary.setOnClickListener(this);
-        delete.setOnClickListener(this);
+//        delete.setOnClickListener(this);
         done.setOnClickListener(this);
         cancel.setOnClickListener(this);
     }
@@ -138,11 +139,12 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                 validatepostData();
                 break;
             case R.id.creat_imageview_post_icon:
+                gallary.setVisibility(View.VISIBLE);
                 openImageChooser();
                 break;
-            case R.id.create_delete_image:
+           /* case R.id.create_delete_image:
                 opendeleteImage();
-                break;
+                break;*/
             case R.id.creat_post_cancel:
                 mListener.onCancelClicked();
                 break;
@@ -307,26 +309,33 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         cancel = (TextView) view.findViewById(R.id.creat_post_cancel);
         gallary = (ImageView) view.findViewById(R.id.creat_imageview_post_icon);
         postImage = (ImageView) view.findViewById(R.id.creat_imageview_display_icon);
-        delete = (ImageView) view.findViewById(R.id.create_delete_image);
+      //  delete = (ImageView) view.findViewById(R.id.create_delete_image);
         layout = (RelativeLayout) view.findViewById(R.id.create_relative);
         layout1 = (RelativeLayout) view.findViewById(R.id.home_app_bar1);
         views = (View) view.findViewById(R.id.views);
         application = Hibour.getInstance(getActivity());
         text = (EditText) view.findViewById(R.id.newposts_edittest);
         editPost = (EditText) view.findViewById(R.id.newposts_edittest);
+        postWidget=(LinearLayout)view.findViewById(R.id.post_widget);
 //        editPost.requestFocus();
 
       //  InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
        // imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
-        editPost.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+       /* postWidget.setOnFocusChangeListener(new View.OnFocusChangeListener(){
             @Override
             public void onFocusChange(View v, boolean hasFocus){
                 Log.d("edit text","On Foucs. Has Focus = " + hasFocus);
                 if (hasFocus){
                     done.setTextColor(getActivity().getResources().getColor(R.color.black_1));
                     setOnClickForDone();
-                    InputMethodManager imm =(InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+                   *//* InputMethodManager imm =(InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);*//*
+                    InputMethodManager imm = (InputMethodManager) getActivity().
+                            getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+
+                    }
                     if (layout.getVisibility() == View.VISIBLE) {
                         layout.setVisibility(View.GONE);
                     }
@@ -341,14 +350,21 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                     Log.d("gg","12");
                 }
             }
-        });
-
+        });*/
         //Set on click listener to clear focus
-        editPost.setOnClickListener(new View.OnClickListener(){
+        postWidget.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View clickedView)
-            {
-                clickedView.clearFocus();
+            public void onClick(View clickedView) {
+                editPost.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getActivity().
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+                    done.setTextColor(getActivity().getResources().getColor(R.color.black_1));
+                   clickedView.clearFocus();
+                }
+              //  clickedView.clearFocus();
+
             }
         });
 
@@ -518,7 +534,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
 
         LinearLayout postFragment = (LinearLayout) this.getActivity().findViewById(R.id.post_fragment);
         LinearLayout postWidget = (LinearLayout) this.getActivity().findViewById(R.id.post_widget);
-        RelativeLayout categoryList = (RelativeLayout) this.getActivity().findViewById(R.id.category_list);
+      //  RelativeLayout categoryList = (RelativeLayout) this.getActivity().findViewById(R.id.category_list);
         LinearLayout relativeLayout = (LinearLayout) this.getActivity().findViewById(R.id.post_liner_layout);
 
         ViewGroup.LayoutParams lp = postFragment.getLayoutParams();
@@ -526,7 +542,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         postFragment.setGravity(Gravity.TOP);
         postFragment.setLayoutParams(lp);
 
-        categoryList.setVisibility(View.GONE);
+  //      categoryList.setVisibility(View.GONE);
         postWidget.setVisibility(View.VISIBLE);
         relativeLayout.setVisibility(View.VISIBLE);
         categoriesSpinner.setSelection(position);

@@ -355,7 +355,8 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
 
   /* open signup activity*/
   private void openSignUpActivity() {
-    Intent signUpIntent = new Intent(this, SignUp.class);
+    //Intent signUpIntent = new Intent(this, SignUp.class);
+    Intent signUpIntent = new Intent(this, MobileNumber.class);
     signUpIntent.putExtra("data","2");
     startActivity(signUpIntent);
     this.finish();
