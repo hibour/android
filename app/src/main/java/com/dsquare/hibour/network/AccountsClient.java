@@ -18,6 +18,8 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by ASHOK on 1/7/2016.
@@ -84,7 +86,7 @@ public class AccountsClient {
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
                     , url.getPath(), url.getQuery(), url.getRef());
             url = uri.toURL();
-            JsonObjectRequest signUpRequest = new JsonObjectRequest(Request.Method.GET
+            JsonObjectRequest signUpRequest = new JsonObjectRequest(Request.Method.POST
                     , url.toString(), (String) null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
@@ -414,40 +416,77 @@ public class AccountsClient {
         }
     }
     /* get all categories types*/
-    public void getAllUpdateSettings(String userId,String userName,String email,String password,String gender,String userNum,String image, final WebServiceResponseCallback callback) {
+    public void getAllUpdateSettings(String userId,String userName,String userLastName,String email,String password,String gender,String userNum,String image, final WebServiceResponseCallback callback) {
+
         try {
-            String urlStr = Constants.URL_PROFILE_UPDATE+ userId + "/edit?"+Constants.KEYWORD_USER_NAME + "=" + userName + "&"
-                    + Constants.KEYWORD_EMAIL + "=" + email + "&" + Constants.KEYWORD_PASSWORD + "=" + password + "&"+
-                    Constants.KEYWORD_GENDER+ "=" +gender+ "&" +Constants.KEYWORD_MOBILE_NUMBER1 + "=" + userNum+ "&"+
-                    Constants.KEYWORD_SIGNUP_TYPE + "=" + "modifiy"+"&"+"profileimage"+"="+image+"&"
-                    + Constants.KEYWORD_SIGNATURE + "=" + Constants.SIGNATURE_VALUE;
-            URL url = new URL(urlStr);
-            URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
-                    , url.getPath(), url.getQuery(), url.getRef());
-            url = uri.toURL();
-            Log.d("url",""+url);
-            JsonObjectRequest proofsRequest = new JsonObjectRequest(Request.Method.GET
-                    , url.toString(), (String) null, new Response.Listener<JSONObject>() {
+            String urlStr = Constants.URL_PROFILE_UPDATE+userId+"/edit?";
+            Map<String, String> params = new HashMap<>();
+//            Log.d("post",userId+postType+postsubType+postMessages+postImages+status);
+            params.put(Constants.KEYWORD_USER_FIRSTNAME, userName);
+            params.put(Constants.KEYWORD_USER_LASTNAME, userLastName);
+            params.put(Constants.KEYWORD_EMAIL, email);
+            params.put(Constants.KEYWORD_PASSWORD, password);
+            params.put(Constants.KEYWORD_GENDER,gender);
+            params.put(Constants.KEYWORD_MOBILE_NUMBER1,userNum);
+            params.put(Constants.KEYWORD_SIGNUP_TYPE,"modifiy");
+            params.put(Constants.KEYWORD_PROFILE_IMAGE,image);
+            params.put(Constants.KEYWORD_SIGNATURE, Constants.SIGNATURE_VALUE);
+            CustomRequest updateRequest = new CustomRequest(Request.Method.POST,urlStr,params
+                    ,new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     callback.onSuccess(response);
                 }
-            }, new Response.ErrorListener() {
+            },new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    if (error != null) {
+                        Log.d("TAG", Log.getStackTraceString(error));
+                    }
                     callback.onFailure(error);
                 }
             });
-            proofsRequest.setRetryPolicy(new DefaultRetryPolicy(
+            updateRequest.setRetryPolicy(new DefaultRetryPolicy(
                     MY_SOCKET_TIMEOUT_MS,
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            HibourConnector.getInstance(context).addToRequestQueue(proofsRequest);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
+            HibourConnector.getInstance(context).addToRequestQueue(updateRequest);
+        } catch (Exception e) {
             e.printStackTrace();
         }
+//        try {
+//            String urlStr = Constants.URL_PROFILE_UPDATE+ userId + "/edit?"+Constants.KEYWORD_USER_NAME + "=" + userName + "&"
+//                    + Constants.KEYWORD_EMAIL + "=" + email + "&" + Constants.KEYWORD_PASSWORD + "=" + password + "&"+
+//                    Constants.KEYWORD_GENDER+ "=" +gender+ "&" +Constants.KEYWORD_MOBILE_NUMBER1 + "=" + userNum+ "&"+
+//                    Constants.KEYWORD_SIGNUP_TYPE + "=" + "modifiy"+"&"+"profileimage"+"="+image+"&"
+//                    + Constants.KEYWORD_SIGNATURE + "=" + Constants.SIGNATURE_VALUE;
+//            URL url = new URL(urlStr);
+//            URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
+//                    , url.getPath(), url.getQuery(), url.getRef());
+//            url = uri.toURL();
+//            Log.d("url",""+url);
+//            JsonObjectRequest proofsRequest = new JsonObjectRequest(Request.Method.POST
+//                    , url.toString(), (String) null, new Response.Listener<JSONObject>() {
+//                @Override
+//                public void onResponse(JSONObject response) {
+//                    callback.onSuccess(response);
+//                }
+//            }, new Response.ErrorListener() {
+//                @Override
+//                public void onErrorResponse(VolleyError error) {
+//                    callback.onFailure(error);
+//                }
+//            });
+//            proofsRequest.setRetryPolicy(new DefaultRetryPolicy(
+//                    MY_SOCKET_TIMEOUT_MS,
+//                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+//                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+//            HibourConnector.getInstance(context).addToRequestQueue(proofsRequest);
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        } catch (URISyntaxException e) {
+//            e.printStackTrace();
+//        }
     }
     /* get user details*/
     public void getUserDetails(String userId, final WebServiceResponseCallback callback) {
@@ -618,4 +657,42 @@ public class AccountsClient {
             e.printStackTrace();
         }
     }
+    /* get all categories types*/
+    public void getUpdateLocation(String userId,String address,String address1,String latitude,String longitude, final WebServiceResponseCallback callback) {
+
+        try {
+            String urlStr = Constants.URL_UPDATE_USER_LOCATION;
+            Map<String, String> params = new HashMap<>();
+            Log.d("data",userId+address+address1+latitude+longitude);
+            params.put("Address", address);
+            params.put("Address1", address1);
+            params.put("user_id", userId);
+            params.put("geo_lat", latitude);
+            params.put("geo_lon", longitude);
+            params.put(Constants.KEYWORD_SIGNATURE, Constants.SIGNATURE_VALUE);
+            CustomRequest updateLocationRequest = new CustomRequest(Request.Method.POST, urlStr, params
+                    , new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    callback.onSuccess(response);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if (error != null) {
+                        Log.d("TAG", Log.getStackTraceString(error));
+                    }
+                    callback.onFailure(error);
+                }
+            });
+            updateLocationRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    MY_SOCKET_TIMEOUT_MS,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            HibourConnector.getInstance(context).addToRequestQueue(updateLocationRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -6,8 +6,6 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -22,7 +20,6 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.database.DatabaseHandler;
-import com.dsquare.hibour.dialogs.WelcomeDialog;
 import com.dsquare.hibour.gcm.GcmRegistration;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
@@ -355,8 +352,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
 
   /* open signup activity*/
   private void openSignUpActivity() {
-    //Intent signUpIntent = new Intent(this, SignUp.class);
-    Intent signUpIntent = new Intent(this, MobileNumber.class);
+    Intent signUpIntent = new Intent(this, SignUp.class);
     signUpIntent.putExtra("data","2");
     startActivity(signUpIntent);
     this.finish();

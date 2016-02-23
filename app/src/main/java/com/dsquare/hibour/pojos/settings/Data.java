@@ -6,223 +6,141 @@ import com.google.gson.annotations.SerializedName;
 
 public class Data {
 
-    @SerializedName("Username")
-    @Expose
-    private String Username;
-    @SerializedName("Password")
-    @Expose
-    private String Password;
-    @SerializedName("Image")
-    @Expose
-    private String Image;
-    @SerializedName("Gender")
-    @Expose
-    private String Gender;
-    @SerializedName("Email")
-    @Expose
-    private String Email;
-    @SerializedName("Mobile Number")
-    @Expose
-    private String MobileNumber;
-    @SerializedName("Address")
-    @Expose
-    private String Address;
+        @SerializedName("FirstName")
+        @Expose
+        private String FirstName;
+        @SerializedName("LastName")
+        @Expose
+        private String LastName;
+        @SerializedName("Password")
+        @Expose
+        private String Password;
+        @SerializedName("Image")
+        @Expose
+        private String Image;
+        @SerializedName("Gender")
+        @Expose
+        private String Gender;
+        @SerializedName("Email")
+        @Expose
+        private String Email;
+        @SerializedName("Mobile Number")
+        @Expose
+        private String MobileNumber;
+        @SerializedName("Address")
+        @Expose
+        private String Address;
 
-    /**
-<<<<<<< HEAD
-     *
-     * @return
-     * The Username
-=======
-     * 
-     * @return
-     *     The Username
->>>>>>> 5c75316ddc38dad1aeea6ae817be35c7e86ef5db
-     */
-    public String getUsername() {
-        return Username;
-    }
+        /**
+         * @return The FirstName
+         */
+        public String getFirstName() {
+            return FirstName;
+        }
 
-    /**
-<<<<<<< HEAD
-     *
-     * @param Username
-     * The Username
-=======
-     * 
-     * @param Username
-     *     The Username
->>>>>>> 5c75316ddc38dad1aeea6ae817be35c7e86ef5db
-     */
-    public void setUsername(String Username) {
-        this.Username = Username;
-    }
+        /**
+         * @param FirstName The FirstName
+         */
+        public void setFirstName(String FirstName) {
+            this.FirstName = FirstName;
+        }
 
-    /**
-<<<<<<< HEAD
-     *
-     * @return
-     * The Password
-=======
-     * 
-     * @return
-     *     The Password
->>>>>>> 5c75316ddc38dad1aeea6ae817be35c7e86ef5db
-     */
-    public String getPassword() {
-        return Password;
-    }
+        /**
+         * @return The LastName
+         */
+        public String getLastName() {
+            return LastName;
+        }
 
-    /**
-<<<<<<< HEAD
-     *
-     * @param Password
-     * The Password
-=======
-     * 
-     * @param Password
-     *     The Password
->>>>>>> 5c75316ddc38dad1aeea6ae817be35c7e86ef5db
-     */
-    public void setPassword(String Password) {
-        this.Password = Password;
-    }
+        /**
+         * @param LastName The LastName
+         */
+        public void setLastName(String LastName) {
+            this.LastName = LastName;
+        }
 
-    /**
-<<<<<<< HEAD
-     *
-     * @return
-     * The Image
-=======
-     * 
-     * @return
-     *     The Image
->>>>>>> 5c75316ddc38dad1aeea6ae817be35c7e86ef5db
-     */
-    public String getImage() {
-        return Image;
-    }
+        /**
+         * @return The Password
+         */
+        public String getPassword() {
+            return Password;
+        }
 
-    /**
-<<<<<<< HEAD
-     *
-     * @param Image
-     * The Image
-=======
-     * 
-     * @param Image
-     *     The Image
->>>>>>> 5c75316ddc38dad1aeea6ae817be35c7e86ef5db
-     */
-    public void setImage(String Image) {
-        this.Image = Image;
-    }
+        /**
+         * @param Password The Password
+         */
+        public void setPassword(String Password) {
+            this.Password = Password;
+        }
 
-    /**
-<<<<<<< HEAD
-     *
-     * @return
-     * The Gender
-=======
-     * 
-     * @return
-     *     The Gender
->>>>>>> 5c75316ddc38dad1aeea6ae817be35c7e86ef5db
-     */
-    public String getGender() {
-        return Gender;
-    }
+        /**
+         * @return The Image
+         */
+        public String getImage() {
+            return Image;
+        }
 
-    /**
-<<<<<<< HEAD
-     *
-     * @param Gender
-     * The Gender
-=======
-     * 
-     * @param Gender
-     *     The Gender
->>>>>>> 5c75316ddc38dad1aeea6ae817be35c7e86ef5db
-     */
-    public void setGender(String Gender) {
-        this.Gender = Gender;
-    }
+        /**
+         * @param Image The Image
+         */
+        public void setImage(String Image) {
+            this.Image = Image;
+        }
 
-    /**
-<<<<<<< HEAD
-     *
-     * @return
-     * The Email
-=======
-     * 
-     * @return
-     *     The Email
->>>>>>> 5c75316ddc38dad1aeea6ae817be35c7e86ef5db
-     */
-    public String getEmail() {
-        return Email;
-    }
+        /**
+         * @return The Gender
+         */
+        public String getGender() {
+            return Gender;
+        }
 
-    /**
-<<<<<<< HEAD
-     *
-     * @param Email
-     * The Email
-=======
-     * 
-     * @param Email
-     *     The Email
->>>>>>> 5c75316ddc38dad1aeea6ae817be35c7e86ef5db
-     */
-    public void setEmail(String Email) {
-        this.Email = Email;
-    }
+        /**
+         * @param Gender The Gender
+         */
+        public void setGender(String Gender) {
+            this.Gender = Gender;
+        }
 
-    /**
-<<<<<<< HEAD
-     *
-     * @return
-     * The MobileNumber
-     */
-    public String getMobileNumber() {
-        return MobileNumber;
-    }
+        /**
+         * @return The Email
+         */
+        public String getEmail() {
+            return Email;
+        }
 
-    /**
-     *
-     * @param MobileNumber
-     * The Mobile Number
-     */
-    public void setMobileNumber(String MobileNumber) {
-        this.MobileNumber = MobileNumber;
-    }
+        /**
+         * @param Email The Email
+         */
+        public void setEmail(String Email) {
+            this.Email = Email;
+        }
 
-    /**
-     *
-     * @return
-     * The Address
-=======
-     * 
-     * @return
-     *     The Address
->>>>>>> 5c75316ddc38dad1aeea6ae817be35c7e86ef5db
-     */
-    public String getAddress() {
-        return Address;
-    }
+        /**
+         * @return The MobileNumber
+         */
+        public String getMobileNumber() {
+            return MobileNumber;
+        }
 
-    /**
-<<<<<<< HEAD
-     *
-     * @param Address
-     * The Address
-=======
-     * 
-     * @param Address
-     *     The Address
->>>>>>> 5c75316ddc38dad1aeea6ae817be35c7e86ef5db
-     */
-    public void setAddress(String Address) {
-        this.Address = Address;
+        /**
+         * @param MobileNumber The Mobile Number
+         */
+        public void setMobileNumber(String MobileNumber) {
+            this.MobileNumber = MobileNumber;
+        }
+
+        /**
+         * @return The Address
+         */
+        public String getAddress() {
+            return Address;
+        }
+
+        /**
+         * @param Address The Address
+         */
+        public void setAddress(String Address) {
+            this.Address = Address;
+        }
+
     }
-}

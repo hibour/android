@@ -94,6 +94,6 @@ public class SocializePager extends Fragment {
                 neighboursList.add(userDetail);
             }
         }
-        postsRecycler.setAdapter(new NeighboursAdapter(getActivity(), neighboursList));
+        postsRecycler.setAdapter(new NeighboursAdapter(getActivity(), neighboursList, R.layout.adapter_neighbours));
     }
 }

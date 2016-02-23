@@ -44,6 +44,7 @@ public class Constants {
     public static final String URL_SEND_MESSAGE = URL_DOMAIN + "Messages/create?";
     public static final String URL_GET_NEARBY_USER = URL_DOMAIN + "Userreg/%s?signature=%s";
     public static final String URL_GET_OTHER_USR_DETAILS = URL_DOMAIN+"getprofile?";
+    public static final String URL_UPDATE_USER_LOCATION = URL_DOMAIN+"neighbourhood?";
 
 
     /*user constants*/
@@ -60,6 +61,7 @@ public class Constants {
     public static final String KEYWORD_USR_ID = "userid";
     public static final String KEYWORD_MOBILE_NUMBER = "mobile_number";
     public static final String KEYWORD_MOBILE_NUMBER1 = "Mobilenumber";
+    public static final String KEYWORD_PROFILE_IMAGE = "profileimage";
     public static final String KEYWORD_PREFS_IDS = "preferencesid";
     public static final String KEYWORD_PROOF_IMAGE = "profileimage";
     public static final String KEYWORD_PROOF_ID = "Prooftypeid";
@@ -95,6 +97,9 @@ public class Constants {
     public static final String SF_EMAIL = "Email";
     public static final String SF_GENDER = "Gender";
     public static final String SF_REGTYPE = "Regtype";
+    public static final String SF_LOCADD = "locAddress";
+    public static final String SF_LAT = "lati";
+    public static final String SF_LNG = "longi";
     //animation constants
     public static final int DURATION_DEFAULT = 300;
     public static final int DURATION_SHORT = 100;

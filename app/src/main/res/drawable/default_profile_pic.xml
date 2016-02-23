@@ -5,5 +5,5 @@
     android:useLevel="false" >
 
     <solid
-        android:color="@color/brand"/>
+        android:color="@color/default_user_img_bg"/>
 </shape>

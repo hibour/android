@@ -95,7 +95,7 @@ public class NearByUserChat extends Fragment {
     layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
     neighboursRecycler.setLayoutManager(layoutManager);
     neighboursRecycler.setHasFixedSize(true);
-    adapter = new NeighboursAdapter(getActivity(), neighboursList);
+    adapter = new NeighboursAdapter(getActivity(), neighboursList, R.layout.adapter_neighbours);
     neighboursRecycler.setAdapter(adapter);
 
     swipeRefreshLayout.setColorSchemeColors(

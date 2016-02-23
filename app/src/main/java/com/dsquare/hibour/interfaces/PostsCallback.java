@@ -8,4 +8,5 @@ import android.support.v4.app.DialogFragment;
  */
 public interface PostsCallback {
     void openDialog(DialogFragment dialogFragment);
+    void closeDialog(DialogFragment dialogFragment);
 }
