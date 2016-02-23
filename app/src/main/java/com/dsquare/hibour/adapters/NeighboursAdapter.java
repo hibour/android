@@ -88,4 +88,10 @@ public class NeighboursAdapter extends RecyclerView.Adapter<NeighboursAdapter.Vi
             entireView = itemView.findViewById(R.id.entire_view);
         }
     }
+
+    public void removeItem(int position) {
+        this.listItems.remove(position);
+        this.notifyItemRemoved(position);
+        //TODO API CALL
+    }
 }
