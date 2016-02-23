@@ -219,7 +219,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
                 long secs = formatter.parse(todayDate).getTime()
                         -formatter.parse(postedDate).getTime();
                 int diffInDays = (int) ((secs) / (1000 * 60 * 60 * 24));
-                return diffInDays+" days ago";
+                return diffInDays + "d";
             }else{
                 String postTime = time;
                 Calendar cal = Calendar.getInstance();
@@ -236,22 +236,22 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
                     int mins = (int) secs/(60);
                     int hours = (int)mins/(60);
                     if(hours>0){
-                        return hours+" hours ago";
+                        return hours + "h";
                     }else if(mins>0){
-                        return mins+" minutes ago";
+                        return mins + "m";
                     }else{
-                        return secs+" seconds ago";
+                        return secs+"s";
                     }
                 }else{
                     secs = secs*(-1);
                     int mins = (int) secs/(60);
                     int hours = (int)mins/(60);
                     if(hours>0){
-                        return hours+" hours ago";
+                        return hours+"h";
                     }else if(mins>0){
-                        return mins+" minutes ago";
+                        return mins+"m";
                     }else{
-                        return secs+" seconds ago";
+                        return secs+"s";
                     }
                 }
             }

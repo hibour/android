@@ -16,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
@@ -207,8 +208,30 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 
                 if (b) {
                     autoCompleteTextView.setHint("");
+                    LocationSearch.this.findViewById(R.id.hibour_logo_landing_page).setVisibility(View.GONE);
+                    LocationSearch.this.findViewById(R.id.loc_search_text_temp2).setVisibility(View.GONE);
+                    LocationSearch.this.findViewById(R.id.loc_search_text_temp1).setVisibility(View.GONE);
+
+                    LinearLayout linearLayoutLocSearch = (LinearLayout) LocationSearch.this.findViewById(R.id.loc_search_layout);
+                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) linearLayoutLocSearch.getLayoutParams();
+
+                    layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+                    layoutParams.setMargins(layoutParams.leftMargin, 20, layoutParams.rightMargin, layoutParams.bottomMargin);
+                    linearLayoutLocSearch.setLayoutParams(layoutParams);
+
+                    TranslateAnimation translateAnimation = new TranslateAnimation(TranslateAnimation.RELATIVE_TO_SELF, 0, TranslateAnimation.RELATIVE_TO_SELF, 0, TranslateAnimation.RELATIVE_TO_SELF, 0, TranslateAnimation.RELATIVE_TO_PARENT, 0);
+                    translateAnimation.setDuration(300);
+                    translateAnimation.setFillAfter(true);
+                    translateAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
+
+                    linearLayoutLocSearch.setAnimation(translateAnimation);
+                    linearLayoutLocSearch.animate();
+
                 } else {
                     autoCompleteTextView.setHint(R.string.loc_locality);
+                    LocationSearch.this.findViewById(R.id.hibour_logo_landing_page).setVisibility(View.VISIBLE);
+                    LocationSearch.this.findViewById(R.id.loc_search_text_temp2).setVisibility(View.VISIBLE);
+                    LocationSearch.this.findViewById(R.id.loc_search_text_temp1).setVisibility(View.VISIBLE);
                 }
 
             }
