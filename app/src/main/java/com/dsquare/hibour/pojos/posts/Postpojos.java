@@ -15,6 +15,9 @@ public class Postpojos {
     @SerializedName("post_id")
     @Expose
     private String postId;
+    @SerializedName("post_type_name")
+    @Expose
+    private String postTypeName;
     @SerializedName("post_type")
     @Expose
     private String postType;
@@ -39,6 +42,18 @@ public class Postpojos {
     @SerializedName("post_likes_count")
     @Expose
     private Integer postLikesCount;
+
+    public String getPostTypeName() {
+        return postTypeName;
+    }
+
+    public void setPostTypeName(String postTypeName) {
+        this.postTypeName = postTypeName;
+    }
+
+    public boolean isPostUserLiked() {
+        return postUserLiked;
+    }
 
     public boolean getPostUserLiked() {
         return postUserLiked;

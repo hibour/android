@@ -134,11 +134,13 @@ public class Posts extends Fragment implements View.OnClickListener,PostsCallbac
                     ((TextView) parent.getChildAt(0)).setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
                     Log.d("itemname", itemName);
 //                setRecyclerList(itemName);
-                }}
+                }
+            }
         });
 
         pager = (ViewPager)view.findViewById(R.id.posts_pager);
         tabs = (SlidingTabLayout)view.findViewById(R.id.posts_tabs);
+        tabs.setDistributeEvenly(false);
 
         //tabs.setDistributeEvenly(false);
         tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
@@ -149,6 +151,8 @@ public class Posts extends Fragment implements View.OnClickListener,PostsCallbac
         });
 
         tabs.setTabsBackgroundColor(getResources().getColor(R.color.white));
+       // tabs.setViewPager(pager);
+
     }
     private void initializeEventListeners() {
         invite.setOnClickListener(this);
@@ -229,24 +233,27 @@ public class Posts extends Fragment implements View.OnClickListener,PostsCallbac
             }
             tabsList.add("All");
             for (Postpojos p:postpojos) {
+                Log.d("type id",p.getPostType());
                 Constants.postlikesMap.put(p.getPostId(),p.getPostLikedUsers());
                 Constants.postpojosMap.put(p.getPostId(),postpojos);
-                String key = " ";
-                if (Constants.categoriesMap.containsKey(p.getPostType()))
-                    key = Constants.categoriesMap.get(p.getPostType());
+                String key =p.getPostTypeName() ;
+
+                //if (Constants.categoriesMap.containsKey(p.getPostType().replace(" ","")))
+                  //  key = Constants.categoriesMap.get(p.getPostType().replace(" ",""));
                 if (!Constants.postsMap.containsKey(key)) {
                     List<Postpojos> data = new ArrayList<>();
                     data.add(p);
-                    Log.d("key",key);
+                    Log.d("kkey",key);
                     Constants.postsMap.put(key, data);
                 } else {
                     List<Postpojos> postslist = Constants.postsMap.get(key);
                     postslist.add(p);
-                    Log.d("key",key);
+                    Log.d("kkey",key);
                     Constants.postsMap.put(key, postslist);
                 }
                 if (!tabsList.contains(key))
                     tabsList.add(key);
+
                 String[] data = new String[8];
                 data[0] = p.getUser().getName();
                 data[1] = p.getPostId();
@@ -279,8 +286,8 @@ public class Posts extends Fragment implements View.OnClickListener,PostsCallbac
             String cat_str = "0";
             newpostDialogue = ProgressDialog.show(getActivity(), "", getResources()
                     .getString(R.string.progress_dialog_text));
-            postsClient.insertonPost(application.getUserId(), cat_str,"0", postMessage,""
-                    , "1","", new WebServiceResponseCallback() {
+            postsClient.insertonPost(application.getUserId(), cat_str, "0", postMessage, ""
+                    , "1", "", new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parsePostDetails(jsonObject);
@@ -324,7 +331,7 @@ public class Posts extends Fragment implements View.OnClickListener,PostsCallbac
 
     /*set pager adapter*/
     private void setPager(){
-
+        setTabsTitles();
         HomeTabsPager pagerAdapter = new HomeTabsPager(getFragmentManager(),tabsList);
         if(tabsList.size()<4)
             tabs.setDistributeEvenly(true);
@@ -337,6 +344,15 @@ public class Posts extends Fragment implements View.OnClickListener,PostsCallbac
             e.printStackTrace();
         }
     }
+
+    private void setTabsTitles(){
+        for(int i=0; i<tabsList.size();i++){
+            Log.d("tabsNames",tabsList.get(i));
+            tabsList.get(i);
+        }
+    }
+
+
     private void setAdapters(List<String[]> postsList,Posts posts){
 //        postsRecycler.setAdapter(new PostsAdapter(getActivity(), postsList,posts));
     }

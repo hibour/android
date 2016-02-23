@@ -240,8 +240,10 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
                 }
                 for (Datum d : data) {
                     Map<String,String> postsTypesMap = new LinkedHashMap<>();
-                    postsTypesMap.put("id",d.getId()+"");
+                    postsTypesMap.put("id",(d.getId()+"").replace(" ",""));
                     postsTypesMap.put("name",d.getPosttypename());
+                    Log.d("categoryId", d.getId() + "");
+                    Log.d("category name",d.getPosttypename());
                     postsTypesMap.put("placeholder",d.getPlaceholder());
                     Constants.postTypesMap.put(d.getPosttypename(),postsTypesMap);
                 }

@@ -297,6 +297,7 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
 
     /* get all categories types*/
     private void getAllCategoriesTypes(){
+        Log.d("NEWPOST","categories");
         if(networkDetector.isConnected()){
             newpostDialogue = ProgressDialog.show(getActivity(),"",getResources()
                     .getString(R.string.progress_dialog_text));
@@ -329,6 +330,8 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
                 for (Datum d : data) {
                     categoriesMap.put(d.getPosttypename(), d.getId() + "");
                     categoriesList.add(d.getPosttypename());
+                    Log.d("new Post", d.getId() + "");
+                    Log.d("new post",d.getPosttypename());
                 }
                 categoriesAdapter = new ArrayAdapter<String>(getActivity()
                         , android.R.layout.simple_dropdown_item_1line, categoriesList);

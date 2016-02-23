@@ -435,6 +435,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
       } else {
         application.setuserId(id + "");
         accountsClient.getUserDetails(id + "", userDetailCallbackListener);
+        Toast.makeText(this, "Successfully completed", Toast.LENGTH_LONG).show();
         openHomeActivity();
       }
     } catch (JSONException e) {

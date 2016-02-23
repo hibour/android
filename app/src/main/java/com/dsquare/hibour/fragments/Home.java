@@ -216,6 +216,7 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
         switch (id) {
             case 0:
                 isHome = false;
+                Log.d("Home","feed");
                 fragment = new Posts();
                 break;
             case 1:
