@@ -2,7 +2,6 @@ package com.dsquare.hibour.fragments;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,8 +17,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.TranslateAnimation;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -99,6 +98,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         void onDoneClicked();
     }
     private PostsListener mListener;
+
     public NewPost() {
     }
     @Override
@@ -127,7 +127,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     private void initializeEventListeners() {
 
         gallary.setOnClickListener(this);
-//        delete.setOnClickListener(this);
+        delete.setOnClickListener(this);
         done.setOnClickListener(this);
         cancel.setOnClickListener(this);
     }
@@ -142,9 +142,9 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                 gallary.setVisibility(View.VISIBLE);
                 openImageChooser();
                 break;
-           /* case R.id.create_delete_image:
+            case R.id.create_delete_image:
                 opendeleteImage();
-                break;*/
+                break;
             case R.id.creat_post_cancel:
                 mListener.onCancelClicked();
                 break;
@@ -189,10 +189,16 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
             try {
                 //Getting the Bitmap from Gallery
                 bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
+                int nh = (int) ( bitmap.getHeight() * (512.0 / bitmap.getWidth()) );
+                Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
                 if (layout.getVisibility() == View.GONE) {
                     layout.setVisibility(View.VISIBLE);
-                    postImage.setImageBitmap(bitmap);
+                    postImage.setAdjustViewBounds(true);
+                    postImage.setScaleType(ImageView.ScaleType.FIT_XY);
+                    postImage.setImageBitmap(scaled);
                     gallary.setVisibility(View.GONE);
+                    getActivity().getWindow().setSoftInputMode(
+                            WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE|WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
                 }
                 postimagesstring = getStringImage(bitmap);
             } catch (IOException e) {
@@ -206,10 +212,16 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
             try {
                 //Getting the Bitmap from Gallery
                 bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
+                int nh = (int) ( bitmap.getHeight() * (512.0 / bitmap.getWidth()) );
+                Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
                 if (layout.getVisibility() == View.GONE) {
                     layout.setVisibility(View.VISIBLE);
-                    postImage.setImageBitmap(bitmap);
+                    postImage.setAdjustViewBounds(true);
+                    postImage.setScaleType(ImageView.ScaleType.FIT_XY);
+                    postImage.setImageBitmap(scaled);
                     gallary.setVisibility(View.GONE);
+                    getActivity().getWindow().setSoftInputMode(
+                            WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE|WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
                 }
                 postimagesstring = getStringImage(bitmap);
             } catch (IOException e) {
@@ -301,6 +313,8 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     }
 
     private void initializeViews(View view) {
+        getActivity().getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE|WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         done = (TextView) view.findViewById(R.id.create_post_done);
         done.setTextColor(getActivity().getResources().getColor(R.color.gray));
         //  bgColors = getActivity().getResources().getStringArray(R.array.movie_serial_bg);
@@ -309,7 +323,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         cancel = (TextView) view.findViewById(R.id.creat_post_cancel);
         gallary = (ImageView) view.findViewById(R.id.creat_imageview_post_icon);
         postImage = (ImageView) view.findViewById(R.id.creat_imageview_display_icon);
-      //  delete = (ImageView) view.findViewById(R.id.create_delete_image);
+        delete = (ImageView) view.findViewById(R.id.create_delete_image);
         layout = (RelativeLayout) view.findViewById(R.id.create_relative);
         layout1 = (RelativeLayout) view.findViewById(R.id.home_app_bar1);
         views = (View) view.findViewById(R.id.views);
@@ -318,55 +332,81 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         editPost = (EditText) view.findViewById(R.id.newposts_edittest);
         postWidget=(LinearLayout)view.findViewById(R.id.post_widget);
 //        editPost.requestFocus();
+//
+//        editPost.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus){
+//                Log.d("edit text","On Foucs. Has Focus = " + hasFocus);
+//                if (hasFocus){
+//                        done.setTextColor(getActivity().getResources().getColor(R.color.black_1));
+//                        setOnClickForDone();
+//                    //open keyboard
+//                    ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(v,
+//                            InputMethodManager.SHOW_FORCED);
+//                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//                    imm.showSoftInput(editPost, InputMethodManager.SHOW_IMPLICIT);
+//                }
+//                else{
+//                    //close keyboard
+//                    ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(v,
+//                            InputMethodManager.SHOW_FORCED);
+//                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//                    imm.showSoftInput(editPost, InputMethodManager.SHOW_IMPLICIT);
+//                }
+//            }
+//        });
 
-      //  InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-       // imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
-       /* postWidget.setOnFocusChangeListener(new View.OnFocusChangeListener(){
-            @Override
-            public void onFocusChange(View v, boolean hasFocus){
-                Log.d("edit text","On Foucs. Has Focus = " + hasFocus);
-                if (hasFocus){
-                    done.setTextColor(getActivity().getResources().getColor(R.color.black_1));
-                    setOnClickForDone();
-                   *//* InputMethodManager imm =(InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);*//*
-                    InputMethodManager imm = (InputMethodManager) getActivity().
-                            getSystemService(Context.INPUT_METHOD_SERVICE);
-                    if (imm != null) {
-                        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
-
-                    }
-                    if (layout.getVisibility() == View.VISIBLE) {
-                        layout.setVisibility(View.GONE);
-                    }
-                    Log.d("gg","13");
-                }
-                else{
-                    if (layout.getVisibility() == View.GONE) {
-                        layout.setVisibility(View.VISIBLE);
-                    }
-                    InputMethodManager imm =(InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(editPost.getWindowToken(), 0);
-                    Log.d("gg","12");
-                }
-            }
-        });*/
         //Set on click listener to clear focus
-        postWidget.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View clickedView) {
-                editPost.requestFocus();
-                InputMethodManager imm = (InputMethodManager) getActivity().
-                        getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (imm != null) {
-                    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
-                    done.setTextColor(getActivity().getResources().getColor(R.color.black_1));
-                   clickedView.clearFocus();
-                }
-              //  clickedView.clearFocus();
+//        editPost.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View clickedView)
+//            {
+//                clickedView.clearFocus();
+//                clickedView.requestFocus();
+//            }
+//        });
 
-            }
-        });
+
+        //  InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+       // imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+//        editPost.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus){
+//                Log.d("edit text","On Foucs. Has Focus = " + hasFocus);
+//                if (hasFocus){
+//                    done.setTextColor(getActivity().getResources().getColor(R.color.black_1));
+//                    setOnClickForDone();
+//                  InputMethodManager imm =(InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+//                    if (imm != null) {
+//                        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+//                    }
+//
+//                }
+//                else{
+//
+//                    InputMethodManager imm =(InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//                    imm.hideSoftInputFromWindow(editPost.getWindowToken(), 0);
+//                    Log.d("gg","12");
+//                }
+//            }
+//        });
+        //Set on click listener to clear focus
+//        postWidget.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View clickedView) {
+//                editPost.requestFocus();
+//                InputMethodManager imm = (InputMethodManager) getActivity().
+//                        getSystemService(Context.INPUT_METHOD_SERVICE);
+//                if (imm != null) {
+//                    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+//                    done.setTextColor(getActivity().getResources().getColor(R.color.black_1));
+//                   clickedView.clearFocus();
+//                }
+//              //  clickedView.clearFocus();
+//
+//            }
+//        });
 
         networkDetector = new NetworkDetector(getActivity());
         postsClient = new PostsClient(getActivity());

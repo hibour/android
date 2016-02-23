@@ -82,7 +82,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
         if(Constants.categoriesMap.containsKey(listItems.get(position).getPostyType()))
             categoryString = Constants.categoriesMap.get(listItems.get(position).getPostyType());
         holder.userText.setText(listItems.get(position).getPostedUserName());
-        holder.categoryName.setText(categoryString);
+//        holder.categoryName.setText(categoryString);
         holder.likes.setText(listItems.get(position).getLikesCount());
         holder.comments.setText(listItems.get(position).getCommentsCount());
         if(listItems.get(position).getPostImage().length()>10){
@@ -165,7 +165,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
             super(itemView);
             timeStamp = (TextView)itemView.findViewById(R.id.feeds_timestamp);
             message = (TextView)itemView.findViewById(R.id.feeds_message);
-            categoryName = (TextView)itemView.findViewById(R.id.feeds_category_name);
+//            categoryName = (TextView)itemView.findViewById(R.id.feeds_category_name);
             likes = (TextView)itemView.findViewById(R.id.feeds_likes_text);
             comments = (TextView)itemView.findViewById(R.id.feeds_comments_text);
             userImageDefault = (TextView)itemView.findViewById(R.id.feeds_user_image_text);

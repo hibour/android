@@ -80,6 +80,7 @@
         android:layout_height="wrap_content"
         android:focusable="true"
         android:focusableInTouchMode="true"
+        android:windowSoftInputMode="adjustResize|stateVisible"
         android:orientation="vertical">
 
        <!-- <RelativeLayout
@@ -97,7 +98,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:windowSoftInputMode="adjustPan"
             >
 
           <!--  <RelativeLayout
@@ -113,7 +113,7 @@
                  android:layout_height="wrap_content"
                  android:layout_gravity="center"
                  android:layout_centerVertical="true"
-                 android:visibility="visible"
+                 android:visibility="gone"
                  android:id="@+id/create_relative">
                  <ImageView
                      android:layout_width="match_parent"
@@ -122,10 +122,22 @@
                      android:layout_gravity="center"
                      android:layout_centerVertical="true"
                      android:adjustViewBounds="true"
-                     android:scaleType="center"
+                     android:scaleType="fitXY"
                      android:layout_weight="1"
-                     android:layout_marginTop="@dimen/dp_20"
+                     android:layout_marginTop="@dimen/dp_10"
+                     android:maxWidth="35dip"  android:maxHeight="50dip"
+                     android:layout_centerInParent="true"
                      />
+                <ImageView
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_20"
+                    android:src="@mipmap/ic_delete_icon"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@id/creat_imageview_display_icon"
+                    android:layout_alignRight="@id/creat_imageview_display_icon"
+                    android:layout_marginRight="@dimen/dp_3"
+                    android:id="@+id/create_delete_image"
+                    />
             </RelativeLayout>
              <com.dsquare.hibour.utils.ProximaEditText
                  android:id="@+id/newposts_edittest"
@@ -138,7 +150,6 @@
                  android:padding="@dimen/dp_10"
                  android:singleLine="false"
                  android:textColorHint="@color/gray"
-                 android:visibility="visible"
                  />
              <!--<requestFocus />-->
              <!--<RelativeLayout

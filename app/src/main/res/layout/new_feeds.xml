@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white">
-                <com.dsquare.hibour.utils.ProximaSemiBold
+               <!-- <com.dsquare.hibour.utils.ProximaSemiBold
                     android:layout_margin="@dimen/dp_5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
                     android:layout_centerVertical="true"
                     android:text="Category One"
                     android:textAllCaps="true"
-                    android:id="@+id/feeds_category_name"/>
+                    android:id="@+id/feeds_category_name"/>-->
                 <com.dsquare.hibour.utils.Proxima
                     android:layout_margin="@dimen/dp_5"
                     android:layout_width="wrap_content"

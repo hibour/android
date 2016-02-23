@@ -121,10 +121,8 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
                     e.printStackTrace();
                 }
             }
-
         }
     };
-
     private AdapterView.OnItemClickListener mAutocompleteClickListener
             = new AdapterView.OnItemClickListener() {
         @Override
@@ -435,7 +433,6 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
             Toast.makeText(this,"Network error",Toast.LENGTH_LONG).show();
         }
     }
-
     /* parse Update loc data*/
     private void parseUpdateDetails(JSONObject jsonObject){
         try {
@@ -452,7 +449,6 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
             e.printStackTrace();
         }
     }
-
     /* close loc dialog*/
     private void closeLocDialog(){
         if(locInsertDialog!=null){
@@ -462,7 +458,6 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
             }
         }
     }
-
     /**
      * Hides the soft keyboard
      */
