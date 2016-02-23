@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.activities.SearchInFeeds;
 import com.dsquare.hibour.adapters.HomeTabsPager;
 import com.dsquare.hibour.adapters.PostsAdapter;
 import com.dsquare.hibour.dialogs.WelcomeDialog;
@@ -122,6 +123,12 @@ public class Posts extends Fragment implements View.OnClickListener,PostsCallbac
                 String itemName = autoCompleteTextView.getText().toString();
                 if (parent != null && parent.getChildAt(0) != null) {
                     String neighbourName = autocompleteList.get(position);
+                    String neighbourid=Constants.searchMap.get(itemName);
+                    Log.d("catid",neighbourid);
+                    Intent intent = new Intent(getActivity(), SearchInFeeds.class);
+                    intent.putExtra("value",neighbourid);
+                    intent.putExtra("value1",itemName);
+                    startActivity(intent);
                     Log.d("neighbourName", neighbourName);
 //                        if(!cardType.equals("Select Card")){
 //                            cardTypeId = searchMap.get(cardType);
@@ -223,6 +230,7 @@ public class Posts extends Fragment implements View.OnClickListener,PostsCallbac
         if(postpojos.size()>0){
             if (Constants.postsMap.size() > 0) {
                 Constants.postsMap.clear();
+
             }
             if (tabsList.size() > 0) {
                 tabsList.clear();
@@ -230,7 +238,16 @@ public class Posts extends Fragment implements View.OnClickListener,PostsCallbac
             tabsList.add("All");
             for (Postpojos p:postpojos) {
                 Constants.postlikesMap.put(p.getPostId(),p.getPostLikedUsers());
-                Constants.postpojosMap.put(p.getPostId(),postpojos);
+                List<Postpojos> data1 = new ArrayList<>();
+                data1.add(p);
+                Constants.postpojosMap.put(p.getPostId(),data1);
+                Constants.searchMap.put(p.getPostMessage(),p.getPostId());
+                if(Constants.searchMap.size()>0) {
+                    autocompleteList.clear();
+                    for (String key : Constants.searchMap.keySet()) {
+                        autocompleteList.add(key);
+                    }
+                }
                 String key = " ";
                 if (Constants.categoriesMap.containsKey(p.getPostType()))
                     key = Constants.categoriesMap.get(p.getPostType());
@@ -260,7 +277,7 @@ public class Posts extends Fragment implements View.OnClickListener,PostsCallbac
 
                 postsList.add(data);
                 Log.d("data",""+data);
-                autocompleteList.add(p.getPostMessage());
+//                autocompleteList.add(p.getPostMessage());
 
                 setPager();
             }

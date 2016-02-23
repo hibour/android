@@ -60,6 +60,7 @@ import java.util.List;
 public class Settings extends Fragment implements View.OnClickListener,ImagePicker {
     private ImageView menuIcon,notifIcon,inputImage,imageUploaded,dobimage;
     private RadioGroup gender;
+    private RadioButton male,female;
     private EditText name,lastname;
     private EditText email;
     private EditText password;
@@ -121,6 +122,8 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         moblie = (EditText)view.findViewById(R.id.settings_phone_edit);
         proof = (TextView)view.findViewById(R.id.settings_location);
         soclize = (TextView)view.findViewById(R.id.settings_prefernce);
+        male = (RadioButton)view.findViewById(R.id.radioMale);
+        female = (RadioButton)view.findViewById(R.id.radioFemale);
         String text = "<u>Change Location</u>";
         String text1 = "<u>Change SocialPrefernce</u>";
         proof.setText(Html.fromHtml(text));
@@ -133,6 +136,8 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         password.setTypeface(proxima);
         dob.setTypeface(proxima);
         moblie.setTypeface(proxima);
+        male.setTypeface(proxima);
+        female.setTypeface(proxima);
         gender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {

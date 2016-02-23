@@ -169,6 +169,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme"
             />
+        <activity
+            android:name=".activities.SearchInFeeds"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyMaterialTheme"
+            />
         <!-- [START gcm_receiver] -->
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
@@ -214,7 +219,6 @@
             android:name="io.fabric.ApiKey"
             android:value="2f47427ced6450172c46e707ce6a688080ae0f15" />
 
-        <activity android:name=".activities.SearchInFeeds"></activity>
     </application>
 
 </manifest>
