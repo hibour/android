@@ -38,7 +38,7 @@ public class Splash extends AppCompatActivity {
         //Setup anim with desired properties
         anim.setInterpolator(new LinearInterpolator());
         anim.setRepeatCount(Animation.INFINITE); //Repeat animation indefinitely
-        anim.setDuration(1900); //Put desired duration per anim cycle here, in milliseconds
+        anim.setDuration(3000); //Put desired duration per anim cycle here, in milliseconds
 
         //Start animation
         img_view.startAnimation(anim);

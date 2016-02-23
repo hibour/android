@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/entire_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:padding="@dimen/activity_horizontal_margin"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/adapter_neighbours_image"
+            android:layout_width="@dimen/chat_list_icon_size"
+            android:layout_height="@dimen/chat_list_icon_size"
+            android:src="@drawable/avatar1" />
+        <ImageView
+            android:id="@+id/status"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/online_status"
+            android:layout_toRightOf="@+id/adapter_neighbours_image"
+            android:layout_marginLeft="-12dp"
+            android:layout_marginTop="2dp"/>
+
+        <TextView
+            android:id="@+id/last_msg_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="18:20" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/adapter_neighbours_image"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/dp_5"
+            android:layout_marginLeft="@dimen/dp_20">
+            <TextView
+                android:id="@+id/adapter_neighbours_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Deepthi Karanam"
+                android:textColor="@color/black_1"
+                android:textSize="@dimen/text_size_level2" />
+
+            <TextView
+                android:id="@+id/last_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="how have you been?"
+                android:textColor="@color/black_1"
+                android:textSize="@dimen/text_size_level4"
+                android:layout_marginTop="@dimen/dp_5"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@color/gray" />
+</LinearLayout>

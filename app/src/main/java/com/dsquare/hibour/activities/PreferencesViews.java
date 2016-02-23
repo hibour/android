@@ -72,7 +72,7 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         neighboursRecycler.setLayoutManager(layoutManager);
         neighboursRecycler.setHasFixedSize(true);
-        adapter = new NeighboursAdapter(this, neighboursList);
+        adapter = new NeighboursAdapter(this, neighboursList, R.layout.adapter_neighbours);
         neighboursRecycler.setAdapter(adapter);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>
                 (this, android.R.layout.simple_dropdown_item_1line,

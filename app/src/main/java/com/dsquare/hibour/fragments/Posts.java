@@ -139,14 +139,16 @@ public class Posts extends Fragment implements View.OnClickListener,PostsCallbac
 
         pager = (ViewPager)view.findViewById(R.id.posts_pager);
         tabs = (SlidingTabLayout)view.findViewById(R.id.posts_tabs);
+
         //tabs.setDistributeEvenly(false);
         tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
             @Override
             public int getIndicatorColor(int position) {
-                return getResources().getColor(R.color.white);
+                return getResources().getColor(R.color.newbrand);
             }
         });
-        tabs.setTabsBackgroundColor(getResources().getColor(R.color.brand));
+
+        tabs.setTabsBackgroundColor(getResources().getColor(R.color.white));
     }
     private void initializeEventListeners() {
         invite.setOnClickListener(this);

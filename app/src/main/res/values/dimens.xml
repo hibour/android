@@ -97,6 +97,7 @@
 
     <dimen name="comments_list_item_height">70dp</dimen>
     <dimen name="comments_icon_size">30dp</dimen>
+    <dimen name="chat_list_icon_size">50dp</dimen>
 
     <dimen name="title_lg">25sp</dimen>
 
