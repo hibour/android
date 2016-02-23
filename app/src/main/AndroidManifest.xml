@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dsquare.hibour">
+    package="com.dsquare.hibour" >
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -32,7 +32,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <meta-data
             android:name="AA_DB_NAME"
             android:value="hibour.db" />
@@ -49,9 +49,11 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA4Wb6Gpp2MnF5F8yhBA32pQqNVwjHmAsg" />
 
-     <!--       <meta-data
+        <!--
+                <meta-data
               android:name="com.google.android.geo.API_KEY"
-              android:value="AIzaSyACBUw7gESPWq-W41J8Z_-0HwsYsWHUu60" />-->
+              android:value="AIzaSyACBUw7gESPWq-W41J8Z_-0HwsYsWHUu60" />
+        -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -60,7 +62,7 @@
             android:name=".activities.Splash"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/FullScreenTheme">
+            android:theme="@style/FullScreenTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -107,17 +109,12 @@
             android:name=".activities.Chat"
             android:label="@string/title_activity_social_categories"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities.ChooseLocation"
-            android:label="@string/title_activity_choose_location"
-            android:screenOrientation="portrait"
-            android:theme="@style/FullScreenTheme" />
+
         <activity
             android:name=".activities.Home"
             android:label="@string/title_activity_home"
             android:screenOrientation="portrait"
-            android:theme="@style/MyMaterialTheme"
-             />
+            android:theme="@style/MyMaterialTheme" />
         <activity
             android:name=".activities.TermsAndConditions"
             android:label="@string/title_activity_terms_and_conditions"
@@ -130,10 +127,7 @@
         <activity
             android:name=".activities.PostLikes"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities.SelectArea"
-            android:label="@string/title_activity_select_area"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".activities.GroupPosts"
             android:label="@string/title_activity_group_posts"
@@ -161,24 +155,20 @@
         <activity
             android:name=".activities.Notifications"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities.BusinessServices"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".activities.UpdateLocation"
             android:screenOrientation="portrait"
-            android:theme="@style/MyMaterialTheme"
-            />
+            android:theme="@style/MyMaterialTheme" />
         <activity
             android:name=".activities.SearchInFeeds"
             android:screenOrientation="portrait"
-            android:theme="@style/MyMaterialTheme"
-            />
+            android:theme="@style/MyMaterialTheme" />
         <!-- [START gcm_receiver] -->
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND">
+            android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
@@ -192,7 +182,7 @@
         <!-- [START gcm_listener] -->
         <service
             android:name=".gcm.GcmIntentService"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
@@ -201,7 +191,7 @@
         <!-- [START instanceId_listener] -->
         <service
             android:name=".gcm.InstanceListenerService"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
@@ -219,6 +209,11 @@
             android:name="io.fabric.ApiKey"
             android:value="2f47427ced6450172c46e707ce6a688080ae0f15" />
 
+        <activity
+            android:name=".activities.FeedImageFullView"
+            android:label="@string/title_activity_feed_image_full_view"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

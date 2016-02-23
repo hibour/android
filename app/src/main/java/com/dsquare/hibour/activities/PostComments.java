@@ -113,7 +113,7 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
     }
     /* initialize event listeners*/
     private void initializeEventListeners(){
-        //postIcon.setOnClickListener(this);
+        postImage.setOnClickListener(this);
         sumbit.setOnClickListener(this);
         //likeIcon.setOnClickListener(this);
         //likesLayout.setOnClickListener(this);
@@ -122,24 +122,22 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-          /*  case R.id.comments_post_icon:
-                openLikesScreen();
-                break;*/
+            case R.id.comments_image:
+                openFullImage();
+                break;
             case R.id.comments_sumbit:
                 postComment(application.getUserId(),postId,commentsText.getText().toString());
                 commentsText.setText("");
                 break;
-            /*case R.id.comments_like_icon:
-                likePost(postId);
-                changeLikes();
-                break;
-            case R.id.comments_likes_layout:
-                openLikesScreen();
-                break;*/
             case R.id.comments_bacl_icon:
                 this.finish();
                 break;
         }
+    }
+    private void openFullImage(){
+        Intent imageIntent = new Intent(this,FeedImageFullView.class);
+        imageIntent.putExtra("image",image);
+        startActivity(imageIntent);
     }
 
     /* change likes count and icon*/

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Hi\'bour</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -15,21 +16,17 @@
     <string name="signup_button">sign up</string>
     <string name="signup_with_email">Signup with Email</string>
     <string name="signup_terms_text">Terms &amp; Conditions</string>
-
     <string name="pre_sign_up_title">Ask for suggestions from your neighbours</string>
-
     <string name="signup_first_name">First Name</string>
     <string name="signup_last_name">Last Name</string>
     <string name="signup_email_address">Email Address</string>
     <string name="signup_password">Password</string>
-
     <string name="welcome">WELCOME TO</string>
     <string name="hibour">HI\'BOUR</string>
     <string name="we_hope_you">WE HOPE YOU</string>
     <string name="get_to_know">GET TO KNOW</string>
     <string name="your_nbours">YOUR N\'BOURS</string>
     <string name="say_hi">SAY HI</string>
-
     <string name="title_activity_govt_proof">GovtProof</string>
     <string name="govt_proof_text">hi\'bour is highly secure. please upload any \n Govt.Issued Id proof
         for verifications</string>
@@ -63,24 +60,23 @@
     <!-- nav drawer items -->
     <string-array name="drawerItems">
         <item>HOME</item>
-        <!--<item>MESSAGES</item>-->
-        <!--<item>SOCIALIZE</item>-->
-        <!--<item>GROUPS</item>-->
+        <!-- <item>MESSAGES</item> -->
+        <!-- <item>SOCIALIZE</item> -->
+        <!-- <item>GROUPS</item> -->
         <item>ABOUT US</item>
         <item>INVITE FRIENDS</item>
-        <!--<item>PRODUCT TOUR</item>-->
+        <!-- <item>PRODUCT TOUR</item> -->
         <item>SETTINGS</item>
         <item>LOGOUT</item>
     </string-array>
-
     <string-array name="drawerImages">
         <item>home</item>
-        <!--<item>messages</item>-->
-        <!--<item>socialize_color</item>-->
-        <!--<item>groups</item>-->
+        <!-- <item>messages</item> -->
+        <!-- <item>socialize_color</item> -->
+        <!-- <item>groups</item> -->
         <item>about</item>
         <item>ic_share</item>
-        <!--<item>tour</item>-->
+        <!-- <item>tour</item> -->
         <item>settings</item>
         <item>logout</item>
     </string-array>
@@ -97,7 +93,6 @@
     <string name="dilaog_image_chooser_title">Choose image from</string>
     <string name="about_hibour">About hi\'bour</string>
     <string name="title_activity_post_comments">PostComments</string>
-
     <string name="messages_title">Neighbours</string>
     <string name="title_activity_select_area">SelectArea</string>
     <string name="socalize_title">Socialize</string>
@@ -109,26 +104,23 @@
     <string name="err_msg_name">Enter your full name</string>
     <string name="err_msg_email">Enter valid email address</string>
     <string name="err_msg_password">Enter the password</string>
-
     <string name="cat_chooser_title">Choose a category for your post.</string>
-    <!--Category List-->
+    <!-- Category List -->
     <string name="cat_general">General</string>
     <string name="cat_suggestions">Suggestions</string>
     <string name="cat_classifieds">Classifieds</string>
     <string name="cat_crime_safety">Crime &amp; Safety</string>
     <string name="cat_lost_found">Lost &amp; Found</string>
 
-    <!--Placeholder text for posts when category is chose-->
+    <!-- Placeholder text for posts when category is chose -->
     <string name="cat_ph_general">Share whats on your mind...</string>
     <string name="cat_ph_suggestions">Ask a suggestion from your neighbors</string>
     <string name="cat_ph_classifieds">Buy...Sell..Trade any item with your neighbors</string>
     <string name="cat_ph_crime_safety">Report any issue you faced, help keep this neighborhood safe.</string>
     <string name="cat_ph_lost_found">Try your luck, you never know...</string>
-
     <string name="invite">Invite</string>
     <string name="invite_msg">I have started using Hi\'bour, a private social network for local communities and I\'m loving it. Why don\'t you join me.</string>
     <string name="notif_title">Notifications</string>
-
     <string name="phone_title">Enter Mobile number</string>
     <string name="phone_hint">Mobile number</string>
     <string name="phone_submit">Submit</string>
@@ -138,21 +130,24 @@
     <string name="changenumbertext">CHANGE MOBILE NUMBER</string>
     <string name="otpresend">RESEND</string>
     <string name="otpverify">VERIFY</string>
+
     <string-array name="chat_types">
         <item>NearBy</item>
         <item>Chats</item>
     </string-array>
+
     <string name="back_text">Back</string>
     <string name="profile_text">Profile</string>
     <string name="profile_send_msg_text">SEND MESSAGE</string>
     <string name="profile_interests_text">Interests:-</string>
 
-    <!--Rating dialogue-->
+    <!-- Rating dialogue -->
     <string name="rate_dialogue_title">Rate Hi\'bour</string>
     <string name="rate_dialogue_desc">Please help us spread the neighbourly love. Give us a 5 star rating in the playstore.</string>
     <string name="rate_positive">Rate Us</string>
     <string name="rate_neutral">Give Us Feedback</string>
     <string name="rate_negative">Later</string>
     <string name="hibour_market_url">market://details?id=%s</string>
+    <string name="title_activity_feed_image_full_view">FeedImageFullView</string>
 
 </resources>

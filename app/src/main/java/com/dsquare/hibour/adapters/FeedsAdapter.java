@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,11 +32,17 @@ import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.ref.WeakReference;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
 
 /**
  * Created by ASHOK on 1/31/2016.
@@ -49,6 +57,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
     private Hibour application;
     private ProgressDialog dialog;
     private ImageLoader imageLoader;
+
     public FeedsAdapter(Context context, List<Feeds> listItems) {
         this.context = context;
         this.listItems = listItems;
@@ -56,6 +65,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
         gson = new Gson();
         postsClient = new PostsClient(context);
         application = Hibour.getInstance(context);
+        //imageLoader = new ImageLoader(context)
         imageLoader = HibourConnector.getInstance(context).getImageLoader();
     }
 
@@ -88,11 +98,9 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
         if(listItems.get(position).getPostImage().length()>10){
             Log.d("image",listItems.get(position).getPostImage());
             try {
-               // holder.feedImage.setImageBitmap(base64ToBitmap(listItems.get(position).getPostImage()));
                 imageLoader.get(listItems.get(position).getPostImage().replace("\\",""),ImageLoader.getImageListener(holder.feedImage
                         ,R.drawable.avatar1,R.drawable.avatar1));
-                //imageLoader.get(listItems.get(position).getPostImage().replace("\\","")
-                  //      ,ImageLoader.getImageListener(holder.feedImage,1,1));
+               // new DownloadWebpageTask(holder.feedImage).execute(listItems.get(position).getPostImage().replace("\\",""));
             } catch (Exception e) {
                 e.printStackTrace();
                 holder.feedImage.setVisibility(View.GONE);
@@ -314,4 +322,81 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
             }
         }
     }
+    private class DownloadWebpageTask extends AsyncTask<String, Void, Bitmap> {
+        private final WeakReference<ImageView> imageViewReference;
+
+        public DownloadWebpageTask(ImageView imageView) {
+            imageViewReference = new WeakReference<ImageView>(imageView);
+        }
+        @Override
+        protected Bitmap doInBackground(String... urls) {
+            Bitmap bitmap= null;
+            // params comes from the execute() call: params[0] is the url.
+
+            try {
+                Log.d("url",urls[0]);
+                return downloadUrl(urls[0]);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            //return downloadUrl(urls[0]);
+            return bitmap;
+        }
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            Bitmap bitmap= null;
+           /* if (isCancelled()) {
+                bitmap = null;
+            }*/
+
+            if (imageViewReference != null) {
+                ImageView imageView = imageViewReference.get();
+                if (imageView != null) {
+                    if (bitmap != null) {
+                        imageView.setImageBitmap(bitmap);
+                    } else {
+                        Log.d("bitmap","null");
+                       // Drawable placeholder = imageView.getContext().getResources().getDrawable(R.drawable.avatar1);
+                        //imageView.setImageDrawable(placeholder);
+                    }
+                }
+            }
+        }
+    }
+    private Bitmap downloadUrl(String myurl) throws IOException {
+        InputStream is = null;
+        // Only display the first 500 characters of the retrieved
+        // web page content.
+        int len = 500;
+
+        try {
+            URL url = new URL(myurl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(10000 /* milliseconds */);
+            conn.setConnectTimeout(15000 /* milliseconds */);
+            conn.setRequestMethod("GET");
+            conn.setDoInput(true);
+            // Starts the query
+            conn.connect();
+            int response = conn.getResponseCode();
+            Log.d("img tag", "The response is: " + response);
+            is = conn.getInputStream();
+
+            Bitmap bitmap = BitmapFactory.decodeStream(is);
+            return bitmap;
+            // Convert the InputStream into a string
+            // String contentAsString = readIt(is, len);
+            //  return contentAsString;
+
+            // Makes sure that the InputStream is closed after the app is
+            // finished using it.
+        } finally {
+            if (is != null) {
+                is.close();
+            }
+        }
+    }
+
 }
