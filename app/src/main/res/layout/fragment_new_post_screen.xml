@@ -125,7 +125,6 @@
                      android:scaleType="center"
                      android:layout_weight="1"
                      android:layout_marginTop="@dimen/dp_20"
-                     android:visibility="gone"
                      />
             </RelativeLayout>
              <com.dsquare.hibour.utils.ProximaEditText
