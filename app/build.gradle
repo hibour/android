@@ -21,6 +21,7 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -57,4 +58,5 @@ dependencies {
     compile 'com.kyleduo.switchbutton:library:1.2.9'
     compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
     compile 'de.greenrobot:eventbus:2.4.0'
+    compile 'com.android.support:multidex:1.0.1'
 }
