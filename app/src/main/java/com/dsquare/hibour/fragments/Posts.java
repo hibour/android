@@ -233,7 +233,6 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
         if(postpojos.size()>0){
             if (Constants.postsMap.size() > 0) {
                 Constants.postsMap.clear();
-
             }
             if (tabsList.size() > 0) {
                 tabsList.clear();
@@ -242,14 +241,12 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
             for (Postpojos p:postpojos) {
                 Log.d("type id", p.getPostType());
                 Constants.postlikesMap.put(p.getPostId(), p.getPostLikedUsers());
-                Constants.postpojosMap.put(p.getPostId(),postpojos);
-                String key2 = p.getPostTypeName();
 
-                //if (Constants.categoriesMap.containsKey(p.getPostType().replace(" ","")))
-                //  key = Constants.categoriesMap.get(p.getPostType().replace(" ",""));
+                String id = p.getPostId();
                 List<Postpojos> data1 = new ArrayList<>();
                 data1.add(p);
                 Constants.postpojosMap.put(p.getPostId(), data1);
+
                 Constants.searchMap.put(p.getPostMessage(), p.getPostId());
                 if (Constants.searchMap.size() > 0) {
                     autocompleteList.clear();
@@ -257,28 +254,31 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
                         autocompleteList.add(key);
                     }
                 }
+
                 String key = " ";
                 if (Constants.categoriesMap.containsKey(p.getPostType()))
                     key = Constants.categoriesMap.get(p.getPostType());
-                if (!Constants.postsMap.containsKey(key)) {
+
+                String key2 = p.getPostTypeName();
+                if (!Constants.postsMap.containsKey(key2)) {
                     List<Postpojos> data = new ArrayList<>();
                     data.add(p);
-                    Log.d("kkey", key);
-                    Constants.postsMap.put(key, data);
+                    Log.d("kkey", key2);
+                    Constants.postsMap.put(key2, data);
                 } else {
-                    List<Postpojos> postslist = Constants.postsMap.get(key);
+                    List<Postpojos> postslist = Constants.postsMap.get(key2);
                     postslist.add(p);
-                    Log.d("kkey", key);
-                    Constants.postsMap.put(key, postslist);
+                    Log.d("kkey", key2);
+                    Constants.postsMap.put(key2, postslist);
                 }
-                if (!tabsList.contains(key))
-                    tabsList.add(key);
+                if (!tabsList.contains(key2))
+                    tabsList.add(key2);
 
                 String[] data = new String[8];
                 data[0] = p.getUser().getName();
                 data[1] = p.getPostId();
                 data[2] = p.getPostMessage();
-                data[3] = key;
+                data[3] = key2;
                 data[4] = String.valueOf(p.getPostLikesCount());
                 data[5] = Arrays.toString(new int[]{p.getPostComments().size()})
                     .replaceAll("\\[|\\]", "");
@@ -351,7 +351,8 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
 
     /*set pager adapter*/
     private void setPager(){
-        setTabsTitles();
+//        setTabsTitles();
+
         HomeTabsPager pagerAdapter = new HomeTabsPager(getFragmentManager(), tabsList);
         if (tabsList.size() < 4)
             tabs.setDistributeEvenly(true);
@@ -365,12 +366,12 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
         }
     }
 
-    private void setTabsTitles() {
-        for (int i = 0; i < tabsList.size(); i++) {
-            Log.d("tabsNames", tabsList.get(i));
-            tabsList.get(i);
-        }
-    }
+//    private void setTabsTitles() {
+//        for (int i = 0; i < tabsList.size(); i++) {
+//            Log.d("tabsNames", tabsList.get(i));
+//            tabsList.get(i);
+//        }
+//    }
 
 
     private void setAdapters(List<String[]> postsList,Posts posts){
@@ -438,7 +439,6 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
             System.out.println("Have Intent");
             Intent chooserIntent = Intent.createChooser(targetShareIntents.remove(0), "Choose app to invite friends");
             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
-
             startActivity(chooserIntent);
         } else {
 

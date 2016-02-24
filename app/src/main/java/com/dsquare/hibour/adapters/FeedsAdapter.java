@@ -79,6 +79,8 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
     holder.commentsLayout.setTag(holder);
     holder.userImage.setOnClickListener(this);
     holder.userImage.setTag(holder);
+    holder.feedImage.setOnClickListener(this);
+    holder.feedImage.setTag(holder);
     holder.userImageDefault.setOnClickListener(this);
     holder.userImageDefault.setTag(holder);
     return holder;
@@ -147,6 +149,11 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
             , listItems.get(position).isUserLiked(), listItems.get(position).getPostDescription()
             , listItems.get(position).getPostImage());
         break;
+      case R.id.feeds_image:
+          openCommentsDialog(listItems.get(position).getPostId(), listItems.get(position).getLikesCount()
+                  , listItems.get(position).isUserLiked(), listItems.get(position).getPostDescription()
+                  , listItems.get(position).getPostImage());
+          break;
       case R.id.feeds_likes_layout:
         likePost(listItems.get(position).getPostId());
         changeLikesCount(position);
