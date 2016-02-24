@@ -10,24 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dsquare.hibour.R;
-import com.dsquare.hibour.adapters.NeighboursAdapter;
+import com.dsquare.hibour.adapters.UserChatListAdapter;
 import com.dsquare.hibour.database.DatabaseHandler;
 import com.dsquare.hibour.network.SocializeClient;
-import com.dsquare.hibour.pojos.user.UserDetail;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PreviousChat extends Fragment {
+public class PreviousChat extends BaseChatFragment {
 
 
   private static final String LOG_TAG = PreviousChat.class.getSimpleName();
   private RecyclerView recyclerView;
-  private NeighboursAdapter adapter;
-  private List<UserDetail> chatUserList = new ArrayList<>();
+  private UserChatListAdapter adapter;
   private SocializeClient socializeClient;
   private DatabaseHandler dbHandler;
 
@@ -53,8 +48,8 @@ public class PreviousChat extends Fragment {
   }
 
   private void findPreviousChatUser() {
-    chatUserList.clear();
-    chatUserList.addAll(dbHandler.getChartUserList());
+    adapter.getUserList().clear();
+    adapter.getUserList().addAll(dbHandler.getChartUserList());
     adapter.notifyDataSetChanged();
   }
 
@@ -65,7 +60,21 @@ public class PreviousChat extends Fragment {
     layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
     recyclerView.setLayoutManager(layoutManager);
     recyclerView.setHasFixedSize(true);
-    adapter = new NeighboursAdapter(getActivity(), chatUserList, R.layout.adapter_chats);
+    adapter = new UserChatListAdapter(getActivity());
     recyclerView.setAdapter(adapter);
+  }
+
+  @Override
+  public void loadUserSearchResult(String key) {
+    adapterUserSearch.getUserList().clear();
+    adapterUserSearch.getUserList().addAll(dbHandler.getUserListContainKey(key));
+    recyclerView.setAdapter(adapterUserSearch);
+    adapterUserSearch.notifyDataSetChanged();
+  }
+
+  @Override
+  public void removeUserSearchResult() {
+    recyclerView.setAdapter(adapter);
+    adapter.notifyDataSetChanged();
   }
 }

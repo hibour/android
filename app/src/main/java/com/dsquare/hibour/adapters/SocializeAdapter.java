@@ -3,7 +3,6 @@ package com.dsquare.hibour.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +13,7 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.dsquare.hibour.R;
-import com.dsquare.hibour.activities.PreferencesViews;
 import com.dsquare.hibour.network.HibourConnector;
-import com.dsquare.hibour.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,11 +97,21 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
 
         final ViewHolder viewHolder = (ViewHolder)v.getTag();
         final int position = viewHolder.getAdapterPosition();
-        openPrefsActivity(listItems.get(position)[0],listItems.get(position)[1]);
+        openPrefsActivity(listItems.get(position)[0], listItems.get(position)[1]);
     }
+
+    /* open home activity*/
+    private void openPrefsActivity(String id, String name) {
+        Intent prefIntent = new Intent(context, com.dsquare.hibour.activities.PreferencesViews.class);
+        prefIntent.putExtra("frmAdapter", true);
+        prefIntent.putExtra("prefId", id);
+        prefIntent.putExtra("prefName", name);
+        context.startActivity(prefIntent);
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView prefName,prefCount;
         public ImageView prefImage;
+        private TextView prefName, prefCount;
         private RelativeLayout layout;
         private LinearLayout prefLinearLayout;
 
@@ -116,13 +123,5 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
             prefLinearLayout = (LinearLayout)itemView.findViewById(R.id.pref_linear_layout);
             prefCount = (TextView)itemView.findViewById(R.id.pref_count);
         }
-    }
-    /* open home activity*/
-    private void openPrefsActivity(String id,String name){
-        Intent prefIntent = new Intent(context, com.dsquare.hibour.activities.PreferencesViews.class);
-        prefIntent.putExtra("frmAdapter",true);
-        prefIntent.putExtra("prefId",id);
-        prefIntent.putExtra("prefName",name);
-        context.startActivity(prefIntent);
     }
 }

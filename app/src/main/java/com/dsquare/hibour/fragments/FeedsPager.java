@@ -51,7 +51,7 @@ public class FeedsPager extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         postsRecycler.setLayoutManager(layoutManager);
         postsRecycler.setHasFixedSize(true);
-        postsAdapter = new FeedsAdapter(getActivity(),postsList);
+        postsAdapter = new FeedsAdapter(getActivity(), postsList);
         setAdapter();
         // new setFeedsTask().execute(categoryName);
     }
@@ -104,20 +104,20 @@ public class FeedsPager extends Fragment {
                 e.printStackTrace();
             }
         }*/
-        Log.d("posts size",postsList.size()+"");
+        Log.d("posts size", postsList.size() + "");
         postsRecycler.setAdapter(postsAdapter);
         new FeedsTask().execute();
     }
 
     /* asynchronous task to set data to adapter*/
 
-    class FeedsTask extends AsyncTask<Void, String, Void>{
+    class FeedsTask extends AsyncTask<Void, String, Void> {
 
         FeedsAdapter feeds;
 
         @Override
         protected void onPostExecute(Void result) {
-           // Toast.makeText(MainActivity.this, "Loading completed", Toast.LENGTH_LONG).show();
+            // Toast.makeText(MainActivity.this, "Loading completed", Toast.LENGTH_LONG).show();
         }
 
         @Override
@@ -128,42 +128,42 @@ public class FeedsPager extends Fragment {
         @Override
         protected void onProgressUpdate(String... values) {
             postsList.add(new Feeds(values[0], values[1], values[2], values[3], values[4], values[5], values[6]
-                    , values[7], values[8], values[9], values[10], values[11]));
+                , values[7], values[8], values[9], values[10], values[11]));
             postsAdapter.notifyDataSetChanged();
         }
 
         @Override
         protected Void doInBackground(Void... params) {
-            if(categoryName.equals("All")){
+            if (categoryName.equals("All")) {
                 for(String s:Constants.postsMap.keySet()){
                     List<Postpojos> posts = Constants.postsMap.get(s);
                     try {
                         for(int i=0;i<posts.size();i++) {
-                            publishProgress(posts.get(i).getPostId(),posts.get(i).getPostImage()
-                                    ,posts.get(i).getPostMessage()
-                                    ,posts.get(i).getPostDate(),posts.get(i).getPostTime()
-                                    ,posts.get(i).getUser().getName(),posts.get(i).getUser().getImage()
-                                    ,posts.get(i).getUser().getId(),String.valueOf(posts.get(i).getPostUserLiked())
-                                    ,String.valueOf(posts.get(i).getPostLikesCount())
-                                    ,String.valueOf(posts.get(i).getPostComments().size())
-                                    ,posts.get(i).getPostType());
+                            publishProgress(posts.get(i).getPostId(), posts.get(i).getPostImage()
+                                , posts.get(i).getPostMessage()
+                                , posts.get(i).getPostDate(), posts.get(i).getPostTime()
+                                , posts.get(i).getUser().getName(), posts.get(i).getUser().getImage()
+                                , posts.get(i).getUser().getId(), String.valueOf(posts.get(i).getPostUserLiked())
+                                , String.valueOf(posts.get(i).getPostLikesCount())
+                                , String.valueOf(posts.get(i).getPostComments().size())
+                                , posts.get(i).getPostType());
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-            }else if(!categoryName.equals("")){
+            } else if (!categoryName.equals("")) {
                 List<Postpojos> posts = Constants.postsMap.get(categoryName);
                 try {
-                    for(int i=0;i<posts.size();i++) {
-                        publishProgress(posts.get(i).getPostId(),posts.get(i).getPostImage()
-                                ,posts.get(i).getPostMessage()
-                                ,posts.get(i).getPostDate(),posts.get(i).getPostTime()
-                                ,posts.get(i).getUser().getName(),posts.get(i).getUser().getImage()
-                                ,posts.get(i).getUser().getId(),String.valueOf(posts.get(i).getPostUserLiked())
-                                ,String.valueOf(posts.get(i).getPostLikesCount())
-                                ,String.valueOf(posts.get(i).getPostComments().size())
-                                ,posts.get(i).getPostType());
+                    for (int i = 0; i < posts.size(); i++) {
+                        publishProgress(posts.get(i).getPostId(), posts.get(i).getPostImage()
+                            , posts.get(i).getPostMessage()
+                            , posts.get(i).getPostDate(), posts.get(i).getPostTime()
+                            , posts.get(i).getUser().getName(), posts.get(i).getUser().getImage()
+                            , posts.get(i).getUser().getId(), String.valueOf(posts.get(i).getPostUserLiked())
+                            , String.valueOf(posts.get(i).getPostLikesCount())
+                            , String.valueOf(posts.get(i).getPostComments().size())
+                            , posts.get(i).getPostType());
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

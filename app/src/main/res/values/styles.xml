@@ -34,6 +34,7 @@
     <style name="tab" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorAccent">@color/tabsScrollColor</item>
     </style>
+
     <style name="DialogSlideAnim" parent="@android:style/Theme.Dialog">
         <item name="android:windowBackground">@null</item>
         <item name="android:windowFrame">@null</item>
@@ -42,12 +43,13 @@
 
     </style>
 
-        <style name="MyMaterialTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-            <item name="windowNoTitle">true</item>
-            <item name="windowActionBar">false</item>
-            <item name="colorPrimaryDark">@color/branddark</item>
-            <item name="android:editTextBackground">@null</item>
-        </style>
+    <style name="MyMaterialTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimaryDark">@color/branddark</item>
+        <item name="android:editTextBackground">@null</item>
+    </style>
+
     <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorAccent">#FFCC00</item>
         <item name="android:textColorPrimary">@color/white</item>

@@ -3,17 +3,23 @@ package com.dsquare.hibour.utils;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.view.animation.Animation;
+import android.view.animation.Transformation;
 import android.view.inputmethod.InputMethodManager;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
-import com.nineoldandroids.animation.Animator;
-
 public class UIHelper {
+  private static final String LOG_TAG = UIHelper.class.getSimpleName();
   private Context context;
 
   public UIHelper(Context context) {
     this.context = context;
+  }
+
+  public void showKeyboard() {
+    View view = ((AppCompatActivity) context).getCurrentFocus();
+    InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+    imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
   }
 
   public void hideKeyboard() {
@@ -24,66 +30,55 @@ public class UIHelper {
     }
   }
 
-  public void showViewFromBottom(View view) {
-    YoYo.with(Techniques.SlideInUp).duration(Constants.DURATION_VERY_LONG).playOn(view);
+  public void expand(final View v) {
+    v.measure(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+    final int targetHeight = v.getMeasuredHeight();
+
+    // Older versions of android (pre API 21) cancel animations for views with a height of 0.
+    v.getLayoutParams().height = 1;
+    v.setVisibility(View.VISIBLE);
+    Animation a = new Animation() {
+      @Override
+      protected void applyTransformation(float interpolatedTime, Transformation t) {
+        v.getLayoutParams().height = interpolatedTime == 1
+            ? LayoutParams.WRAP_CONTENT
+            : (int) (targetHeight * interpolatedTime);
+        v.requestLayout();
+      }
+
+      @Override
+      public boolean willChangeBounds() {
+        return true;
+      }
+    };
+
+    // 1dp/ms
+    a.setDuration((int) (targetHeight / v.getContext().getResources().getDisplayMetrics().density));
+    v.startAnimation(a);
   }
 
-  public void hideViewToBottom(View view) {
-    YoYo.with(Techniques.SlideOutDown).duration(Constants.DURATION_VERY_LONG).playOn(view);
-  }
+  public void collapse(final View v) {
+    final int initialHeight = v.getMeasuredHeight();
 
-  public void shakeView(View view) {
-    YoYo.with(Techniques.Shake).duration(Constants.DURATION_MEDIUM).playOn(view);
-  }
+    Animation a = new Animation() {
+      @Override
+      protected void applyTransformation(float interpolatedTime, Transformation t) {
+        if (interpolatedTime == 1) {
+          v.setVisibility(View.GONE);
+        } else {
+          v.getLayoutParams().height = initialHeight - (int) (initialHeight * interpolatedTime);
+          v.requestLayout();
+        }
+      }
 
-  public void zoomInView(final View view) {
-    YoYo.with(Techniques.ZoomIn).duration(Constants.DURATION_MEDIUM)
-        .withListener(new Animator.AnimatorListener() {
-          @Override
-          public void onAnimationStart(Animator animation) {
-            view.setVisibility(View.VISIBLE);
-          }
+      @Override
+      public boolean willChangeBounds() {
+        return true;
+      }
+    };
 
-          @Override
-          public void onAnimationEnd(Animator animation) {
-
-          }
-
-          @Override
-          public void onAnimationCancel(Animator animation) {
-
-          }
-
-          @Override
-          public void onAnimationRepeat(Animator animation) {
-
-          }
-        }).playOn(view);
-  }
-
-  public void zoomOutView(final View view) {
-    YoYo.with(Techniques.ZoomOut).duration(Constants.DURATION_MEDIUM)
-        .withListener(new Animator.AnimatorListener() {
-          @Override
-          public void onAnimationStart(Animator animation) {
-
-          }
-
-          @Override
-          public void onAnimationEnd(Animator animation) {
-            view.setVisibility(View.GONE);
-          }
-
-          @Override
-          public void onAnimationCancel(Animator animation) {
-
-          }
-
-          @Override
-          public void onAnimationRepeat(Animator animation) {
-
-          }
-        }).playOn(view);
-
+    // 1dp/ms
+    a.setDuration((int) (initialHeight / v.getContext().getResources().getDisplayMetrics().density));
+    v.startAnimation(a);
   }
 }

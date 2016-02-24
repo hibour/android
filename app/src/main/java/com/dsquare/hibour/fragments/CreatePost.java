@@ -44,8 +44,9 @@ import java.util.Map;
 
 public class CreatePost extends android.support.v4.app.Fragment implements View.OnClickListener {
 
+    private static final int REQUEST_IMAGE_SELECTOR = 1000;
+    private static final int REQUEST_IMAGE_CAPTURE = 1001;
     private String category;
-
     private Button send;
     private ImageView gallary;
     private EditText text;
@@ -53,8 +54,6 @@ public class CreatePost extends android.support.v4.app.Fragment implements View.
     private DialogFragment chooserDialog;
     private ArrayAdapter<String> categoriesAdapter;
     private String[] List = {"General", "Suggestions", "Classifieds", "Crime & Safety", "Lost & Found"};
-    private static final int REQUEST_IMAGE_SELECTOR = 1000;
-    private static final int REQUEST_IMAGE_CAPTURE = 1001;
     private List<String> categoriesList = new ArrayList<>();
     private Map<String, String> categoriesMap = new LinkedHashMap<>();
     private NetworkDetector networkDetector;
@@ -210,7 +209,7 @@ public class CreatePost extends android.support.v4.app.Fragment implements View.
 //            newpostDialogue = ProgressDialog.show(getActivity(), "", getResources()
 //                    .getString(R.string.progress_dialog_text));
             postsClient.insertonPost(application.getUserId(), cat_str, posttypeid, postMessage, postImage
-                    , "1","", new WebServiceResponseCallback() {
+                , "1", "", new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parsePostDetails(jsonObject);
