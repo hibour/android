@@ -226,6 +226,13 @@
         <dex dex="D:\Ashok\dsquare\hibour-android\app\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-identity-8.3.0_b7d29ce90a20e3a026109b687011f83418f3cc3e.jar" />
     </item>
     <item
+        jar="D:\Ashok\dsquare\hibour-android\app\build\intermediates\exploded-aar\com.android.support\multidex\1.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="78ea232052df889856dcb7b7b542707c89bb3bfb">
+        <dex dex="D:\Ashok\dsquare\hibour-android\app\build\intermediates\pre-dexed\debug\com.android.support-multidex-1.0.1_1e0de081fc07a4d1a2b7ad6cdb1a82873a502bfe.jar" />
+    </item>
+    <item
         jar="D:\Ashok\dsquare\hibour-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-measurement\8.3.0\jars\classes.jar"
         jumboMode="false"
         revision="23.0.2"
