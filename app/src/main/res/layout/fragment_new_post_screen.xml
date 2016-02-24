@@ -5,314 +5,189 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical">
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?android:actionBarSize"
-        android:background="@color/white"
-        android:id="@+id/home_app_bar">
-        <com.dsquare.hibour.utils.Proxima
-            android:id="@+id/creat_post_cancel"
-            android:layout_width="@dimen/dp_60"
-            android:layout_height="40dp"
-            android:layout_gravity="center_vertical"
-            android:gravity="center"
-            android:contentDescription="Invite"
-            android:layout_centerVertical="true"
-            android:clickable="true"
-            android:textSize="14sp"
-            android:textColor="@color/outline_blue"
-            android:text="Cancel" />
-        <com.dsquare.hibour.utils.ProximaExtraBold
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Post"
-            android:textColor="@color/brand"
-            android:id="@+id/home_fragment_title"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:textSize="@dimen/app_bar_title_text_size"/>
-        <com.dsquare.hibour.utils.ProximaExtraBold
-            android:layout_width="@dimen/dp_60"
-            android:layout_height="@dimen/dp_40"
-            android:text="Done"
-            android:gravity="center"
-            android:textColor="@color/outline_blue"
-            android:id="@+id/create_post_done"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:textSize="14sp"/>
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+      >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:id="@+id/post_liner_layout">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/nav_bottom_line_height"
-            android:id="@+id/nav_drawer_bottom_line"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_alignParentBottom="true"/>
-        <!--<ImageView-->
-        <!--android:layout_width="@dimen/dp_30"-->
-        <!--android:layout_height="@dimen/dp_30"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:src="@drawable/ic_search_white"-->
-        <!--android:layout_marginRight="@dimen/dp_20"-->
-        <!--android:padding="@dimen/dp_3"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:id="@+id/home_search_icon"/>-->
+            android:layout_height="?android:actionBarSize"
+            android:background="@color/white"
+            android:id="@+id/home_app_bar1"
+            >
+            <com.dsquare.hibour.utils.Proxima
+                android:id="@+id/creat_post_cancel"
+                android:layout_width="@dimen/dp_60"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:contentDescription="Invite"
+                android:layout_centerVertical="true"
+                android:clickable="true"
+                android:textSize="14sp"
+                android:textColor="@color/outline_blue"
+                android:text="Cancel" />
+            <com.dsquare.hibour.utils.ProximaExtraBold
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Post"
+                android:textColor="@color/brand"
+                android:id="@+id/home_fragment_title"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:textSize="@dimen/app_bar_title_text_size"/>
+            <com.dsquare.hibour.utils.ProximaExtraBold
+                android:layout_width="@dimen/dp_60"
+                android:layout_height="@dimen/dp_40"
+                android:text="Post"
+                android:gravity="center"
+                android:textColor="@color/outline_blue"
+                android:id="@+id/create_post_done"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:textSize="14sp"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/nav_bottom_line_height"
+                android:id="@+id/nav_drawer_bottom_line"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_alignParentBottom="true"/>
 
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/horiz_line_height"
-        android:layout_marginTop="@dimen/dp_5"
-        android:background="@color/gray"
-        android:layout_below="@+id/home_app_bar"/>
+
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/horiz_line_height"
+            android:layout_marginTop="@dimen/dp_5"
+            android:background="@color/gray"
+            android:id="@+id/views"
+            android:layout_below="@+id/home_app_bar1"
+            />
+    </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="bottom"
-        android:background="@color/white"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:windowSoftInputMode="adjustResize|stateVisible"
         android:orientation="vertical">
 
-        <!--<LinearLayout-->
-            <!--android:id="@+id/category_list"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="vertical"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:paddingBottom="@dimen/dp_60"-->
-            <!--android:visibility="visible">-->
-
-            <!--<com.dsquare.hibour.utils.Proxima-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:layout_marginBottom="@dimen/dp_10"-->
-                <!--android:layout_marginTop="@dimen/dp_10"-->
-                <!--android:text="Choose a category for your Post"-->
-                <!--android:textColor="#726B6B"-->
-                <!--android:textSize="22sp" />-->
-
-            <!--<LinearLayout-->
-                <!--android:id="@+id/category_general"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:layout_margin="@dimen/dp_10"-->
-                <!--android:background="@drawable/rectangle_brand"-->
-                <!--android:padding="@dimen/dp_10">-->
-
-                <!--<ImageView-->
-                    <!--android:layout_width="@dimen/dp_20"-->
-                    <!--android:layout_height="@dimen/dp_20"-->
-                    <!--android:layout_marginRight="@dimen/dp_5"-->
-                    <!--android:src="@drawable/category_general" />-->
-
-                <!--<com.dsquare.hibour.utils.Proxima-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="    General      "-->
-                    <!--android:textColor="@color/brand"-->
-                    <!--android:textSize="14sp" />-->
-            <!--</LinearLayout>-->
-
-            <!--<LinearLayout-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:layout_marginBottom="5dp">-->
-
-                <!--<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-                    <!--xmlns:tools="http://schemas.android.com/tools"-->
-                    <!--android:id="@+id/categories"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:columnCount="2"-->
-                    <!--tools:context=".GridXMLActivity">-->
-
-                    <!--<LinearLayout-->
-                        <!--android:id="@+id/category_suggestions"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_gravity="center"-->
-                        <!--android:layout_margin="@dimen/dp_10"-->
-                        <!--android:background="@drawable/rectangle_green"-->
-                        <!--android:padding="@dimen/dp_10"-->
-                        <!--android:paddingLeft="@dimen/dp_10"-->
-                        <!--android:paddingRight="@dimen/dp_10">-->
-
-                        <!--<ImageView-->
-                            <!--android:layout_width="@dimen/dp_20"-->
-                            <!--android:layout_height="@dimen/dp_20"-->
-                            <!--android:layout_marginRight="@dimen/dp_5"-->
-                            <!--android:src="@drawable/category_suggestions" />-->
-
-                        <!--<com.dsquare.hibour.utils.Proxima-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:text=" Suggestions  "-->
-                            <!--android:textColor="@color/outline_green"-->
-                            <!--android:textSize="14sp" />-->
-                    <!--</LinearLayout>-->
-
-                    <!--<LinearLayout-->
-                        <!--android:id="@+id/category_classifieds"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_gravity="center"-->
-                        <!--android:layout_margin="@dimen/dp_10"-->
-                        <!--android:background="@drawable/rectangle_blue"-->
-                        <!--android:paddingLeft="@dimen/dp_10"-->
-                        <!--android:paddingRight="@dimen/dp_10"-->
-                        <!--android:padding="@dimen/dp_10">-->
-
-                        <!--<ImageView-->
-                            <!--android:layout_width="@dimen/dp_20"-->
-                            <!--android:layout_height="@dimen/dp_20"-->
-                            <!--android:layout_marginRight="@dimen/dp_5"-->
-                            <!--android:src="@drawable/category_classifieds" />-->
-
-                        <!--<com.dsquare.hibour.utils.Proxima-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:text="   Classifieds   "-->
-                            <!--android:textColor="@color/outline_blue"-->
-                            <!--android:textSize="14sp" />-->
-                    <!--</LinearLayout>-->
-
-
-                    <!--<LinearLayout-->
-                        <!--android:id="@+id/category_crime_safety"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_gravity="center"-->
-                        <!--android:layout_margin="@dimen/dp_10"-->
-                        <!--android:background="@drawable/rectangle_purple"-->
-                        <!--android:paddingLeft="@dimen/dp_10"-->
-                        <!--android:paddingRight="@dimen/dp_10"-->
-                        <!--android:padding="@dimen/dp_10">-->
-
-                        <!--<ImageView-->
-                            <!--android:layout_width="@dimen/dp_20"-->
-                            <!--android:layout_height="@dimen/dp_20"-->
-                            <!--android:layout_marginRight="@dimen/dp_5"-->
-                            <!--android:src="@drawable/category_crime_safety" />-->
-
-                        <!--<com.dsquare.hibour.utils.Proxima-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:text="Crime &amp; Safety"-->
-                            <!--android:textColor="@color/outline_purple"-->
-                            <!--android:textSize="14sp" />-->
-                    <!--</LinearLayout>-->
-
-                    <!--<LinearLayout-->
-                        <!--android:id="@+id/category_lost_found"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_gravity="center"-->
-                        <!--android:layout_margin="@dimen/dp_10"-->
-                        <!--android:background="@drawable/rectangle_mint"-->
-                        <!--android:paddingLeft="@dimen/dp_10"-->
-                        <!--android:paddingRight="@dimen/dp_10"-->
-                        <!--android:padding="@dimen/dp_10">-->
-
-                        <!--<ImageView-->
-                            <!--android:layout_width="@dimen/dp_20"-->
-                            <!--android:layout_height="@dimen/dp_20"-->
-                            <!--android:layout_marginRight="@dimen/dp_5"-->
-                            <!--android:src="@drawable/category_lost_found" />-->
-
-                        <!--<com.dsquare.hibour.utils.Proxima-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:text=" Lost &amp; Found "-->
-                            <!--android:textColor="@color/outline_yellow"-->
-                            <!--android:textSize="14sp" />-->
-                    <!--</LinearLayout>-->
-
-                <!--</GridLayout>-->
-            <!--</LinearLayout>-->
-        <!--</LinearLayout>-->
+       <!-- <RelativeLayout
+            android:id="@+id/category_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#80000000"
+            android:theme="@android:style/Theme.Translucent"
+            android:visibility="visible">
+        </RelativeLayout>-->
 
         <LinearLayout
             android:id="@+id/post_widget"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="visible">
-            <LinearLayout
+            >
+
+          <!--  <RelativeLayout
+                android:id="@+id/newpost_editLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/light_gray">
-                <com.dsquare.hibour.utils.Proxima
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="TO:"
-                    android:gravity="center"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/dp_20"/>
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:spinnerMode="dropdown"
-                android:id="@+id/newpost_spinner"
-                android:textSize="@dimen/edit_text_size"
-                android:layout_alignParentRight="true"
-                android:layout_marginLeft="@dimen/dp_5"
-                ></Spinner>
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/horiz_line_height"
-                android:background="@color/gray"
-                android:layout_below="@+id/create_linear"/>
+                android:layout_height="@dimen/dp_440"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                >-->
+
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
-                <com.dsquare.hibour.utils.ProximaEditText
-                    android:id="@+id/newposts_edittest"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:focusable="true"
-                    android:gravity="top|start"
-                    android:hint="@string/cat_ph_general"
-                    android:inputType="textMultiLine"
-                    android:padding="@dimen/dp_10"
-                    android:singleLine="false"
-                    android:textColorHint="@color/gray"
-                    android:windowSoftInputMode="adjustPan" />
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:visibility="gone"
-                    android:layout_centerVertical="true"
-                    android:id="@+id/create_relative">
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center"
+                 android:layout_centerVertical="true"
+                 android:visibility="gone"
+                 android:id="@+id/create_relative">
+                 <ImageView
+                     android:layout_width="match_parent"
+                     android:layout_height="@dimen/dp_200"
+                     android:id="@+id/creat_imageview_display_icon"
+                     android:layout_gravity="center"
+                     android:layout_centerVertical="true"
+                     android:adjustViewBounds="true"
+                     android:scaleType="fitXY"
+                     android:layout_weight="1"
+                     android:layout_marginTop="@dimen/dp_10"
+                     android:maxWidth="35dip"  android:maxHeight="50dip"
+                     android:layout_centerInParent="true"
+                     />
                 <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_200"
-                    android:id="@+id/creat_imageview_display_icon"
-                    android:layout_gravity="center"
-                    android:visibility="visible"
-                    android:layout_centerVertical="true"
-                    android:adjustViewBounds="true"
-                    android:scaleType="center"
-                    android:layout_weight="1"
-                    android:layout_marginTop="@dimen/dp_20"
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_20"
+                    android:src="@mipmap/ic_delete_icon"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@id/creat_imageview_display_icon"
+                    android:layout_alignRight="@id/creat_imageview_display_icon"
+                    android:layout_marginRight="@dimen/dp_3"
+                    android:id="@+id/create_delete_image"
                     />
-                    <ImageView
-                        android:layout_width="@dimen/dp_20"
-                        android:layout_height="@dimen/dp_20"
-                        android:src="@mipmap/ic_delete_icon"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignTop="@id/creat_imageview_display_icon"
-                        android:layout_alignRight="@id/creat_imageview_display_icon"
-                        android:layout_marginRight="@dimen/dp_3"
-                        android:id="@+id/create_delete_image"
-                        />
-                </RelativeLayout>
-                <RelativeLayout
+            </RelativeLayout>
+             <com.dsquare.hibour.utils.ProximaEditText
+                 android:id="@+id/newposts_edittest"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:focusable="true"
+                 android:gravity="top|start"
+                 android:hint="@string/cat_ph_general"
+                 android:inputType="textMultiLine"
+                 android:padding="@dimen/dp_10"
+                 android:singleLine="false"
+                 android:textColorHint="@color/gray"
+                 />
+             <!--<requestFocus />-->
+             <!--<RelativeLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center"
+                 android:layout_centerVertical="true"
+                 android:visibility="visible"
+                 android:id="@+id/create_relative">
+                 <ImageView
+                     android:layout_width="match_parent"
+                     android:layout_height="@dimen/dp_200"
+                     android:id="@+id/creat_imageview_display_icon"
+                     android:layout_gravity="center"
+                     android:layout_centerVertical="true"
+                     android:adjustViewBounds="true"
+                     android:scaleType="center"
+                     android:layout_weight="1"
+                     android:layout_marginTop="@dimen/dp_20"
+                     />
+                 <ImageView
+                     android:layout_width="@dimen/dp_20"
+                     android:layout_height="@dimen/dp_20"
+                     android:src="@mipmap/ic_delete_icon"
+                     android:layout_alignParentRight="true"
+                     android:layout_alignTop="@id/creat_imageview_display_icon"
+                     android:layout_alignRight="@id/creat_imageview_display_icon"
+                     android:layout_marginRight="@dimen/dp_3"
+                     android:id="@+id/create_delete_image"
+                     />
+             </RelativeLayout>-->
+<!--
+            </RelativeLayout>
+-->
+
+        </LinearLayout>
+
+        <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_60"
                     android:layout_alignParentBottom="true"
@@ -331,28 +206,31 @@
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:spinnerMode="dropdown"
-                        android:id="@+id/newpost_spinner_negibourhood"
+                        android:id="@+id/newpost_categories_spinner"
                         android:textSize="@dimen/edit_text_size"
-                       android:layout_centerVertical="true"
+                        android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"
-                ></Spinner>
+                        android:layout_marginLeft="@dimen/dp_5"
+                        ></Spinner>
+                    <com.dsquare.hibour.utils.Proxima
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Category:"
+                        android:layout_toLeftOf="@+id/newpost_categories_spinner"
+                        android:layout_centerVertical="true"
+                        />
+
                 </RelativeLayout>
-
-
+<!--
             </RelativeLayout>
+-->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/horiz_line_height"
                 android:background="@color/gray"
                 android:layout_below="@+id/create_linear"/>
-            <!--<Button-->
-            <!--android:id="@+id/newpost_send"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="@dimen/dp_10"-->
-            <!--android:background="#37bc9b"-->
-            <!--android:text="@string/button_send"-->
-            <!--android:textColor="@color/white" />-->
+<!--
         </LinearLayout>
-    </RelativeLayout>
+-->
+    </RelativeLayout></LinearLayout>
 </LinearLayout>

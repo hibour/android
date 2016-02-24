@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="brand">#ff6b6b</color>
+    <color name="branddark">#E53935</color>
+    <color name="newbrand">#F85659</color>
     <color name="brand_status_bar">#9575CD</color>
     <color name="black_button">#40403E</color>
     <color name="green">#75B640</color>
@@ -9,18 +11,36 @@
     <color name="black_transparent">#726B6B</color>
     <color name="gray">#B4B4B4</color>
     <color name="gray_1">#707070</color>
+    <color name = "sign_in_gray1">#a6a6a6</color>
     <color name="app_bar_gray">#95a5a6</color>
     <color name="white">#FFFFFF</color>
     <color name="white_transparent">#88FFFFFF</color>
     <color name="transparent">#00000000</color>
     <color name="light_gray">#f1f1f1</color>
+    <color name="feed_bg">#edeef2</color>
     <color name="light_grays">#F5F8FA</color>
     <color name="outline_green">#8CC152</color>
     <color name="outline_blue">#3BAFDA</color>
     <color name="outline_yellow">#37BC9B</color>
     <color name="outline_purple">#967ADC</color>
+    <color name="textColor_discoverneighbourhood">#687897</color>
+    <color name="default_user_img_bg">#fd9757</color>
+    <string-array name="movie_serial_bg">
+        <item>#ff484d</item>
+        <item>#57dd86</item>
+        <item>#ad7dcf</item>
+        <item>#24c6d5</item>
+        <item>#fcba59</item>
+        <item>#24c6d5</item>
+    </string-array>
+
     <color name="tabsScrollColor">#FFFFFF</color>
     <color name="white_30">#b4ffffff</color>
     <color name="black">#000000</color>
     <color name="grey">#acacac</color>
+
+    <color name="off_white">#F8F9FA</color>
+
+    <color name="custom_fb_blue">#4876c6</color>
+
 </resources>

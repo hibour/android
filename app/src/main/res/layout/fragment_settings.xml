@@ -84,10 +84,9 @@
 
                     <com.dsquare.hibour.dialogs.RoundImageView
                         android:id="@+id/settings_image"
-                        android:layout_width="@dimen/dp_100"
-                        android:layout_height="@dimen/dp_100"
+                        android:layout_width="@dimen/dp_140"
+                        android:layout_height="@dimen/dp_140"
                         android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/dp_10"
                         android:background="@drawable/avatar1" />
 
                     <ImageView
@@ -141,7 +140,36 @@
                         android:layout_marginLeft="@dimen/dp_30"
                         android:layout_toRightOf="@+id/settings_name_image"
                         android:background="@null"
-                        android:hint="FullName"
+                        android:hint="FirstName"
+                        android:textSize="@dimen/dp_20" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_bottom_line_height"
+                    android:background="@color/gray"></View>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_50">
+
+                    <ImageView
+                        android:id="@+id/settings_Last_name_image"
+                        android:layout_width="@dimen/dp_25"
+                        android:layout_height="@dimen/dp_25"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp_30"
+                        android:src="@mipmap/ic_name_icon" />
+
+                    <EditText
+                        android:id="@+id/settings_Last_name_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp_30"
+                        android:layout_toRightOf="@+id/settings_Last_name_image"
+                        android:background="@null"
+                        android:hint="LastName"
                         android:textSize="@dimen/dp_20" />
                 </RelativeLayout>
 
@@ -166,7 +194,7 @@
                             android:id="@+id/radioMale"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:checked="true"
+                            android:checked="false"
                             android:text="Male" />
 
                         <RadioButton
@@ -355,8 +383,8 @@
                 android:layout_marginLeft="@dimen/dp_20"
                 android:textColor="@color/brand"
                 android:textSize="@dimen/sp_16"
-                android:text="@string/settings_proof"
-                android:id="@+id/settings_proof"
+                android:text="@string/settings_location"
+                android:id="@+id/settings_location"
                 android:layout_marginTop="@dimen/dp_10"/>
             <com.dsquare.hibour.utils.Avenir
                 android:layout_width="wrap_content"
@@ -374,4 +402,3 @@
     </ScrollView>
 
 </RelativeLayout>
-

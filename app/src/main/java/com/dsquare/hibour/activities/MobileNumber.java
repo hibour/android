@@ -9,8 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
@@ -21,6 +21,7 @@ import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.utils.Hibour;
 import com.google.gson.Gson;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MobileNumber extends AppCompatActivity implements View.OnClickListener {
@@ -31,24 +32,25 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
     private NetworkDetector networkDetector;
     private AccountsClient accountsClient;
     private ProgressDialog phoneDialog;
+    private TextView back;
     private  Gson gson;
-    private Hibour application;
+    private Hibour  application;
+    private String genderstring="",serviceString="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mobile_number);
+        setContentView(R.layout.mobilenumber);
         initializeViews();
         initializeEventListeners();
     }
     private void initializeViews() {
         Typeface numbers = Typeface.createFromAsset(getAssets(),
                 "fonts/pn_regular.otf");
-        mobile = (EditText) findViewById(R.id.verification_phone_edit);
+        mobile = (EditText) findViewById(R.id.mobile_edit);
         mobile.setTypeface(numbers);
-        sumbit = (Button) findViewById(R.id.phone_submit);
+        sumbit = (Button) findViewById(R.id.moblie_send);
         sumbit.setTypeface(numbers);
-        gender = (RadioGroup) findViewById(R.id.group_gender);
-        services = (RadioGroup) findViewById(R.id.group_services);
+        back = (TextView)findViewById(R.id.mobile_back);
         accountsClient = new AccountsClient(this);
         networkDetector = new NetworkDetector(this);
         gson = new Gson();
@@ -56,34 +58,30 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
     }
     private void initializeEventListeners() {
         sumbit.setOnClickListener(this);
+        back.setOnClickListener(this);
     }
     @Override
     public void onClick(View view) {
         switch(view.getId()){
-            case R.id.phone_submit:
+            case R.id.moblie_send:
                 openOtpActivity();
+                break;
+            case R.id.mobile_back:
+                openbackActivity();
                 break;
         }
     }
+
+    private void openbackActivity() {
+        Intent intent = new Intent(getApplicationContext(),SignUp.class);
+        startActivity(intent);
+        finish();
+    }
+
     private void openOtpActivity() {
-        if(mobile.getText().toString().length() < 11 && mobile.getText().toString().length() > 9){
-            if (gender.getCheckedRadioButtonId() != -1) {
-                if (services.getCheckedRadioButtonId() != -1) {
-                    int selected = services.getCheckedRadioButtonId();
-                    String serices_type = ((RadioButton) findViewById(selected)).getText().toString();
-                    Log.d("servicetype",serices_type);
-                    Intent intent = new Intent(getApplicationContext(), VerifyOtp.class);
-                    intent.putExtra("number", mobile.getText().toString());
-                    intent.putExtra("services",serices_type);
-                    startActivity(intent);
-                    finish();
-                }else {
-                    Toast.makeText(getApplicationContext(), "Please select Services", Toast.LENGTH_SHORT).show();
-                }
-            }else {
-                Toast.makeText(getApplicationContext(), "Please select Gender", Toast.LENGTH_SHORT).show();
-            }
-        }else{
+        if(mobile.getText().toString().length() < 11 && mobile.getText().toString().length() > 9) {
+            sendtoMobilenumUser();
+        } else{
             Toast.makeText(this, "Invalid mobile number", Toast.LENGTH_SHORT).show();
         }
     }
@@ -92,11 +90,13 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
         if(networkDetector.isConnected()){
             phoneDialog = ProgressDialog.show(this,"",getResources()
                     .getString(R.string.progress_dialog_text));
-            accountsClient.mobilenumUser(mobile.getText().toString()
+            accountsClient.mobilenumUser(application.getUserId(),mobile.getText().toString()
                     ,new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
-                    parsemobileDetails(jsonObject);
+                    Intent intent = new Intent(getApplicationContext(), Home.class);
+                    startActivity(intent);
+              //      parsemobileDetails(jsonObject);
                     closeMobileDialog();
                 }
                 @Override
@@ -110,6 +110,26 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
         }
     }
     private void parsemobileDetails(JSONObject jsonObject){
+        closeMobileDialog();
+        Log.d("json", jsonObject.toString());
+        try {
+            JSONObject data = jsonObject.getJSONObject("data");
+            String number = data.getString("number");
+            String otp = data.getString("otp");
+            if(!otp.equals(null)&&!otp.equals("null")&&!otp.equals("")) {
+             //   Intent intent = new Intent(getApplicationContext(), VerifyOtp.class);
+                Intent intent = new Intent(getApplicationContext(), Home.class);
+                intent.putExtra("number", number);
+                intent.putExtra("otp", otp);
+                startActivity(intent);
+                finish();
+            }else{
+                Toast.makeText(getApplicationContext(),"Invalid User",Toast.LENGTH_SHORT).show();
+            }
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
     }
     /* close signup dialog*/

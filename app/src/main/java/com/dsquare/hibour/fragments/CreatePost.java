@@ -210,7 +210,7 @@ public class CreatePost extends android.support.v4.app.Fragment implements View.
 //            newpostDialogue = ProgressDialog.show(getActivity(), "", getResources()
 //                    .getString(R.string.progress_dialog_text));
             postsClient.insertonPost(application.getUserId(), cat_str, posttypeid, postMessage, postImage
-                    , "1", new WebServiceResponseCallback() {
+                    , "1","", new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parsePostDetails(jsonObject);

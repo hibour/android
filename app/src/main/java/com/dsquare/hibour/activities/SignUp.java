@@ -1,5 +1,6 @@
 package com.dsquare.hibour.activities;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -12,8 +13,11 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,10 +27,9 @@ import com.dsquare.hibour.gcm.GcmRegistration;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
-import com.dsquare.hibour.pojos.register.Data;
-import com.dsquare.hibour.pojos.register.Registers;
+import com.dsquare.hibour.pojos.signup.Data;
+import com.dsquare.hibour.pojos.signup.SignupPojo;
 import com.dsquare.hibour.utils.Constants;
-import com.dsquare.hibour.utils.Fonts;
 import com.dsquare.hibour.utils.Hibour;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -62,37 +65,63 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     private LoginButton facebookLoginButton;
     private CallbackManager callbackManager;
     private Button submitButton;
-    private EditText name,email,password;
-    private TextInputLayout inputLayoutName, inputLayoutemail,inputLayoutpassword;
-    private TextView signInText,termsText;
+    private EditText name,email,password,fname,lname;
+    private TextInputLayout inputLayoutName, inputLayoutemail,inputLayoutpassword,inputLayoutfName,inputLayoutlName;
+    private TextView signInText,termsText,back;
     private NetworkDetector networkDetector;
     private AccountsClient accountsClient;
     private ProgressDialog signUpDialog;
     private Hibour application;
     private Typeface tf;
     private Gson gson;
-
+    private Intent data;
+    private String string;
     private String userName="",userNumber="",userMail="",socialType="",userpassword="",userfirst="",userlast="";
-
+    private ImageView male,female;
+    private LinearLayout linearmale,linearfemale;
+    private String Gender="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.signup);
         initializeViews();
         initializeEventlisteners();
-        initializeGplus();
-        initializeFb();
+//        initializeGplus();
+//        initializeFb();
     }
     /* initialize views*/
     private void initializeViews(){
-        submitButton = (Button)findViewById(R.id.signup_signup_button);
-        name = (EditText)findViewById(R.id.signup_name);
+        submitButton = (Button)findViewById(R.id.signup_next);
+        fname = (EditText)findViewById(R.id.signup_firstname);
+        lname = (EditText)findViewById(R.id.signup_lastname);
         email= (EditText)findViewById(R.id.signup_email);
-        password= (EditText)findViewById(R.id.signup_password);
+        password= (EditText)findViewById(R.id.signup_pwd);
+        male = (ImageView)findViewById(R.id.image_male);
+        female = (ImageView)findViewById(R.id.image_female);
+        linearmale = (LinearLayout)findViewById(R.id.linear_male);
+        linearfemale = (LinearLayout)findViewById(R.id.linear_female);
+        back = (TextView)findViewById(R.id.signup_back);
+        linearmale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                male.setImageResource(R.mipmap.ic_men_filed_icon);
+                female.setImageResource(R.mipmap.ic_female_icon);
+                Gender="0";
+            }
+        });
+        linearfemale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                female.setImageResource(R.mipmap.ic_female_filed_icon);
+                male.setImageResource(R.mipmap.ic_men_icon);
+                Gender="1";
+            }
+        });
         password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                hideKeyboard();
                 boolean handled = false;
                 if (i == EditorInfo.IME_ACTION_DONE) {
                     validateData();
@@ -101,31 +130,32 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                 return handled;
             }
         });
-        inputLayoutName=(TextInputLayout)findViewById(R.id.signup_name_inputlayout);
-        inputLayoutemail=(TextInputLayout)findViewById(R.id.signup_mail_inputlayout);
-        inputLayoutpassword=(TextInputLayout)findViewById(R.id.signup_password_inputlayout);
-        signInText = (TextView)findViewById(R.id.signup_signin_text);
-        termsText = (TextView)findViewById(R.id.signup_terms);
+        inputLayoutfName=(TextInputLayout)findViewById(R.id.signup_firstname_inputlayout);
+        inputLayoutlName=(TextInputLayout)findViewById(R.id.signup_lastname_inputlayout);
+        inputLayoutemail=(TextInputLayout)findViewById(R.id.signup_email_inputlayout);
+        inputLayoutpassword=(TextInputLayout)findViewById(R.id.signup_pwd_inputlayout);
         accountsClient = new AccountsClient(this);
         networkDetector = new NetworkDetector(this);
         gson = new Gson();
         application = Hibour.getInstance(this);
         application.initializeSharedPrefs();
-        tf = Typeface.createFromAsset(getAssets(), Fonts.getTypeFaceName());
-        submitButton.setTypeface(tf);
-        name.setTypeface(tf);
-        email.setTypeface(tf);
-        password.setTypeface(tf);
-        inputLayoutName.setTypeface(tf);
+        inputLayoutfName.setTypeface(tf);
+        inputLayoutlName.setTypeface(tf);
         inputLayoutemail.setTypeface(tf);
         inputLayoutpassword.setTypeface(tf);
     }
 
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+      //  imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+    }
+
+
     /*initialize event listeners*/
     private void initializeEventlisteners() {
         submitButton.setOnClickListener(this);
-        signInText.setOnClickListener(this);
-        termsText.setOnClickListener(this);
+        back.setOnClickListener(this);
     }
     public void initializeGplus(){
         signInButton = (SignInButton) findViewById(R.id.btn_sign_in);
@@ -226,8 +256,9 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                                         Log.d("email",object.optString("email"));
                                         Log.d("id",object.optString("id"));
                                         Log.d("name",object.optString("name"));
-                                        signUpUser(object.optString("name"), object.optString("email")
-                                                , "", "fb");
+                                        Log.d("gender",object.optString("gender"));
+//                                        signUpUser(object.optString("name"), object.optString("email")
+//                                                , "", "fb");
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
@@ -278,7 +309,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                         userMail = acct.getEmail();
                     }
                     Log.d("gplus",userMail+userName);
-                    signUpUser(userName, userMail, "", "gp");
+//                    signUpUser(userName, userMail, "", "gp");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -314,10 +345,10 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.signup_signup_button:
+            case R.id.signup_next:
                 validateData();
                 break;
-            case R.id.signup_signin_text:
+            case R.id.signup_back:
                 openSignInActivity();
                 break;
             case R.id.signup_terms:
@@ -339,7 +370,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     }
     /* open sign in activity*/
     private void openSignInActivity(){
-        Intent signInIntent = new Intent(this,SignIn.class);
+        Intent signInIntent = new Intent(this,Social.class);
         startActivity(signInIntent);
         this.finish();
     }
@@ -350,14 +381,16 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     }
     /*validate data*/
     private void validateData(){
-        String userName = name.getText().toString();
+        String userFname = fname.getText().toString();
+        String userLname = lname.getText().toString();
         String userMail = email.getText().toString();
         String userPass = password.getText().toString();
-        if(!userName.equals(null)&&!userName.equals("null")&&!userName.equals("")&&
+        if(!userFname.equals(null)&&!userFname.equals("null")&&!userFname.equals("")&&
+                !userLname.equals(null)&&!userLname.equals("null")&&!userLname.equals("")&&
                 !userMail.equals(null)&&!userMail.equals("null")&& ! userMail.equals("")&&
-                !userPass.equals(null)&&!userPass.equals("null") && ! userPass.equals("")){
+                !userPass.equals(null)&&!userPass.equals("null") && ! userPass.equals("")&& ! Gender.equals("")){
             if(application.validateEmail(userMail)){
-                signUpUser(userName, userMail, userPass, "normal");
+                signUpUser(userFname,userLname, userMail, userPass, "normal");
             }else{
                 Toast.makeText(this,"Enter valid email",Toast.LENGTH_LONG).show();
             }
@@ -366,7 +399,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
         }
     }
     /* sign up the user*/
-    private void signUpUser(String userName,String email,String password,String regType){
+    private void signUpUser(String userFname,String userLname, String email,String password,String regType){
         if(networkDetector.isConnected()){
             signUpDialog = ProgressDialog.show(this,"",getResources()
                     .getString(R.string.progress_dialog_text));
@@ -379,8 +412,9 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                 }
                 return;
             }
-            accountsClient.signUpUser(userName,email,password,regType, Constants.userAddress
-                , application.getGCMToken(), new WebServiceResponseCallback() {
+            accountsClient.signUpUser(userFname,userLname,email,password,Gender,regType, Constants.latitude,Constants.longitude,
+                    Constants.locationaddress,Constants.locationaddress1,
+                 application.getGCMToken(), new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parseSigUpDetails(jsonObject);
@@ -402,16 +436,17 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
         try {
             closeSignUpDialog();
             Log.d("details", jsonObject.toString());
-            Registers registers = gson.fromJson(jsonObject.toString(), Registers.class);
+            SignupPojo registers = gson.fromJson(jsonObject.toString(), SignupPojo.class);
             Data data = registers.getData();
 //            Integer integer = data.getId();
             String s = String.valueOf(data.getId());
             Log.d("integer", s);
-            String[] regidetails = {String.valueOf(data.getId()), data.getUsername(), data.getEmail(), data.getRegtype()};
+            String[] regidetails = {String.valueOf(data.getId()), data.getFirstName(),data.getLastName(), data.getEmail(),data.getGender(), data.getRegtype(),Constants.locationaddress};
             application.setLoginDetails(regidetails);
+            application.setIsFirst(true);
 //            Log.d("integer", String.valueOf(integer));
             Log.d("regidetails", String.valueOf(regidetails));
-            Intent homeIntent = new Intent(this, GovtProof.class);
+            Intent homeIntent = new Intent(this, MobileNumber.class);
             startActivity(homeIntent);
             this.finish();
         } catch (JsonSyntaxException e) {

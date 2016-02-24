@@ -45,6 +45,8 @@ import com.google.gson.JsonSyntaxException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
@@ -59,7 +61,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.net.ssl.HttpsURLConnection;
 
 /**
@@ -181,7 +182,7 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
                 &&!text.getText().toString().equals("null")&&
                 !text.getText().toString().equals("")&&
                 !postimagesstring.equals("")){
-             Toast.makeText(getActivity(),"All fields are required",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),"All fields are required",Toast.LENGTH_LONG).show();
 //            sendPostData(categoriesTypeId ,text.getText().toString()
 //                    , postimagesstring);
         }else{
@@ -255,7 +256,7 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
             newpostDialogue = ProgressDialog.show(getActivity(),"",getResources()
                     .getString(R.string.progress_dialog_text));
             postsClient.insertonPost(application.getUserId(),posttypeid,posttypeid,postMessage,postImage
-                     ,posttypeid,new WebServiceResponseCallback() {
+                    ,posttypeid,"",new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parsePostDetails(jsonObject);
@@ -293,8 +294,10 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
 
     }
 
+
     /* get all categories types*/
     private void getAllCategoriesTypes(){
+        Log.d("NEWPOST","categories");
         if(networkDetector.isConnected()){
             newpostDialogue = ProgressDialog.show(getActivity(),"",getResources()
                     .getString(R.string.progress_dialog_text));
@@ -327,6 +330,8 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
                 for (Datum d : data) {
                     categoriesMap.put(d.getPosttypename(), d.getId() + "");
                     categoriesList.add(d.getPosttypename());
+                    Log.d("new Post", d.getId() + "");
+                    Log.d("new post",d.getPosttypename());
                 }
                 categoriesAdapter = new ArrayAdapter<String>(getActivity()
                         , android.R.layout.simple_dropdown_item_1line, categoriesList);
@@ -371,51 +376,5 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
         }
         chooserDialog.dismiss();
     }
-
-   /* private class sendToServer extends AsyncTask<ArrayList<String>, Integer, String> {
-
-        @Override
-        protected String doInBackground(ArrayList<String>... param) {
-            // TODO Auto-generated method stub
-
-
-            try {
-                URL url = new URL("http://yoururl.com");
-                HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
-                conn.setReadTimeout(10000);
-                conn.setConnectTimeout(15000);
-                conn.setRequestMethod("POST");
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new BasicNameValuePair("firstParam", paramValue1));
-                params.add(new BasicNameValuePair("secondParam", paramValue2));
-                params.add(new BasicNameValuePair("thirdParam", paramValue3));
-
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
-                writer.write(getQuery(params));
-                writer.flush();
-                writer.close();
-                os.close();
-
-                conn.connect();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return loc_resp;
-
-        }
-        @Override
-        protected void onPostExecute(String result) {
-            // TODO Auto-generated method stub
-            super.onPostExecute(result);
-
-
-
-        }
-    }*/
 
 }

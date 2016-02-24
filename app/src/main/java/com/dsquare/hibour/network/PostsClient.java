@@ -149,7 +149,7 @@ public class PostsClient {
     /* insert on a post*/
     public void insertonPost(final String userId, final String postType,final String postsubType
             ,final String postMessages,final String postImages,final String status
-            ,final WebServiceResponseCallback callback){
+            ,final String loc,final WebServiceResponseCallback callback){
         try {
             String urlStr = Constants.URL_POST_INSERTS;
             Map<String, String> params = new HashMap<>();
@@ -162,6 +162,7 @@ public class PostsClient {
             params.put(Constants.KEYWORD_POST_STATUS,status);
             params.put(Constants.KEYWORD_SIGNATURE, Constants.SIGNATURE_VALUE);
             params.put(Constants.KEYWORD_POST_LIKESCOUNT,"0");
+          //  params.put(Constants.KEYWORD_POST_LOC,loc);
             CustomRequest postsRequest = new CustomRequest(Request.Method.POST,urlStr,params
                     ,new Response.Listener<JSONObject>() {
                 @Override
@@ -221,7 +222,8 @@ public class PostsClient {
     /* get neighbourhoods*/
     public void getAllNeighbourhoods(String userId,final WebServiceResponseCallback callback){
         try {
-            String urlStr = Constants.URL_GET_NEIGHBOURHOODS+userId+"?"+Constants.KEYWORD_SIGNATURE+"="
+            String urlStr = Constants.URL_GET_NEIGHBOURHOODS+Constants.KEYWORD_USR_ID+"="+userId
+                    +"&"+Constants.KEYWORD_SIGNATURE+"="
                     +Constants.SIGNATURE_VALUE;
             URL url = new URL(urlStr);
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
@@ -252,9 +254,9 @@ public class PostsClient {
     }
 
     /* get Likesonposts*/
-    public void getLikesonPosts(String userId,String Postid,final WebServiceResponseCallback callback){
+    public void getLikesonPosts(String Postid,final WebServiceResponseCallback callback){
         try {
-            String urlStr = Constants.URL_POST_LIKE+"Userid"+"="+userId+"&"+Constants.KEYWORD_POST_ID+"="+Postid+"&"+Constants.KEYWORD_SIGNATURE+"="
+            String urlStr = Constants.URL_GET_LIKES+"post_id="+Postid+"&"+Constants.KEYWORD_SIGNATURE+"="
                     +Constants.SIGNATURE_VALUE;
             URL url = new URL(urlStr);
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
@@ -278,6 +280,39 @@ public class PostsClient {
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             HibourConnector.getInstance(context).addToRequestQueue(neighbourhoodsRequest);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
+    public void likePost(String userId,String postId,final WebServiceResponseCallback callback){
+        try {
+            String urlStr = Constants.URL_POST_LIKE+Constants.KEYWORD_USER_ID+"="+userId+"&"
+                    +Constants.KEYWORD_POST_ID+"="+postId+"&"+Constants.KEYWORD_SIGNATURE+"="
+                    +Constants.SIGNATURE_VALUE;
+            URL url = new URL(urlStr);
+            URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
+                    , url.getPath(), url.getQuery(), url.getRef());
+            url = uri.toURL();
+            Log.d("url",""+url);
+            JsonObjectRequest insertLikeRequest = new JsonObjectRequest(Request.Method.GET
+                    , url.toString(), (String) null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    callback.onSuccess(response);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    callback.onFailure(error);
+                }
+            });
+            insertLikeRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    MY_SOCKET_TIMEOUT_MS,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            HibourConnector.getInstance(context).addToRequestQueue(insertLikeRequest);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {

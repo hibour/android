@@ -6,8 +6,4 @@
 
     <solid
         android:color="@color/brand"/>
-    <stroke
-        android:width="2dp"
-        android:color="@android:color/black" />
-
 </shape>

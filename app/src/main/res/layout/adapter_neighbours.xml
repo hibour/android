@@ -17,19 +17,26 @@
             android:layout_width="@dimen/comments_icon_size"
             android:layout_height="@dimen/comments_icon_size"
             android:src="@drawable/avatar1"/>
+        <ImageView
+            android:id="@+id/adapter_neighbours_image1"
+            android:layout_width="@dimen/comments_icon_size"
+            android:layout_height="@dimen/comments_icon_size"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_chat_icon"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/adapter_neighbours_image"
             android:orientation="vertical">
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginLeft="@dimen/dp_10">
                 <com.dsquare.hibour.utils.Avenir
                     android:id="@+id/adapter_neighbours_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:text="Ashok Madduru"
                     android:textColor="@color/black_1"
                     android:textSize="@dimen/text_size_level3"/>

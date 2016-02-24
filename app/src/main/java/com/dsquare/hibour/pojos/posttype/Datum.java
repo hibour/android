@@ -13,6 +13,9 @@ public class Datum {
     @SerializedName("posttypename")
     @Expose
     private String posttypename;
+    @SerializedName("place_holder")
+    @Expose
+    private String placeholder;
 
     /**
      * 
@@ -50,4 +53,11 @@ public class Datum {
         this.posttypename = posttypename;
     }
 
+    public String getPlaceholder() {
+        return placeholder;
+    }
+
+    public void setPlaceholder(String placeholder) {
+        this.placeholder = placeholder;
+    }
 }

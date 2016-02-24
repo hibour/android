@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:id="@+id/location_button_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/off_white"
+        android:gravity="center_horizontal|bottom"
+        android:orientation="vertical">
+
+        <com.dsquare.hibour.utils.Avenir
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center"
+            android:text="Quickly Connect With"
+            android:textColor="@color/newbrand"
+            android:textSize="@dimen/text_size_level2" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_20"
+            android:gravity="center">
+
+            <com.facebook.login.widget.LoginButton xmlns:facebook="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/facebook_login_button"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:width="0dp"
+                android:height="0dp"/>
+
+            <Button
+                android:id="@+id/custom_facebook"
+                android:layout_width="@dimen/dp_140"
+                android:layout_height="@dimen/dp_50"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginRight="@dimen/dp_25"
+                android:background="@drawable/white_rect_rounded"
+                android:text="Facebook"
+                android:textSize="@dimen/button_text_size"
+                android:textColor="@color/custom_fb_blue"
+                android:drawableLeft="@drawable/icon_facebook_light"
+                android:paddingLeft="@dimen/dp_10"
+                android:textAllCaps="false"/>
+
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/google_plus_signin"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:width="0dp"
+                android:height="0dp" />
+
+            <Button
+                android:id="@+id/custom_googleplus"
+                android:layout_width="@dimen/dp_140"
+                android:layout_height="@dimen/dp_50"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/white_rect_rounded"
+                android:text="Google"
+                android:textSize="@dimen/button_text_size"
+                android:textColor="@color/newbrand"
+                android:drawableLeft="@drawable/common_google_signin_btn_icon_dark_normal"
+                android:paddingLeft="@dimen/dp_10"
+                android:textAllCaps="false"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/social_signup"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginTop="@dimen/dp_30"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@drawable/brand_rect_rounded"
+            android:gravity="center"
+            android:text="@string/signup_with_email"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/button_text_size_lg"
+            android:textAllCaps="false"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_30"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_gravity="bottom|center_horizontal"
+            android:id="@+id/social_signin"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/sign_in_gray1"
+                android:text="@string/signup_signin_text"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:text="Sign in"
+                android:textColor="@color/black_1"/>
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/screenshots"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/location_button_bar"
+        android:orientation="vertical"
+        android:padding="@dimen/dp_10">
+
+        <com.dsquare.hibour.utils.ProximaLight
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:fontFamily="avenir"
+            android:gravity="center"
+            android:text="@string/pre_sign_up_title"
+            android:textSize="25sp" />
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_weight="0"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"/>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="@dimen/dp_10">
+                <View
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/tour_circle_filled"
+                    android:id="@+id/tour_one"/>
+                <View
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/tour_two"
+                    android:layout_toRightOf="@id/tour_one"
+                    android:layout_marginLeft="1dp"
+                    android:background="@drawable/tour_circle_not_filled"/>
+                <View
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/tour_circle_not_filled"
+                    android:layout_marginLeft="1dp"
+                    android:layout_toRightOf="@id/tour_two"
+                    android:id="@+id/tour_three"/>
+                <View
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/tour_circle_not_filled"
+                    android:layout_marginLeft="1dp"
+                    android:layout_toRightOf="@id/tour_three"
+                    android:id="@+id/tour_four"/>
+            </RelativeLayout>
+        </FrameLayout>
+    </LinearLayout>
+
+
+</RelativeLayout>
+
+

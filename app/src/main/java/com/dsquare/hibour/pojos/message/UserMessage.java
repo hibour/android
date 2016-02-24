@@ -22,9 +22,9 @@ public class UserMessage {
     isRead = false;
   }
 
-  public UserMessage(Date local_id, String fromUserID, String toUserID, String message, int messageState) {
-    this(local_id, fromUserID, toUserID, message, messageState, Calendar.getInstance().getTime());
-  }
+    public UserMessage(Date local_id, String fromUserID, String toUserID, String message, int messageState) {
+        this(local_id, fromUserID, toUserID, message, messageState, Calendar.getInstance().getTime());
+    }
 
   public void setRead(boolean isRead) {
     this.isRead = isRead;

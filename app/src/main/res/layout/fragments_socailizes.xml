@@ -80,32 +80,53 @@
             android:layout_height="@dimen/horiz_line_height"
             android:layout_marginTop="@dimen/dp_5"
             android:background="@color/gray"
-            android:layout_below="@+id/home_app_bar"/>
+            android:layout_below="@+id/home_app_bar"
+            android:id="@+id/views"/>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/button_large_height"
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal"
-            android:id="@+id/socialize_button_bar">
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:id="@+id/socialize_prev_button"
-                android:background="@color/black_button"
-                android:text="@string/Prference_seleted"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/button_text_size"/>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/brand"
-                android:id="@+id/socialize_done_button"
-                android:text="@string/prefernce_all"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/button_text_size"/>
-        </LinearLayout>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_below="@+id/views">
+        <com.dsquare.hibour.utils.SlidingTabLayout
+            android:id="@+id/posts_tabs"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:elevation="2dp"
+            android:layout_below="@id/posts_appbar_line"
+            android:background="@android:color/white"></com.dsquare.hibour.utils.SlidingTabLayout>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/posts_pager"
+            android:layout_height="match_parent"
+            android:layout_below="@id/posts_tabs"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:background="@color/white"></android.support.v4.view.ViewPager></LinearLayout>
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/button_large_height"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:id="@+id/socialize_button_bar"-->
+            <!--android:visibility="gone">-->
+            <!--<Button-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1"-->
+                <!--android:id="@+id/socialize_prev_button"-->
+                <!--android:background="@color/black_button"-->
+                <!--android:text="@string/Prference_seleted"-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:textSize="@dimen/button_text_size"/>-->
+            <!--<Button-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@color/brand"-->
+                <!--android:id="@+id/socialize_done_button"-->
+                <!--android:text="@string/prefernce_all"-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:textSize="@dimen/button_text_size"/>-->
+        <!--</LinearLayout>-->
         <!--<RelativeLayout-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="@dimen/dp_40"-->
@@ -155,7 +176,8 @@
             android:id="@+id/social_prefs_list"
             android:layout_marginTop="@dimen/dp_20"
             android:layout_below="@id/home_app_bar"
-            android:layout_above="@id/socialize_button_bar">
+            android:layout_above="@id/socialize_button_bar"
+            android:visibility="gone">
         </android.support.v7.widget.RecyclerView>
     </RelativeLayout>
     <android.support.design.widget.FloatingActionButton

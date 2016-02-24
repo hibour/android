@@ -3,7 +3,7 @@ package com.dsquare.hibour.fragments;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +17,7 @@ import com.dsquare.hibour.R;
 import com.dsquare.hibour.activities.PreferencesViews;
 import com.dsquare.hibour.adapters.PreferencesAdapter;
 import com.dsquare.hibour.adapters.SocializeAdapter;
+import com.dsquare.hibour.adapters.SocializeTabsPager;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
@@ -26,8 +27,8 @@ import com.dsquare.hibour.pojos.Socialize.Data;
 import com.dsquare.hibour.pojos.preference.Datum;
 import com.dsquare.hibour.pojos.preference.Preference;
 import com.dsquare.hibour.utils.Constants;
-import com.dsquare.hibour.utils.GridLayoutSpacing;
 import com.dsquare.hibour.utils.Hibour;
+import com.dsquare.hibour.utils.SlidingTabLayout;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
@@ -51,7 +52,11 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
     private Gson gson;
     private Hibour application;
     private SocializeClient socialClient;
-
+    private ViewPager pager;
+    private SlidingTabLayout tabs;
+    private List<String> tabsList = new ArrayList<>();
+    CharSequence[] titles={"PREFERENCES","ALL"};
+    int NumOfTabs=2;
     public Socialize() {
         // Required empty public constructor
     }
@@ -73,17 +78,28 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
         gson = new Gson();
         socialClient = new SocializeClient(getActivity());
         application = Hibour.getInstance(getActivity());
-        doneButton = (Button)view.findViewById(R.id.socialize_done_button);
-        previous = (Button)view.findViewById(R.id.socialize_prev_button);
-        prefsRecycler = (RecyclerView)view.findViewById(R.id.social_prefs_list);
-        prefsRecycler.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        prefsRecycler.addItemDecoration(new GridLayoutSpacing(3, 5, true));
-        prefsRecycler.setHasFixedSize(true);
+//        doneButton = (Button)view.findViewById(R.id.socialize_done_button);
+//        previous = (Button)view.findViewById(R.id.socialize_prev_button);
+        pager = (ViewPager)view.findViewById(R.id.posts_pager);
+        tabsList.add("PREFERENCES");
+        tabsList.add("ALL");
+        tabs = (SlidingTabLayout)view.findViewById(R.id.posts_tabs);
+        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+            @Override
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.white);
+            }
+        });
+        tabs.setTabsBackgroundColor(getResources().getColor(R.color.brand));
+//        prefsRecycler = (RecyclerView)view.findViewById(R.id.social_prefs_list);
+//        prefsRecycler.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+//        prefsRecycler.addItemDecoration(new GridLayoutSpacing(3, 5, true));
+//        prefsRecycler.setHasFixedSize(true);
     }
     /* initialize event listeners*/
     private void initializeEventListeners(){
-        doneButton.setOnClickListener(this);
-        previous.setOnClickListener(this);
+//        doneButton.setOnClickListener(this);
+//        previous.setOnClickListener(this);
     }
     @Override
     public void onClick(View v) {
@@ -178,8 +194,10 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
                         , data.get(i).getImage1()
                         , data.get(i).getImage2(),"false"};
                 prefsList.add(details);
+//                String[] detail={"Preference","All"};
+
             }
-           // setAdapters(prefsList);
+//           setAdapters(prefsList);
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
@@ -200,6 +218,19 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
             prefsList.add(details);
         }
         prefsRecycler.setAdapter(new SocializeAdapter(getActivity(),prefsList));
+    }
+
+    /*set pager adapter*/
+    private void setPager(){
+
+        SocializeTabsPager pagerAdapter = new SocializeTabsPager(getFragmentManager(),tabsList);
+          tabs.setDistributeEvenly(true);
+        try {
+            pager.setAdapter(pagerAdapter);
+            tabs.setViewPager(pager);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /* close dialog*/
@@ -254,7 +285,8 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
                     Constants.membersList.add(ch);
                 }
             }
-            setAdapters();
+
+            setPager();
         } catch (Exception e) {
             e.printStackTrace();
         }

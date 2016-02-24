@@ -41,8 +41,11 @@ public class Hibour {
         initializeSharedPrefs();
         editor.putString(Constants.PREFERENCE_USER_ID, details[0]);
         editor.putString(Constants.SF_FIRST, details[1]);
-        editor.putString(Constants.SF_EMAIL, details[2]);
-        editor.putString(Constants.SF_REGTYPE, details[3]);
+        editor.putString(Constants.SF_LAST, details[2]);
+        editor.putString(Constants.SF_EMAIL, details[3]);
+        editor.putString(Constants.SF_GENDER, details[4]);
+        editor.putString(Constants.SF_REGTYPE, details[5]);
+        editor.putString(Constants.SF_LOCADD, details[6]);
         editor.commit();
     }
     public void setuserId(String userId){
@@ -55,18 +58,35 @@ public class Hibour {
         initializeSharedPrefs();
         return sharedPreferences.getString(Constants.PREFERENCE_USER_ID, "");
     }
+
     public String getUserName(){
         initializeSharedPrefs();
         return sharedPreferences.getString(Constants.SF_FIRST, "");
     }
+
+    public String getUserLocation(){
+        initializeSharedPrefs();
+        return sharedPreferences.getString(Constants.SF_LOCADD, "");
+    }
+
     /* remove user id*/
     public void removeUserDetails(){
         initializeSharedPrefs();
         editor.remove(Constants.PREFERENCE_USER_ID);
+        editor.apply();
+    }
+    public void setIsFirst(boolean isFirst){
+        initializeSharedPrefs();
+        editor.putBoolean("isFirst",isFirst);
+        editor.commit();
+    }
+    public boolean getIsFirst(){
+        initializeSharedPrefs();
+        return sharedPreferences.getBoolean("isFirst",true);
     }
     /* validate email*/
     public boolean validateEmail(String mail){
-        if(!mail.contains("@")&& !mail.contains(" "))
+        if(!mail.contains("@")&& mail.contains(" "))
             return false;
         return true;
     }

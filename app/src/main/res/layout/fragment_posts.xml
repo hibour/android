@@ -10,7 +10,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="?android:actionBarSize"
-            android:background="@color/white"
+            android:background="@color/newbrand"
             android:id="@+id/home_app_bar">
             <com.dsquare.hibour.utils.Proxima
                 android:id="@+id/invite_button"
@@ -22,13 +22,13 @@
                 android:layout_centerVertical="true"
                 android:clickable="true"
                 android:textSize="18sp"
-                android:textColor="@color/outline_blue"
+                android:textColor="@color/white"
                 android:text="@string/invite" />
             <com.dsquare.hibour.utils.ProximaExtraBold
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/home_fragment_title"
-                android:textColor="@color/brand"
+                android:textColor="@color/white"
                 android:id="@+id/home_fragment_title"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
@@ -48,8 +48,8 @@
                     android:layout_height="@dimen/dp_30"
                     android:layout_centerInParent="true"
                     android:hint="search posts"
-                    android:textColor="@color/gray"
-                    android:textColorHint="@color/gray"
+                    android:textColor="@color/black_1"
+                    android:textColorHint="@color/white"
                     android:textSize="@dimen/edit_text_size"
                     android:id="@+id/home_search_autocomplete"
                     android:background="@null"
@@ -66,7 +66,7 @@
                 android:layout_width="@dimen/dp_30"
                 android:layout_height="@dimen/dp_30"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/ic_search_white"
+                android:src="@mipmap/ic_search_white"
                 android:layout_marginRight="@dimen/dp_20"
                 android:padding="@dimen/dp_3"
                 android:layout_centerVertical="true"
@@ -75,15 +75,14 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/horiz_line_height"
-        android:layout_marginTop="@dimen/dp_5"
-        android:background="@color/gray"
+        android:background="@color/newbrand"
         android:id="@+id/posts_appbar_line"
         android:layout_below="@+id/home_app_bar"/>
 
         <com.dsquare.hibour.utils.SlidingTabLayout
             android:id="@+id/posts_tabs"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:elevation="2dp"
             android:layout_below="@id/posts_appbar_line"
             android:background="@android:color/white"></com.dsquare.hibour.utils.SlidingTabLayout>

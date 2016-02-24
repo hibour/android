@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,17 +50,6 @@ public class NearByUserChat extends BaseChatFragment {
         }.getType());
         adapter.getUserList().clear();
         adapter.getUserList().addAll(list);
-        UserDetail temp;
-        temp = new UserDetail();
-        temp.id = "98";
-        temp.Username = "Ashok";
-        temp.Address = "adadads";
-        adapter.getUserList().add(0, temp);
-        temp = new UserDetail();
-        temp.id = "29";
-        temp.Username = "Divy";
-        temp.Address = "adadads";
-        adapter.getUserList().add(0, temp);
         adapter.notifyDataSetChanged();
       } catch (JSONException e) {
         e.printStackTrace();
@@ -93,9 +83,7 @@ public class NearByUserChat extends BaseChatFragment {
     View view = inflater.inflate(R.layout.fragment_nearby_user_chat, container, false);
     socializeClient = new SocializeClient(getContext());
     application = Hibour.getInstance(getContext());
-
     initializeViews(view);
-
     socializeClient.getNearByUser(application.getUserId(), nearbyUserResultCallBack);
     return view;
   }
@@ -117,6 +105,23 @@ public class NearByUserChat extends BaseChatFragment {
     swipeRefreshLayout.setOnRefreshListener(swipeRefreshListener);
     swipeRefreshLayout.setRefreshing(false);
     swipeRefreshLayout.setEnabled(false);
+
+    ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+      @Override
+      public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+        return false;
+      }
+
+      @Override
+      public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+        //Remove swiped item from list and notify the RecyclerView
+        adapter.removeItem(viewHolder.getAdapterPosition());
+      }
+    };
+
+    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+    itemTouchHelper.attachToRecyclerView(recyclerView);
   }
 
   @Override

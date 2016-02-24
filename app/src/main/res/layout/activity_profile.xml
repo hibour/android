@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.dsquare.hibour.activities.Profile">
+    <RelativeLayout
+        android:id="@+id/messages_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:actionBarSize"
+        android:background="@color/white">
+
+        <com.dsquare.hibour.utils.Proxima
+            android:id="@+id/profile_back_text"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:text = "@string/back_text"
+            android:textSize="@dimen/text_size_level2"
+            android:paddingLeft="@dimen/dp_20"/>
+
+        <com.dsquare.hibour.utils.ProximaExtraBold
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/profile_text"
+            android:textColor="@color/brand"
+            android:textSize="@dimen/app_bar_title_text_size"/>
+
+        <RelativeLayout
+            android:id="@+id/nav_drawer_bottom_line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/nav_bottom_line_height"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@color/common_action_bar_splitter"/>
+
+        <com.dsquare.hibour.utils.Proxima
+            android:id="@+id/profile_settings_text"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="@dimen/text_size_level2"
+            android:layout_alignParentRight="true"
+            android:text="@string/action_settings"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.dsquare.hibour.dialogs.RoundImageView
+            android:id="@+id/profile_image"
+            android:layout_width="@dimen/dp_140"
+            android:layout_height="@dimen/dp_140"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_20"
+            android:background="@drawable/avatar1" />
+    </RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/profile_name"
+        android:textSize="@dimen/text_size_level2"
+        android:textColor="@color/black_1"
+        android:layout_marginTop="@dimen/dp_20"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:id="@+id/profile_send_msg_button"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:text="@string/profile_send_msg_text"
+        android:textColor="@color/white"
+        android:background="@color/brand"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <com.dsquare.hibour.utils.Proxima
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black_1"
+            android:textSize="@dimen/text_size_level3"
+            android:text="@string/profile_interests_text"/>
+        <com.dsquare.hibour.utils.Proxima
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black_1"
+            android:id="@+id/profile_interests"
+            android:textSize="@dimen/text_size_level4"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_20"/>
+    </LinearLayout>
+</LinearLayout>

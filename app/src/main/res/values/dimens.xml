@@ -3,6 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="button_elevation">0dp</dimen>
+    <dimen name="dp_2">2dp</dimen>
     <dimen name="dp_1">1dp</dimen>
     <dimen name="dp_3">3dp</dimen>
     <dimen name="dp_5">5dp</dimen>
@@ -10,7 +11,8 @@
     <dimen name="dp_7">7dp</dimen>
     <dimen name="dp_10">10dp</dimen>
     <dimen name="dp_15">15dp</dimen>
-    <dimen name="dp_20">20dp</dimen>
+    <dimen name="dp_20">20sp</dimen>
+    <dimen name="dp_22">22dp</dimen>
     <dimen name="dp_25">25dp</dimen>
     <dimen name="dp_30">30dp</dimen>
     <dimen name="dp_35">35dp</dimen>
@@ -27,10 +29,17 @@
     <dimen name="dp_140">140dp</dimen>
     <dimen name="dp_160">140dp</dimen>
     <dimen name="dp_200">200dp</dimen>
+    <dimen name="dp_220">220dp</dimen>
+    <dimen name="dp_280">280dp</dimen>
+    <dimen name="dp_224">124dp</dimen>
+    <dimen name="dp_223">123dp</dimen>
+    <dimen name="dp_440">440dp</dimen>
+    <dimen name="feeds_image_height">180dp</dimen>
     <dimen name="sp_16">16sp</dimen>
     <dimen name="sp_12">12sp</dimen>
     <dimen name="sp_18">18sp</dimen>
     <dimen name="button_text_size">14sp</dimen>
+    <dimen name="button_text_size_lg">20sp</dimen>
     <dimen name="button_width">200dp</dimen>
     <dimen name="extended_toolbar_height">128dp</dimen>
     <dimen name="extended_tool_bar_text_size">15sp</dimen>
@@ -88,6 +97,8 @@
 
     <dimen name="comments_list_item_height">70dp</dimen>
     <dimen name="comments_icon_size">30dp</dimen>
+    <dimen name="chat_list_icon_size">50dp</dimen>
 
+    <dimen name="title_lg">25sp</dimen>
 
 </resources>

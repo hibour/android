@@ -1,5 +1,6 @@
 package com.dsquare.hibour.activities;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +9,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsMessage;
-import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,22 +16,36 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
+import com.dsquare.hibour.network.AccountsClient;
+import com.dsquare.hibour.network.NetworkDetector;
+import com.dsquare.hibour.utils.Hibour;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class VerifyOtp extends AppCompatActivity implements View.OnClickListener {
 
     Button sumbit;
     EditText enterOtp;
-    TextView welcome1, welcome2, resend, change;
+    TextView welcome1, welcome2, resend, change,back;
     private String mobileNo, otp,servicertype;
     private Intent data;
     private IntentFilter filter;
     private BroadcastReceiver otpReceiver;
     private boolean otpStatus = false;
+    private NetworkDetector networkDetector;
+    private AccountsClient accountsClient;
+    private ProgressDialog phoneDialog;
+    private Gson gson;
+    private Hibour application;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_verify_otp);
+        setContentView(R.layout.otp);
         data = getIntent();
         initializeViews();
         initializeEventListeners();
@@ -41,20 +55,17 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
         filter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
         Typeface numbers = Typeface.createFromAsset(getAssets(),
                 "fonts/pn_regular.otf");
-        sumbit = (Button) findViewById(R.id.otp_sumbit);
+        sumbit = (Button) findViewById(R.id.otp_next);
         sumbit.setTypeface(numbers);
         enterOtp = (EditText) findViewById(R.id.otp_edittest);
 //        otp.setTypeface(numbers);
         resend = (TextView) findViewById(R.id.otp_resend);
-        change = (TextView) findViewById(R.id.otp_change_number);
-        welcome1 = (TextView) findViewById(R.id.otp_welcome1);
-        welcome2 = (TextView) findViewById(R.id.otp_welcome2);
-        welcome2.setText(welcome2.getText().toString() + " " + data.getStringExtra("number"));
-        String text = "<u>Resend</u>";
-        resend.setText(Html.fromHtml(text));
-        mobileNo = data.getExtras().getString("number");
-        servicertype = data.getExtras().getString("services");
-        otp = data.getExtras().getString("otp");
+        back = (TextView)findViewById(R.id.otp_back);
+        enterOtp.setText(data.getExtras().getString("otp"));
+        accountsClient = new AccountsClient(this);
+        networkDetector = new NetworkDetector(this);
+        gson = new Gson();
+        application = Hibour.getInstance(this);
         otpReceiver = new BroadcastReceiver(){
             @Override
             public void onReceive(Context c, Intent intent) {
@@ -68,7 +79,6 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
                 if (myBundle != null) {
                     Object [] pdus = (Object[]) myBundle.get("pdus");
                     messages = new SmsMessage[pdus.length];
-
                     for (int i = 0; i < messages.length; i++) {
                         messages[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
                         strMessage += "SMS From: " + messages[i].getOriginatingAddress();
@@ -77,7 +87,7 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
                         strMessage += "\n";
                         from = messages[i].getOriginatingAddress();
                     }
-                    // Toast.makeText(OtpActivity.this, strMessage, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(OtpActivity.this, strMessage, Toast.LENGTH_SHORT).show();
                     Log.d("message", strMessage);
                     Log.d("sb",from);
                     if(strMessage.contains("MD-ONLYHT")){
@@ -93,7 +103,7 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
     }
 
     private void initializeEventListeners() {
-        change.setOnClickListener(this);
+        back.setOnClickListener(this);
         resend.setOnClickListener(this);
         sumbit.setOnClickListener(this);
     }
@@ -101,13 +111,14 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.otp_sumbit:
+            case R.id.otp_next:
                 openSocilizeactivity();
                 break;
-            case R.id.otp_change_number:
+            case R.id.otp_back:
                 openMobileactivity();
                 break;
             case R.id.otp_resend:
+                sendtoMobilenumUser();
                 break;
         }
     }
@@ -119,15 +130,9 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
     }
 
     private void openSocilizeactivity() {
-        if (servicertype.equals("Business")){
-            Intent intent = new Intent(getApplicationContext(), BusinessServices.class);
-            startActivity(intent);
-            finish();
-        }else {
             Intent intent = new Intent(getApplicationContext(), SocialCategories.class);
             startActivity(intent);
             finish();
-        }
     }
 
     private void verifyReceivedOTP() {
@@ -154,13 +159,12 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
         Log.d("otp",otp);
         if(ot.contains(otp)){
             Log.d("otp","in if of ot");
-            if(otpStatus==false){
+            if(otpStatus==false) {
                 otpStatus = true;
                 enterOtp.setText(otp);
-                Log.d("otp","text setted");
+                Log.d("otp", "text setted");
                 verifyReceivedOTP();
             }
-
         }
     }
 
@@ -172,10 +176,52 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
         }
         return otp;
     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        this.unregisterReceiver(otpReceiver);
+    /* mobile the user*/
+    private void sendtoMobilenumUser(){
+        if(networkDetector.isConnected()){
+            phoneDialog = ProgressDialog.show(this,"",getResources()
+                    .getString(R.string.progress_dialog_text));
+            accountsClient.mobilenumUser(application.getUserId(),data.getExtras().getString("number")
+                    ,new WebServiceResponseCallback() {
+                @Override
+                public void onSuccess(JSONObject jsonObject) {
+                    parsemobileDetails(jsonObject);
+                    closeMobileDialog();
+                }
+                @Override
+                public void onFailure(VolleyError error) {
+                    Log.d("signup", error.toString());
+                    closeMobileDialog();
+                }
+            });
+        }else{
+            Toast.makeText(this, "Network not connected.", Toast.LENGTH_LONG).show();
+        }
     }
+    private void parsemobileDetails(JSONObject jsonObject){
+        closeMobileDialog();
+        Log.d("json", jsonObject.toString());
+        try {
+            JSONObject data = jsonObject.getJSONObject("data");
+            String number = data.getString("number");
+            String otp = data.getString("otp");
+            enterOtp.setText(otp);
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    /* close signup dialog*/
+    private void closeMobileDialog(){
+        if(phoneDialog!=null){
+            if(phoneDialog.isShowing()){
+                phoneDialog.dismiss();
+                phoneDialog=null;
+            }
+        }
+    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        this.unregisterReceiver(otpReceiver);
+//    }
 }

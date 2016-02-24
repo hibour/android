@@ -59,6 +59,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
   private String TAG = "signin";
   private GoogleSignInOptions googleSignInOptions;
   private SignInButton signInButton;
+
   private LoginButton facebookLoginButton;
   private CallbackManager callbackManager;
 
@@ -71,6 +72,8 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
   private AccountsClient accountsClient;
   private Typeface tf;
   private Hibour application;
+
+
 
   private String userName = "", userNumber = "", userMail = "", socialType = "", userpassword = "", userfirst = "", userlast = "";
   private WebServiceResponseCallback userDetailCallbackListener = new WebServiceResponseCallback() {
@@ -187,13 +190,13 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
         getDimensionPixelSize(R.dimen.fb_margin_override_textpadding));
 
     facebookLoginButton.setPadding(
-        this.getResources().getDimensionPixelSize(
-            R.dimen.fb_margin_override_lr),
-        this.getResources().getDimensionPixelSize(
-            R.dimen.fb_margin_override_top),
-        0,
-        this.getResources().getDimensionPixelSize(
-            R.dimen.fb_margin_override_bottom));
+            this.getResources().getDimensionPixelSize(
+                    R.dimen.fb_margin_override_lr),
+            this.getResources().getDimensionPixelSize(
+                    R.dimen.fb_margin_override_top),
+            0,
+            this.getResources().getDimensionPixelSize(
+                    R.dimen.fb_margin_override_bottom));
 
     callbackManager = CallbackManager.Factory.create();
     List<String> permissions = new ArrayList<>();
@@ -230,23 +233,23 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
         public void onSuccess(LoginResult loginResult) {
           // App code
           GraphRequest request = GraphRequest.newMeRequest(
-              loginResult.getAccessToken(),
-              new GraphRequest.GraphJSONObjectCallback() {
-                @Override
-                public void onCompleted(
-                    JSONObject object,
-                    GraphResponse response) {
-                  // Application code
-                  try {
-                    Log.d("email", object.optString("email"));
-                    Log.d("id", object.optString("id"));
-                    Log.d("name", object.optString("name"));
-                    sendDataToServer(object.optString("email"), "", "fb");
-                  } catch (Exception e) {
-                    e.printStackTrace();
-                  }
-                }
-              });
+                  loginResult.getAccessToken(),
+                  new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(
+                            JSONObject object,
+                            GraphResponse response) {
+                      // Application code
+                      try {
+                        Log.d("email", object.optString("email"));
+                        Log.d("id", object.optString("id"));
+                        Log.d("name", object.optString("name"));
+                        sendDataToServer(object.optString("email"), "", "fb");
+                      } catch (Exception e) {
+                        e.printStackTrace();
+                      }
+                    }
+                  });
           Bundle parameters = new Bundle();
           parameters.putString("fields", "id,name,email,gender, birthday");
           request.setParameters(parameters);
@@ -350,6 +353,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
   /* open signup activity*/
   private void openSignUpActivity() {
     Intent signUpIntent = new Intent(this, SignUp.class);
+    signUpIntent.putExtra("data","2");
     startActivity(signUpIntent);
     this.finish();
   }
@@ -364,7 +368,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
   private void openHomeActivity() {
     Intent homeIntent = new Intent(this, Home.class);
     startActivity(homeIntent);
-    this.finish();
+    this.finishAffinity();
   }
 
   /*validate signin data*/
@@ -389,12 +393,13 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
       signInDialog = ProgressDialog.show(this, ""
           , getResources().getString(R.string.progress_dialog_text));
       if (application.getGCMToken().equalsIgnoreCase("")) {
-        Toast.makeText(this, "Check Internet Connectivity.", Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(this, "Check Internet Connectivity.", Toast.LENGTH_SHORT).show();
         if (application.checkPlayServices(this, null)) {
           // Start IntentService to register this application with GCM.
           Intent intent = new Intent(this, GcmRegistration.class);
           startService(intent);
         }
+        closeSignInDialog();
         return;
       }
       accountsClient.signIn(userName, password, signInType, application.getGCMToken(), new WebServiceResponseCallback() {
@@ -411,9 +416,12 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
         }
       });
     } else {
+      Toast.makeText(this,"check internet connectivity",Toast.LENGTH_SHORT).show();
 
     }
   }
+
+
 
   /*parse signin details*/
   private void parseSignInDetails(JSONObject jsonObject) {
@@ -427,6 +435,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
       } else {
         application.setuserId(id + "");
         accountsClient.getUserDetails(id + "", userDetailCallbackListener);
+        Toast.makeText(this, "Successfully completed", Toast.LENGTH_LONG).show();
         openHomeActivity();
       }
     } catch (JSONException e) {

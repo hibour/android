@@ -2,6 +2,8 @@ package com.dsquare.hibour.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,13 +13,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.adapters.AdapterPostComments;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
+import com.dsquare.hibour.network.HibourConnector;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.network.PostsClient;
 import com.dsquare.hibour.pojos.comments.Comments;
@@ -33,7 +38,7 @@ import java.util.List;
 
 public class PostComments extends AppCompatActivity implements View.OnClickListener{
 
-    private ImageView postIcon;
+    private ImageView postIcon,likeIcon,backIcon;
     private EditText commentsText;
     private RecyclerView commentsList;
     private List<String[]> commentslist = new ArrayList<>();
@@ -41,7 +46,7 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
     private ProgressDialog dialog;
     private PostsClient client;
     private String postId = "",likes = "";
-    private TextView likesText;
+    private TextView likesText,postMessage;
     private Button sumbit;
     private NetworkDetector networkDetector;
     private Gson gson;
@@ -49,6 +54,10 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
     private PostsClient postsClient;
     private ProgressDialog postsDialog;
     private List<String[]> postsList = new ArrayList<>();
+    private String liked="",message = "",image="";
+    private RelativeLayout likesLayout,noCommentsLayout;
+    private ImageView postImage;
+    private ImageLoader imageLoader;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,11 +68,37 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
     }
     /* initialize views*/
     private void initializeViews(){
+        imageLoader = HibourConnector.getInstance(this).getImageLoader();
+//        likeIcon = (ImageView)findViewById(R.id.comments_like_icon);
+        backIcon = (ImageView)findViewById(R.id.comments_bacl_icon);
+  //      likesLayout = (RelativeLayout)findViewById(R.id.comments_likes_layout);
+        postImage = (ImageView)findViewById(R.id.comments_image);
+        postMessage = (TextView)findViewById(R.id.comments_message);
+        noCommentsLayout = (RelativeLayout)findViewById(R.id.no_comments_layout);
+        postsClient = new PostsClient(this);
         postId = getIntent().getStringExtra("postId");
         likes = getIntent().getStringExtra("likes");
-        likesText = (TextView)findViewById(R.id.comments_likes_text);
-        likesText.setText(likes+" members liked this");
-        postIcon = (ImageView)findViewById(R.id.comments_post_icon);
+        liked = getIntent().getStringExtra("liked");
+        message = getIntent().getStringExtra("message");
+        image = getIntent().getStringExtra("img");
+    /*    if(liked.equals("true")){
+            Bitmap likesIcon = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_thumb_up);
+            likeIcon.setImageBitmap(likesIcon);
+        }else{
+            Bitmap likesIcon = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_thumb_up);
+            likeIcon.setImageBitmap(likesIcon);
+        }*/
+        postMessage.setText(message);
+        if(image.length()>10){
+            postImage.setVisibility(View.VISIBLE);
+            imageLoader.get(image.replace("\\",""),ImageLoader.getImageListener(postImage
+                    ,R.drawable.avatar1,R.drawable.avatar1));
+        }else{
+            postImage.setVisibility(View.GONE);
+        }
+        //likesText = (TextView)findViewById(R.id.comments_likes_text);
+        //setLikesText(Integer.valueOf(likes));
+        //postIcon = (ImageView)findViewById(R.id.comments_post_icon);
         commentsText = (EditText)findViewById(R.id.comments_edit_text);
         commentsList = (RecyclerView)findViewById(R.id.comments_post_list);
         sumbit = (Button)findViewById(R.id.comments_sumbit);
@@ -75,55 +110,95 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         commentsList.setLayoutManager(layoutManager);
         commentsList.setHasFixedSize(true);
-
     }
     /* initialize event listeners*/
     private void initializeEventListeners(){
-        postIcon.setOnClickListener(this);
+        postImage.setOnClickListener(this);
         sumbit.setOnClickListener(this);
+        //likeIcon.setOnClickListener(this);
+        //likesLayout.setOnClickListener(this);
+        backIcon.setOnClickListener(this);
     }
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.comments_post_icon:
-                openLikesScreen();
+            case R.id.comments_image:
+                openFullImage();
                 break;
             case R.id.comments_sumbit:
                 postComment(application.getUserId(),postId,commentsText.getText().toString());
                 commentsText.setText("");
                 break;
+            case R.id.comments_bacl_icon:
+                this.finish();
+                break;
         }
     }
+    private void openFullImage(){
+        Intent imageIntent = new Intent(this,FeedImageFullView.class);
+        imageIntent.putExtra("image",image);
+        startActivity(imageIntent);
+    }
 
+    /* change likes count and icon*/
+    private void changeLikes(){
+        if(liked.equals("true")){
+            liked = "fale";
+            Bitmap likesIcon = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_thumb_up);
+            likeIcon.setImageBitmap(likesIcon);
+            likes = Integer.valueOf(likes)-1+"";
+            setLikesText(Integer.valueOf(likes)-1);
+        }else{
+            liked = "true";
+            Bitmap likesIcon = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_thumb_up_filled);
+            likeIcon.setImageBitmap(likesIcon);
+            setLikesText(Integer.valueOf(likes)+1);
+            likes = Integer.valueOf(likes)+1+"";
+        }
+    }
     private void openLikesScreen() {
         Intent intent = new Intent(getApplicationContext(),PostLikes.class);
         intent.putExtra("postId",postId);
         startActivity(intent);
-        this.finish();
+        //this.finish();
         }
 
     /* prepare comments list*/
     private void prepareCommentsList(JSONObject jsonObject){
         Log.d("json",jsonObject.toString());
         try {
-            Comments comments = gson.fromJson(jsonObject.toString(),Comments.class);
+            Comments comments = gson.fromJson(jsonObject.toString(), Comments.class);
             List<Datum> data = comments.getData();
-            for(int i=0;i<data.size();i++){
-                String[] comment = new String[3];
-                comment[0] = String.valueOf(data.get(i).getUser().getName());
-                comment[1] = data.get(i).getCommentTime();
-                comment[2] = data.get(i).getCommentMessage();
-                postsList.add(comment);
+            if (data.size() > 0) {
+                for (int i = 0; i < data.size(); i++) {
+                    String[] comment = new String[4];
+                    comment[0] = String.valueOf(data.get(i).getUser().getName());
+                    comment[1] = data.get(i).getCommentTime();
+                    comment[2] = data.get(i).getCommentMessage();
+                    comment[3] = data.get(i).getCommentDate();
+                    postsList.add(comment);
+                }
+                setAdapters(postsList);
+            } else {
+                if (commentsList.getVisibility() == View.VISIBLE) {
+                    commentsList.setVisibility(View.GONE);
+                }
+                if (noCommentsLayout.getVisibility() == View.GONE) {
+                    noCommentsLayout.setVisibility(View.VISIBLE);
+                }
             }
-            setAdapters(postsList);
-            }
-
-         catch (JsonSyntaxException e) {
+        }catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
 
         }
     private void setAdapters(List<String[]> postsList){
+        if (commentsList.getVisibility() == View.GONE) {
+            commentsList.setVisibility(View.VISIBLE);
+        }
+        if (noCommentsLayout.getVisibility() == View.VISIBLE) {
+            noCommentsLayout.setVisibility(View.GONE);
+        }
         commentsList.setAdapter(new AdapterPostComments(this, postsList));
     }
     /* post comment*/
@@ -179,5 +254,41 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
                 dialog=null;
             }
         }
+    }
+    /* set likes text*/
+    private void setLikesText(int likesCount){
+        Log.d("likes count",likesCount+"");
+        if(likesCount>1){
+            likesText.setText(likesCount+" members liked this");
+        }else if(likesCount==1){
+            likesText.setText("1 member liked this");
+        }else{
+            likesText.setText("Be the first one to like this post.");
+        }
+    }
+    /* like a post*/
+    private void likePost(String postId){
+        if(networkDetector.isConnected()){
+            dialog = ProgressDialog.show(this,"","Please Wait...");
+            postsClient.likePost(application.getUserId(),postId,new WebServiceResponseCallback() {
+                @Override
+                public void onSuccess(JSONObject jsonObject) {
+                    parseLike(jsonObject);
+                    closeDialog();
+                }
+
+                @Override
+                public void onFailure(VolleyError error) {
+                    Log.d("error in liking",error.toString());
+                    closeDialog();
+                }
+            });
+        }else{
+
+        }
+    }
+    /* parse likes */
+    private void parseLike(JSONObject jsonObject){
+        Log.d("data",jsonObject.toString());
     }
 }

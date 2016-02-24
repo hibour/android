@@ -28,9 +28,9 @@ public class SlidingTabLayout extends HorizontalScrollView {
     }
 
 
-    private static final int TITLE_OFFSET_DIPS = 20;
-    private static final int TAB_VIEW_PADDING_DIPS = 14;
-    private static final int TAB_VIEW_TEXT_SIZE_SP = 10;
+    private static final int TITLE_OFFSET_DIPS = 24;
+    private static final int TAB_VIEW_PADDING_DIPS = 16;
+    private static final int TAB_VIEW_TEXT_SIZE_SP = 12;
 
 
     private int mTitleOffset;
@@ -124,7 +124,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
         textView.setGravity(Gravity.CENTER);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TAB_VIEW_TEXT_SIZE_SP);
         textView.setTypeface(Typeface.DEFAULT_BOLD);
-        textView.setTextColor(getResources().getColorStateList(R.color.white));
+        textView.setTextColor(getResources().getColorStateList(R.color.brand));
         textView.setLayoutParams(new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
@@ -219,12 +219,12 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
         View selectedChild = mTabStrip.getChildAt(tabIndex);
         if (selectedChild != null) {
-
+/*
             if(positionOffset == 0 && selectedChild != oldSelection) { // added part
                 selectedChild.setSelected(true);
                 removeOldSelection();
                 oldSelection = selectedChild;
-            }
+            }*/
 
             int targetScrollX = selectedChild.getLeft() + positionOffset;
 
