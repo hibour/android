@@ -33,7 +33,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -73,8 +72,8 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
     View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_feeds
         , parent, false);
     final ViewHolder holder = new ViewHolder(v);
-    holder.likesLayout.setOnClickListener(this);
-    holder.likesLayout.setTag(holder);
+//    holder.likesLayout.setOnClickListener(this);
+//    holder.likesLayout.setTag(holder);
     holder.commentsLayout.setOnClickListener(this);
     holder.commentsLayout.setTag(holder);
     holder.userImage.setOnClickListener(this);
@@ -94,7 +93,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
       categoryString = Constants.categoriesMap.get(listItems.get(position).getPostyType());
     holder.userText.setText(listItems.get(position).getPostedUserName());
 //        holder.categoryName.setText(categoryString);
-    holder.likes.setText(listItems.get(position).getLikesCount());
+//    holder.likes.setText(listItems.get(position).getLikesCount());
     holder.comments.setText(listItems.get(position).getCommentsCount());
     if (listItems.get(position).getPostImage().length() > 10) {
       Log.d("image", listItems.get(position).getPostImage());
@@ -111,11 +110,11 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
       holder.feedImage.setVisibility(View.GONE);
     }
     if (listItems.get(position).isUserLiked().equals("true")) {
-      Bitmap likesIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_thumb_up_filled);
-      holder.likesImage.setImageBitmap(likesIcon);
+//      Bitmap likesIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_thumb_up_filled);
+//      holder.likesImage.setImageBitmap(likesIcon);
     } else {
-      Bitmap likesIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_thumb_up);
-      holder.likesImage.setImageBitmap(likesIcon);
+//      Bitmap likesIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_thumb_up);
+//      holder.likesImage.setImageBitmap(likesIcon);
     }
     holder.timeStamp.setText(getTimeStamp(listItems.get(position).getPostDate()
         , listItems.get(position).getPostTime()));
@@ -155,10 +154,10 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
                   , listItems.get(position).isUserLiked(), listItems.get(position).getPostDescription()
                   , listItems.get(position).getPostImage());
           break;
-      case R.id.feeds_likes_layout:
-        likePost(listItems.get(position).getPostId());
-        changeLikesCount(position);
-        break;
+//      case R.id.feeds_likes_layout:
+//        likePost(listItems.get(position).getPostId());
+//        changeLikesCount(position);
+//        break;
       case R.id.feeds_user_image:
         openUserProfile(listItems.get(position).getPostedUserId());
         break;
@@ -362,15 +361,15 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
       timeStamp = (TextView) itemView.findViewById(R.id.feeds_timestamp);
       message = (TextView) itemView.findViewById(R.id.feeds_message);
 //            categoryName = (TextView)itemView.findViewById(R.id.feeds_category_name);
-      likes = (TextView) itemView.findViewById(R.id.feeds_likes_text);
+//      likes = (TextView) itemView.findViewById(R.id.feeds_likes_text);
       comments = (TextView) itemView.findViewById(R.id.feeds_comments_text);
       userImageDefault = (TextView) itemView.findViewById(R.id.feeds_user_image_text);
       userImage = (ImageView) itemView.findViewById(R.id.feeds_user_image);
       userText = (TextView) itemView.findViewById(R.id.feeds_user_textview);
-      likesImage = (ImageView) itemView.findViewById(R.id.feeds_likes_image);
+//      likesImage = (ImageView) itemView.findViewById(R.id.feeds_likes_image);
       feedImage = (ImageView) itemView.findViewById(R.id.feeds_image);
       commentsLayout = (LinearLayout) itemView.findViewById(R.id.feeds_comments_layout);
-      likesLayout = (LinearLayout) itemView.findViewById(R.id.feeds_likes_layout);
+//      likesLayout = (LinearLayout) itemView.findViewById(R.id.feeds_likes_layout);
     }
   }
 
