@@ -21,4 +21,6 @@
     <color name="outline_purple">#967ADC</color>
     <color name="tabsScrollColor">#FFFFFF</color>
     <color name="white_30">#b4ffffff</color>
+    <color name="black">#000000</color>
+    <color name="grey">#acacac</color>
 </resources>

@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
-import com.dsquare.hibour.adapters.NeighboursAdapter;
+import com.dsquare.hibour.adapters.UserChatListAdapter;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.SocializeClient;
 import com.dsquare.hibour.pojos.user.UserDetail;
@@ -31,14 +31,13 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NearByUserChat extends Fragment {
+public class NearByUserChat extends BaseChatFragment {
 
 
   private static final String LOG_TAG = NearByUserChat.class.getSimpleName();
   SwipeRefreshLayout swipeRefreshLayout;
-  private RecyclerView neighboursRecycler;
-  private NeighboursAdapter adapter;
-  private List<UserDetail> neighboursList = new ArrayList<>();
+  private RecyclerView recyclerView;
+  private UserChatListAdapter adapter;
   private SocializeClient socializeClient;
   private Hibour application;
   private WebServiceResponseCallback nearbyUserResultCallBack = new WebServiceResponseCallback() {
@@ -48,8 +47,19 @@ public class NearByUserChat extends Fragment {
       try {
         List<UserDetail> list = new Gson().fromJson(jsonObject.getString("data"), new TypeToken<ArrayList<UserDetail>>() {
         }.getType());
-        neighboursList.clear();
-        neighboursList.addAll(list);
+        adapter.getUserList().clear();
+        adapter.getUserList().addAll(list);
+        UserDetail temp;
+        temp = new UserDetail();
+        temp.id = "98";
+        temp.Username = "Ashok";
+        temp.Address = "adadads";
+        adapter.getUserList().add(0, temp);
+        temp = new UserDetail();
+        temp.id = "29";
+        temp.Username = "Divy";
+        temp.Address = "adadads";
+        adapter.getUserList().add(0, temp);
         adapter.notifyDataSetChanged();
       } catch (JSONException e) {
         e.printStackTrace();
@@ -79,6 +89,7 @@ public class NearByUserChat extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     // Inflate the layout for this fragment
+    initializeBaseChatFragment();
     View view = inflater.inflate(R.layout.fragment_nearby_user_chat, container, false);
     socializeClient = new SocializeClient(getContext());
     application = Hibour.getInstance(getContext());
@@ -92,13 +103,13 @@ public class NearByUserChat extends Fragment {
   /* initialize views*/
   private void initializeViews(View view) {
     swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefresh);
-    neighboursRecycler = (RecyclerView) view.findViewById(R.id.messages_neighbours_list);
+    recyclerView = (RecyclerView) view.findViewById(R.id.messages_neighbours_list);
     LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
     layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-    neighboursRecycler.setLayoutManager(layoutManager);
-    neighboursRecycler.setHasFixedSize(true);
-    adapter = new NeighboursAdapter(getActivity(), neighboursList);
-    neighboursRecycler.setAdapter(adapter);
+    recyclerView.setLayoutManager(layoutManager);
+    recyclerView.setHasFixedSize(true);
+    adapter = new UserChatListAdapter(getActivity());
+    recyclerView.setAdapter(adapter);
 
     swipeRefreshLayout.setColorSchemeColors(
         ContextCompat.getColor(getContext(), R.color.brand), ContextCompat.getColor(getContext(), R.color.green),
@@ -106,5 +117,19 @@ public class NearByUserChat extends Fragment {
     swipeRefreshLayout.setOnRefreshListener(swipeRefreshListener);
     swipeRefreshLayout.setRefreshing(false);
     swipeRefreshLayout.setEnabled(false);
+  }
+
+  @Override
+  public void loadUserSearchResult(String key) {
+    adapterUserSearch.getUserList().clear();
+    adapterUserSearch.getUserList().addAll(dbHandler.getUserListContainKey(key));
+    recyclerView.setAdapter(adapterUserSearch);
+    adapterUserSearch.notifyDataSetChanged();
+  }
+
+  @Override
+  public void removeUserSearchResult() {
+    recyclerView.setAdapter(adapter);
+    adapter.notifyDataSetChanged();
   }
 }

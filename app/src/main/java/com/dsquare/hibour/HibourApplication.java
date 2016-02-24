@@ -1,12 +1,11 @@
 package com.dsquare.hibour;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
-import android.support.multidex.MultiDex;
 
 import com.activeandroid.ActiveAndroid;
 import com.dsquare.hibour.gcm.GcmRegistration;
+import com.dsquare.hibour.services.BootCompleteReceiver;
 import com.dsquare.hibour.utils.Hibour;
 
 public class HibourApplication extends Application {
@@ -22,12 +21,10 @@ public class HibourApplication extends Application {
     if (application.getGCMToken().equalsIgnoreCase("")) {
       makeGcmRegistration();
     }
-  }
-
-  @Override
-  protected void attachBaseContext(Context base) {
-    super.attachBaseContext(base);
-    MultiDex.install(this);
+    if (application.isFirstRun()) {
+      application.setFirstRun(false);
+      sendBroadcast(new Intent(BootCompleteReceiver.ACTION_AUTO_START_APPLICATION));
+    }
   }
 
   private void makeGcmRegistration() {

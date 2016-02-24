@@ -41,6 +41,7 @@ public class Constants {
   public static final String URL_GET_NEIGHBOURHOODS = URL_DOMAIN + "Userreg/address?";
   public static final String URL_SEND_MESSAGE = URL_DOMAIN + "Messages/create?";
   public static final String URL_GET_NEARBY_USER = URL_DOMAIN + "Userreg/%s?signature=%s"; //"Userreg/listofusers?userid=%s&signature=%s"
+  public static final String URL_SEND_USER_STATUS = URL_DOMAIN + "Userstatus/%s/status/%s?signature=%s"; //"Userreg/listofusers?userid=%s&signature=%s"
 
 
   /*user constants*/
@@ -92,6 +93,14 @@ public class Constants {
   public static final String REGISTRATION_COMPLETE = "registrationComplete";
   public static final String SHARED_PREFERENCES_GCM_TOKEN = "gcm_token";
   public static final String SERVER_SUCCESS = "success";
+  public static final String USER_STATUS_ONLINE = "online";
+  public static final String USER_STATUS_TYPING = "typing";
+  public static final int SEND_STATUS_INTERVAL = 2000;
+  public static final int CHECK_STATUS_INTERVAL = 4000;
+  public static final int MARK_TYPING_INTERVAL = 3000;
+  // status bar notification id
+  public static final int NOTIFICATION_ID_MESSAGE = 1234;
+  public static final String SHARED_PREFERENCES_FIRST_RUN = "first_run";
   public static Double Longitude = 78.00;
   public static Double Latitude = 21.00;
   public static String LocationAddress;
@@ -106,20 +115,18 @@ public class Constants {
   public static List<Datum> socialPrefsList = new ArrayList<>();
   public static Map<String, Datum> prefsMap = new LinkedHashMap<>();
   public static List<ChoosedUser> membersList = new ArrayList<>();
-
   public static Map<String, List<Postpojos>> postsMap = new LinkedHashMap<>();
   public static Map<String, List<Postpojos>> postpojosMap = new LinkedHashMap<>();
   public static Map<String, String> categoriesMap = new HashMap<>();
-
   // message state
   public static int MESSAGE_FAILED = 1;
   public static int MESSAGE_SENDING = 2;
   public static int MESSAGE_SENT = 3;
   public static int MESSAGE_RECEIVED = 4;
-
   // gcm message fields
   public static String GCM_FIELDS_MESSAGE_TYPE = "MessagesType";
   public static String GCM_FIELDS_MESSAGE = "Messages";
   public static String GCM_FIELDS_RECEIVER_ID = "Receiveruserid";
   public static String GCM_FIELDS_SENDER_ID = "Senderuserid";
+
 }

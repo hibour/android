@@ -31,6 +31,9 @@ public class UserMessageTable extends Model {
   @Column(name = "status")
   public int message_state;
 
+  @Column(name = "is_read")
+  public boolean isRead;
+
   public UserMessageTable() {
     super();
   }
@@ -44,5 +47,6 @@ public class UserMessageTable extends Model {
     from = userMessage.fromUserID;
     date = userMessage.time;
     message_state = userMessage.messageState;
+    isRead = userMessage.isRead;
   }
 }

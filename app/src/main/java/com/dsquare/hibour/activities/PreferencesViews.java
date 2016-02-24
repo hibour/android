@@ -17,7 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dsquare.hibour.R;
-import com.dsquare.hibour.adapters.NeighboursAdapter;
+import com.dsquare.hibour.adapters.UserChatListAdapter;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.pojos.Socialize.ChoosedUser;
@@ -35,8 +35,7 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
   private ImageView menuIcon, searchIcon;
   private RelativeLayout searchLayout;
   private RecyclerView neighboursRecycler;
-  private NeighboursAdapter adapter;
-  private List<UserDetail> neighboursList = new ArrayList<>();
+  private UserChatListAdapter adapter;
   private NetworkDetector networkDetector;
   private ProgressDialog dialog;
   private NavDrawerCallback callback;
@@ -70,7 +69,7 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
     layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
     neighboursRecycler.setLayoutManager(layoutManager);
     neighboursRecycler.setHasFixedSize(true);
-    adapter = new NeighboursAdapter(this, neighboursList);
+    adapter = new UserChatListAdapter(this);
     neighboursRecycler.setAdapter(adapter);
     ArrayAdapter<String> adapter = new ArrayAdapter<String>
         (this, android.R.layout.simple_dropdown_item_1line,
@@ -133,7 +132,7 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
       userDetail.id = i + "";
       userDetail.Username = "Ashok Madduru";
       userDetail.Address = "Hardware Engineer";
-      neighboursList.add(userDetail);
+      adapter.getUserList().add(userDetail);
       if (frmAdapter) {
         List<ChoosedUser> user = Constants.prefsMap.get(getIntent()
             .getStringExtra("prefId")).getChoosedUsers();
@@ -143,7 +142,7 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
             userDetail.Username = user.get(i).getUserName();
             userDetail.id = user.get(i).getUserId();
             userDetail.Image = user.get(i).getUserImage();
-            neighboursList.add(userDetail);
+            adapter.getUserList().add(userDetail);
             autocompleteList.add(user.get(i).getUserName());
           }
         }
@@ -155,7 +154,7 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
             userDetail.Username = Constants.membersList.get(i).getUserName();
             userDetail.id = Constants.membersList.get(i).getUserId();
             userDetail.Image = Constants.membersList.get(i).getUserImage();
-            neighboursList.add(userDetail);
+            adapter.getUserList().add(userDetail);
             autocompleteList.add(Constants.membersList.get(i).getUserName());
           }
         }

@@ -11,6 +11,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.listener.MessageStateResultCallBack;
 import com.dsquare.hibour.pojos.message.UserMessage;
+import com.dsquare.hibour.pojos.message.UserStatus;
 import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Hibour;
 
@@ -69,7 +70,6 @@ public class SocializeClient {
     }
   }
 
-  /* To get all categories*/
   public void sendMessage(final UserMessage message, final MessageStateResultCallBack<UserMessage> callback) {
     try {
 
@@ -106,6 +106,41 @@ public class SocializeClient {
     }
   }
 
+  public void sendUserStatus(final UserStatus status) {
+    try {
+
+      String urlStr = String.format(Constants.URL_SEND_USER_STATUS, status.currentUserId, status.status, Constants.SIGNATURE_VALUE);
+      if (status.toUserId != null)
+        urlStr += ("&to_user_id=" + status.toUserId);
+      Log.d("send message url", urlStr);
+      URL url = new URL(urlStr);
+      URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
+          , url.getPath(), url.getQuery(), url.getRef());
+      url = uri.toURL();
+      JsonObjectRequest sendMessageRequest = new JsonObjectRequest(Request.Method.GET
+          , url.toString(), (String) null, new Response.Listener<JSONObject>() {
+        @Override
+        public void onResponse(JSONObject response) {
+          Log.e(LOG_TAG, response.toString() + "");
+        }
+      }, new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+          Log.e(LOG_TAG, "error: send user status");
+        }
+      });
+      sendMessageRequest.setRetryPolicy(new DefaultRetryPolicy(
+          MY_SOCKET_TIMEOUT_MS,
+          DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+          DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+      HibourConnector.getInstance(context).addToRequestQueue(sendMessageRequest);
+    } catch (MalformedURLException e) {
+      e.printStackTrace();
+    } catch (URISyntaxException e) {
+      e.printStackTrace();
+    }
+  }
+
   public void getNearByUser(String user_id, final WebServiceResponseCallback callback) {
     try {
 
@@ -119,6 +154,7 @@ public class SocializeClient {
           , url.toString(), (String) null, new Response.Listener<JSONObject>() {
         @Override
         public void onResponse(JSONObject response) {
+//          Log.e(LOG_TAG, response.toString());
           callback.onSuccess(response);
         }
       }, new Response.ErrorListener() {

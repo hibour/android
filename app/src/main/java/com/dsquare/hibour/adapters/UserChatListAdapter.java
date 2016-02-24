@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Created by ASHOK on 1/8/2016.
  */
-public class NeighboursAdapter extends RecyclerView.Adapter<NeighboursAdapter.ViewHolder> {
+public class UserChatListAdapter extends RecyclerView.Adapter<UserChatListAdapter.ViewHolder> {
 
 
   private List<UserDetail> listItems = new ArrayList<>();
@@ -30,13 +30,16 @@ public class NeighboursAdapter extends RecyclerView.Adapter<NeighboursAdapter.Vi
   private ProgressDialog detailsDialog;
   private Context context;
 
-  public NeighboursAdapter(Context context, List<UserDetail> listItems) {
+  public UserChatListAdapter(Context context) {
     this.context = context;
-    this.listItems = listItems;
+  }
+
+  public List<UserDetail> getUserList() {
+    return listItems;
   }
 
   @Override
-  public NeighboursAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+  public UserChatListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_neighbours
         , parent, false);
     final ViewHolder holder = new ViewHolder(v);

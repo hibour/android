@@ -1,9 +1,12 @@
 package com.dsquare.hibour.activities;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +24,7 @@ import com.dsquare.hibour.listener.ResultCallBack;
 import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.SocializeClient;
 import com.dsquare.hibour.pojos.message.UserMessage;
+import com.dsquare.hibour.pojos.message.UserStatus;
 import com.dsquare.hibour.pojos.user.UserDetail;
 import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Hibour;
@@ -45,6 +49,7 @@ public class Chat extends AppCompatActivity implements View.OnClickListener {
   private ChatingAdapter chatAdapter;
   private Button sendMessage;
   private EditText userMessage;
+  private TextView userName;
   private DatabaseHandler dbHandler;
   private TextView userStatus;
   private UIHelper uiHelper;
@@ -111,12 +116,17 @@ public class Chat extends AppCompatActivity implements View.OnClickListener {
       chatAdapter.notifyDataSetChanged();
     }
   };
+  private Handler typingHandler;
+  private Runnable typingRunnable;
+  private boolean isTyping = false;
+  private Runnable statusUpdateRunnable;
+  private Handler sendStatusHandler;
 
   @Override
   protected void onResume() {
     super.onResume();
-    showUserStatus();
     EventBus.getDefault().register(this);
+    startSendUserStatus();
     refreshUserMessages();
   }
 
@@ -142,6 +152,7 @@ public class Chat extends AppCompatActivity implements View.OnClickListener {
   @Override
   protected void onPause() {
     super.onPause();
+    stopSendUserStatus();
     EventBus.getDefault().unregister(this);
   }
 
@@ -154,6 +165,8 @@ public class Chat extends AppCompatActivity implements View.OnClickListener {
     accountsClient = new AccountsClient(this);
     socializeClient = new SocializeClient(this);
     application = Hibour.getInstance(this);
+    typingHandler = new Handler();
+    sendStatusHandler = new Handler();
 
     secondUserId = getIntent().getExtras().getString(Constants.KEYWORD_USER_ID, "");
 
@@ -175,6 +188,24 @@ public class Chat extends AppCompatActivity implements View.OnClickListener {
     sendMessage = (Button) findViewById(R.id.chating_msg_send);
     userMessage = (EditText) findViewById(R.id.chating_message_edittest);
     userStatus = (TextView) findViewById(R.id.user_status);
+    userName = (TextView) findViewById(R.id.chating_text_name);
+
+    userMessage.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        markStatusTyping();
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+
+      }
+    });
 
     LinearLayoutManager layoutManager = new LinearLayoutManager(this);
     layoutManager.setReverseLayout(true);
@@ -185,7 +216,7 @@ public class Chat extends AppCompatActivity implements View.OnClickListener {
     refreshUserMessages();
     user = dbHandler.getUserDetail(secondUserId);
     if (user == null)
-      accountsClient.getUserDetails(secondUserId + "", userDetailsResultCallback);
+      accountsClient.getUserDetails(secondUserId, userDetailsResultCallback);
     else
       updateUserUI();
     chatAdapter = new ChatingAdapter(this, chatList, resendMessageResultCallback);
@@ -193,7 +224,7 @@ public class Chat extends AppCompatActivity implements View.OnClickListener {
   }
 
   private void updateUserUI() {
-
+    userName.setText(user.Username);
   }
 
   private void initializeEventListeners() {
@@ -221,6 +252,60 @@ public class Chat extends AppCompatActivity implements View.OnClickListener {
           }
         });
       }
+    }
+  }
+
+  public void onEvent(UserStatus status) {
+    if (status != null) {
+      //TODO yogendra
+    }
+  }
+
+  public void startSendUserStatus() {
+    statusUpdateRunnable = new Runnable() {
+      @Override
+      public void run() {
+        UserStatus userStatus = new UserStatus();
+        userStatus.currentUserId = application.getUserId();
+        if (isTyping || true) {
+          userStatus.toUserId = secondUserId;
+          userStatus.status = Constants.USER_STATUS_TYPING;
+        } else {
+          userStatus.status = Constants.USER_STATUS_ONLINE;
+        }
+        Log.e(LOG_TAG, "Sending:" + userStatus.status);
+        socializeClient.sendUserStatus(userStatus);
+//        startSendUserStatus();
+      }
+    };
+    sendStatusHandler.postDelayed(statusUpdateRunnable, Constants.SEND_STATUS_INTERVAL);
+  }
+
+  public void stopSendUserStatus() {
+    if (statusUpdateRunnable != null) {
+      sendStatusHandler.removeCallbacks(statusUpdateRunnable);
+      statusUpdateRunnable = null;
+    }
+
+  }
+
+  public void markStatusTyping() {
+    isTyping = true;
+    cancelStatusHandler();
+    typingRunnable = new Runnable() {
+      @Override
+      public void run() {
+        typingRunnable = null;
+        isTyping = false;
+      }
+    };
+    typingHandler.postDelayed(typingRunnable, Constants.MARK_TYPING_INTERVAL);
+  }
+
+  public void cancelStatusHandler() {
+    if (typingRunnable != null) {
+      typingHandler.removeCallbacks(typingRunnable);
+      typingRunnable = null;
     }
   }
 }

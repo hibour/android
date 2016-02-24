@@ -10,6 +10,7 @@ public class UserMessage {
   public Date time;
   public String message;
   public int messageState;
+  public boolean isRead;
 
   public UserMessage(Date local_id, String fromUserID, String toUserID, String message, int messageState, Date time) {
     this.local_id = local_id;
@@ -18,10 +19,14 @@ public class UserMessage {
     this.time = time;
     this.message = message;
     this.messageState = messageState;
+    isRead = false;
   }
 
   public UserMessage(Date local_id, String fromUserID, String toUserID, String message, int messageState) {
     this(local_id, fromUserID, toUserID, message, messageState, Calendar.getInstance().getTime());
   }
 
+  public void setRead(boolean isRead) {
+    this.isRead = isRead;
+  }
 }

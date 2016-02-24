@@ -14,12 +14,15 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <permission
         android:name="com.dsquare.hibour.permission.C2D_MESSAGE"
         android:protectionLevel="signature"/>
     <uses-permission android:name="com.dsquare.hibour.permission.C2D_MESSAGE"/>
-    <uses-feature android:name="android.hardware.camera" android:required="false"></uses-feature>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false"/>
     <application
         android:name=".HibourApplication"
         android:allowBackup="true"
@@ -32,7 +35,7 @@
             android:value="hibour.db"/>
         <meta-data
             android:name="AA_DB_VERSION"
-            android:value="1"/>
+            android:value="4"/>
         <meta-data
             android:name="AA_MODELS"
             android:value="com.dsquare.hibour.database.table.NotificationTable,
@@ -166,6 +169,26 @@
             android:name=".gcm.GcmRegistration"
             android:exported="false">
         </service>
+
+
+        <service
+            android:name=".services.AutoStartUp"
+            android:label="Auto Start Service">
+            <intent-filter>
+                <action android:name="com.dsquare.hibour.services.AutoStartAppService"/>
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name=".services.BootCompleteReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.dsquare.hibour.services.BootCompleteReceiver"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

@@ -23,7 +23,8 @@ import java.net.URL;
  * Created by ASHOK on 1/7/2016.
  */
 public class AccountsClient {
-    Hibour hibour;
+  private static final String LOG_TAG = AccountsClient.class.getSimpleName();
+  Hibour hibour;
     private Context context;
     private int MY_SOCKET_TIMEOUT_MS = 30000;
 
@@ -424,6 +425,7 @@ public class AccountsClient {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                  Log.e(LOG_TAG, Log.getStackTraceString(error));
                     callback.onFailure(error);
                 }
             });

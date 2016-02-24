@@ -89,14 +89,26 @@ public class DatabaseHandler {
   }
 
   public void insertUserDetails(UserDetail userDetail) {
-    new Delete().from(UserDetailTable.class).where(" user_id = " + userDetail.id).execute();
-    new UserDetailTable(userDetail).save();
+    new Delete().from(UserDetailTable.class).where(" user_id = " + userDetail.id +
+        " and session_user = " + application.getUserId()).execute();
+    new UserDetailTable(userDetail, application.getUserId()).save();
   }
 
   public UserDetail getUserDetail(String user_id) {
-    UserDetailTable user = new Select().from(UserDetailTable.class).where("user_id = " + user_id).executeSingle();
+    UserDetailTable user = new Select().from(UserDetailTable.class).where(" user_id = " + user_id +
+        " and session_user = " + application.getUserId()).executeSingle();
     if (user == null)
       return null;
     return new UserDetail(user);
+  }
+
+  public List<UserDetail> getUserListContainKey(String key) {
+    List<UserDetailTable> userList = new Select().from(UserDetailTable.class).where("username LIKE \"%" + key +
+        "%\" and session_user = " + application.getUserId()).execute();
+    List<UserDetail> userDetailList = new ArrayList<>();
+    for (UserDetailTable user : userList) {
+      userDetailList.add(new UserDetail(user));
+    }
+    return userDetailList;
   }
 }

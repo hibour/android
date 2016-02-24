@@ -81,7 +81,7 @@ public class Hibour {
     public void setGCMToken(String gcmToken) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(Constants.SHARED_PREFERENCES_GCM_TOKEN, gcmToken);
-        editor.commit();
+        editor.apply();
     }
 
     /**
@@ -104,4 +104,13 @@ public class Hibour {
         return true;
     }
 
+    public boolean isFirstRun() {
+        return sharedPreferences.getBoolean(Constants.SHARED_PREFERENCES_FIRST_RUN, true);
+    }
+
+    public void setFirstRun(boolean firstRun) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(Constants.SHARED_PREFERENCES_FIRST_RUN, firstRun);
+        editor.apply();
+    }
 }
