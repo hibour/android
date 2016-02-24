@@ -3,7 +3,9 @@ package com.dsquare.hibour.fragments;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
@@ -73,7 +75,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
     private List<String> genderList = new ArrayList<>();
     private NavDrawerCallback callback;
     private Button submitButton;
-    private ProgressDialog dialog;
+//    private ProgressDialog dialog;
     private int PICK_IMAGE_REQUEST = 1;
     private Typeface tf,proxima;
     private DialogFragment chooserDialog;
@@ -85,6 +87,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
     private Hibour application;
     private String genderstring = "", cardImageString = "a";
     private ImageLoader imageLoader;
+    private SharedPreferences sharedPreferences;
     public Settings() {
         // Required empty public constructor
     }
@@ -107,8 +110,11 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         initializeViews(view);
         initializeEventListeners();
         getAllPrefs();
+        getLoginDetails();
         return view;
     }
+
+
 
     /* initialize views*/
     private void initializeViews(View view){
@@ -162,6 +168,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
 
         });
         imageLoader = HibourConnector.getInstance(getActivity()).getImageLoader();
+        sharedPreferences=getActivity().getSharedPreferences("Login Credentials", Context.MODE_PRIVATE);
     }
 
     /* initialize event listeners*/
@@ -339,20 +346,20 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
 
     private void updateProfiletoUser(String userName, String userLastName, String userMail, String userPass, String mobile) {
         if (networkDetector.isConnected()) {
-            dialog = ProgressDialog.show(getActivity(), "", getResources()
-                .getString(R.string.progress_dialog_text));
+           /* dialog = ProgressDialog.show(getActivity(), "", getResources()
+                .getString(R.string.progress_dialog_text));*/
             accountsClient.getAllUpdateSettings(application.getUserId(), userName, userLastName, userMail, userPass, genderstring, mobile
                 , cardImageString, new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parseUpdateDetails(jsonObject);
-                    closeDialog();
+              //      closeDialog();
                 }
 
                 @Override
                 public void onFailure(VolleyError error) {
                     Log.d("signup", error.toString());
-                    closeDialog();
+                 //   closeDialog();
                 }
             });
         } else {
@@ -363,25 +370,25 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
 
     public void parseUpdateDetails(JSONObject jsonObject) {
         Log.d("update data", jsonObject.toString());
-        closeDialog();
+     //   closeDialog();
         getAllPrefs();
     }
 
     /* get all prefs*/
     private void getAllPrefs(){
         if(networkDetector.isConnected()){
-            dialog = ProgressDialog.show(getActivity(),"",getResources()
-                    .getString(R.string.progress_dialog_text));
+           /* dialog = ProgressDialog.show(getActivity(),"",getResources()
+                    .getString(R.string.progress_dialog_text));*/
             accountsClient.getAllSettings(application.getUserId(),new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parseUserPrefs(jsonObject);
-                    closeDialog();
+                    //closeDialog();
                 }
 
                 @Override
                 public void onFailure(VolleyError error) {
-                    closeDialog();
+                 //   closeDialog();
                 }
             });
         }else{
@@ -416,12 +423,39 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         }
     }
     /* close dialog*/
-    private void closeDialog(){
+  /*  private void closeDialog(){
         if(dialog!=null){
             if(dialog.isShowing()){
                 dialog.dismiss();
                 dialog=null;
             }
         }
+    }*/
+
+    private void getLoginDetails() {
+        String firstname=sharedPreferences.getString("FirstName", "");
+        String lastName=sharedPreferences.getString("LastName","");
+        String gender=sharedPreferences.getString("Gender","");
+        String dobbb=sharedPreferences.getString("DOB","");
+        String notifications=sharedPreferences.getString("Notifications","");
+        String passWord=sharedPreferences.getString("Password","");
+        String eMail=sharedPreferences.getString("Email","");
+        String mobileNum=sharedPreferences.getString("Mobile","");
+
+        name.setText(firstname);
+        lastname.setText(lastName);
+        male.setText(gender);
+        female.setText(gender);
+        email.setText(eMail);
+        password.setText(passWord);
+        moblie.setText(mobileNum);
+        dob.setText(dobbb);
+
+
+
+
     }
+
+
+
 }

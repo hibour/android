@@ -14,6 +14,7 @@ public class HibourApplication extends Application {
   private static final String LOG_TAG = HibourApplication.class.getSimpleName();
   private Hibour application;
 
+
   @Override
   public void onCreate() {
     super.onCreate();
@@ -36,10 +37,10 @@ public class HibourApplication extends Application {
       startService(intent);
     }
   }
-  @Override
-  protected void attachBaseContext(Context base) {
-    super.attachBaseContext(base);
-    MultiDex.install(base);
-  }
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(base);
+    }
 
 }

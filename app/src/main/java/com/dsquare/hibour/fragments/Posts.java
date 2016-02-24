@@ -123,10 +123,10 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
                 String itemName = autoCompleteTextView.getText().toString();
                 if (parent != null && parent.getChildAt(0) != null) {
                     String neighbourName = autocompleteList.get(position);
-                    String neighbourid = Constants.searchMap.get(itemName);
-                    Log.d("catid", neighbourid);
+                  //  String neighbourid = Constants.searchMap.get(itemName);
+                   // Log.d("catid", neighbourid);
                     Intent intent = new Intent(getActivity(), SearchInFeeds.class);
-                    intent.putExtra("value", neighbourid);
+                  //  intent.putExtra("value", neighbourid);
                     intent.putExtra("value1", itemName);
                     startActivity(intent);
                     Log.d("neighbourName", neighbourName);
@@ -203,7 +203,7 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
     private void openWelcomeDialog() {
         Log.d("Posts", "welcome");
         welcomeDialog = new WelcomeDialog();
-
+        Log.d("Postss","choose dialog");
         welcomeDialog.show(getActivity().getSupportFragmentManager(), "chooser dialog");
         welcomeDialog.setTargetFragment(this, 0);
     }
@@ -233,7 +233,6 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
         if(postpojos.size()>0){
             if (Constants.postsMap.size() > 0) {
                 Constants.postsMap.clear();
-
             }
             if (tabsList.size() > 0) {
                 tabsList.clear();
@@ -245,12 +244,11 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
                 Constants.postpojosMap.put(p.getPostId(),postpojos);
 
             //    String key2 = p.getPostTypeName();
-
-                //if (Constants.categoriesMap.containsKey(p.getPostType().replace(" ","")))
-                //  key = Constants.categoriesMap.get(p.getPostType().replace(" ",""));
+               String id = p.getPostId();
                 List<Postpojos> data1 = new ArrayList<>();
                 data1.add(p);
                 Constants.postpojosMap.put(p.getPostId(), data1);
+
                 Constants.searchMap.put(p.getPostMessage(), p.getPostId());
                 if (Constants.searchMap.size() > 0) {
                     autocompleteList.clear();
@@ -276,6 +274,7 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
                     Constants.postsMap.put(key2, postslist);
                  //   Log.d("kkey", key);
                  //   Constants.postsMap.put(key, postslist);
+
                 }
                 if (!tabsList.contains(key2))
                     tabsList.add(key2);
@@ -357,7 +356,8 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
 
     /*set pager adapter*/
     private void setPager(){
-        setTabsTitles();
+      //  setTabsTitles();
+
         HomeTabsPager pagerAdapter = new HomeTabsPager(getFragmentManager(), tabsList);
         if (tabsList.size() < 4)
             tabs.setDistributeEvenly(true);
@@ -371,12 +371,12 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
         }
     }
 
-    private void setTabsTitles() {
+/*    private void setTabsTitles() {
         for (int i = 0; i < tabsList.size(); i++) {
             Log.d("tabsNames", tabsList.get(i));
             tabsList.get(i);
         }
-    }
+    }*/
 
 
     private void setAdapters(List<String[]> postsList,Posts posts){
@@ -444,7 +444,6 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
             System.out.println("Have Intent");
             Intent chooserIntent = Intent.createChooser(targetShareIntents.remove(0), "Choose app to invite friends");
             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
-
             startActivity(chooserIntent);
         } else {
 
