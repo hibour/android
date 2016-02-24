@@ -244,7 +244,7 @@ public class Posts extends Fragment implements View.OnClickListener,PostsCallbac
                 Log.d("type id",p.getPostType());
                 Constants.postlikesMap.put(p.getPostId(),p.getPostLikedUsers());
                 Constants.postpojosMap.put(p.getPostId(),postpojos);
-                String key2 =p.getPostTypeName() ;
+
 
                 //if (Constants.categoriesMap.containsKey(p.getPostType().replace(" ","")))
                   //  key = Constants.categoriesMap.get(p.getPostType().replace(" ",""));
@@ -258,28 +258,29 @@ public class Posts extends Fragment implements View.OnClickListener,PostsCallbac
                         autocompleteList.add(key);
                     }
                 }
-                String key = " ";
+    /*            String key = " ";
                 if (Constants.categoriesMap.containsKey(p.getPostType()))
-                    key = Constants.categoriesMap.get(p.getPostType());
-                if (!Constants.postsMap.containsKey(key)) {
+                    key = Constants.categoriesMap.get(p.getPostType());*/
+                String key2 =p.getPostTypeName() ;
+                if (!Constants.postsMap.containsKey(key2)) {
                     List<Postpojos> data = new ArrayList<>();
                     data.add(p);
-                    Log.d("kkey",key);
-                    Constants.postsMap.put(key, data);
+                    Log.d("kkey",key2);
+                    Constants.postsMap.put(key2, data);
                 } else {
-                    List<Postpojos> postslist = Constants.postsMap.get(key);
+                    List<Postpojos> postslist = Constants.postsMap.get(key2);
                     postslist.add(p);
-                    Log.d("kkey",key);
-                    Constants.postsMap.put(key, postslist);
+                    Log.d("kkey",key2);
+                    Constants.postsMap.put(key2, postslist);
                 }
-                if (!tabsList.contains(key))
-                    tabsList.add(key);
+                if (!tabsList.contains(key2))
+                    tabsList.add(key2);
 
                 String[] data = new String[8];
                 data[0] = p.getUser().getName();
                 data[1] = p.getPostId();
                 data[2] = p.getPostMessage();
-                data[3] = key;
+                data[3] = key2;
                 data[4] = String.valueOf(p.getPostLikesCount());
                 data[5] = Arrays.toString(new int[]{p.getPostComments().size()})
                         .replaceAll("\\[|\\]", "");
