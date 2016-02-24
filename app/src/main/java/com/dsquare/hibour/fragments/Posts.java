@@ -174,7 +174,7 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
                 public void onSuccess(JSONObject jsonObject) {
                     parsePostsDetails(jsonObject);
                     closePostsDialog();
-                    welcomeDialog();
+//                    welcomeDialog();
 
                 }
 
@@ -190,7 +190,7 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
     }
 
 
-    public void welcomeDialog() {
+   /* public void welcomeDialog() {
         Log.d("posts", "sharedpreferences");
         if (application.getIsFirst()) {
             Log.d("posts", "if");
@@ -198,15 +198,15 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
         } else {
 
         }
-    }
+    }*/
 
-    private void openWelcomeDialog() {
+    /*private void openWelcomeDialog() {
         Log.d("Posts", "welcome");
         welcomeDialog = new WelcomeDialog();
         Log.d("Postss","choose dialog");
         welcomeDialog.show(getActivity().getSupportFragmentManager(), "chooser dialog");
         welcomeDialog.setTargetFragment(this, 0);
-    }
+    }*/
 
     @Override
     public void openDialog(DialogFragment dialogFragment) {

@@ -104,7 +104,7 @@
         <LinearLayout
             android:id="@+id/post_widget"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             >
 
@@ -154,7 +154,7 @@
             <com.dsquare.hibour.utils.ProximaEditText
                 android:id="@+id/newposts_edittest"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:focusable="true"
                 android:gravity="top|start"
                 android:hint="@string/cat_ph_general"

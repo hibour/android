@@ -87,6 +87,9 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
     gson=new Gson();
     postsClient=new PostsClient(this);
     name = (TextView)findViewById(R.id.sidemenu_name);
+    postsClient = new PostsClient(this);
+    networkDetector = new NetworkDetector(this);
+      gson = new Gson();
   }
 
   private void loadDefaultFragment() {

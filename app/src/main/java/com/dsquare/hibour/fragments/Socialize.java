@@ -87,10 +87,10 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
         tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
             @Override
             public int getIndicatorColor(int position) {
-                return getResources().getColor(R.color.white);
+                return getResources().getColor(R.color.newbrand);
             }
         });
-        tabs.setTabsBackgroundColor(getResources().getColor(R.color.brand));
+        tabs.setTabsBackgroundColor(getResources().getColor(R.color.white));
 //        prefsRecycler = (RecyclerView)view.findViewById(R.id.social_prefs_list);
 //        prefsRecycler.setLayoutManager(new GridLayoutManager(getActivity(), 3));
 //        prefsRecycler.addItemDecoration(new GridLayoutSpacing(3, 5, true));

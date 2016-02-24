@@ -14,24 +14,46 @@
             android:id="@+id/messages_app_bar"
             android:layout_width="match_parent"
             android:layout_height="?android:actionBarSize"
-            android:background="@color/white">
+            android:background="@color/newbrand">
 
-            <ImageView
-                android:id="@+id/messages_menu_icon"
-                android:layout_width="@dimen/app_bar_icon_size"
-                android:layout_height="@dimen/app_bar_icon_size"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/dp_20"
-                android:src="@drawable/ic_menu_white"/>
+            <!--<ImageView-->
+                <!--android:id="@+id/messages_menu_icon"-->
+                <!--android:layout_width="@dimen/app_bar_icon_size"-->
+                <!--android:layout_height="@dimen/app_bar_icon_size"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginLeft="@dimen/dp_20"-->
+                <!--android:src="@drawable/ic_menu_white"/>-->
 
             <com.dsquare.hibour.utils.ProximaExtraBold
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="@string/messages_title"
-                android:textColor="@color/brand"
-                android:textSize="@dimen/app_bar_title_text_size"/>
+                android:textColor="@color/white"
+                android:textSize="@dimen/app_bar_title_text_size"
+                android:id="@+id/neighbours_name"/>
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/home_search_layout"-->
+                <!--android:layout_width="200dp"-->
+                <!--android:layout_height="@dimen/dp_35"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:background="@drawable/loc_search_rectangle"-->
+                <!--android:descendantFocusability="beforeDescendants"-->
+                <!--android:focusableInTouchMode="true"-->
+                <!--android:visibility="gone">-->
 
+                <!--<AutoCompleteTextView-->
+                    <!--android:id="@+id/home_search_autocomplete"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="@dimen/dp_30"-->
+                    <!--android:layout_centerInParent="true"-->
+                    <!--android:background="@null"-->
+                    <!--android:gravity="center"-->
+                    <!--android:hint="search posts"-->
+                    <!--android:textColor="@color/black_1"-->
+                    <!--android:textColorHint="@color/white"-->
+                    <!--android:textSize="@dimen/edit_text_size"/>-->
+            <!--</RelativeLayout>-->
             <RelativeLayout
                 android:id="@+id/nav_drawer_bottom_line"
                 android:layout_width="match_parent"
@@ -49,14 +71,14 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/dp_20"
                 android:padding="@dimen/dp_3"
-                android:src="@drawable/ic_search_white"/>
+                android:src="@mipmap/ic_search_white"/>
         </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/messages_search_bar"
             android:layout_width="match_parent"
             android:layout_height="?android:actionBarSize"
-            android:background="@color/white"
+            android:background="@color/newbrand"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:visibility="gone">
@@ -69,13 +91,26 @@
                 android:padding="@dimen/dp_10"
                 android:src="@drawable/ic_back_gray"/>
 
-            <EditText
-                android:id="@+id/search_key"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:hint="Search..."
-                android:singleLine="true"/>
+            <!--<EditText-->
+                <!--android:id="@+id/search_key"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1"-->
+                <!--android:hint="Search..."-->
+                <!--android:singleLine="true"/>-->
+            <AutoCompleteTextView
+                android:id="@+id/home_search_autocomplete"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_30"
+                android:layout_marginRight="@dimen/dp_30"
+                android:layout_centerInParent="true"
+                android:background="@drawable/loc_search_rectangle"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:hint="search.."
+                android:textColor="@color/black_1"
+                android:textColorHint="@color/gray"
+                android:textSize="@dimen/edit_text_size"/>
         </LinearLayout>
     </RelativeLayout>
 
@@ -83,7 +118,7 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/brand"
+        android:background="@color/white"
         android:elevation="2dp"
         android:theme="@style/tab"
         app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"/>

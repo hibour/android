@@ -99,9 +99,10 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
     if (listItems.get(position).getPostImage().length() > 10) {
       Log.d("image", listItems.get(position).getPostImage());
       try {
-        imageLoader.get(listItems.get(position).getPostImage().replace("\\", ""), ImageLoader.getImageListener(holder.feedImage
-            , R.drawable.avatar1, R.drawable.avatar1));
-        // new DownloadWebpageTask(holder.feedImage).execute(listItems.get(position).getPostImage().replace("\\",""));
+      //  imageLoader.get(listItems.get(position).getPostImage().replace("\\", ""), ImageLoader.getImageListener(holder.feedImage
+         //   , R.drawable.avatar1, R.drawable.avatar1));
+        holder.imgUrl = listItems.get(position).getPostImage().replace("\\", "");
+         new DownloadWebpageTask().execute(holder);
       } catch (Exception e) {
         e.printStackTrace();
         holder.feedImage.setVisibility(View.GONE);
@@ -354,7 +355,8 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
     private TextView timeStamp, message, categoryName, likes, comments, userText, userImageDefault;
     private ImageView userImage, shareImage, likesImage, feedImage;
     private LinearLayout commentsLayout, likesLayout;
-
+    private String imgUrl;
+    private Bitmap bitmap;
     public ViewHolder(View itemView) {
       super(itemView);
       timeStamp = (TextView) itemView.findViewById(R.id.feeds_timestamp);
@@ -372,49 +374,36 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
     }
   }
 
-  private class DownloadWebpageTask extends AsyncTask<String, Void, Bitmap> {
-    private final WeakReference<ImageView> imageViewReference;
-
-    public DownloadWebpageTask(ImageView imageView) {
-      imageViewReference = new WeakReference<ImageView>(imageView);
-    }
+  private class DownloadWebpageTask extends AsyncTask<ViewHolder, Void, ViewHolder> {
 
     @Override
-    protected Bitmap doInBackground(String... urls) {
+    protected ViewHolder doInBackground(ViewHolder... params) {
       Bitmap bitmap = null;
       // params comes from the execute() call: params[0] is the url.
 
+      ViewHolder viewHolder = params[0];
       try {
-        Log.d("url", urls[0]);
-        return downloadUrl(urls[0]);
+        URL imageURL = new URL(viewHolder.imgUrl);
+        viewHolder.bitmap = BitmapFactory.decodeStream(imageURL.openStream());
       } catch (IOException e) {
-        e.printStackTrace();
+        // TODO: handle exception
+        Log.e("error", "Downloading Image Failed");
+        viewHolder.bitmap = null;
       }
+      return viewHolder;
 
-      //return downloadUrl(urls[0]);
-      return bitmap;
     }
 
     // onPostExecute displays the results of the AsyncTask.
     @Override
-    protected void onPostExecute(Bitmap result) {
+    protected void onPostExecute(ViewHolder result) {
       Bitmap bitmap = null;
-           /* if (isCancelled()) {
-                bitmap = null;
-            }*/
-
-      if (imageViewReference != null) {
-        ImageView imageView = imageViewReference.get();
-        if (imageView != null) {
-          if (bitmap != null) {
-            imageView.setImageBitmap(bitmap);
-          } else {
-            Log.d("bitmap", "null");
-            // Drawable placeholder = imageView.getContext().getResources().getDrawable(R.drawable.avatar1);
-            //imageView.setImageDrawable(placeholder);
-          }
-        }
+      if (result.bitmap == null) {
+        //result.feedImage.setImageResource(R.drawable.postthumb_loading);
+      } else {
+        result.feedImage.setImageBitmap(result.bitmap);
       }
+
     }
   }
 

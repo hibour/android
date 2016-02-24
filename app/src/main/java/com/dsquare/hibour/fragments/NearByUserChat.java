@@ -19,6 +19,7 @@ import com.dsquare.hibour.adapters.UserChatListAdapter;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.SocializeClient;
 import com.dsquare.hibour.pojos.user.UserDetail;
+import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Hibour;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -51,6 +52,22 @@ public class NearByUserChat extends BaseChatFragment {
         adapter.getUserList().clear();
         adapter.getUserList().addAll(list);
         adapter.notifyDataSetChanged();
+
+          for (UserDetail userDetail:list) {
+              List<UserDetail> data1 = new ArrayList<>();
+              data1.add(userDetail);
+              Constants.chatsMap.put(userDetail.id, data1);
+
+        Constants.searchChat.put(userDetail.Email,userDetail.id);
+              if (Constants.searchChat.size() > 0) {
+                  Constants.chatList.clear();
+                  for (String key : Constants.searchChat.keySet()) {
+                      Constants.chatList.add(key);
+                      Log.d("size",""+Constants.chatList.size());
+                  }
+              }
+          }
+
       } catch (JSONException e) {
         e.printStackTrace();
       }
@@ -84,6 +101,7 @@ public class NearByUserChat extends BaseChatFragment {
     socializeClient = new SocializeClient(getContext());
     application = Hibour.getInstance(getContext());
     initializeViews(view);
+    Constants.searchChat.clear();
     socializeClient.getNearByUser(application.getUserId(), nearbyUserResultCallBack);
     return view;
   }

@@ -435,7 +435,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
     private void getLoginDetails() {
         String firstname=sharedPreferences.getString("FirstName", "");
         String lastName=sharedPreferences.getString("LastName","");
-        String gender=sharedPreferences.getString("Gender","");
+        String gender1=sharedPreferences.getString("Gender","");
         String dobbb=sharedPreferences.getString("DOB","");
         String notifications=sharedPreferences.getString("Notifications","");
         String passWord=sharedPreferences.getString("Password","");
@@ -444,8 +444,11 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
 
         name.setText(firstname);
         lastname.setText(lastName);
-        male.setText(gender);
-        female.setText(gender);
+        if (gender1 != null && gender1.equalsIgnoreCase("0")) {
+            gender.check(R.id.radioMale);
+        } else {
+            gender.check(R.id.radioFemale);
+        }
         email.setText(eMail);
         password.setText(passWord);
         moblie.setText(mobileNum);
