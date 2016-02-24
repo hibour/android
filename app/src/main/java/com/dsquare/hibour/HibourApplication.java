@@ -1,7 +1,9 @@
 package com.dsquare.hibour;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
+import android.support.multidex.MultiDex;
 
 import com.activeandroid.ActiveAndroid;
 import com.dsquare.hibour.gcm.GcmRegistration;
@@ -11,6 +13,7 @@ import com.dsquare.hibour.utils.Hibour;
 public class HibourApplication extends Application {
   private static final String LOG_TAG = HibourApplication.class.getSimpleName();
   private Hibour application;
+
 
   @Override
   public void onCreate() {
@@ -34,5 +37,10 @@ public class HibourApplication extends Application {
       startService(intent);
     }
   }
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(base);
+    }
 
 }
