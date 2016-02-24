@@ -226,6 +226,10 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
 
     private void openLocationActivity() {
         Intent intent = new Intent(getActivity(), UpdateLocation.class);
+        intent.putExtra("Address1",sharedPreferences.getString("Address1",""));
+        intent.putExtra("Address",sharedPreferences.getString("Address",""));
+        intent.putExtra("Latitude",sharedPreferences.getString("Latitude",""));
+        intent.putExtra("Longitude",sharedPreferences.getString("Longitude",""));
         startActivity(intent);
     }
 
