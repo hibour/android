@@ -65,9 +65,9 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     private LoginButton facebookLoginButton;
     private CallbackManager callbackManager;
     private Button submitButton;
-    private EditText name,email,password,fname,lname;
-    private TextInputLayout inputLayoutName, inputLayoutemail,inputLayoutpassword,inputLayoutfName,inputLayoutlName;
-    private TextView signInText,termsText,back;
+    private EditText name, email, password, fname, lname;
+    private TextInputLayout inputLayoutName, inputLayoutemail, inputLayoutpassword, inputLayoutfName, inputLayoutlName;
+    private TextView signInText, termsText, back;
     private NetworkDetector networkDetector;
     private AccountsClient accountsClient;
     private ProgressDialog signUpDialog;
@@ -77,9 +77,9 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     private Intent data;
     private String string;
     private String userName="",userNumber="",userMail="",socialType="",userpassword="",userfirst="",userlast="";
-    private ImageView male,female;
-    private LinearLayout linearmale,linearfemale;
-    private String Gender="";
+    private ImageView male, female;
+    private LinearLayout linearmale, linearfemale;
+    private String Gender = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,22 +92,22 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     }
     /* initialize views*/
     private void initializeViews(){
-        submitButton = (Button)findViewById(R.id.signup_next);
-        fname = (EditText)findViewById(R.id.signup_firstname);
-        lname = (EditText)findViewById(R.id.signup_lastname);
+        submitButton = (Button) findViewById(R.id.signup_next);
+        fname = (EditText) findViewById(R.id.signup_firstname);
+        lname = (EditText) findViewById(R.id.signup_lastname);
         email= (EditText)findViewById(R.id.signup_email);
-        password= (EditText)findViewById(R.id.signup_pwd);
-        male = (ImageView)findViewById(R.id.image_male);
-        female = (ImageView)findViewById(R.id.image_female);
-        linearmale = (LinearLayout)findViewById(R.id.linear_male);
-        linearfemale = (LinearLayout)findViewById(R.id.linear_female);
-        back = (TextView)findViewById(R.id.signup_back);
+        password = (EditText) findViewById(R.id.signup_pwd);
+        male = (ImageView) findViewById(R.id.image_male);
+        female = (ImageView) findViewById(R.id.image_female);
+        linearmale = (LinearLayout) findViewById(R.id.linear_male);
+        linearfemale = (LinearLayout) findViewById(R.id.linear_female);
+        back = (TextView) findViewById(R.id.signup_back);
         linearmale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 male.setImageResource(R.mipmap.ic_men_filed_icon);
                 female.setImageResource(R.mipmap.ic_female_icon);
-                Gender="0";
+                Gender = "0";
             }
         });
         linearfemale.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +115,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
             public void onClick(View v) {
                 female.setImageResource(R.mipmap.ic_female_filed_icon);
                 male.setImageResource(R.mipmap.ic_men_icon);
-                Gender="1";
+                Gender = "1";
             }
         });
         password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -130,10 +130,10 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                 return handled;
             }
         });
-        inputLayoutfName=(TextInputLayout)findViewById(R.id.signup_firstname_inputlayout);
-        inputLayoutlName=(TextInputLayout)findViewById(R.id.signup_lastname_inputlayout);
-        inputLayoutemail=(TextInputLayout)findViewById(R.id.signup_email_inputlayout);
-        inputLayoutpassword=(TextInputLayout)findViewById(R.id.signup_pwd_inputlayout);
+        inputLayoutfName = (TextInputLayout) findViewById(R.id.signup_firstname_inputlayout);
+        inputLayoutlName = (TextInputLayout) findViewById(R.id.signup_lastname_inputlayout);
+        inputLayoutemail = (TextInputLayout) findViewById(R.id.signup_email_inputlayout);
+        inputLayoutpassword = (TextInputLayout) findViewById(R.id.signup_pwd_inputlayout);
         accountsClient = new AccountsClient(this);
         networkDetector = new NetworkDetector(this);
         gson = new Gson();
@@ -147,7 +147,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
 
     private void hideKeyboard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-      //  imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+        //  imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
         imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
     }
 
@@ -256,7 +256,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                                         Log.d("email",object.optString("email"));
                                         Log.d("id",object.optString("id"));
                                         Log.d("name",object.optString("name"));
-                                        Log.d("gender",object.optString("gender"));
+                                        Log.d("gender", object.optString("gender"));
 //                                        signUpUser(object.optString("name"), object.optString("email")
 //                                                , "", "fb");
                                     } catch (Exception e) {
@@ -370,7 +370,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     }
     /* open sign in activity*/
     private void openSignInActivity(){
-        Intent signInIntent = new Intent(this,Social.class);
+        Intent signInIntent = new Intent(this, Social.class);
         startActivity(signInIntent);
         this.finish();
     }
@@ -385,12 +385,12 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
         String userLname = lname.getText().toString();
         String userMail = email.getText().toString();
         String userPass = password.getText().toString();
-        if(!userFname.equals(null)&&!userFname.equals("null")&&!userFname.equals("")&&
-                !userLname.equals(null)&&!userLname.equals("null")&&!userLname.equals("")&&
+        if (!userFname.equals(null) && !userFname.equals("null") && !userFname.equals("") &&
+            !userLname.equals(null) && !userLname.equals("null") && !userLname.equals("") &&
                 !userMail.equals(null)&&!userMail.equals("null")&& ! userMail.equals("")&&
-                !userPass.equals(null)&&!userPass.equals("null") && ! userPass.equals("")&& ! Gender.equals("")){
+            !userPass.equals(null) && !userPass.equals("null") && !userPass.equals("") && !Gender.equals("")) {
             if(application.validateEmail(userMail)){
-                signUpUser(userFname,userLname, userMail, userPass, "normal");
+                signUpUser(userFname, userLname, userMail, userPass, "normal");
             }else{
                 Toast.makeText(this,"Enter valid email",Toast.LENGTH_LONG).show();
             }
@@ -399,7 +399,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
         }
     }
     /* sign up the user*/
-    private void signUpUser(String userFname,String userLname, String email,String password,String regType){
+    private void signUpUser(String userFname, String userLname, String email, String password, String regType) {
         if(networkDetector.isConnected()){
             signUpDialog = ProgressDialog.show(this,"",getResources()
                     .getString(R.string.progress_dialog_text));
@@ -412,9 +412,9 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                 }
                 return;
             }
-            accountsClient.signUpUser(userFname,userLname,email,password,Gender,regType, Constants.latitude,Constants.longitude,
-                    Constants.locationaddress,Constants.locationaddress1,
-                 application.getGCMToken(), new WebServiceResponseCallback() {
+            accountsClient.signUpUser(userFname, userLname, email, password, Gender, regType, Constants.latitude, Constants.longitude,
+                Constants.locationaddress, Constants.locationaddress1,
+                application.getGCMToken(), new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parseSigUpDetails(jsonObject);
@@ -441,7 +441,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
 //            Integer integer = data.getId();
             String s = String.valueOf(data.getId());
             Log.d("integer", s);
-            String[] regidetails = {String.valueOf(data.getId()), data.getFirstName(),data.getLastName(), data.getEmail(),data.getGender(), data.getRegtype(),Constants.locationaddress};
+            String[] regidetails = {String.valueOf(data.getId()), data.getFirstName(), data.getLastName(), data.getEmail(), data.getGender(), data.getRegtype(), Constants.locationaddress};
             application.setLoginDetails(regidetails);
             application.setIsFirst(true);
 //            Log.d("integer", String.valueOf(integer));

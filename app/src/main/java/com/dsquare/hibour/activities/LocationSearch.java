@@ -1,8 +1,6 @@
 package com.dsquare.hibour.activities;
 
 import android.Manifest;
-import android.app.Activity;
-import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -70,14 +68,14 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
         , GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private static final LatLngBounds BOUNDS_INDIA = new LatLngBounds(new LatLng(8.4, 37.6), new LatLng(68.7, 97.25));
+    public Button search, signin;
     protected GoogleApiClient mGoogleApiClient;
+    protected Location mLastLocation;
     private PlaceAutoCompleteAdapter placeAutoCompleteAdapter;
     private List<Integer> filterTypes = new ArrayList<Integer>();
     private Place place;
     private ProgressDialog pDialog;
-    public Button search, signin;
-    private AutoCompleteTextView autoCompleteTextView,autoCompleteTextView1;
-    protected Location mLastLocation;
+    private AutoCompleteTextView autoCompleteTextView, autoCompleteTextView1;
     private double latitude, longitude;
     private String locAddress;
     private LatLng latLng;
@@ -90,11 +88,11 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
     private Gson gson;
     private boolean isAutoComplete = false;
     private WebView locMap;
-    private TextView locationDisplayTextView,countText;
+    private TextView locationDisplayTextView, countText;
     private Button next;
-    private RelativeLayout map,locLayout;
-    private RelativeLayout searchLayout,mapLayout;
-    private LinearLayout auto,signInLayout;
+    private RelativeLayout map, locLayout;
+    private RelativeLayout searchLayout, mapLayout;
+    private LinearLayout auto, signInLayout;
     private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
             = new ResultCallback<PlaceBuffer>() {
         @Override
@@ -148,7 +146,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
               */
             final PlaceAutoCompleteAdapter.PlaceAutocomplete item = placeAutoCompleteAdapter.getItem(position);
             final String placeId = String.valueOf(item.placeId);
-            Log.d("placeId",placeId);
+            Log.d("placeId", placeId);
             Log.i("On set ClickListener", "Autocomplete item selected: " + item.description);
 
             /*
@@ -189,16 +187,16 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 //        signin = (Button) findViewById(R.id.places_signup);
         auto = (LinearLayout) findViewById(R.id.loc_search_layout);
         map = (RelativeLayout) findViewById(R.id.relative_map);
-        locationDisplayTextView = (TextView)findViewById(R.id.loc_curr_loc_textview);
-        locMap = (WebView)findViewById(R.id.map);
-        countText = (TextView)findViewById(R.id.loc_members_count);
+        locationDisplayTextView = (TextView) findViewById(R.id.loc_curr_loc_textview);
+        locMap = (WebView) findViewById(R.id.map);
+        countText = (TextView) findViewById(R.id.loc_members_count);
         accountsClient = new AccountsClient(this);
         application = Hibour.getInstance(this);
         application.initializeSharedPrefs();
         gson = new Gson();
-        searchLayout = (RelativeLayout)findViewById(R.id.relative_auto);
-        next = (Button)findViewById(R.id.serach_sumbit);
-        signInLayout = (LinearLayout)findViewById(R.id.sign_in_text);
+        searchLayout = (RelativeLayout) findViewById(R.id.relative_auto);
+        next = (Button) findViewById(R.id.serach_sumbit);
+        signInLayout = (LinearLayout) findViewById(R.id.sign_in_text);
 
         autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.loc_search_autocomplete);
         autoCompleteTextView1 = (AutoCompleteTextView) findViewById(R.id.loc_search_autocomplete1);
@@ -338,8 +336,8 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onConnected(Bundle connectionHint) {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+            Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             return;
         }
@@ -371,6 +369,70 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
         Log.i("loc", "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
     }
 
+    private void getMembersCount(String loc) {
+        if (networkDetector.isConnected()) {
+            locInsertDialog = ProgressDialog.show(this, ""
+                , getResources().getString(R.string.progress_dialog_text));
+            accountsClient.getMembersCount(loc, new WebServiceResponseCallback() {
+                @Override
+                public void onSuccess(JSONObject jsonObject) {
+                    parseLocDetails(jsonObject);
+                    closeLocDialog();
+                }
+
+                @Override
+                public void onFailure(VolleyError error) {
+                    Log.d("loc", error.toString());
+                    closeLocDialog();
+                }
+            });
+        } else {
+            Toast.makeText(this, "Network error", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /* parse loc data*/
+    private void parseLocDetails(JSONObject jsonObject) {
+        try {
+            JSONObject data = jsonObject.getJSONObject("data");
+            Log.d("data", data.toString());
+            int count = data.getInt("Count");
+            countText.setText("There are about " + count + " members registered from your area.");
+            closeLocDialog();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /* close loc dialog*/
+    private void closeLocDialog() {
+        if (locInsertDialog != null) {
+            if (locInsertDialog.isShowing()) {
+                locInsertDialog.dismiss();
+                locInsertDialog = null;
+            }
+        }
+    }
+
+    /**
+     * Hides the soft keyboard
+     */
+    public void hideSoftKeyboard() {
+        if (getCurrentFocus() != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+    }
+
+    /**
+     * Shows the soft keyboard
+     */
+    public void showSoftKeyboard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        view.requestFocus();
+        inputMethodManager.showSoftInput(view, 0);
+    }
+
     /* async task for getting address*/
     private class GetCurrentAddress extends AsyncTask<Double, Void, String> {
         @Override
@@ -389,14 +451,14 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                     locAddress = address.getAddressLine(1);
                     latitude=params[0];
                     longitude = params[1];
-                    Constants.latitude="";
-                    Constants.longitude="";
-                    Constants.locationaddress="";
-                    Constants.locationaddress1="";
-                    Constants.latitude=String.valueOf(latitude);
-                    Constants.longitude=String.valueOf(longitude);
-                    Constants.locationaddress=autoCompleteTextView.getText().toString();
-                    Constants.locationaddress1=locAddress;
+                    Constants.latitude = "";
+                    Constants.longitude = "";
+                    Constants.locationaddress = "";
+                    Constants.locationaddress1 = "";
+                    Constants.latitude = String.valueOf(latitude);
+                    Constants.longitude = String.valueOf(longitude);
+                    Constants.locationaddress = autoCompleteTextView.getText().toString();
+                    Constants.locationaddress1 = locAddress;
                     Constants.Latitude=latitude;
                     Constants.Longitude=longitude;
                     Constants.LocationAddress=locAddress;
@@ -422,11 +484,11 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 TranslateAnimation anim = new TranslateAnimation(0, 0, 0, -200);
                 anim.setDuration(1000);
                 auto.setAnimation(anim);
-                if(networkDetector.isConnected()){
+                if (networkDetector.isConnected()) {
                     try {
-                        URL url = new URL("http://hibour.com/test.php?area="+autoCompleteTextView.getText().toString());
+                        URL url = new URL("http://hibour.com/test.php?area=" + autoCompleteTextView.getText().toString());
                         URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
-                                , url.getPath(), url.getQuery(), url.getRef());
+                            , url.getPath(), url.getQuery(), url.getRef());
                         url = uri.toURL();
                         locMap.loadUrl(url.toString());
                         locMap.getSettings().setJavaScriptEnabled(true);
@@ -435,22 +497,23 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     }
-                }else{
-                    Toast.makeText(getApplicationContext(),"Can't connect to network.",Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Can't connect to network.", Toast.LENGTH_LONG).show();
                 }
                 isAutoComplete = false;
 
                 anim.setAnimationListener(new TranslateAnimation.AnimationListener() {
 
                     @Override
-                    public void onAnimationStart(Animation animation) { }
+                    public void onAnimationStart(Animation animation) {
+                    }
 
                     @Override
-                    public void onAnimationRepeat(Animation animation) { }
+                    public void onAnimationRepeat(Animation animation) {
+                    }
 
                     @Override
-                    public void onAnimationEnd(Animation animation)
-                    {
+                    public void onAnimationEnd(Animation animation) {
                         searchLayout.setVisibility(View.GONE);
                     }
                 });
@@ -459,69 +522,5 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 getMembersCount(autoCompleteTextView1.getText().toString());
             }
         }
-    }
-
-    private void getMembersCount(String loc){
-        if(networkDetector.isConnected()){
-            locInsertDialog = ProgressDialog.show(this,""
-                    ,getResources().getString(R.string.progress_dialog_text));
-            accountsClient.getMembersCount(loc, new WebServiceResponseCallback() {
-                @Override
-                public void onSuccess(JSONObject jsonObject) {
-                    parseLocDetails(jsonObject);
-                    closeLocDialog();
-                }
-
-                @Override
-                public void onFailure(VolleyError error) {
-                    Log.d("loc", error.toString());
-                    closeLocDialog();
-                }
-            });
-        }else{
-            Toast.makeText(this,"Network error",Toast.LENGTH_LONG).show();
-        }
-    }
-
-    /* parse loc data*/
-    private void parseLocDetails(JSONObject jsonObject){
-        try {
-            JSONObject data = jsonObject.getJSONObject("data");
-            Log.d("data",data.toString());
-            int count = data.getInt("Count");
-            countText.setText("There are about "+count+" members registered from your area.");
-            closeLocDialog();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /* close loc dialog*/
-    private void closeLocDialog(){
-        if(locInsertDialog!=null){
-            if(locInsertDialog.isShowing()){
-                locInsertDialog.dismiss();
-                locInsertDialog=null;
-            }
-        }
-    }
-
-    /**
-            * Hides the soft keyboard
-    */
-    public void hideSoftKeyboard() {
-        if(getCurrentFocus()!=null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-        }
-    }
-
-    /**
-     * Shows the soft keyboard
-     */
-    public void showSoftKeyboard(View view) {
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        view.requestFocus();
-        inputMethodManager.showSoftInput(view, 0);
     }
 }

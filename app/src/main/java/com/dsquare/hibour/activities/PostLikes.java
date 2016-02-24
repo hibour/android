@@ -16,7 +16,6 @@ import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.network.PostsClient;
 import com.dsquare.hibour.pojos.posts.PostLikedUser;
-import com.dsquare.hibour.pojos.posts.Postpojos;
 import com.dsquare.hibour.utils.Constants;
 import com.google.gson.Gson;
 
@@ -30,7 +29,7 @@ import java.util.List;
 /**
  * Created by Dsquare Android on 1/28/2016.
  */
-public class PostLikes  extends AppCompatActivity implements View.OnClickListener {
+public class PostLikes extends AppCompatActivity implements View.OnClickListener {
     private ImageView backIcon;
     private RecyclerView likesList;
     private List<String[]> likeList = new ArrayList<>();
@@ -46,7 +45,7 @@ public class PostLikes  extends AppCompatActivity implements View.OnClickListene
         setContentView(R.layout.activity_post_likes);
         initializeViews();
         initializeEventListeners();
-       // prepareLikesList();
+        // prepareLikesList();
     }
 
     private void initializeViews() {
@@ -69,7 +68,7 @@ public class PostLikes  extends AppCompatActivity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()){
+        switch (v.getId()) {
             case R.id.likes_back_icon:
                 this.finish();
                 break;
@@ -81,9 +80,9 @@ public class PostLikes  extends AppCompatActivity implements View.OnClickListene
         Log.d("id",postId);
         List<PostLikedUser> posts = Constants.postlikesMap.get(postId);
         try {
-            for(int i=0;i<posts.size();i++) {
+            for (int i = 0; i < posts.size(); i++) {
                 String[] data = new String[1];
-                data[0] =  posts.get(i).getName();
+                data[0] = posts.get(i).getName();
                 likeList.add(data);
 
             }
@@ -91,11 +90,12 @@ public class PostLikes  extends AppCompatActivity implements View.OnClickListene
             e.printStackTrace();
         }
     }
+
     /* get likes*/
-    private void getLikes(String postId){
-        if(networkDetector.isConnected()){
-            dialog = ProgressDialog.show(this,"","Please Wait...");
-            postsClient.getLikesonPosts(postId,new WebServiceResponseCallback() {
+    private void getLikes(String postId) {
+        if (networkDetector.isConnected()) {
+            dialog = ProgressDialog.show(this, "", "Please Wait...");
+            postsClient.getLikesonPosts(postId, new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parseLikes(jsonObject);
@@ -104,34 +104,36 @@ public class PostLikes  extends AppCompatActivity implements View.OnClickListene
 
                 @Override
                 public void onFailure(VolleyError error) {
-                    Log.d("error in getting likes",error.toString());
+                    Log.d("error in getting likes", error.toString());
                 }
             });
         }
     }
-    private void parseLikes(JSONObject jsonObject){
+
+    private void parseLikes(JSONObject jsonObject) {
         likeList.clear();
         try {
             JSONArray users = jsonObject.getJSONArray("users");
-            for(int i=0;i<users.length();i++){
+            for (int i = 0; i < users.length(); i++) {
                 JSONObject user = users.getJSONObject(i);
                 String[] data = new String[3];
-                data[0] =  user.getString("id");
+                data[0] = user.getString("id");
                 data[1] = user.getString("name");
-                data[2]  = user.getString("image");
+                data[2] = user.getString("image");
                 likeList.add(data);
             }
-            adapter = new AdapterPostLikes(this,likeList);
+            adapter = new AdapterPostLikes(this, likeList);
             likesList.setAdapter(adapter);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
-    private void closeDialog(){
-        if(dialog!=null){
-            if(dialog.isShowing()){
+
+    private void closeDialog() {
+        if (dialog != null) {
+            if (dialog.isShowing()) {
                 dialog.dismiss();
-                dialog=null;
+                dialog = null;
             }
         }
     }

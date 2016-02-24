@@ -5,27 +5,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.activities.PostComments;
-import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.network.PostsClient;
 import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Hibour;
 import com.dsquare.hibour.utils.SlidingTabLayout;
 import com.google.gson.Gson;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -140,27 +134,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>
         }
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView userName,date,description,categoryName,likes
-                ,comments;
-        private ImageView userImage,shareImage,likesImage,likesImage1;
-        private RelativeLayout commentsLayout;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            userName = (TextView) itemView.findViewById(R.id.post_user_name);
-            userImage = (ImageView) itemView.findViewById(R.id.post_user_image);
-            date = (TextView)itemView.findViewById(R.id.adapter_post_date);
-            description = (TextView)itemView.findViewById(R.id.post_description_text);
-            categoryName = (TextView)itemView.findViewById(R.id.post_category_name);
-            likes = (TextView)itemView.findViewById(R.id.post_likes);
-            comments = (TextView)itemView.findViewById(R.id.post_comments);
-            shareImage = (ImageView)itemView.findViewById(R.id.post_share_image);
-            likesImage = (ImageView)itemView.findViewById(R.id.adapter_post_likes_image);
-            commentsLayout = (RelativeLayout)itemView.findViewById(R.id.post_comments_layout);
-        }
-    }
-
     /*share post*/
     private void sharePost(String postMessage){
         Intent sendIntent = new Intent();
@@ -169,6 +142,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>
         sendIntent.setType("text/plain");
         context.startActivity(sendIntent);
     }
+
     /* open post comments*/
     private void openCommentsDialog(String postId,String likes){
         Intent commentsIntent = new Intent(context, PostComments.class);
@@ -176,6 +150,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>
         commentsIntent.putExtra("likes",likes);
         context.startActivity(commentsIntent);
     }
+
     /* get all posts from server*/
     private void getLikesPost(String postid){
        /* if(networkDetector.isConnected()){
@@ -205,6 +180,26 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>
                 postsDialog.dismiss();
                 postsDialog=null;
             }
+        }
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private TextView userName, date, description, categoryName, likes, comments;
+        private ImageView userImage, shareImage, likesImage, likesImage1;
+        private RelativeLayout commentsLayout;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            userName = (TextView) itemView.findViewById(R.id.post_user_name);
+            userImage = (ImageView) itemView.findViewById(R.id.post_user_image);
+            date = (TextView) itemView.findViewById(R.id.adapter_post_date);
+            description = (TextView) itemView.findViewById(R.id.post_description_text);
+            categoryName = (TextView) itemView.findViewById(R.id.post_category_name);
+            likes = (TextView) itemView.findViewById(R.id.post_likes);
+            comments = (TextView) itemView.findViewById(R.id.post_comments);
+            shareImage = (ImageView) itemView.findViewById(R.id.post_share_image);
+            likesImage = (ImageView) itemView.findViewById(R.id.adapter_post_likes_image);
+            commentsLayout = (RelativeLayout) itemView.findViewById(R.id.post_comments_layout);
         }
     }
 }

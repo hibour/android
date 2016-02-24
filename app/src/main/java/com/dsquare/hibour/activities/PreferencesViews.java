@@ -66,17 +66,17 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
         searchIcon = (ImageView) findViewById(R.id.messages_search_icon);
         neighboursTitle = (TextView) findViewById(R.id.neighbours_title);
         neighboursTitle.setText(getIntent()
-                .getStringExtra("prefName"));
+            .getStringExtra("prefName"));
         neighboursRecycler = (RecyclerView) findViewById(R.id.prefernce_neighbours_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         neighboursRecycler.setLayoutManager(layoutManager);
         neighboursRecycler.setHasFixedSize(true);
-        adapter = new NeighboursAdapter(this, neighboursList, R.layout.adapter_neighbours);
+        adapter = new UserChatListAdapter(this);
         neighboursRecycler.setAdapter(adapter);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>
-                (this, android.R.layout.simple_dropdown_item_1line,
-                        autocompleteList);
+            (this, android.R.layout.simple_dropdown_item_1line,
+                autocompleteList);
         autoCompleteTextView.setAdapter(adapter);
         autoCompleteTextView.setThreshold(3);
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -91,7 +91,7 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
 //                            Log.d("cardtype",cardType);
 //                        }
                     ((TextView) parent.getChildAt(0)).setTextColor(getResources()
-                            .getColor(R.color.black_1));
+                        .getColor(R.color.black_1));
                     ((TextView) parent.getChildAt(0)).setTypeface(proxima);
                     ((TextView) parent.getChildAt(0)).setPadding(0, 0, 0, 0);
                     ((TextView) parent.getChildAt(0)).setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
@@ -131,33 +131,33 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
         UserDetail userDetail;
         int i;
         //for (i = 0; i < 10; i++) {
-            if (frmAdapter) {
-                List<ChoosedUser> user = Constants.prefsMap.get(getIntent()
-                        .getStringExtra("prefId")).getChoosedUsers();
-                for (i = 0; i < user.size(); i++) {
-                    if (user.get(i).getUserName() != null && !user.get(i).getUserName().equals("null")) {
-                        userDetail = new UserDetail();
-                        userDetail.Username = user.get(i).getUserName();
-                        userDetail.id = user.get(i).getUserId();
-                        userDetail.Image = user.get(i).getUserImage();
-                        neighboursList.add(userDetail);
-                        Log.d("auto",user.get(i).getUserName());
-                        autocompleteList.add(user.get(i).getUserName());
-                    }
-                }
-            } else {
-                for (i = 0; i < Constants.membersList.size(); i++) {
-                    if (Constants.membersList.get(i).getUserName() != null &&
-                            !Constants.membersList.get(i).getUserName().equals("null")) {
-                        userDetail = new UserDetail();
-                        userDetail.Username = Constants.membersList.get(i).getUserName();
-                        userDetail.id = Constants.membersList.get(i).getUserId();
-                        userDetail.Image = Constants.membersList.get(i).getUserImage();
-                        neighboursList.add(userDetail);
-                        autocompleteList.add(Constants.membersList.get(i).getUserName());
-                    }
+        if (frmAdapter) {
+            List<ChoosedUser> user = Constants.prefsMap.get(getIntent()
+                .getStringExtra("prefId")).getChoosedUsers();
+            for (i = 0; i < user.size(); i++) {
+                if (user.get(i).getUserName() != null && !user.get(i).getUserName().equals("null")) {
+                    userDetail = new UserDetail();
+                    userDetail.Username = user.get(i).getUserName();
+                    userDetail.id = user.get(i).getUserId();
+                    userDetail.Image = user.get(i).getUserImage();
+                    neighboursList.add(userDetail);
+                    Log.d("auto", user.get(i).getUserName());
+                    autocompleteList.add(user.get(i).getUserName());
                 }
             }
+        } else {
+            for (i = 0; i < Constants.membersList.size(); i++) {
+                if (Constants.membersList.get(i).getUserName() != null &&
+                    !Constants.membersList.get(i).getUserName().equals("null")) {
+                    userDetail = new UserDetail();
+                    userDetail.Username = Constants.membersList.get(i).getUserName();
+                    userDetail.id = Constants.membersList.get(i).getUserId();
+                    userDetail.Image = Constants.membersList.get(i).getUserImage();
+                    neighboursList.add(userDetail);
+                    autocompleteList.add(Constants.membersList.get(i).getUserName());
+                }
+            }
+        }
         //}
     }
 }

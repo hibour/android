@@ -31,7 +31,7 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
 
     Button sumbit;
     EditText enterOtp;
-    TextView welcome1, welcome2, resend, change,back;
+    TextView welcome1, welcome2, resend, change, back;
     private String mobileNo, otp,servicertype;
     private Intent data;
     private IntentFilter filter;
@@ -60,7 +60,7 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
         enterOtp = (EditText) findViewById(R.id.otp_edittest);
 //        otp.setTypeface(numbers);
         resend = (TextView) findViewById(R.id.otp_resend);
-        back = (TextView)findViewById(R.id.otp_back);
+        back = (TextView) findViewById(R.id.otp_back);
         enterOtp.setText(data.getExtras().getString("otp"));
         accountsClient = new AccountsClient(this);
         networkDetector = new NetworkDetector(this);
@@ -159,7 +159,7 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
         Log.d("otp",otp);
         if(ot.contains(otp)){
             Log.d("otp","in if of ot");
-            if(otpStatus==false) {
+            if (otpStatus == false) {
                 otpStatus = true;
                 enterOtp.setText(otp);
                 Log.d("otp", "text setted");
@@ -176,29 +176,32 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
         }
         return otp;
     }
+
     /* mobile the user*/
-    private void sendtoMobilenumUser(){
-        if(networkDetector.isConnected()){
-            phoneDialog = ProgressDialog.show(this,"",getResources()
-                    .getString(R.string.progress_dialog_text));
-            accountsClient.mobilenumUser(application.getUserId(),data.getExtras().getString("number")
-                    ,new WebServiceResponseCallback() {
+    private void sendtoMobilenumUser() {
+        if (networkDetector.isConnected()) {
+            phoneDialog = ProgressDialog.show(this, "", getResources()
+                .getString(R.string.progress_dialog_text));
+            accountsClient.mobilenumUser(application.getUserId(), data.getExtras().getString("number")
+                , new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parsemobileDetails(jsonObject);
                     closeMobileDialog();
                 }
+
                 @Override
                 public void onFailure(VolleyError error) {
                     Log.d("signup", error.toString());
                     closeMobileDialog();
                 }
             });
-        }else{
+        } else {
             Toast.makeText(this, "Network not connected.", Toast.LENGTH_LONG).show();
         }
     }
-    private void parsemobileDetails(JSONObject jsonObject){
+
+    private void parsemobileDetails(JSONObject jsonObject) {
         closeMobileDialog();
         Log.d("json", jsonObject.toString());
         try {
@@ -206,16 +209,17 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
             String number = data.getString("number");
             String otp = data.getString("otp");
             enterOtp.setText(otp);
-        }catch (JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
+
     /* close signup dialog*/
-    private void closeMobileDialog(){
-        if(phoneDialog!=null){
-            if(phoneDialog.isShowing()){
+    private void closeMobileDialog() {
+        if (phoneDialog != null) {
+            if (phoneDialog.isShowing()) {
                 phoneDialog.dismiss();
-                phoneDialog=null;
+                phoneDialog = null;
             }
         }
     }

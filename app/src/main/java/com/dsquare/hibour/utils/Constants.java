@@ -34,7 +34,7 @@ public class Constants {
     public static final String URL_GET_ABOUT_US = URL_DOMAIN + "";
     public static final String URL_POST_COMMENT = URL_DOMAIN + "Commentpost/create?";
     public static final String URL_POST_LIKE = URL_DOMAIN + "Likepost/create?";
-    public static final String URL_GET_LIKES = URL_DOMAIN+"getlikes?";
+    public static final String URL_GET_LIKES = URL_DOMAIN + "getlikes?";
     public static final String URL_POST_GET_COMMENT = URL_DOMAIN + "getcomments/";
     public static final String URL_SETTINGS = URL_DOMAIN + "Userreg/userdetails?";
     public static final String URL_PROFILE_UPDATE = URL_DOMAIN + "Userreg/";
@@ -43,9 +43,9 @@ public class Constants {
     public static final String URL_GET_NEIGHBOURHOODS = URL_DOMAIN + "Userreg/address?";
     public static final String URL_SEND_MESSAGE = URL_DOMAIN + "Messages/create?";
     public static final String URL_GET_NEARBY_USER = URL_DOMAIN + "Userreg/%s?signature=%s";
-    public static final String URL_GET_OTHER_USR_DETAILS = URL_DOMAIN+"getprofile?";
-    public static final String URL_UPDATE_USER_LOCATION = URL_DOMAIN+"neighbourhood?";
-
+    public static final String URL_GET_OTHER_USR_DETAILS = URL_DOMAIN + "getprofile?";
+    public static final String URL_UPDATE_USER_LOCATION = URL_DOMAIN + "neighbourhood?";
+    public static final String URL_SEND_USER_STATUS = URL_DOMAIN + "Userstatus/%s/status/%s?signature=%s";
 
     /*user constants*/
     public static final String KEYWORD_USER_NAME = "Username";
@@ -85,7 +85,7 @@ public class Constants {
     public static final String KEYWORD_POST_COMMENT = "Commentmessage";
     public static final String KEYWORD_SIGNATURE = "signature";
     public static final String SIGNATURE_VALUE = "I0mkNPgu6h0M4YtOmG6Ib5BdFHy1Knrf";
-    public static final String KEYWORD_POST_LOC="post_loc";
+    public static final String KEYWORD_POST_LOC = "post_loc";
     public static final String USER_LOGIN_FACEBOOK = "facebook";
 
     public static final String DATABASE_NAME = "Hibour.db";
@@ -119,7 +119,7 @@ public class Constants {
     public static String locationaddress1;
     public static String LocationAddress;
     public static String userAddress = "";
-    public static  String CATID;
+    public static String CATID;
     // message view types
     public static int MESSAGE_LEFT = 1;
     public static int MESSAGE_RIGHT = 2;
@@ -138,14 +138,14 @@ public class Constants {
     public static int MESSAGE_SENT = 3;
     public static int MESSAGE_RECEIVED = 4;
 
-    public static Map<String,List<Postpojos>> postsMap = new LinkedHashMap<>();
-    public static Map<String,List<Postpojos>> postpojosMap = new LinkedHashMap<>();
-    public static Map<String,List<Postpojos>> postpojosMap1 = new LinkedHashMap<>();
+    public static Map<String, List<Postpojos>> postsMap = new LinkedHashMap<>();
+    public static Map<String, List<Postpojos>> postpojosMap = new LinkedHashMap<>();
+    public static Map<String, List<Postpojos>> postpojosMap1 = new LinkedHashMap<>();
     public static Map<String, List<PostLikedUser>> postlikesMap = new LinkedHashMap<>();
-    public static Map<String,String> categoriesMap = new HashMap<>();
-    public static Map<String,String> searchMap = new LinkedHashMap<String,String>();
+    public static Map<String, String> categoriesMap = new HashMap<>();
+    public static Map<String, String> searchMap = new LinkedHashMap<String, String>();
 
-    public static Map<String,Map<String,String>> postTypesMap = new LinkedHashMap<>();
+    public static Map<String, Map<String, String>> postTypesMap = new LinkedHashMap<>();
 
     // gcm message fields
     public static String GCM_FIELDS_MESSAGE_TYPE = "MessagesType";

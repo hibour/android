@@ -26,74 +26,77 @@ import java.util.List;
  */
 public class SocializePager extends Fragment {
 
-    private RecyclerView postsRecycler;
-    private List<Feeds> postsList = new ArrayList<>();
-    private List<String[]> prefsList = new ArrayList<>();
-    private List<UserDetail> neighboursList = new ArrayList<>();
-    private NeighboursAdapter postsAdapter1;
-    private SocializeAdapter postsAdapter;
-    private String categoryName = "";
-    public SocializePager() {
-        // Required empty public constructor
-    }
+  private RecyclerView postsRecycler;
+  private List<Feeds> postsList = new ArrayList<>();
+  private List<String[]> prefsList = new ArrayList<>();
+  private List<UserDetail> neighboursList = new ArrayList<>();
+  private NeighboursAdapter postsAdapter1;
+  private SocializeAdapter postsAdapter;
+  private String categoryName = "";
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_feeds_pager, container, false);
-        initializeViews(view);
-        return view;
-    }
-    private void initializeViews(View view){
-        categoryName = getArguments().getString("categoryName", "");
-        Log.d("catg",categoryName);
-        postsRecycler = (RecyclerView) view.findViewById(R.id.post_posts_list);
-        if(categoryName.equals("PREFERENCES")) {
-            Log.d("catg1","PREFERENCES");
-            postsRecycler.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-            postsRecycler.addItemDecoration(new GridLayoutSpacing(3, 5, true));
-            postsRecycler.setHasFixedSize(true);
-            setAdapter();
-        }else {
-            Log.d("catg2","All");
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-            postsRecycler.setLayoutManager(layoutManager);
-            postsRecycler.setHasFixedSize(true);
-            setNeighbours();
-        }
-        // new setFeedsTask().execute(categoryName);
-    }
+  public SocializePager() {
+    // Required empty public constructor
+  }
 
-    private void setAdapter(){
-        for(String s: Constants.socialPrefsMap.keySet()){
-            String[] details = {Constants.socialPrefsMap.get(s).get(0)
-                    , Constants.socialPrefsMap.get(s).get(1)
-                    , Constants.socialPrefsMap.get(s).get(2)
-                    , Constants.socialPrefsMap.get(s).get(3)
-                    ,Constants.socialPrefsMap.get(s).get(4)
-                    ,Constants.socialPrefsMap.get(s).get(5)};
-            prefsList.add(details);
-        }
-        postsRecycler.setAdapter(new SocializeAdapter(getActivity(),prefsList));
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                           Bundle savedInstanceState) {
+    // Inflate the layout for this fragment
+    View view = inflater.inflate(R.layout.fragment_feeds_pager, container, false);
+    initializeViews(view);
+    return view;
+  }
+
+  private void initializeViews(View view) {
+    categoryName = getArguments().getString("categoryName", "");
+    Log.d("catg", categoryName);
+    postsRecycler = (RecyclerView) view.findViewById(R.id.post_posts_list);
+    if (categoryName.equals("PREFERENCES")) {
+      Log.d("catg1", "PREFERENCES");
+      postsRecycler.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+      postsRecycler.addItemDecoration(new GridLayoutSpacing(3, 5, true));
+      postsRecycler.setHasFixedSize(true);
+      setAdapter();
+    } else {
+      Log.d("catg2", "All");
+      LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+      layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+      postsRecycler.setLayoutManager(layoutManager);
+      postsRecycler.setHasFixedSize(true);
+      setNeighbours();
     }
-    /* prepare neighbours list*/
-    private void setNeighbours() {
-        UserDetail userDetail;
-        int i;
-        //for (i = 0; i < 10; i++) {
-        for (i = 0; i < Constants.membersList.size(); i++) {
-            Log.d("size",""+Constants.membersList.size());
-            if (Constants.membersList.get(i).getUserName() != null &&
-                    !Constants.membersList.get(i).getUserName().equals("null")) {
-                userDetail = new UserDetail();
-                userDetail.Username = Constants.membersList.get(i).getUserName();
-                userDetail.id = Constants.membersList.get(i).getUserId();
-                userDetail.Image = Constants.membersList.get(i).getUserImage();
-                neighboursList.add(userDetail);
-            }
-        }
-        postsRecycler.setAdapter(new NeighboursAdapter(getActivity(), neighboursList, R.layout.adapter_neighbours));
+    // new setFeedsTask().execute(categoryName);
+  }
+
+  private void setAdapter() {
+    for (String s : Constants.socialPrefsMap.keySet()) {
+      String[] details = {Constants.socialPrefsMap.get(s).get(0)
+          , Constants.socialPrefsMap.get(s).get(1)
+          , Constants.socialPrefsMap.get(s).get(2)
+          , Constants.socialPrefsMap.get(s).get(3)
+          , Constants.socialPrefsMap.get(s).get(4)
+          , Constants.socialPrefsMap.get(s).get(5)};
+      prefsList.add(details);
     }
+    postsRecycler.setAdapter(new SocializeAdapter(getActivity(), prefsList));
+  }
+
+  /* prepare neighbours list*/
+  private void setNeighbours() {
+    UserDetail userDetail;
+    int i;
+    //for (i = 0; i < 10; i++) {
+    for (i = 0; i < Constants.membersList.size(); i++) {
+      Log.d("size", "" + Constants.membersList.size());
+      if (Constants.membersList.get(i).getUserName() != null &&
+          !Constants.membersList.get(i).getUserName().equals("null")) {
+        userDetail = new UserDetail();
+        userDetail.Username = Constants.membersList.get(i).getUserName();
+        userDetail.id = Constants.membersList.get(i).getUserId();
+        userDetail.Image = Constants.membersList.get(i).getUserImage();
+        neighboursList.add(userDetail);
+      }
+    }
+    postsRecycler.setAdapter(new NeighboursAdapter(getActivity(), neighboursList, R.layout.adapter_neighbours));
+  }
 }

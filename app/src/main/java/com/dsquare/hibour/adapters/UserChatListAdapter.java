@@ -69,6 +69,11 @@ public class UserChatListAdapter extends RecyclerView.Adapter<UserChatListAdapte
     return listItems.size();
   }
 
+  public void removeItem(int adapterPosition) {
+    listItems.remove(adapterPosition);
+    notifyDataSetChanged();
+  }
+
   public static class ViewHolder extends RecyclerView.ViewHolder {
     private TextView userName, profession;
     private ImageView userImage;
