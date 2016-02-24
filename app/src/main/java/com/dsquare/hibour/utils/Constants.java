@@ -43,8 +43,13 @@ public class Constants {
     public static final String URL_GET_NEIGHBOURHOODS = URL_DOMAIN + "Userreg/address?";
     public static final String URL_SEND_MESSAGE = URL_DOMAIN + "Messages/create?";
     public static final String URL_GET_NEARBY_USER = URL_DOMAIN + "Userreg/%s?signature=%s";
-    public static final String URL_GET_OTHER_USR_DETAILS = URL_DOMAIN + "getprofile?";
-    public static final String URL_UPDATE_USER_LOCATION = URL_DOMAIN + "neighbourhood?";
+    public static final String URL_GET_OTHER_USR_DETAILS = URL_DOMAIN+"getprofile?";
+    public static final String URL_UPDATE_USER_LOCATION = URL_DOMAIN+"neighbourhood?";
+
+    public static final String URL_GOOGLE_LOC_ADDRESS= "https://maps.googleapis.com/maps/api/geocode/json?";
+
+    public static final String GOOGLE_ADDRESS_API_KEY = "AIzaSyC9Cnku7Rz_ZAkuEwbd5jf5D94MzTTk784";
+
     public static final String URL_SEND_USER_STATUS = URL_DOMAIN + "Userstatus/%s/status/%s?signature=%s";
 
     /*user constants*/
@@ -153,4 +158,10 @@ public class Constants {
     public static String GCM_FIELDS_RECEIVER_ID = "Receiveruserid";
     public static String GCM_FIELDS_SENDER_ID = "Senderuserid";
 
+    public static String SHARED_PREFERENCES_FIRST_RUN = "firstRun";
+    public static String USER_STATUS_TYPING = "Typing...";
+    public static String USER_STATUS_ONLINE = "Online";
+    public static int SEND_STATUS_INTERVAL = 3000;
+    public static int MARK_TYPING_INTERVAL = 3000;
+    public static int NOTIFICATION_ID_MESSAGE = 1;
 }

@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.database.DatabaseHandler;
 import com.dsquare.hibour.gcm.GcmRegistration;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
@@ -77,9 +78,11 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     private Intent data;
     private String string;
     private String userName="",userNumber="",userMail="",socialType="",userpassword="",userfirst="",userlast="";
-    private ImageView male, female;
-    private LinearLayout linearmale, linearfemale;
-    private String Gender = "";
+    private ImageView male,female;
+    private LinearLayout linearmale,linearfemale;
+    private String Gender="";
+    private DatabaseHandler handler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,9 +95,11 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     }
     /* initialize views*/
     private void initializeViews(){
-        submitButton = (Button) findViewById(R.id.signup_next);
-        fname = (EditText) findViewById(R.id.signup_firstname);
-        lname = (EditText) findViewById(R.id.signup_lastname);
+        handler = new DatabaseHandler(this);
+        submitButton = (Button)findViewById(R.id.signup_next);
+        fname = (EditText)findViewById(R.id.signup_firstname);
+        lname = (EditText)findViewById(R.id.signup_lastname);
+
         email= (EditText)findViewById(R.id.signup_email);
         password = (EditText) findViewById(R.id.signup_pwd);
         male = (ImageView) findViewById(R.id.image_male);

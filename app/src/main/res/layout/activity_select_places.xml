@@ -1,71 +1,233 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/white"
-              android:orientation="vertical">
-
-
-    <RelativeLayout
-        android:id="@+id/relative_auto"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+    <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:visibility="visible">
+        android:id="@+id/loc_map"
+        android:visibility="gone"
+        tools:context=".activities.LocationSearch"
+        android:name="com.google.android.gms.maps.SupportMapFragment" />
+    <LinearLayout
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/loc_linear_layout"
+        android:background="@color/white">
 
-        <LinearLayout
-            android:id="@+id/loc_search_layout"
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:background="@color/white">
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:id="@+id/relative_auto"
+            android:visibility="visible">
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="177dp"
-                >
-
-                <com.dsquare.hibour.utils.ProximaLight
-                    android:id="@+id/loc_search_text_temp1"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:id="@+id/loc_search_layout"
+                android:background="@color/white">
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_gravity="center"
-                    android:text="@string/title_activity_googleplace"
-                    android:textColor="@color/textColor_discoverneighbourhood"
-                    android:textSize="@dimen/dp_20"
-                    />
+                    android:layout_height="177dp">
+                    <com.dsquare.hibour.utils.ProximaLight
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_activity_googleplace"
+                        android:textSize="@dimen/dp_20"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center"
+                        android:id="@+id/loc_search_text_temp1"
+                        android:textColor="@color/textColor_discoverneighbourhood"
+                        />
 
-                <com.dsquare.hibour.utils.ProximaLight
-                    android:id="@+id/loc_search_text_temp2"
-                    android:layout_width="wrap_content"
+                    <com.dsquare.hibour.utils.ProximaLight
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_neighborhood"
+                        android:textSize="@dimen/dp_20"
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@id/loc_search_text_temp1"
+                        android:id="@+id/loc_search_text_temp2"
+                        android:textColor="@color/textColor_discoverneighbourhood"
+                        android:layout_marginBottom="@dimen/dp_30"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_160"
+                        android:orientation="vertical"
+                        android:background="@color/white"
+                        android:layout_below="@id/loc_search_text_temp2">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_40"
+                            android:background="@drawable/loc_search_rectangle"
+                            android:descendantFocusability="beforeDescendants"
+                            android:focusableInTouchMode="true"
+                            android:layout_marginLeft="@dimen/dp_25"
+                            android:layout_marginRight="@dimen/dp_25"
+                            android:layout_above="@id/loc_location_display_layout">
+
+                            <ImageView
+                                android:layout_width="@dimen/dp_25"
+                                android:layout_height="@dimen/dp_25"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="@dimen/dp_10"
+                                android:layout_alignParentRight="true"
+                                android:src="@mipmap/location_icon"
+                                android:id="@+id/loc_search_icon"/>
+
+                            <AutoCompleteTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dp_30"
+                                android:layout_centerInParent="true"
+                                android:layout_alignParentLeft="true"
+                                android:layout_marginRight="@dimen/dp_30"
+                                android:hint="@string/loc_locality"
+                                android:textColor="@color/gray"
+                                android:textColorHint="@color/gray"
+                                android:textSize="@dimen/edit_text_size"
+                                android:id="@+id/loc_search_autocomplete"
+                                android:background="@null"
+                                android:gravity="center"/>
+                        </RelativeLayout>
+                    </LinearLayout>
+
+
+                    <Button
+                        android:layout_width="@dimen/dp_100"
+                        android:layout_height="@dimen/dp_30"
+                        android:layout_gravity="center"
+                        android:background="@color/brand"
+                        android:layout_marginTop="@dimen/dp_20"
+                        android:text="@string/loc_search_text"
+                        android:textColor="@color/white"
+                        android:id="@+id/places_search"
+                        android:visibility="gone"
+                        />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="@dimen/dp_224"
+                android:layout_height="@dimen/dp_223"
+                android:id="@+id/hibour_logo_landing_page"
+                android:src="@mipmap/hibour_logo_landingpage"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_centerHorizontal="true"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/loc_search_text_temp1"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/dp_30"
-                    android:text="@string/title_neighborhood"
-                    android:textColor="@color/textColor_discoverneighbourhood"
-                    android:textSize="@dimen/dp_20"/>
+                    android:id="@+id/imageView2"
+                    android:src="@mipmap/house_animation"
+                    android:layout_alignWithParentIfMissing="false"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/loc_search_layout"/>
+
 
                 <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:id="@+id/sign_in_text"
+                    android:gravity="center_horizontal">
+                    <com.dsquare.hibour.utils.ProximaLight
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/signup_signin_text"
+                        android:textSize="18sp"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:layout_marginBottom="@dimen/dp_20"/>
+                    <com.dsquare.hibour.utils.ProximaLight
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_18"
+                        android:textColor="@color/black_1"
+                        android:text="Sign in"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/relative_map"
+            android:background="@color/white"
+            android:layout_below="@id/location_toolbar"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_120"
+                android:layout_alignParentBottom="true"
+                android:background="@color/white"
+                android:id="@+id/location_button_bar">
+                <Button
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_160"
-                    android:layout_below="@id/loc_search_text_temp2"
-                    android:background="@color/white"
-                    android:orientation="vertical">
+                    android:layout_height="@dimen/dp_50"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_Size_level5"
+                    android:background="@color/brand"
+                    android:text="Connect to your neighbours"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:id="@+id/serach_sumbit"/>
+                <com.dsquare.hibour.utils.Avenir
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/black_1"
+                    android:textSize="@dimen/text_size_level4"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_above="@id/serach_sumbit"
+                    android:id="@+id/loc_members_count"
+                    android:text=""/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:id="@+id/loc_search_top_layout"
+                android:background="@color/white">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@color/white">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_40"
-                        android:layout_above="@id/loc_location_display_layout"
-                        android:layout_marginLeft="@dimen/dp_25"
-                        android:layout_marginRight="@dimen/dp_25"
+                        android:layout_height="@dimen/dp_35"
                         android:background="@drawable/loc_search_rectangle"
                         android:descendantFocusability="beforeDescendants"
-                        android:focusableInTouchMode="true">
+                        android:focusableInTouchMode="true"
+                        android:layout_marginLeft="@dimen/dp_25"
+                        android:layout_marginRight="@dimen/dp_25">
 
                         <ImageView
-                            android:id="@+id/loc_search_icon"
+                            android:id="@+id/loc_search_icon1"
                             android:layout_width="@dimen/dp_25"
                             android:layout_height="@dimen/dp_25"
                             android:layout_alignParentRight="true"
@@ -73,204 +235,42 @@
                             android:layout_marginRight="@dimen/dp_10"
                             android:src="@mipmap/location_icon"/>
 
+                        <ImageView
+                            android:layout_width="@dimen/dp_25"
+                            android:layout_height="@dimen/dp_25"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/dp_10"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:layout_alignParentLeft="true"
+                            android:src="@mipmap/ic_logo_red"
+                            android:id="@+id/loc_logo"/>
                         <AutoCompleteTextView
-                            android:id="@+id/loc_search_autocomplete"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/dp_30"
-                            android:layout_alignParentLeft="true"
                             android:layout_centerInParent="true"
-                            android:layout_marginRight="@dimen/dp_30"
-                            android:background="@null"
-                            android:gravity="center"
+                            android:layout_toRightOf="@id/loc_logo"
+                            android:layout_marginRight="@dimen/dp_10"
+                            android:layout_toLeftOf="@id/loc_search_icon1"
                             android:hint="@string/loc_locality"
                             android:textColor="@color/gray"
                             android:textColorHint="@color/gray"
-                            android:textSize="@dimen/edit_text_size"/>
+                            android:textSize="@dimen/edit_text_size"
+                            android:id="@+id/loc_search_autocomplete1"
+                            android:background="@null"
+                            android:gravity="center"/>
+
                     </RelativeLayout>
                 </LinearLayout>
-
-
-                <Button
-                    android:id="@+id/places_search"
-                    android:layout_width="@dimen/dp_100"
-                    android:layout_height="@dimen/dp_30"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/dp_20"
-                    android:background="@color/brand"
-                    android:text="@string/loc_search_text"
-                    android:textColor="@color/white"
-                    android:visibility="gone"
-                    />
-
             </RelativeLayout>
-
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/hibour_logo_landing_page"
-            android:layout_width="@dimen/dp_224"
-            android:layout_height="@dimen/dp_223"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dp_20"
-            android:src="@mipmap/hibour_logo_landingpage"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/imageView2"
+            <WebView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignWithParentIfMissing="false"
-                android:layout_below="@+id/loc_search_layout"
-                android:src="@mipmap/house_animation"/>
-
-
-            <LinearLayout
-                android:id="@+id/sign_in_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
-
-                <com.dsquare.hibour.utils.ProximaLight
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dp_20"
-                    android:layout_marginRight="@dimen/dp_10"
-                    android:text="@string/signup_signin_text"
-                    android:textSize="18sp"/>
-
-                <com.dsquare.hibour.utils.ProximaLight
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Sign in"
-                    android:textColor="@color/black_1"
-                    android:textSize="@dimen/sp_18"/>
-            </LinearLayout>
-
-        </LinearLayout>
-
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/relative_map"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/location_toolbar"
-        android:background="@color/white"
-        android:visibility="gone">
-
-        <RelativeLayout
-            android:id="@+id/location_button_bar"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_120"
-            android:layout_alignParentBottom="true"
-            android:background="@color/white">
-
-            <Button
-                android:id="@+id/serach_sumbit"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/dp_10"
-                android:background="@color/brand"
-                android:text="Connect to your neighbours"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_Size_level5"/>
-
-            <com.dsquare.hibour.utils.Avenir
-                android:id="@+id/loc_members_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@id/serach_sumbit"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/dp_10"
-                android:gravity="center_horizontal"
-                android:text=""
-                android:textColor="@color/black_1"
-                android:textSize="@dimen/text_size_level4"/>
+                android:layout_height="match_parent"
+                android:layout_below="@id/loc_search_top_layout"
+                android:layout_above="@id/location_button_bar"
+                android:layout_marginRight="@dimen/dp_5"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:id="@+id/map"></WebView>
         </RelativeLayout>
+    </LinearLayout>
+</FrameLayout>
 
-        <RelativeLayout
-            android:id="@+id/loc_search_top_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
-            android:background="@color/white">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:orientation="vertical">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_35"
-                    android:layout_above="@id/loc_location_display_layout"
-                    android:layout_marginLeft="@dimen/dp_25"
-                    android:layout_marginRight="@dimen/dp_25"
-                    android:background="@drawable/loc_search_rectangle"
-                    android:descendantFocusability="beforeDescendants"
-                    android:focusableInTouchMode="true">
-
-                    <ImageView
-                        android:id="@+id/loc_search_icon1"
-                        android:layout_width="@dimen/dp_25"
-                        android:layout_height="@dimen/dp_25"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/dp_10"
-                        android:src="@mipmap/location_icon"/>
-
-                    <ImageView
-                        android:id="@+id/loc_logo"
-                        android:layout_width="@dimen/dp_25"
-                        android:layout_height="@dimen/dp_25"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/dp_10"
-                        android:layout_marginRight="@dimen/dp_10"
-                        android:src="@mipmap/ic_logo_red"/>
-
-                    <AutoCompleteTextView
-                        android:id="@+id/loc_search_autocomplete1"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_30"
-                        android:layout_centerInParent="true"
-                        android:layout_marginRight="@dimen/dp_10"
-                        android:layout_toLeftOf="@id/loc_search_icon1"
-                        android:layout_toRightOf="@id/loc_logo"
-                        android:background="@null"
-                        android:gravity="center"
-                        android:hint="@string/loc_locality"
-                        android:textColor="@color/gray"
-                        android:textColorHint="@color/gray"
-                        android:textSize="@dimen/edit_text_size"/>
-
-                </RelativeLayout>
-            </LinearLayout>
-        </RelativeLayout>
-
-        <WebView
-            android:id="@+id/map"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/location_button_bar"
-            android:layout_below="@id/loc_search_top_layout"
-            android:layout_marginRight="@dimen/dp_5"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"></WebView>
-    </RelativeLayout>
-</LinearLayout>
