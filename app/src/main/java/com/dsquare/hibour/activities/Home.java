@@ -83,6 +83,9 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
     manager = getSupportFragmentManager();
     drawerList = (ListView) findViewById(R.id.left_drawer);
     application = Hibour.getInstance(this);
+    postsClient = new PostsClient(this);
+    networkDetector = new NetworkDetector(this);
+      gson = new Gson();
   }
 
   private void loadDefaultFragment() {

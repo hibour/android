@@ -203,7 +203,6 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
     private void openWelcomeDialog() {
         Log.d("Posts", "welcome");
         welcomeDialog = new WelcomeDialog();
-
         welcomeDialog.show(getActivity().getSupportFragmentManager(), "chooser dialog");
         welcomeDialog.setTargetFragment(this, 0);
     }
