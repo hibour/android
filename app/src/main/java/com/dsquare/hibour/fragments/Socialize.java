@@ -42,6 +42,8 @@ import java.util.List;
  */
 public class Socialize extends android.support.v4.app.Fragment implements View.OnClickListener {
 
+    CharSequence[] titles = {"PREFERENCES", "ALL"};
+    int NumOfTabs = 2;
     private Button doneButton,previous;
     private RecyclerView prefsRecycler;
     private List<String[]> prefsList = new ArrayList<>();
@@ -55,8 +57,6 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
     private ViewPager pager;
     private SlidingTabLayout tabs;
     private List<String> tabsList = new ArrayList<>();
-    CharSequence[] titles={"PREFERENCES","ALL"};
-    int NumOfTabs=2;
     public Socialize() {
         // Required empty public constructor
     }
@@ -80,10 +80,10 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
         application = Hibour.getInstance(getActivity());
 //        doneButton = (Button)view.findViewById(R.id.socialize_done_button);
 //        previous = (Button)view.findViewById(R.id.socialize_prev_button);
-        pager = (ViewPager)view.findViewById(R.id.posts_pager);
+        pager = (ViewPager) view.findViewById(R.id.posts_pager);
         tabsList.add("PREFERENCES");
         tabsList.add("ALL");
-        tabs = (SlidingTabLayout)view.findViewById(R.id.posts_tabs);
+        tabs = (SlidingTabLayout) view.findViewById(R.id.posts_tabs);
         tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
             @Override
             public int getIndicatorColor(int position) {
@@ -221,10 +221,10 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
     }
 
     /*set pager adapter*/
-    private void setPager(){
+    private void setPager() {
 
-        SocializeTabsPager pagerAdapter = new SocializeTabsPager(getFragmentManager(),tabsList);
-          tabs.setDistributeEvenly(true);
+        SocializeTabsPager pagerAdapter = new SocializeTabsPager(getFragmentManager(), tabsList);
+        tabs.setDistributeEvenly(true);
         try {
             pager.setAdapter(pagerAdapter);
             tabs.setViewPager(pager);

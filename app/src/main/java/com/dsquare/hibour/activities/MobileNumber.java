@@ -26,16 +26,16 @@ import org.json.JSONObject;
 
 public class MobileNumber extends AppCompatActivity implements View.OnClickListener {
 
+    RadioGroup gender, services;
     private EditText mobile;
     private Button sumbit;
-    RadioGroup gender,services;
     private NetworkDetector networkDetector;
     private AccountsClient accountsClient;
     private ProgressDialog phoneDialog;
     private TextView back;
     private  Gson gson;
-    private Hibour  application;
-    private String genderstring="",serviceString="";
+    private Hibour application;
+    private String genderstring = "", serviceString = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +50,7 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
         mobile.setTypeface(numbers);
         sumbit = (Button) findViewById(R.id.moblie_send);
         sumbit.setTypeface(numbers);
-        back = (TextView)findViewById(R.id.mobile_back);
+        back = (TextView) findViewById(R.id.mobile_back);
         accountsClient = new AccountsClient(this);
         networkDetector = new NetworkDetector(this);
         gson = new Gson();
@@ -73,15 +73,15 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
     }
 
     private void openbackActivity() {
-        Intent intent = new Intent(getApplicationContext(),SignUp.class);
+        Intent intent = new Intent(getApplicationContext(), SignUp.class);
         startActivity(intent);
         finish();
     }
 
     private void openOtpActivity() {
-        if(mobile.getText().toString().length() < 11 && mobile.getText().toString().length() > 9) {
+        if (mobile.getText().toString().length() < 11 && mobile.getText().toString().length() > 9) {
             sendtoMobilenumUser();
-        } else{
+        } else {
             Toast.makeText(this, "Invalid mobile number", Toast.LENGTH_SHORT).show();
         }
     }
@@ -90,13 +90,13 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
         if(networkDetector.isConnected()){
             phoneDialog = ProgressDialog.show(this,"",getResources()
                     .getString(R.string.progress_dialog_text));
-            accountsClient.mobilenumUser(application.getUserId(),mobile.getText().toString()
+            accountsClient.mobilenumUser(application.getUserId(), mobile.getText().toString()
                     ,new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     Intent intent = new Intent(getApplicationContext(), Home.class);
                     startActivity(intent);
-              //      parsemobileDetails(jsonObject);
+                    //      parsemobileDetails(jsonObject);
                     closeMobileDialog();
                 }
                 @Override
@@ -116,17 +116,17 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
             JSONObject data = jsonObject.getJSONObject("data");
             String number = data.getString("number");
             String otp = data.getString("otp");
-            if(!otp.equals(null)&&!otp.equals("null")&&!otp.equals("")) {
-             //   Intent intent = new Intent(getApplicationContext(), VerifyOtp.class);
+            if (!otp.equals(null) && !otp.equals("null") && !otp.equals("")) {
+                //   Intent intent = new Intent(getApplicationContext(), VerifyOtp.class);
                 Intent intent = new Intent(getApplicationContext(), Home.class);
                 intent.putExtra("number", number);
                 intent.putExtra("otp", otp);
                 startActivity(intent);
                 finish();
-            }else{
-                Toast.makeText(getApplicationContext(),"Invalid User",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "Invalid User", Toast.LENGTH_SHORT).show();
             }
-        }catch (JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 

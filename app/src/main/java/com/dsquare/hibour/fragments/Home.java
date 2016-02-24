@@ -36,7 +36,7 @@ import java.util.List;
  */
 
 
-public class Home extends Fragment implements View.OnClickListener,PostsTypesDialog.categoryChooserListener {
+public class Home extends Fragment implements View.OnClickListener, PostsTypesDialog.categoryChooserListener {
 
     private FragmentManager manager;
     private FragmentTransaction transaction;
@@ -44,7 +44,7 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
     private NavDrawerCallback callback;
     private boolean isHome = true;
     private ImageView feedIcon, socializeIcon, newPostIcon, channelsIcon, moreIcon,postimage,searchIcon;
-    private LinearLayout feedLayout,socializeLayout,messageLayout,moreLayout;
+    private LinearLayout feedLayout, socializeLayout, messageLayout, moreLayout;
     private AutoCompleteTextView autoCompleteTextView;
     private RelativeLayout searchLayout;
     private LinearLayout bottomBar1;
@@ -82,7 +82,7 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
         messageLayout = (LinearLayout) view.findViewById(R.id.home_message_layout);
         moreLayout = (LinearLayout) view.findViewById(R.id.home_more_layout);
 
-        Constants.categoriesMap.put("6","General");
+        Constants.categoriesMap.put("6", "General");
         Constants.categoriesMap.put("2","Suggestions");
         Constants.categoriesMap.put("3","Classifieds");
         Constants.categoriesMap.put("4", "Crime & saftey");
@@ -172,7 +172,7 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
                 replaceContainer(4);
                 break;
             case R.id.feeds_create_fab:
-                if(bottomBar1.getVisibility() == View.VISIBLE) {
+                if (bottomBar1.getVisibility() == View.VISIBLE) {
 //                    newPostIcon.setVisibility(View.GONE);
                     bottomBar1.setVisibility(View.GONE);
 //                postimage.setVisibility(View.VISIBLE);
@@ -180,7 +180,7 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
                 }
                 categoriesDialog = new PostsTypesDialog();
 
-                categoriesDialog.show(getActivity().getSupportFragmentManager(),"categories");
+                categoriesDialog.show(getActivity().getSupportFragmentManager(), "categories");
                 categoriesDialog.setTargetFragment(this, 0);
                 //replaceContainer(3);
                 break;
@@ -216,7 +216,7 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
         switch (id) {
             case 0:
                 isHome = false;
-                Log.d("Home","feed");
+                Log.d("Home", "feed");
                 fragment = new Posts();
                 break;
             case 1:
@@ -231,7 +231,7 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
                 isHome = true;
                 fragment = new NewPost();
                 Bundle args = new Bundle();
-                args.putString("category",categoryName);
+                args.putString("category", categoryName);
                 fragment.setArguments(args);
                 break;
             case 4:
@@ -250,16 +250,18 @@ public class Home extends Fragment implements View.OnClickListener,PostsTypesDia
             fragmentTransaction.commit();
         }
     }
+
     @Override
     public void onCancel(DialogFragment dialog) {
-        if(bottomBar1.getVisibility() == View.GONE) {
+        if (bottomBar1.getVisibility() == View.GONE) {
             bottomBar1.setVisibility(View.VISIBLE);
             createPost.setVisibility(View.VISIBLE);
         }
         dialog.dismiss();
     }
+
     @Override
-    public void onCategorySelected(String categoryName,DialogFragment dialog) {
+    public void onCategorySelected(String categoryName, DialogFragment dialog) {
         this.categoryName = "";
         this.categoryName = categoryName;
         dialog.dismiss();

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/phone_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:id="@+id/phone_toolbar"
         android:background="@color/white">
 
         <ImageView
@@ -42,11 +43,11 @@
             <!--android:textColor="@color/black_1"-->
             <!--/>-->
             <LinearLayout
+                android:id="@+id/verification_linear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:background="@color/light_grays"
-                android:id="@+id/verification_linear"
+                android:orientation="vertical"
                 >
 
                 <!--<RelativeLayout-->
@@ -107,13 +108,13 @@
                     android:layout_height="@dimen/dp_60"
                     >
                     <com.dsquare.hibour.utils.Proxima
+                        android:id="@+id/verification_gender"
                         android:layout_width="@dimen/dp_80"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp_20"
                         android:text="Gender"
                         android:textSize="@dimen/sp_18"
-                        android:layout_centerVertical="true"
-                        android:id="@+id/verification_gender"
-                        android:layout_marginLeft="@dimen/dp_20"
                         />
 
                     <RadioGroup
@@ -147,13 +148,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_60">
                     <com.dsquare.hibour.utils.Proxima
+                        android:id="@+id/verification_serives"
                         android:layout_width="@dimen/dp_80"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp_20"
                         android:text="Services"
                         android:textSize="@dimen/sp_18"
-                        android:layout_centerVertical="true"
-                        android:id="@+id/verification_serives"
-                        android:layout_marginLeft="@dimen/dp_20"
                         />
 
                     <RadioGroup
@@ -187,17 +188,17 @@
             </LinearLayout>
 
             <Button
+                android:id="@+id/phone_submit"
                 android:layout_width="@dimen/dp_100"
                 android:layout_height="@dimen/dp_30"
+                android:layout_below="@+id/verification_linear"
+                android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
-                android:background="@color/brand"
                 android:layout_marginTop="@dimen/dp_20"
+                android:background="@color/brand"
                 android:text="@string/phone_submit"
                 android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:id="@+id/phone_submit"
-                android:layout_below="@+id/verification_linear"
-                android:layout_centerHorizontal="true"/>
+                android:textColor="@color/white"/>
 
 
         </RelativeLayout>

@@ -41,6 +41,7 @@ import java.util.Map;
 
 public class SocialCategories extends AppCompatActivity implements View.OnClickListener{
 
+    public static Map<String, String> searchMap = new LinkedHashMap<>();
     private Button next;
     private TextView back;
     private AutoCompleteTextView searchText;
@@ -48,7 +49,6 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
     private RecyclerView prefsRecycler;
     private List<String[]> prefsList = new ArrayList<>();
     private List<String> searchList=new ArrayList<>();
-    public static Map<String, String> searchMap = new LinkedHashMap<>();
     private List<String> suggestionList = new ArrayList<>();
     private PreferencesAdapter adapter;
     private NetworkDetector networkDetector;
@@ -73,8 +73,8 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
         gson = new Gson();
         application = Hibour.getInstance(this);
 
-        back=(TextView)findViewById(R.id.social_back);
-        next=(Button)findViewById(R.id.socialize_next_button);
+        back = (TextView) findViewById(R.id.social_back);
+        next = (Button) findViewById(R.id.socialize_next_button);
         searchText = (AutoCompleteTextView)findViewById(R.id.search_box);
         prefsRecycler = (RecyclerView)findViewById(R.id.social_prefs_list);
         prefsRecycler.setLayoutManager(new GridLayoutManager(this, 3));
@@ -131,11 +131,11 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
     private void openHomeActivity(){
         Intent homeIntent = new Intent(this,Home.class);
         startActivity(homeIntent);
-    //    this.finishAffinity();
+        //    this.finishAffinity();
     }
     private void openPreviousActivity(){
 //        Intent otpIntent = new Intent(this,VerifyOtp.class);
-        Intent otpIntent = new Intent(this,Home.class);
+        Intent otpIntent = new Intent(this, Home.class);
         startActivity(otpIntent);
         finish();
     }

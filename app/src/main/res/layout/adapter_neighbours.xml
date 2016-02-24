@@ -17,6 +17,7 @@
             android:layout_width="@dimen/comments_icon_size"
             android:layout_height="@dimen/comments_icon_size"
             android:src="@drawable/avatar1"/>
+
         <ImageView
             android:id="@+id/adapter_neighbours_image1"
             android:layout_width="@dimen/comments_icon_size"

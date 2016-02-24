@@ -1,42 +1,42 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@android:color/white"
+                android:orientation="vertical"
     tools:context="com.dsquare.hibour.activities.GroupPosts">
 
     <RelativeLayout
+        android:id="@+id/group_chating_layout"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:background="@color/brand"
-        android:id="@+id/group_chating_layout">
+        android:background="@color/brand">
         <ImageView
+            android:id="@+id/group_posts_back_icon"
             android:layout_width="@dimen/app_bar_icon_size"
             android:layout_height="@dimen/app_bar_icon_size"
-            android:src="@drawable/ic_arrow_back_white"
+            android:layout_centerVertical="true"
             android:padding="@dimen/app_bar_icon_padding"
-            android:id="@+id/group_posts_back_icon"
-            android:layout_centerVertical="true"/>
+            android:src="@drawable/ic_arrow_back_white"/>
         <TextView
+            android:id="@+id/group_posts_group_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="Bhanu Elite"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/app_bar_title_text_size"
-            android:id="@+id/group_posts_group_name"/>
+            android:textSize="@dimen/app_bar_title_text_size"/>
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:scrollbars="vertical"
-        android:background="@android:color/white"
+        android:id="@+id/group_posts_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="@dimen/dp_65"
         android:layout_below="@+id/group_chating_layout"
-        android:id="@+id/group_posts_list">
+        android:background="@android:color/white"
+        android:paddingBottom="@dimen/dp_65"
+        android:scrollbars="vertical">
     </android.support.v7.widget.RecyclerView>
 
     <RelativeLayout
@@ -45,36 +45,36 @@
         android:layout_alignParentBottom="true"
         android:background="@color/white">
         <android.support.v7.widget.CardView
+            android:id="@+id/adapter_chating_layout1"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/chating_msg_send"
+            android:background="@color/white"
             card_view:cardCornerRadius="5dp"
             card_view:cardElevation="0.01dp"
-            android:layout_toLeftOf="@+id/chating_msg_send"
-            android:id="@+id/adapter_chating_layout1"
-            android:layout_marginRight="10dp"
-            android:background="@color/white"
             >
             <EditText
+                android:id="@+id/chating_message_edittest"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/chating_msg_send"
+                android:background="@color/white"
+                android:gravity="center"
                 android:hint="Write Your Message"
                 android:textSize="16dp"
-                android:id="@+id/chating_message_edittest"
-                android:gravity="center"
-                android:layout_toLeftOf="@+id/chating_msg_send"
-                android:layout_marginRight="10dp"
-                android:background="@color/white"
                 />
         </android.support.v7.widget.CardView>
         <Button
+            android:id="@+id/chating_msg_send"
             android:layout_width="100dp"
             android:layout_height="40dp"
-            android:text="Send"
-            android:id="@+id/chating_msg_send"
-            android:textColor="#FFFFFF"
-            android:background="#9077B1"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
+            android:background="#9077B1"
+            android:text="Send"
+            android:textColor="#FFFFFF"
             />
 
 

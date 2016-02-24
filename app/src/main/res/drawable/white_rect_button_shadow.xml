@@ -4,7 +4,7 @@
 
     <item android:drawable="@drawable/shadow"/>
     <item
-        android:drawable="@drawable/white_rect_rounded"
-        android:bottom="4px" />
+        android:bottom="4px"
+        android:drawable="@drawable/white_rect_rounded"/>
 
 </layer-list>

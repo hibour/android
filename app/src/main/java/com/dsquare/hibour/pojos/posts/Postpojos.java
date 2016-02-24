@@ -42,6 +42,15 @@ public class Postpojos {
     @SerializedName("post_likes_count")
     @Expose
     private Integer postLikesCount;
+    @SerializedName("post_user_liked")
+    @Expose
+    private boolean postUserLiked;
+    @SerializedName("post_liked_users")
+    @Expose
+    private List<PostLikedUser> postLikedUsers = new ArrayList<PostLikedUser>();
+    @SerializedName("post_comments")
+    @Expose
+    private List<PostComment> postComments = new ArrayList<PostComment>();
 
     public String getPostTypeName() {
         return postTypeName;
@@ -62,16 +71,6 @@ public class Postpojos {
     public void setPostUserLiked(boolean postUserLiked) {
         this.postUserLiked = postUserLiked;
     }
-
-    @SerializedName("post_user_liked")
-    @Expose
-    private boolean postUserLiked;
-    @SerializedName("post_liked_users")
-    @Expose
-    private List<PostLikedUser> postLikedUsers = new ArrayList<PostLikedUser>();
-    @SerializedName("post_comments")
-    @Expose
-    private List<PostComment> postComments = new ArrayList<PostComment>();
 
     /**
      * 

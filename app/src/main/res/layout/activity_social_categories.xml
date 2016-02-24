@@ -1,37 +1,37 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@android:color/white"
     android:layout_height="match_parent"
+             android:background="@android:color/white"
     tools:context="com.dsquare.hibour.activities.SocialCategories">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <RelativeLayout
+            android:id="@+id/socialize_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            android:id="@+id/socialize_toolbar"
             android:background="@color/white">
 
             <com.dsquare.hibour.utils.Proxima
+                android:id="@+id/social_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
-                android:text="Back"
-                android:textSize="@dimen/sp_16"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/dp_10"
+                android:layout_toLeftOf="@+id/social_category_image"
+                android:text="Back"
                 android:textColor="@color/black_1"
-                android:id="@+id/social_back"
-                android:layout_toLeftOf="@+id/social_category_image"/>
+                android:textSize="@dimen/sp_16"/>
             <ImageView
                 android:id="@+id/social_category_image"
                 android:layout_width="120dp"
                 android:layout_height="30dp"
-                android:layout_centerVertical="true"
                 android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/dp_10"
                 android:background="@drawable/log"
                 />
@@ -39,52 +39,52 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/socialize_search_bar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_50"
             android:layout_below="@id/socialize_toolbar"
-            android:id="@+id/socialize_search_bar"
-            android:descendantFocusability="beforeDescendants"
-            android:focusableInTouchMode="true"
             android:layout_marginTop="@dimen/dp_10"
-            android:background="@drawable/loc_search_rectangle">
+            android:background="@drawable/loc_search_rectangle"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true">
             <RelativeLayout
+                android:id="@+id/home_searchbar_layout"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:background="@drawable/search_rect"
-                android:id="@+id/home_searchbar_layout">
+                android:background="@drawable/search_rect">
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
                     android:padding="@dimen/dp_10"
-                    android:src="@drawable/ic_search_white"
-                    android:layout_centerInParent="true"/>
+                    android:src="@drawable/ic_search_white"/>
 
             </RelativeLayout>
             <AutoCompleteTextView
+                android:id="@+id/search_box"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_toRightOf="@+id/home_searchbar_layout"
-                android:hint="Search"
-                android:gravity="center"
-                android:cursorVisible="false"
-                android:textCursorDrawable="@null"
-                android:id="@+id/search_box"
                 android:background="@null"
+                android:cursorVisible="false"
+                android:gravity="center"
+                android:hint="Search"
+                android:textCursorDrawable="@null"
                 />
         </RelativeLayout>
 
         <LinearLayout
+            android:id="@+id/socialize_button_bar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_large_height"
             android:layout_alignParentBottom="true"
-            android:orientation="horizontal"
-            android:id="@+id/socialize_button_bar">
+            android:orientation="horizontal">
             <Button
+                android:id="@+id/socialize_next_button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/brand"
-                android:id="@+id/socialize_next_button"
                 android:text="@string/done_text"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/button_text_size"/>
@@ -134,26 +134,26 @@
         <!--</RelativeLayout>-->
 
         <com.dsquare.hibour.utils.Avenir
+            android:id="@+id/social_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/social_text"
+            android:layout_below="@+id/socialize_search_bar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_20"
             android:gravity="center"
             android:text="@string/socialize_text"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/extended_tool_bar_text_size"
-            android:layout_below="@+id/socialize_search_bar"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dp_20" />
+            android:textSize="@dimen/extended_tool_bar_text_size"/>
 
         <android.support.v7.widget.RecyclerView
-            android:scrollbars="vertical"
-            android:background="@android:color/white"
+            android:id="@+id/social_prefs_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/social_prefs_list"
-            android:layout_marginTop="@dimen/dp_20"
+            android:layout_above="@+id/socialize_button_bar"
             android:layout_below="@+id/social_text"
-            android:layout_above="@+id/socialize_button_bar">
+            android:layout_marginTop="@dimen/dp_20"
+            android:background="@android:color/white"
+            android:scrollbars="vertical">
         </android.support.v7.widget.RecyclerView>
     </RelativeLayout>
     <android.support.design.widget.FloatingActionButton
@@ -161,10 +161,10 @@
         android:layout_height="@dimen/fab_govt_radius"
         android:layout_marginLeft="@dimen/fab_govt_left_margin"
         android:layout_marginTop="@dimen/fab_govt_top_margin1"
-        android:src="@drawable/ic_star"
-        app:backgroundTint="@android:color/white"
         android:scaleType="centerCrop"
-        android:visibility="gone">
+        android:src="@drawable/ic_star"
+        android:visibility="gone"
+        app:backgroundTint="@android:color/white">
     </android.support.design.widget.FloatingActionButton>
 
 </FrameLayout>
