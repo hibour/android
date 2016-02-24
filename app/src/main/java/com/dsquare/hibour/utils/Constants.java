@@ -46,6 +46,10 @@ public class Constants {
     public static final String URL_GET_OTHER_USR_DETAILS = URL_DOMAIN+"getprofile?";
     public static final String URL_UPDATE_USER_LOCATION = URL_DOMAIN+"neighbourhood?";
 
+    public static final String URL_GOOGLE_LOC_ADDRESS= "https://maps.googleapis.com/maps/api/geocode/json?";
+
+    public static final String GOOGLE_ADDRESS_API_KEY = "AIzaSyC9Cnku7Rz_ZAkuEwbd5jf5D94MzTTk784";
+
 
     /*user constants*/
     public static final String KEYWORD_USER_NAME = "Username";

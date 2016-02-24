@@ -8,8 +8,10 @@ import com.dsquare.hibour.database.table.FeedsTable;
 import com.dsquare.hibour.database.table.NotificationTable;
 import com.dsquare.hibour.database.table.UserDetailTable;
 import com.dsquare.hibour.database.table.UserMessageTable;
+import com.dsquare.hibour.database.table.UserProfileTable;
 import com.dsquare.hibour.pojos.message.UserMessage;
 import com.dsquare.hibour.pojos.user.UserDetail;
+import com.dsquare.hibour.pojos.user.UserProfile;
 import com.dsquare.hibour.utils.Hibour;
 
 import java.util.ArrayList;
@@ -109,5 +111,13 @@ public class DatabaseHandler {
         if (user == null)
             return null;
         return new UserDetail(user);
+    }
+
+    public void insertUserProfile(UserProfile userProfile){
+        new UserProfileTable(userProfile).save();
+    }
+    public UserProfile getUserProfile(){
+        UserProfileTable user = new Select().from(UserProfileTable.class).executeSingle();
+        return new UserProfile(user);
     }
 }
