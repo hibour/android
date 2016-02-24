@@ -2,21 +2,32 @@ package com.dsquare.hibour.fragments;
 
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.activities.SearchInChats;
 import com.dsquare.hibour.adapters.ChatTypeViewPagerAdapter;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
+import com.dsquare.hibour.utils.Constants;
+import com.dsquare.hibour.utils.Fonts;
 import com.dsquare.hibour.utils.UIHelper;
 import com.dsquare.hibour.views.CustomViewPager;
 
@@ -27,14 +38,18 @@ public class Message extends Fragment implements View.OnClickListener {
 
 
   private static final String LOG_TAG = Message.class.getSimpleName();
-  private EditText searchView;
+//  private EditText searchView;
   private CustomViewPager pager;
   private TabLayout tabs;
   private UIHelper uiHelper;
   private ImageView menuIcon, searchIcon, navigationBack;
   private NavDrawerCallback callback;
   private View searchBar;
+  private Typeface proxima;
   private ChatTypeViewPagerAdapter adapter;
+    private AutoCompleteTextView autoCompleteTextView;
+    private RelativeLayout searchLayout;
+    private TextView name;
   private TextWatcher textChangeListener = new TextWatcher() {
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -79,29 +94,65 @@ public class Message extends Fragment implements View.OnClickListener {
 
   /* initialize views*/
   private void initializeViews(View view) {
+    proxima = Typeface.createFromAsset(getActivity().getAssets(), Fonts.getTypeFaceName());
     menuIcon = (ImageView) view.findViewById(R.id.messages_menu_icon);
     searchIcon = (ImageView) view.findViewById(R.id.messages_search_icon);
     pager = (CustomViewPager) view.findViewById(R.id.pager);
     tabs = (TabLayout) view.findViewById(R.id.tabs);
     navigationBack = (ImageView) view.findViewById(R.id.navigation_back);
     searchBar = view.findViewById(R.id.messages_search_bar);
-    searchView = (EditText) view.findViewById(R.id.search_key);
-
+//    searchView = (EditText) view.findViewById(R.id.search_key);
+    autoCompleteTextView = (AutoCompleteTextView)view.findViewById(R.id.home_search_autocomplete);
+    searchLayout = (RelativeLayout)view.findViewById(R.id.home_search_layout);
+    name = (TextView)view.findViewById(R.id.neighbours_name);
     adapter = new ChatTypeViewPagerAdapter(getChildFragmentManager(), getResources().getStringArray(R.array.chat_types));
     tabs.setTabTextColors(ContextCompat.getColorStateList(getContext(), R.color.selector));
     pager.setAdapter(adapter);
     tabs.setupWithViewPager(pager);
 
-    searchView.addTextChangedListener(textChangeListener);
+//    searchView.addTextChangedListener(textChangeListener);
   }
 
   public void showSearchView() {
     uiHelper.collapse(tabs);
     searchBar.setVisibility(View.VISIBLE);
     pager.setPagingEnabled(false);
-    searchView.setText("");
-    searchView.requestFocus();
+    autoCompleteTextView.setText("");
+    autoCompleteTextView.requestFocus();
     uiHelper.showKeyboard();
+
+      ArrayAdapter<String> adapter = new ArrayAdapter<String>
+              (getActivity(), android.R.layout.simple_dropdown_item_1line,
+                      Constants.chatList);
+      autoCompleteTextView.setAdapter(adapter);
+      autoCompleteTextView.setThreshold(1);
+      autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+          @Override
+          public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+              String itemName = autoCompleteTextView.getText().toString();
+              if (parent != null && parent.getChildAt(0) != null) {
+                  String neighbourName = Constants.chatList.get(position);
+                  String neighbourid = Constants.searchChat.get(itemName);
+                  Log.d("catid", neighbourid);
+                  Intent intent = new Intent(getActivity(), SearchInChats.class);
+                  intent.putExtra("value", neighbourid);
+                  intent.putExtra("value1", itemName);
+                  startActivity(intent);
+                  Log.d("neighbourName", neighbourName);
+//                        if(!cardType.equals("Select Card")){
+//                            cardTypeId = searchMap.get(cardType);
+//                            Log.d("cardtype",cardType);
+//                        }
+                  ((TextView) parent.getChildAt(0)).setTextColor(getResources()
+                          .getColor(R.color.black_1));
+                  ((TextView) parent.getChildAt(0)).setTypeface(proxima);
+                  ((TextView) parent.getChildAt(0)).setPadding(0, 0, 0, 0);
+                  ((TextView) parent.getChildAt(0)).setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+                  Log.d("itemname", itemName);
+//                setRecyclerList(itemName);
+              }
+          }
+      });
   }
 
   public boolean hideSearchView() {
@@ -118,7 +169,6 @@ public class Message extends Fragment implements View.OnClickListener {
 
   /* initialize eventlisteners*/
   private void initializeEventListeners() {
-    menuIcon.setOnClickListener(this);
     searchIcon.setOnClickListener(this);
     navigationBack.setOnClickListener(this);
   }
@@ -126,9 +176,6 @@ public class Message extends Fragment implements View.OnClickListener {
   @Override
   public void onClick(View v) {
     switch (v.getId()) {
-      case R.id.messages_menu_icon:
-        callback.drawerOpen();
-        break;
       case R.id.messages_search_icon:
         if (tabs.getVisibility() == View.VISIBLE)
           showSearchView();

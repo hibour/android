@@ -2,6 +2,7 @@ package com.dsquare.hibour.fragments;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.TranslateAnimation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -325,40 +327,40 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         text = (EditText) view.findViewById(R.id.newposts_edittest);
         editPost = (EditText) view.findViewById(R.id.newposts_edittest);
         postWidget = (LinearLayout) view.findViewById(R.id.post_widget);
-//        editPost.requestFocus();
-//
-//        editPost.setOnFocusChangeListener(new View.OnFocusChangeListener(){
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus){
-//                Log.d("edit text","On Foucs. Has Focus = " + hasFocus);
-//                if (hasFocus){
-//                        done.setTextColor(getActivity().getResources().getColor(R.color.black_1));
-//                        setOnClickForDone();
-//                    //open keyboard
-//                    ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(v,
-//                            InputMethodManager.SHOW_FORCED);
-//                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-//                    imm.showSoftInput(editPost, InputMethodManager.SHOW_IMPLICIT);
-//                }
-//                else{
-//                    //close keyboard
-//                    ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(v,
-//                            InputMethodManager.SHOW_FORCED);
-//                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-//                    imm.showSoftInput(editPost, InputMethodManager.SHOW_IMPLICIT);
-//                }
-//            }
-//        });
+        editPost.requestFocus();
+
+        editPost.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            @Override
+            public void onFocusChange(View v, boolean hasFocus){
+                Log.d("edit text","On Foucs. Has Focus = " + hasFocus);
+                if (hasFocus){
+                        done.setTextColor(getActivity().getResources().getColor(R.color.black_1));
+                        setOnClickForDone();
+                    //open keyboard
+                    ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(v,
+                            InputMethodManager.SHOW_FORCED);
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(editPost, InputMethodManager.SHOW_IMPLICIT);
+                }
+                else{
+                    //close keyboard
+                    ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(v,
+                            InputMethodManager.SHOW_FORCED);
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(editPost, InputMethodManager.SHOW_IMPLICIT);
+                }
+            }
+        });
 
         //Set on click listener to clear focus
-//        editPost.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View clickedView)
-//            {
-//                clickedView.clearFocus();
-//                clickedView.requestFocus();
-//            }
-//        });
+        editPost.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View clickedView)
+            {
+                clickedView.clearFocus();
+                clickedView.requestFocus();
+            }
+        });
 
 
         //  InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);

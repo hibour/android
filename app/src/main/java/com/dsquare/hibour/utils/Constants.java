@@ -4,6 +4,7 @@ import com.dsquare.hibour.pojos.Socialize.ChoosedUser;
 import com.dsquare.hibour.pojos.Socialize.Datum;
 import com.dsquare.hibour.pojos.posts.PostLikedUser;
 import com.dsquare.hibour.pojos.posts.Postpojos;
+import com.dsquare.hibour.pojos.user.UserDetail;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -125,6 +126,7 @@ public class Constants {
     public static String LocationAddress;
     public static String userAddress = "";
     public static String CATID;
+    public static String CHATID;
     // message view types
     public static int MESSAGE_LEFT = 1;
     public static int MESSAGE_RIGHT = 2;
@@ -149,8 +151,12 @@ public class Constants {
     public static Map<String, List<PostLikedUser>> postlikesMap = new LinkedHashMap<>();
     public static Map<String, String> categoriesMap = new HashMap<>();
     public static Map<String, String> searchMap = new LinkedHashMap<String, String>();
-
     public static Map<String, Map<String, String>> postTypesMap = new LinkedHashMap<>();
+
+    public static Map<String, String> searchChat = new LinkedHashMap<String, String>();
+    public static List<String> chatList = new ArrayList<>();
+    public static Map<String, List<UserDetail>> chatsMap = new LinkedHashMap<>();
+
 
     // gcm message fields
     public static String GCM_FIELDS_MESSAGE_TYPE = "MessagesType";
