@@ -66,8 +66,7 @@
                 android:layout_marginRight="@dimen/dp_5"
                 android:adjustViewBounds="true"
                 android:elevation="@dimen/dp_2"
-                android:scaleType="centerCrop"
-                android:src="@drawable/a"/>
+                android:scaleType="centerCrop"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
