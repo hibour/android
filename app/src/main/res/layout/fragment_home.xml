@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:background="@android:color/white"
     tools:context="com.dsquare.hibour.fragments.Home">
@@ -42,8 +42,8 @@
                             android:id="@+id/home_feed"
                             android:layout_width="@dimen/app_bar_icon_size"
                             android:layout_height="@dimen/app_bar_icon_size"
-                            android:gravity="center"
                             android:layout_marginTop="3dp"
+                            android:gravity="center"
                             android:src="@drawable/feed" />
                         <com.dsquare.hibour.utils.Proxima
                             android:layout_width="wrap_content"
@@ -66,8 +66,8 @@
                             android:id="@+id/home_socialize_icon"
                             android:layout_width="@dimen/app_bar_icon_size"
                             android:layout_height="@dimen/app_bar_icon_size"
-                            android:gravity="center"
                             android:layout_marginTop="3dp"
+                            android:gravity="center"
                             android:src="@drawable/socialize" />
                         <com.dsquare.hibour.utils.Proxima
                             android:layout_width="wrap_content"
@@ -97,9 +97,9 @@
                             android:id="@+id/home_channels"
                             android:layout_width="@dimen/app_bar_icon_size"
                             android:layout_height="@dimen/app_bar_icon_size"
-                            android:gravity="center"
                             android:layout_marginTop="3dp"
-                            android:src="@mipmap/ic_chat_gray" />
+                            android:gravity="center"
+                            android:src="@mipmap/ic_chat_gray"/>
                         <com.dsquare.hibour.utils.Proxima
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -120,8 +120,8 @@
                             android:id="@+id/home_more_icon"
                             android:layout_width="@dimen/app_bar_icon_size"
                             android:layout_height="@dimen/app_bar_icon_size"
-                            android:gravity="center"
                             android:layout_marginTop="3dp"
+                            android:gravity="center"
                             android:src="@drawable/more" />
                         <com.dsquare.hibour.utils.Proxima
                             android:layout_width="wrap_content"
@@ -163,14 +163,14 @@
 
         </RelativeLayout>
         <android.support.design.widget.FloatingActionButton
+            android:id="@+id/feeds_create_fab"
             android:layout_width="@dimen/dp_50"
             android:layout_height="@dimen/dp_50"
             android:layout_gravity="bottom|center"
             android:layout_marginBottom="@dimen/dp_20"
-            android:src="@drawable/ic_action_edit"
-            android:id="@+id/feeds_create_fab"
-            app:backgroundTint="@color/brand"
             android:scaleType="centerCrop"
+            android:src="@drawable/ic_action_edit"
+            app:backgroundTint="@color/brand"
             >
         </android.support.design.widget.FloatingActionButton>
     </FrameLayout>

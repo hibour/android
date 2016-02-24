@@ -23,16 +23,10 @@ import com.dsquare.hibour.R;
  */
 public class SlidingTabLayout extends HorizontalScrollView {
 
-    public interface TabColorizer {
-        int getIndicatorColor(int position);
-    }
-
-
-    private static final int TITLE_OFFSET_DIPS = 20;
-    private static final int TAB_VIEW_PADDING_DIPS = 14;
-    private static final int TAB_VIEW_TEXT_SIZE_SP = 10;
-
-
+    private static final int TITLE_OFFSET_DIPS = 24;
+    private static final int TAB_VIEW_PADDING_DIPS = 16;
+    private static final int TAB_VIEW_TEXT_SIZE_SP = 12;
+    private final SlidingTabStrip mTabStrip;
     private int mTitleOffset;
 
 
@@ -45,9 +39,6 @@ public class SlidingTabLayout extends HorizontalScrollView {
     private ViewPager mViewPager;
     private SparseArray<String> mContentDescriptions = new SparseArray<String>();
     private ViewPager.OnPageChangeListener mViewPagerPageChangeListener;
-
-
-    private final SlidingTabStrip mTabStrip;
 
 
     public SlidingTabLayout(Context context) {
@@ -83,29 +74,22 @@ public class SlidingTabLayout extends HorizontalScrollView {
         mTabStrip.setCustomTabColorizer(tabColorizer);
     }
 
-
     public void setDistributeEvenly(boolean distributeEvenly) {
         mDistributeEvenly = distributeEvenly;
     }
-
 
     public void setSelectedIndicatorColors(int... colors) {
         mTabStrip.setSelectedIndicatorColors(colors);
     }
 
-
-
     public void setOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
         mViewPagerPageChangeListener = listener;
     }
-
-
 
     public void setCustomTabView(int layoutResId, int textViewId) {
         mTabViewLayoutId = layoutResId;
         mTabViewTextViewId = textViewId;
     }
-
 
     public void setViewPager(ViewPager viewPager) {
         mTabStrip.removeAllViews();
@@ -118,13 +102,12 @@ public class SlidingTabLayout extends HorizontalScrollView {
         }
     }
 
-
     protected TextView createDefaultTabView(Context context) {
         TextView textView = new TextView(context);
         textView.setGravity(Gravity.CENTER);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TAB_VIEW_TEXT_SIZE_SP);
         textView.setTypeface(Typeface.DEFAULT_BOLD);
-        textView.setTextColor(getResources().getColorStateList(R.color.white));
+        textView.setTextColor(getResources().getColorStateList(R.color.brand));
         textView.setLayoutParams(new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
@@ -142,7 +125,6 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
         return textView;
     }
-
 
     private void populateTabStrip() {
         final PagerAdapter adapter = mViewPager.getAdapter();
@@ -194,11 +176,9 @@ public class SlidingTabLayout extends HorizontalScrollView {
         }
     }
 
-
     public void setContentDescription(int i, String desc) {
         mContentDescriptions.put(i, desc);
     }
-
 
     @Override
     protected void onAttachedToWindow() {
@@ -219,12 +199,12 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
         View selectedChild = mTabStrip.getChildAt(tabIndex);
         if (selectedChild != null) {
-
+/*
             if(positionOffset == 0 && selectedChild != oldSelection) { // added part
                 selectedChild.setSelected(true);
                 removeOldSelection();
                 oldSelection = selectedChild;
-            }
+            }*/
 
             int targetScrollX = selectedChild.getLeft() + positionOffset;
 
@@ -252,6 +232,9 @@ public class SlidingTabLayout extends HorizontalScrollView {
         mTabStrip.setBackgroundColor(color);
     }
 
+    public interface TabColorizer {
+        int getIndicatorColor(int position);
+    }
 
     private class InternalViewPagerListener implements ViewPager.OnPageChangeListener {
         private int mScrollState;

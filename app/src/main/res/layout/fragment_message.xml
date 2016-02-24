@@ -7,46 +7,76 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/messages_app_bar"
         android:layout_width="match_parent"
-        android:layout_height="?android:actionBarSize"
-        android:background="@color/white">
-
-        <ImageView
-            android:id="@+id/messages_menu_icon"
-            android:layout_width="@dimen/app_bar_icon_size"
-            android:layout_height="@dimen/app_bar_icon_size"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dp_20"
-            android:src="@drawable/ic_menu_white"
-            android:visibility="gone"/>
-
-        <com.dsquare.hibour.utils.ProximaExtraBold
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/messages_title"
-            android:textColor="@color/brand"
-            android:textSize="@dimen/app_bar_title_text_size"/>
+        android:layout_height="wrap_content">
 
         <RelativeLayout
-            android:id="@+id/nav_drawer_bottom_line"
+            android:id="@+id/messages_app_bar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/nav_bottom_line_height"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:background="@color/common_action_bar_splitter"/>
+            android:layout_height="?android:actionBarSize"
+            android:background="@color/white">
 
-        <ImageView
-            android:id="@+id/messages_search_icon"
-            android:layout_width="@dimen/dp_30"
-            android:layout_height="@dimen/dp_30"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dp_20"
-            android:padding="@dimen/dp_3"
-            android:src="@drawable/ic_search_white"/>
+            <ImageView
+                android:id="@+id/messages_menu_icon"
+                android:layout_width="@dimen/app_bar_icon_size"
+                android:layout_height="@dimen/app_bar_icon_size"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:src="@drawable/ic_menu_white"/>
+
+            <com.dsquare.hibour.utils.ProximaExtraBold
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/messages_title"
+                android:textColor="@color/brand"
+                android:textSize="@dimen/app_bar_title_text_size"/>
+
+            <RelativeLayout
+                android:id="@+id/nav_drawer_bottom_line"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/nav_bottom_line_height"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:background="@color/common_action_bar_splitter"/>
+
+            <ImageView
+                android:id="@+id/messages_search_icon"
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_20"
+                android:padding="@dimen/dp_3"
+                android:src="@drawable/ic_search_white"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/messages_search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:actionBarSize"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/navigation_back"
+                android:layout_width="?android:actionBarSize"
+                android:layout_height="?android:actionBarSize"
+                android:adjustViewBounds="true"
+                android:padding="@dimen/dp_10"
+                android:src="@drawable/ic_back_gray"/>
+
+            <EditText
+                android:id="@+id/search_key"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:hint="Search..."
+                android:singleLine="true"/>
+        </LinearLayout>
     </RelativeLayout>
 
     <android.support.design.widget.TabLayout
@@ -58,7 +88,7 @@
         android:theme="@style/tab"
         app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"/>
 
-    <android.support.v4.view.ViewPager
+    <com.dsquare.hibour.views.CustomViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"

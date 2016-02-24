@@ -38,7 +38,7 @@ import java.util.List;
 
 public class PostComments extends AppCompatActivity implements View.OnClickListener{
 
-    private ImageView postIcon,likeIcon,backIcon;
+    private ImageView postIcon, likeIcon, backIcon;
     private EditText commentsText;
     private RecyclerView commentsList;
     private List<String[]> commentslist = new ArrayList<>();
@@ -46,7 +46,7 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
     private ProgressDialog dialog;
     private PostsClient client;
     private String postId = "",likes = "";
-    private TextView likesText,postMessage;
+    private TextView likesText, postMessage;
     private Button sumbit;
     private NetworkDetector networkDetector;
     private Gson gson;
@@ -54,8 +54,8 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
     private PostsClient postsClient;
     private ProgressDialog postsDialog;
     private List<String[]> postsList = new ArrayList<>();
-    private String liked="",message = "",image="";
-    private RelativeLayout likesLayout,noCommentsLayout;
+    private String liked = "", message = "", image = "";
+    private RelativeLayout likesLayout, noCommentsLayout;
     private ImageView postImage;
     private ImageLoader imageLoader;
     @Override
@@ -70,11 +70,11 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
     private void initializeViews(){
         imageLoader = HibourConnector.getInstance(this).getImageLoader();
 //        likeIcon = (ImageView)findViewById(R.id.comments_like_icon);
-        backIcon = (ImageView)findViewById(R.id.comments_bacl_icon);
-  //      likesLayout = (RelativeLayout)findViewById(R.id.comments_likes_layout);
-        postImage = (ImageView)findViewById(R.id.comments_image);
-        postMessage = (TextView)findViewById(R.id.comments_message);
-        noCommentsLayout = (RelativeLayout)findViewById(R.id.no_comments_layout);
+        backIcon = (ImageView) findViewById(R.id.comments_bacl_icon);
+        //      likesLayout = (RelativeLayout)findViewById(R.id.comments_likes_layout);
+        postImage = (ImageView) findViewById(R.id.comments_image);
+        postMessage = (TextView) findViewById(R.id.comments_message);
+        noCommentsLayout = (RelativeLayout) findViewById(R.id.no_comments_layout);
         postsClient = new PostsClient(this);
         postId = getIntent().getStringExtra("postId");
         likes = getIntent().getStringExtra("likes");
@@ -89,11 +89,11 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
             likeIcon.setImageBitmap(likesIcon);
         }*/
         postMessage.setText(message);
-        if(image.length()>10){
+        if (image.length() > 10) {
             postImage.setVisibility(View.VISIBLE);
-            imageLoader.get(image.replace("\\",""),ImageLoader.getImageListener(postImage
-                    ,R.drawable.avatar1,R.drawable.avatar1));
-        }else{
+            imageLoader.get(image.replace("\\", ""), ImageLoader.getImageListener(postImage
+                , R.drawable.avatar1, R.drawable.avatar1));
+        } else {
             postImage.setVisibility(View.GONE);
         }
         //likesText = (TextView)findViewById(R.id.comments_likes_text);
@@ -113,7 +113,7 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
     }
     /* initialize event listeners*/
     private void initializeEventListeners(){
-        //postIcon.setOnClickListener(this);
+        postImage.setOnClickListener(this);
         sumbit.setOnClickListener(this);
         //likeIcon.setOnClickListener(this);
         //likesLayout.setOnClickListener(this);
@@ -122,40 +122,39 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-          /*  case R.id.comments_post_icon:
-                openLikesScreen();
-                break;*/
+            case R.id.comments_image:
+                openFullImage();
+                break;
             case R.id.comments_sumbit:
                 postComment(application.getUserId(),postId,commentsText.getText().toString());
                 commentsText.setText("");
                 break;
-            /*case R.id.comments_like_icon:
-                likePost(postId);
-                changeLikes();
-                break;
-            case R.id.comments_likes_layout:
-                openLikesScreen();
-                break;*/
             case R.id.comments_bacl_icon:
                 this.finish();
                 break;
         }
     }
 
+    private void openFullImage() {
+        Intent imageIntent = new Intent(this, FeedImageFullView.class);
+        imageIntent.putExtra("image", image);
+        startActivity(imageIntent);
+    }
+
     /* change likes count and icon*/
-    private void changeLikes(){
-        if(liked.equals("true")){
+    private void changeLikes() {
+        if (liked.equals("true")) {
             liked = "fale";
             Bitmap likesIcon = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_thumb_up);
             likeIcon.setImageBitmap(likesIcon);
-            likes = Integer.valueOf(likes)-1+"";
-            setLikesText(Integer.valueOf(likes)-1);
-        }else{
+            likes = Integer.valueOf(likes) - 1 + "";
+            setLikesText(Integer.valueOf(likes) - 1);
+        } else {
             liked = "true";
             Bitmap likesIcon = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_thumb_up_filled);
             likeIcon.setImageBitmap(likesIcon);
-            setLikesText(Integer.valueOf(likes)+1);
-            likes = Integer.valueOf(likes)+1+"";
+            setLikesText(Integer.valueOf(likes) + 1);
+            likes = Integer.valueOf(likes) + 1 + "";
         }
     }
     private void openLikesScreen() {
@@ -189,7 +188,7 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
                     noCommentsLayout.setVisibility(View.VISIBLE);
                 }
             }
-        }catch (JsonSyntaxException e) {
+        } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
 
@@ -257,22 +256,24 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
+
     /* set likes text*/
-    private void setLikesText(int likesCount){
-        Log.d("likes count",likesCount+"");
-        if(likesCount>1){
-            likesText.setText(likesCount+" members liked this");
-        }else if(likesCount==1){
+    private void setLikesText(int likesCount) {
+        Log.d("likes count", likesCount + "");
+        if (likesCount > 1) {
+            likesText.setText(likesCount + " members liked this");
+        } else if (likesCount == 1) {
             likesText.setText("1 member liked this");
-        }else{
+        } else {
             likesText.setText("Be the first one to like this post.");
         }
     }
+
     /* like a post*/
-    private void likePost(String postId){
-        if(networkDetector.isConnected()){
-            dialog = ProgressDialog.show(this,"","Please Wait...");
-            postsClient.likePost(application.getUserId(),postId,new WebServiceResponseCallback() {
+    private void likePost(String postId) {
+        if (networkDetector.isConnected()) {
+            dialog = ProgressDialog.show(this, "", "Please Wait...");
+            postsClient.likePost(application.getUserId(), postId, new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parseLike(jsonObject);
@@ -281,16 +282,17 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
 
                 @Override
                 public void onFailure(VolleyError error) {
-                    Log.d("error in liking",error.toString());
+                    Log.d("error in liking", error.toString());
                     closeDialog();
                 }
             });
-        }else{
+        } else {
 
         }
     }
+
     /* parse likes */
-    private void parseLike(JSONObject jsonObject){
-        Log.d("data",jsonObject.toString());
+    private void parseLike(JSONObject jsonObject) {
+        Log.d("data", jsonObject.toString());
     }
 }

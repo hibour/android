@@ -64,7 +64,7 @@ public class Hibour {
         return sharedPreferences.getString(Constants.SF_FIRST, "");
     }
 
-    public String getUserLocation(){
+    public String getUserLocation() {
         initializeSharedPrefs();
         return sharedPreferences.getString(Constants.SF_LOCADD, "");
     }
@@ -75,18 +75,21 @@ public class Hibour {
         editor.remove(Constants.PREFERENCE_USER_ID);
         editor.apply();
     }
-    public void setIsFirst(boolean isFirst){
+
+    public boolean getIsFirst() {
         initializeSharedPrefs();
-        editor.putBoolean("isFirst",isFirst);
+        return sharedPreferences.getBoolean("isFirst", true);
+    }
+
+    public void setIsFirst(boolean isFirst) {
+        initializeSharedPrefs();
+        editor.putBoolean("isFirst", isFirst);
         editor.commit();
     }
-    public boolean getIsFirst(){
-        initializeSharedPrefs();
-        return sharedPreferences.getBoolean("isFirst",true);
-    }
+
     /* validate email*/
     public boolean validateEmail(String mail){
-        if(!mail.contains("@")&& mail.contains(" "))
+        if (!mail.contains("@") && mail.contains(" "))
             return false;
         return true;
     }
@@ -101,7 +104,7 @@ public class Hibour {
     public void setGCMToken(String gcmToken) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(Constants.SHARED_PREFERENCES_GCM_TOKEN, gcmToken);
-        editor.commit();
+        editor.apply();
     }
 
     /**
@@ -122,5 +125,15 @@ public class Hibour {
             return false;
         }
         return true;
+    }
+
+    public boolean isFirstRun() {
+        return sharedPreferences.getBoolean(Constants.SHARED_PREFERENCES_FIRST_RUN, true);
+    }
+
+    public void setFirstRun(boolean firstRun) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(Constants.SHARED_PREFERENCES_FIRST_RUN, firstRun);
+        editor.apply();
     }
 }

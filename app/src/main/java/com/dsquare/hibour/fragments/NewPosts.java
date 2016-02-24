@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
@@ -36,7 +35,6 @@ import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.network.PostsClient;
 import com.dsquare.hibour.pojos.posttype.Datum;
 import com.dsquare.hibour.pojos.posttype.PostTypeCatg;
-import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Fonts;
 import com.dsquare.hibour.utils.Hibour;
 import com.google.gson.Gson;
@@ -47,27 +45,18 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.BufferedInputStream;
-import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Created by Aditya Ravikanti on 1/19/2016.
  */
 public class NewPosts extends Fragment implements View.OnClickListener,ImagePicker {
 
+    private static final int REQUEST_IMAGE_SELECTOR = 1000;
+    private static final int REQUEST_IMAGE_CAPTURE = 1001;
     private Spinner spinner;
     private Button send;
     private ImageView gallary;
@@ -76,8 +65,6 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
     private DialogFragment chooserDialog;
     private ArrayAdapter<String> categoriesAdapter;
     private String[] List={"Suggestions","Classifields"};
-    private static final int REQUEST_IMAGE_SELECTOR=1000;
-    private static final int REQUEST_IMAGE_CAPTURE=1001;
     private List<String> categoriesList = new ArrayList<>();
     private Map<String,String> categoriesMap = new LinkedHashMap<>();
     private NetworkDetector networkDetector;
@@ -182,7 +169,7 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
                 &&!text.getText().toString().equals("null")&&
                 !text.getText().toString().equals("")&&
                 !postimagesstring.equals("")){
-            Toast.makeText(getActivity(),"All fields are required",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "All fields are required", Toast.LENGTH_LONG).show();
 //            sendPostData(categoriesTypeId ,text.getText().toString()
 //                    , postimagesstring);
         }else{
@@ -256,7 +243,7 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
             newpostDialogue = ProgressDialog.show(getActivity(),"",getResources()
                     .getString(R.string.progress_dialog_text));
             postsClient.insertonPost(application.getUserId(),posttypeid,posttypeid,postMessage,postImage
-                    ,posttypeid,"",new WebServiceResponseCallback() {
+                , posttypeid, "", new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parsePostDetails(jsonObject);
@@ -297,6 +284,7 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
 
     /* get all categories types*/
     private void getAllCategoriesTypes(){
+        Log.d("NEWPOST", "categories");
         if(networkDetector.isConnected()){
             newpostDialogue = ProgressDialog.show(getActivity(),"",getResources()
                     .getString(R.string.progress_dialog_text));
@@ -329,6 +317,8 @@ public class NewPosts extends Fragment implements View.OnClickListener,ImagePick
                 for (Datum d : data) {
                     categoriesMap.put(d.getPosttypename(), d.getId() + "");
                     categoriesList.add(d.getPosttypename());
+                    Log.d("new Post", d.getId() + "");
+                    Log.d("new post", d.getPosttypename());
                 }
                 categoriesAdapter = new ArrayAdapter<String>(getActivity()
                         , android.R.layout.simple_dropdown_item_1line, categoriesList);

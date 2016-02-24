@@ -56,8 +56,8 @@ public class ChatingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(item.time);
         String time = (calendar.get(Calendar.HOUR) < 10 ? "0" + calendar.get(Calendar.HOUR) : calendar.get(Calendar.HOUR))
-                + ":" + (calendar.get(Calendar.MINUTE) < 10 ? "0" + calendar.get(Calendar.MINUTE) : calendar.get(Calendar.MINUTE)) +
-                (calendar.get(Calendar.AM_PM) == 0 ? " AM" : " PM");
+            + ":" + (calendar.get(Calendar.MINUTE) < 10 ? "0" + calendar.get(Calendar.MINUTE) : calendar.get(Calendar.MINUTE)) +
+            (calendar.get(Calendar.AM_PM) == 0 ? " AM" : " PM");
         holder.message.setText(item.message);
         holder.time.setText(time);
         if (item.messageState == Constants.MESSAGE_SENDING) {

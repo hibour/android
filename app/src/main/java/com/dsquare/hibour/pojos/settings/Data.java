@@ -35,112 +35,112 @@ public class Data {
          * @return The FirstName
          */
         public String getFirstName() {
-            return FirstName;
+                return FirstName;
         }
 
         /**
          * @param FirstName The FirstName
          */
         public void setFirstName(String FirstName) {
-            this.FirstName = FirstName;
+                this.FirstName = FirstName;
         }
 
         /**
          * @return The LastName
          */
         public String getLastName() {
-            return LastName;
+                return LastName;
         }
 
         /**
          * @param LastName The LastName
          */
         public void setLastName(String LastName) {
-            this.LastName = LastName;
+                this.LastName = LastName;
         }
 
         /**
          * @return The Password
          */
         public String getPassword() {
-            return Password;
+                return Password;
         }
 
         /**
          * @param Password The Password
          */
         public void setPassword(String Password) {
-            this.Password = Password;
+                this.Password = Password;
         }
 
         /**
          * @return The Image
          */
         public String getImage() {
-            return Image;
+                return Image;
         }
 
         /**
          * @param Image The Image
          */
         public void setImage(String Image) {
-            this.Image = Image;
+                this.Image = Image;
         }
 
         /**
          * @return The Gender
          */
         public String getGender() {
-            return Gender;
+                return Gender;
         }
 
         /**
          * @param Gender The Gender
          */
         public void setGender(String Gender) {
-            this.Gender = Gender;
+                this.Gender = Gender;
         }
 
         /**
          * @return The Email
          */
         public String getEmail() {
-            return Email;
+                return Email;
         }
 
         /**
          * @param Email The Email
          */
         public void setEmail(String Email) {
-            this.Email = Email;
+                this.Email = Email;
         }
 
         /**
          * @return The MobileNumber
          */
         public String getMobileNumber() {
-            return MobileNumber;
+                return MobileNumber;
         }
 
         /**
          * @param MobileNumber The Mobile Number
          */
         public void setMobileNumber(String MobileNumber) {
-            this.MobileNumber = MobileNumber;
+                this.MobileNumber = MobileNumber;
         }
 
         /**
          * @return The Address
          */
         public String getAddress() {
-            return Address;
+                return Address;
         }
 
         /**
          * @param Address The Address
          */
         public void setAddress(String Address) {
-            this.Address = Address;
+                this.Address = Address;
         }
 
     }

@@ -49,6 +49,8 @@ import java.util.Map;
 public class GovtProof extends AppCompatActivity implements View.OnClickListener
         ,AdapterView.OnItemSelectedListener,ImagePickerDialog.ImageChooserListener{
 
+    private static final int REQUEST_IMAGE_SELECTOR = 1000;
+    private static final int REQUEST_IMAGE_CAPTURE = 1001;
     private Spinner cardsSpinner,genderSpinner;
     private List<String> cardsList=new ArrayList<>();
     private List<String> genderList = new ArrayList<>();
@@ -61,8 +63,6 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
     private ProgressDialog uploadProofsDialog;
     private Typeface tf;
     private DialogFragment chooserDialog;
-    private static final int REQUEST_IMAGE_SELECTOR=1000;
-    private static final int REQUEST_IMAGE_CAPTURE=1001;
     private ImageView imageUploaded,uploadimage;
     private Gson gson;
     private ArrayAdapter<String> cardsAdapter,genderAdapter;
@@ -165,6 +165,7 @@ public class GovtProof extends AppCompatActivity implements View.OnClickListener
 
         //cardsSpinner.setOnItemSelectedListener(this);
     }
+
     /*prepare cards list*/
     private void prepareCardsList(){
         cardsList.add("Select Card");

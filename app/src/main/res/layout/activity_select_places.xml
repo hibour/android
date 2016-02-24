@@ -34,8 +34,7 @@
                 android:background="@color/white">
                 <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="177dp"
-                    >
+                    android:layout_height="177dp">
                     <com.dsquare.hibour.utils.ProximaLight
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -225,17 +224,16 @@
                         android:descendantFocusability="beforeDescendants"
                         android:focusableInTouchMode="true"
                         android:layout_marginLeft="@dimen/dp_25"
-                        android:layout_marginRight="@dimen/dp_25"
-                        android:layout_above="@id/loc_location_display_layout">
+                        android:layout_marginRight="@dimen/dp_25">
 
                         <ImageView
+                            android:id="@+id/loc_search_icon1"
                             android:layout_width="@dimen/dp_25"
                             android:layout_height="@dimen/dp_25"
+                            android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="@dimen/dp_10"
-                            android:layout_alignParentRight="true"
-                            android:src="@mipmap/location_icon"
-                            android:id="@+id/loc_search_icon1"/>
+                            android:src="@mipmap/location_icon"/>
 
                         <ImageView
                             android:layout_width="@dimen/dp_25"
@@ -275,3 +273,4 @@
         </RelativeLayout>
     </LinearLayout>
 </FrameLayout>
+

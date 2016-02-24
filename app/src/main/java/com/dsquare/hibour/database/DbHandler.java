@@ -1,48 +1,44 @@
 package com.dsquare.hibour.database;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
-import com.dsquare.hibour.pojos.posts.Postpojos;
 import com.dsquare.hibour.utils.Constants;
 
 import java.io.File;
-import java.util.List;
 
 /**
  * Created by Aditya Ravikanti on 2/16/2016.
  */
 public class DbHandler extends SQLiteOpenHelper {
-    private SQLiteDatabase database;
-    private Context context;
+  private SQLiteDatabase database;
+  private Context context;
 
-    public DbHandler(Context context) {
-        super(context, context.getFilesDir() + File.separator + Constants.DATABASE_NAME, null, 1);
-        this.context = context;
-    }
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        String dbQuery = "CREATE TABLE IF NOT EXISTS feeds(feedId TEXT, feedMessage TEXT, feedImage TEXT" +
-                ", feedDate TEXT, feedTime , commsCount INTEGER, likesCount INTEGER, feedType TEXT, feedUserId TEXT" +
-                ", feedUserName TEXT, feedUserImage TEXT)";
-        db.execSQL(dbQuery);
-    }
+  public DbHandler(Context context) {
+    super(context, context.getFilesDir() + File.separator + Constants.DATABASE_NAME, null, 1);
+    this.context = context;
+  }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS feeds");
-        onCreate(db);
-    }
+  @Override
+  public void onCreate(SQLiteDatabase db) {
+    String dbQuery = "CREATE TABLE IF NOT EXISTS feeds(feedId TEXT, feedMessage TEXT, feedImage TEXT" +
+        ", feedDate TEXT, feedTime , commsCount INTEGER, likesCount INTEGER, feedType TEXT, feedUserId TEXT" +
+        ", feedUserName TEXT, feedUserImage TEXT)";
+    db.execSQL(dbQuery);
+  }
 
-    private void initializeDatabase(){
-        if(database == null){
-            database = getWritableDatabase();
-        }
+  @Override
+  public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    db.execSQL("DROP TABLE IF EXISTS feeds");
+    onCreate(db);
+  }
+
+  private void initializeDatabase() {
+    if (database == null) {
+      database = getWritableDatabase();
     }
+  }
    /* public boolean insertPillsIntoDatabase(List<Postpojos> data){
         ContentValues cv = new ContentValues();
         if(database == null){

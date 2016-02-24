@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.activities.SearchInFeeds;
 import com.dsquare.hibour.adapters.HomeTabsPager;
 import com.dsquare.hibour.adapters.PostsAdapter;
 import com.dsquare.hibour.dialogs.WelcomeDialog;
@@ -54,7 +55,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Posts extends Fragment implements View.OnClickListener,PostsCallback {
+public class Posts extends Fragment implements View.OnClickListener, PostsCallback {
     private RecyclerView postsRecycler;
     private List<String[]> postsList = new ArrayList<>();
     private PostsAdapter postsAdapter;
@@ -122,6 +123,12 @@ public class Posts extends Fragment implements View.OnClickListener,PostsCallbac
                 String itemName = autoCompleteTextView.getText().toString();
                 if (parent != null && parent.getChildAt(0) != null) {
                     String neighbourName = autocompleteList.get(position);
+                    String neighbourid = Constants.searchMap.get(itemName);
+                    Log.d("catid", neighbourid);
+                    Intent intent = new Intent(getActivity(), SearchInFeeds.class);
+                    intent.putExtra("value", neighbourid);
+                    intent.putExtra("value1", itemName);
+                    startActivity(intent);
                     Log.d("neighbourName", neighbourName);
 //                        if(!cardType.equals("Select Card")){
 //                            cardTypeId = searchMap.get(cardType);
@@ -134,11 +141,13 @@ public class Posts extends Fragment implements View.OnClickListener,PostsCallbac
                     ((TextView) parent.getChildAt(0)).setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
                     Log.d("itemname", itemName);
 //                setRecyclerList(itemName);
-                }}
+                }
+            }
         });
 
         pager = (ViewPager)view.findViewById(R.id.posts_pager);
         tabs = (SlidingTabLayout)view.findViewById(R.id.posts_tabs);
+        tabs.setDistributeEvenly(false);
 
         //tabs.setDistributeEvenly(false);
         tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
@@ -149,6 +158,8 @@ public class Posts extends Fragment implements View.OnClickListener,PostsCallbac
         });
 
         tabs.setTabsBackgroundColor(getResources().getColor(R.color.white));
+        // tabs.setViewPager(pager);
+
     }
     private void initializeEventListeners() {
         invite.setOnClickListener(this);
@@ -179,20 +190,19 @@ public class Posts extends Fragment implements View.OnClickListener,PostsCallbac
     }
 
 
-   public void welcomeDialog(){
+    public void welcomeDialog() {
         Log.d("posts", "sharedpreferences");
-        if(application.getIsFirst()) {
-            Log.d("posts","if");
+        if (application.getIsFirst()) {
+            Log.d("posts", "if");
             openWelcomeDialog();
-        }
-        else{
+        } else {
 
         }
     }
 
     private void openWelcomeDialog() {
-        Log.d("Posts","welcome");
-        welcomeDialog=new WelcomeDialog();
+        Log.d("Posts", "welcome");
+        welcomeDialog = new WelcomeDialog();
 
         welcomeDialog.show(getActivity().getSupportFragmentManager(), "chooser dialog");
         welcomeDialog.setTargetFragment(this, 0);
@@ -200,8 +210,8 @@ public class Posts extends Fragment implements View.OnClickListener,PostsCallbac
 
     @Override
     public void openDialog(DialogFragment dialogFragment) {
-        Log.d("posts","close dialog");
-        application.setIsFirst(false) ;
+        Log.d("posts", "close dialog");
+        application.setIsFirst(false);
      /*   AlertDialog closeDialog = new AlertDialog.Builder(getActivity()).create();
         closeDialog.dismiss();*/
         sendPostData("Hi Iam new here");
@@ -223,30 +233,47 @@ public class Posts extends Fragment implements View.OnClickListener,PostsCallbac
         if(postpojos.size()>0){
             if (Constants.postsMap.size() > 0) {
                 Constants.postsMap.clear();
+
             }
             if (tabsList.size() > 0) {
                 tabsList.clear();
             }
             tabsList.add("All");
             for (Postpojos p:postpojos) {
-                Constants.postlikesMap.put(p.getPostId(),p.getPostLikedUsers());
+                Log.d("type id", p.getPostType());
+                Constants.postlikesMap.put(p.getPostId(), p.getPostLikedUsers());
                 Constants.postpojosMap.put(p.getPostId(),postpojos);
+                String key2 = p.getPostTypeName();
+
+                //if (Constants.categoriesMap.containsKey(p.getPostType().replace(" ","")))
+                //  key = Constants.categoriesMap.get(p.getPostType().replace(" ",""));
+                List<Postpojos> data1 = new ArrayList<>();
+                data1.add(p);
+                Constants.postpojosMap.put(p.getPostId(), data1);
+                Constants.searchMap.put(p.getPostMessage(), p.getPostId());
+                if (Constants.searchMap.size() > 0) {
+                    autocompleteList.clear();
+                    for (String key : Constants.searchMap.keySet()) {
+                        autocompleteList.add(key);
+                    }
+                }
                 String key = " ";
                 if (Constants.categoriesMap.containsKey(p.getPostType()))
                     key = Constants.categoriesMap.get(p.getPostType());
                 if (!Constants.postsMap.containsKey(key)) {
                     List<Postpojos> data = new ArrayList<>();
                     data.add(p);
-                    Log.d("key",key);
+                    Log.d("kkey", key);
                     Constants.postsMap.put(key, data);
                 } else {
                     List<Postpojos> postslist = Constants.postsMap.get(key);
                     postslist.add(p);
-                    Log.d("key",key);
+                    Log.d("kkey", key);
                     Constants.postsMap.put(key, postslist);
                 }
                 if (!tabsList.contains(key))
                     tabsList.add(key);
+
                 String[] data = new String[8];
                 data[0] = p.getUser().getName();
                 data[1] = p.getPostId();
@@ -254,13 +281,13 @@ public class Posts extends Fragment implements View.OnClickListener,PostsCallbac
                 data[3] = key;
                 data[4] = String.valueOf(p.getPostLikesCount());
                 data[5] = Arrays.toString(new int[]{p.getPostComments().size()})
-                        .replaceAll("\\[|\\]", "");
+                    .replaceAll("\\[|\\]", "");
                 data[6] = p.getPostId();
                 data[7] = String.valueOf(p.getPostUserLiked());
 
                 postsList.add(data);
-                Log.d("data",""+data);
-                autocompleteList.add(p.getPostMessage());
+                Log.d("data", "" + data);
+//                autocompleteList.add(p.getPostMessage());
 
                 setPager();
             }
@@ -278,9 +305,9 @@ public class Posts extends Fragment implements View.OnClickListener,PostsCallbac
         if (networkDetector.isConnected()) {
             String cat_str = "0";
             newpostDialogue = ProgressDialog.show(getActivity(), "", getResources()
-                    .getString(R.string.progress_dialog_text));
-            postsClient.insertonPost(application.getUserId(), cat_str,"0", postMessage,""
-                    , "1","", new WebServiceResponseCallback() {
+                .getString(R.string.progress_dialog_text));
+            postsClient.insertonPost(application.getUserId(), cat_str, "0", postMessage, ""
+                , "1", "", new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parsePostDetails(jsonObject);
@@ -324,9 +351,9 @@ public class Posts extends Fragment implements View.OnClickListener,PostsCallbac
 
     /*set pager adapter*/
     private void setPager(){
-
-        HomeTabsPager pagerAdapter = new HomeTabsPager(getFragmentManager(),tabsList);
-        if(tabsList.size()<4)
+        setTabsTitles();
+        HomeTabsPager pagerAdapter = new HomeTabsPager(getFragmentManager(), tabsList);
+        if (tabsList.size() < 4)
             tabs.setDistributeEvenly(true);
         else
             tabs.setDistributeEvenly(false);
@@ -337,6 +364,15 @@ public class Posts extends Fragment implements View.OnClickListener,PostsCallbac
             e.printStackTrace();
         }
     }
+
+    private void setTabsTitles() {
+        for (int i = 0; i < tabsList.size(); i++) {
+            Log.d("tabsNames", tabsList.get(i));
+            tabsList.get(i);
+        }
+    }
+
+
     private void setAdapters(List<String[]> postsList,Posts posts){
 //        postsRecycler.setAdapter(new PostsAdapter(getActivity(), postsList,posts));
     }

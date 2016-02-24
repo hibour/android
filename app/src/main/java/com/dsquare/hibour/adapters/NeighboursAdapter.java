@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by ASHOK on 1/8/2016.
+ * Created by Dsquare on 2/24/2016.
  */
 public class NeighboursAdapter extends RecyclerView.Adapter<NeighboursAdapter.ViewHolder> {
     private List<UserDetail> listItems = new ArrayList<>();
@@ -87,5 +87,11 @@ public class NeighboursAdapter extends RecyclerView.Adapter<NeighboursAdapter.Vi
             profession = (TextView) itemView.findViewById(R.id.adapter_neighbours_user_profession);
             entireView = itemView.findViewById(R.id.entire_view);
         }
+    }
+
+    public void removeItem(int position) {
+        this.listItems.remove(position);
+        this.notifyItemRemoved(position);
+        //TODO API CALL
     }
 }
