@@ -504,6 +504,10 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
 
       Log.d("id", id + "");
       if (id == 0) {
+//          SignInDialog = new SignInDialog();
+//          Log.d("Postss","choose dialog");
+//          SignInDialog.show(getSupportFragmentManager(), "chooser dialog");
+//          welcomeDialog.setTargetFragment(this, 0);
           Snackbar snackbar = Snackbar
                   .make(coordinatorLayout, "Credentials not matched!", Snackbar.LENGTH_LONG);
           // Changing action button text color
