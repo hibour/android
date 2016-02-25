@@ -310,9 +310,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                     locAddress = autoCompleteTextView.getText().toString();
                 } else {
                 }
-
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -325,7 +323,6 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                     locAddress = autoCompleteTextView1.getText().toString();
                 } else {
                 }
-
             }
 
             @Override
@@ -405,7 +402,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
             params[1]= mLastLocation.getLongitude();
             GetCurrentAddress currentadd=new GetCurrentAddress();
             try {
-               // currentadd.execute(params);
+               currentadd.execute(params);
             } catch (Exception e) {
                 e.printStackTrace();
             }

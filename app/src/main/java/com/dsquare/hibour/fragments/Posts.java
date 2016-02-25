@@ -44,6 +44,7 @@ import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Fonts;
 import com.dsquare.hibour.utils.Hibour;
 import com.dsquare.hibour.utils.SlidingTabLayout;
+import com.dsquare.hibour.utils.UIHelper;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -67,7 +68,7 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
     private AutoCompleteTextView autoCompleteTextView;
     private RelativeLayout searchLayout;
     private TextView textView,invite;
-    private ImageView searchIcon;
+    private ImageView searchIcon,navigationBack;
     private List<String> autocompleteList = new ArrayList<>();
     private Typeface proxima;
     private List<String> tabsList = new ArrayList<>();
@@ -81,6 +82,8 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
     private ProgressDialog newpostDialogue;
     private NewPost.PostsListener mListener;
     private CoordinatorLayout coordinatorLayout;
+    private UIHelper uiHelper;
+    private View searchBar;
     public Posts() {
         // Required empty public constructor
     }
@@ -91,6 +94,7 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_posts, container, false);
+        uiHelper = new UIHelper(getContext());
         initializeViews(view);
         initializeEventListeners();
         getAllposts();
@@ -108,13 +112,44 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
         gson = new Gson();
         networkDetector = new NetworkDetector(getActivity());
         application =  Hibour.getInstance(getActivity());
-
-
+        searchBar = view.findViewById(R.id.messages_search_bar);
+        navigationBack = (ImageView) view.findViewById(R.id.navigation_back);
         autoCompleteTextView = (AutoCompleteTextView)view.findViewById(R.id.home_search_autocomplete);
         searchLayout = (RelativeLayout)view.findViewById(R.id.home_search_layout);
         searchIcon = (ImageView)view.findViewById(R.id.home_search_icon);
         textView = (TextView)view.findViewById(R.id.home_fragment_title);
         invite = (TextView)view.findViewById(R.id.invite_button);
+
+
+        pager = (ViewPager)view.findViewById(R.id.posts_pager);
+        tabs = (SlidingTabLayout)view.findViewById(R.id.posts_tabs);
+        tabs.setDistributeEvenly(false);
+
+        //tabs.setDistributeEvenly(false);
+        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+            @Override
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.newbrand);
+            }
+        });
+
+        tabs.setTabsBackgroundColor(getResources().getColor(R.color.white));
+        // tabs.setViewPager(pager);
+    }
+    private void initializeEventListeners() {
+        invite.setOnClickListener(this);
+        searchIcon.setOnClickListener(this);
+        navigationBack.setOnClickListener(this);
+    }
+
+
+    public void showSearchView() {
+        uiHelper.collapse(tabs);
+        searchBar.setVisibility(View.VISIBLE);
+        autoCompleteTextView.setText("");
+        autoCompleteTextView.requestFocus();
+        uiHelper.showKeyboard();
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>
                 (getActivity(), android.R.layout.simple_dropdown_item_1line,
                         autocompleteList);
@@ -126,10 +161,10 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
                 String itemName = autoCompleteTextView.getText().toString();
                 if (parent != null && parent.getChildAt(0) != null) {
                     String neighbourName = autocompleteList.get(position);
-                  //  String neighbourid = Constants.searchMap.get(itemName);
-                   // Log.d("catid", neighbourid);
+                    String neighbourid = Constants.searchMap.get(itemName);
+                    Log.d("catid", neighbourid);
                     Intent intent = new Intent(getActivity(), SearchInFeeds.class);
-                  //  intent.putExtra("value", neighbourid);
+                    intent.putExtra("value", neighbourid);
                     intent.putExtra("value1", itemName);
                     startActivity(intent);
                     Log.d("neighbourName", neighbourName);
@@ -147,27 +182,18 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
                 }
             }
         });
-
-        pager = (ViewPager)view.findViewById(R.id.posts_pager);
-        tabs = (SlidingTabLayout)view.findViewById(R.id.posts_tabs);
-        tabs.setDistributeEvenly(false);
-
-        //tabs.setDistributeEvenly(false);
-        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
-            @Override
-            public int getIndicatorColor(int position) {
-                return getResources().getColor(R.color.newbrand);
-            }
-        });
-
-        tabs.setTabsBackgroundColor(getResources().getColor(R.color.white));
-        // tabs.setViewPager(pager);
-
     }
-    private void initializeEventListeners() {
-        invite.setOnClickListener(this);
-        searchIcon.setOnClickListener(this);
+
+    public boolean hideSearchView() {
+        if (tabs.getVisibility() == View.GONE) {
+            uiHelper.expand(tabs);
+            searchBar.setVisibility(View.GONE);
+            uiHelper.hideKeyboard();
+            return true;
+        }
+        return false;
     }
+
     /* get all posts from server*/
     public void getAllposts(){
         if(networkDetector.isConnected()){
@@ -432,15 +458,22 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
                 inviteFriends(getString(R.string.invite_msg));
                 break;
             case R.id.home_search_icon:
-                if(searchLayout.getVisibility()==View.GONE){
-                    searchLayout.setVisibility(View.VISIBLE);
-                    textView.setVisibility(View.GONE);
-                    invite.setVisibility(View.GONE);
-                }else{
-                    searchLayout.setVisibility(View.GONE);
-                    textView.setVisibility(View.VISIBLE);
-                    invite.setVisibility(View.VISIBLE);
-                }
+                if (tabs.getVisibility() == View.VISIBLE)
+                    showSearchView();
+                else
+                    hideSearchView();
+//                if(searchLayout.getVisibility()==View.GONE){
+//                    searchLayout.setVisibility(View.VISIBLE);
+//                    textView.setVisibility(View.GONE);
+//                    invite.setVisibility(View.GONE);
+//                }else{
+//                    searchLayout.setVisibility(View.GONE);
+//                    textView.setVisibility(View.VISIBLE);
+//                    invite.setVisibility(View.VISIBLE);
+//                }
+                break;
+            case R.id.navigation_back:
+                hideSearchView();
                 break;
         }
     }

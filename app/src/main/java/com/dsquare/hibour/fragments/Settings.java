@@ -67,8 +67,8 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class Settings extends Fragment implements View.OnClickListener,ImagePicker {
-    private static final int REQUEST_IMAGE_SELECTOR = 1000;
-    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_IMAGE_SELECTOR = 100;
+    private static final int REQUEST_IMAGE_CAPTURE = 200;
     private static EditText dob;
     private ImageView menuIcon,notifIcon,inputImage,imageUploaded,dobimage;
     private RadioGroup gender;
@@ -118,7 +118,6 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         initializeViews(view);
         initializeEventListeners();
-        getAllPrefs();
         getLoginDetails();
         return view;
     }
@@ -259,7 +258,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
     private void openImageChooser(){
         chooserDialog = new PostsImagePicker();
         chooserDialog.show(getActivity().getSupportFragmentManager(), "chooser dialog");
-        chooserDialog.setTargetFragment(this,1);
+        chooserDialog.setTargetFragment(this,3);
     }
     /* open gallary intent*/
     private void openGallary(){
@@ -493,7 +492,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
                 TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
                 textView.setTextColor(Color.RED);
                 snackbar.show();
-
+            getLoginDetails();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -575,7 +574,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         String eMail=sharedPreferences.getString("Email","");
         String mobileNum=sharedPreferences.getString("Mobile","");
         String image=sharedPreferences.getString("Image","");
-
+        Log.d("image",image);
         name.setText(firstname);
         lastname.setText(lastName);
         if (gender1 != null && gender1.equalsIgnoreCase("0")) {
