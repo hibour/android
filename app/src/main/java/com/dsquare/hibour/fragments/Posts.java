@@ -123,10 +123,10 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
                 String itemName = autoCompleteTextView.getText().toString();
                 if (parent != null && parent.getChildAt(0) != null) {
                     String neighbourName = autocompleteList.get(position);
-                    String neighbourid = Constants.searchMap.get(itemName);
-                    Log.d("catid", neighbourid);
+                  //  String neighbourid = Constants.searchMap.get(itemName);
+                   // Log.d("catid", neighbourid);
                     Intent intent = new Intent(getActivity(), SearchInFeeds.class);
-                    intent.putExtra("value", neighbourid);
+                  //  intent.putExtra("value", neighbourid);
                     intent.putExtra("value1", itemName);
                     startActivity(intent);
                     Log.d("neighbourName", neighbourName);
@@ -174,7 +174,7 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
                 public void onSuccess(JSONObject jsonObject) {
                     parsePostsDetails(jsonObject);
                     closePostsDialog();
-                    welcomeDialog();
+//                    welcomeDialog();
 
                 }
 
@@ -190,7 +190,7 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
     }
 
 
-    public void welcomeDialog() {
+   /* public void welcomeDialog() {
         Log.d("posts", "sharedpreferences");
         if (application.getIsFirst()) {
             Log.d("posts", "if");
@@ -198,14 +198,15 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
         } else {
 
         }
-    }
+    }*/
 
-    private void openWelcomeDialog() {
+    /*private void openWelcomeDialog() {
         Log.d("Posts", "welcome");
         welcomeDialog = new WelcomeDialog();
+        Log.d("Postss","choose dialog");
         welcomeDialog.show(getActivity().getSupportFragmentManager(), "chooser dialog");
         welcomeDialog.setTargetFragment(this, 0);
-    }
+    }*/
 
     @Override
     public void openDialog(DialogFragment dialogFragment) {
@@ -240,8 +241,10 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
             for (Postpojos p:postpojos) {
                 Log.d("type id", p.getPostType());
                 Constants.postlikesMap.put(p.getPostId(), p.getPostLikedUsers());
+                Constants.postpojosMap.put(p.getPostId(),postpojos);
 
-                String id = p.getPostId();
+            //    String key2 = p.getPostTypeName();
+               String id = p.getPostId();
                 List<Postpojos> data1 = new ArrayList<>();
                 data1.add(p);
                 Constants.postpojosMap.put(p.getPostId(), data1);
@@ -253,22 +256,25 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
                         autocompleteList.add(key);
                     }
                 }
-
-                String key = " ";
+    /*            String key = " ";
                 if (Constants.categoriesMap.containsKey(p.getPostType()))
-                    key = Constants.categoriesMap.get(p.getPostType());
-
-                String key2 = p.getPostTypeName();
+                    key = Constants.categoriesMap.get(p.getPostType());*/
+                String key2 =p.getPostTypeName() ;
                 if (!Constants.postsMap.containsKey(key2)) {
                     List<Postpojos> data = new ArrayList<>();
                     data.add(p);
-                    Log.d("kkey", key2);
+                    Log.d("kkey",key2);
                     Constants.postsMap.put(key2, data);
+                  //  Log.d("kkey", key);
+                  //  Constants.postsMap.put(key, data);
                 } else {
                     List<Postpojos> postslist = Constants.postsMap.get(key2);
                     postslist.add(p);
-                    Log.d("kkey", key2);
+                    Log.d("kkey",key2);
                     Constants.postsMap.put(key2, postslist);
+                 //   Log.d("kkey", key);
+                 //   Constants.postsMap.put(key, postslist);
+
                 }
                 if (!tabsList.contains(key2))
                     tabsList.add(key2);
@@ -350,7 +356,7 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
 
     /*set pager adapter*/
     private void setPager(){
-//        setTabsTitles();
+      //  setTabsTitles();
 
         HomeTabsPager pagerAdapter = new HomeTabsPager(getFragmentManager(), tabsList);
         if (tabsList.size() < 4)
@@ -365,12 +371,12 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
         }
     }
 
-//    private void setTabsTitles() {
-//        for (int i = 0; i < tabsList.size(); i++) {
-//            Log.d("tabsNames", tabsList.get(i));
-//            tabsList.get(i);
-//        }
-//    }
+/*    private void setTabsTitles() {
+        for (int i = 0; i < tabsList.size(); i++) {
+            Log.d("tabsNames", tabsList.get(i));
+            tabsList.get(i);
+        }
+    }*/
 
 
     private void setAdapters(List<String[]> postsList,Posts posts){

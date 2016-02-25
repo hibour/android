@@ -125,7 +125,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
 
         gallary.setOnClickListener(this);
         delete.setOnClickListener(this);
-        done.setOnClickListener(this);
+       // done.setOnClickListener(this);
         cancel.setOnClickListener(this);
     }
 

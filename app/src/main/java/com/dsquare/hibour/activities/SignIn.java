@@ -2,6 +2,7 @@ package com.dsquare.hibour.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -70,6 +71,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
   private ProgressDialog signInDialog;
   private NetworkDetector networkDetector;
   private AccountsClient accountsClient;
+  private SharedPreferences sharedPreferences;
   private Typeface tf;
   private Hibour application;
 
@@ -132,6 +134,9 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
     passText.setTypeface(tf);
     application = Hibour.getInstance(this);
     application.initializeSharedPrefs();
+
+    sharedPreferences=getSharedPreferences("Login Credentials",MODE_PRIVATE);
+
   }
 
   /* initialize event listeners*/
@@ -426,7 +431,38 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
     Log.d("json", jsonObject.toString());
     try {
       JSONObject data = jsonObject.getJSONObject("data");
+
       int id = data.getInt("id");
+      String firstname=data.getString("first_name");
+      String lastname=data.getString("last_name");
+      String gender=data.getString("gender");
+      String dob=data.getString("dob");
+      String notifications=data.getString("notifications");
+      String passWord=data.getString("Password");
+      String address1=data.getString("address1");
+      String address=data.getString("address");
+      String latitude=data.getString("lat");
+      String longitude=data.getString("lng");
+      String email=data.getString("email");
+      String mobile=data.getString("mobile");
+
+      SharedPreferences.Editor editor=sharedPreferences.edit();
+
+      editor.putInt("Id",id);
+      editor.putString("FirstName", firstname);
+      editor.putString("LastName", lastname);
+      editor.putString("Gender", gender);
+      editor.putString("DOB", dob);
+      editor.putString("Notifications", notifications);
+      editor.putString("Password", passWord);
+      editor.putString("Address1", address1);
+      editor.putString("Address", address);
+      editor.putString("Latitude", latitude);
+      editor.putString("Longitude", longitude);
+      editor.putString("Email",email);
+      editor.putString("Mobile",mobile);
+      editor.commit();
+
       Log.d("id", id + "");
       if (id == 0) {
         Toast.makeText(this, "Credentials not matched", Toast.LENGTH_LONG).show();

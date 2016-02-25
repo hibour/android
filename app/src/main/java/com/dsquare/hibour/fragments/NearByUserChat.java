@@ -52,13 +52,11 @@ public class NearByUserChat extends BaseChatFragment {
         adapter.getUserList().clear();
         adapter.getUserList().addAll(list);
         adapter.notifyDataSetChanged();
-
           for (UserDetail userDetail:list) {
               List<UserDetail> data1 = new ArrayList<>();
               data1.add(userDetail);
               Constants.chatsMap.put(userDetail.id, data1);
-
-        Constants.searchChat.put(userDetail.Email,userDetail.id);
+              Constants.searchChat.put(userDetail.Email,userDetail.id);
               if (Constants.searchChat.size() > 0) {
                   Constants.chatList.clear();
                   for (String key : Constants.searchChat.keySet()) {
@@ -101,7 +99,6 @@ public class NearByUserChat extends BaseChatFragment {
     socializeClient = new SocializeClient(getContext());
     application = Hibour.getInstance(getContext());
     initializeViews(view);
-    Constants.searchChat.clear();
     socializeClient.getNearByUser(application.getUserId(), nearbyUserResultCallBack);
     return view;
   }

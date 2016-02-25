@@ -85,6 +85,7 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
   private TextView countText;
   private Button next;
   private ImageView back;
+    private String subLocality="",address="",lat="",lng="";
   private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
       = new ResultCallback<PlaceBuffer>() {
     @Override
@@ -164,6 +165,10 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
   }
 
   private void initializeViews() {
+      subLocality = getIntent().getStringExtra("Address1");
+      address = getIntent().getStringExtra("Address");
+      lat = getIntent().getStringExtra("Latitude");
+      lng = getIntent().getStringExtra("Longitude");
     mGoogleApiClient = new GoogleApiClient.Builder(this)
         .addConnectionCallbacks(this)
         .addOnConnectionFailedListener(this)
@@ -192,7 +197,7 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
 
       }
     });
-    autoCompleteTextView.setText(application.getUserLocation());
+    autoCompleteTextView.setText(address);
     networkDetector = new NetworkDetector(this);
     accountsClient = new AccountsClient(this);
     filterTypes.add(Place.TYPE_GEOCODE);
@@ -247,7 +252,7 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
   public void onClick(View view) {
     switch (view.getId()) {
       case R.id.serach_sumbit:
-        if (autoCompleteTextView.getText().toString().equals(application.getUserLocation())) {
+        if (autoCompleteTextView.getText().toString().equals(address)) {
           Toast.makeText(this, "please change location", Toast.LENGTH_SHORT).show();
         } else {
           updateUserLocation();

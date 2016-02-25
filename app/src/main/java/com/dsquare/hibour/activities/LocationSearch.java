@@ -228,17 +228,17 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 
                 if (b) {
                     autoCompleteTextView.setHint("");
-                    LocationSearch.this.findViewById(R.id.hibour_logo_landing_page).setVisibility(View.GONE);
+                   /* LocationSearch.this.findViewById(R.id.hibour_logo_landing_page).setVisibility(View.GONE);
                     LocationSearch.this.findViewById(R.id.loc_search_text_temp2).setVisibility(View.GONE);
                     LocationSearch.this.findViewById(R.id.loc_search_text_temp1).setVisibility(View.GONE);
-
+*/
                     LinearLayout linearLayoutLocSearch = (LinearLayout) LocationSearch.this.findViewById(R.id.loc_search_layout);
-                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) linearLayoutLocSearch.getLayoutParams();
+                   /* RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) linearLayoutLocSearch.getLayoutParams();
 
                     layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-                    layoutParams.setMargins(layoutParams.leftMargin, 20, layoutParams.rightMargin, layoutParams.bottomMargin);
+                   layoutParams.setMargins(layoutParams.leftMargin, 20, layoutParams.rightMargin, layoutParams.bottomMargin);
                     linearLayoutLocSearch.setLayoutParams(layoutParams);
-
+*/
                     TranslateAnimation translateAnimation = new TranslateAnimation(TranslateAnimation.RELATIVE_TO_SELF, 0, TranslateAnimation.RELATIVE_TO_SELF, 0, TranslateAnimation.RELATIVE_TO_SELF, 0, TranslateAnimation.RELATIVE_TO_PARENT, 0);
                     translateAnimation.setDuration(300);
                     translateAnimation.setFillAfter(true);

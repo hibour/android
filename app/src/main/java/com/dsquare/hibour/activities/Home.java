@@ -83,6 +83,10 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
     manager = getSupportFragmentManager();
     drawerList = (ListView) findViewById(R.id.left_drawer);
     application = Hibour.getInstance(this);
+    networkDetector=new NetworkDetector(this);
+    gson=new Gson();
+    postsClient=new PostsClient(this);
+    name = (TextView)findViewById(R.id.sidemenu_name);
     postsClient = new PostsClient(this);
     networkDetector = new NetworkDetector(this);
       gson = new Gson();
@@ -269,7 +273,7 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
   private void getAllCategoriesTypes() {
     if (networkDetector.isConnected()) {
       dialog = ProgressDialog.show(this, "", getResources()
-          .getString(R.string.progress_dialog_text));
+              .getString(R.string.progress_dialog_text));
       postsClient.getAllcategoriesTypes(new WebServiceResponseCallback() {
         @Override
         public void onSuccess(JSONObject jsonObject) {
