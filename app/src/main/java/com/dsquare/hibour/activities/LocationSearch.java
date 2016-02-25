@@ -180,7 +180,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+       /* mMap = googleMap;
         if( mapFragment.getView().getVisibility() == View.GONE){
             Log.d("visibility","yes");
             mapFragment.getView().setVisibility(View.VISIBLE);
@@ -188,7 +188,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
         // Add a marker in Sydney, Australia, and move the camera.
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));*/
     }
 
     @Override
@@ -207,9 +207,9 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 .addApi(Places.PLACE_DETECTION_API)
                 .addApi(LocationServices.API)
                 .build();
-        mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.loc_map);
-        mapFragment.getMapAsync(this);
+       // mapFragment = (SupportMapFragment) getSupportFragmentManager()
+         //       .findFragmentById(R.id.loc_map);
+        //mapFragment.getMapAsync(this);
         locationClient = new LocationClient(this);
         auto = (LinearLayout) findViewById(R.id.loc_search_layout);
         map = (RelativeLayout) findViewById(R.id.relative_map);

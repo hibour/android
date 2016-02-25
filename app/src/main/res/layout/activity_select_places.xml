@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
-    <fragment
+    <!--<fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/loc_map"
         android:visibility="gone"
         tools:context=".activities.LocationSearch"
-        android:name="com.google.android.gms.maps.SupportMapFragment" />
+        android:name="com.google.android.gms.maps.SupportMapFragment" />-->
     <LinearLayout
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent"
