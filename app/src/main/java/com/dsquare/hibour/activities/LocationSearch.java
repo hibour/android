@@ -15,13 +15,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -37,6 +40,7 @@ import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Fonts;
 import com.dsquare.hibour.utils.Hibour;
+import com.dsquare.hibour.utils.ProximaLight;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -228,19 +232,29 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 
                 if (b) {
                     autoCompleteTextView.setHint("");
-                   /* LocationSearch.this.findViewById(R.id.hibour_logo_landing_page).setVisibility(View.GONE);
-                    LocationSearch.this.findViewById(R.id.loc_search_text_temp2).setVisibility(View.GONE);
-                    LocationSearch.this.findViewById(R.id.loc_search_text_temp1).setVisibility(View.GONE);
-*/
-                    LinearLayout linearLayoutLocSearch = (LinearLayout) LocationSearch.this.findViewById(R.id.loc_search_layout);
-                   /* RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) linearLayoutLocSearch.getLayoutParams();
+                    ImageView imageViewlogo = (ImageView) LocationSearch.this.findViewById(R.id.hibour_logo_landing_page);
+                    ProximaLight proximaLighttemp2 = (ProximaLight) LocationSearch.this.findViewById(R.id.loc_search_text_temp2);
+                    ProximaLight proximaLighttemp1 = (ProximaLight) LocationSearch.this.findViewById(R.id.loc_search_text_temp1);
 
-                    layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-                   layoutParams.setMargins(layoutParams.leftMargin, 20, layoutParams.rightMargin, layoutParams.bottomMargin);
-                    linearLayoutLocSearch.setLayoutParams(layoutParams);
-*/
-                    TranslateAnimation translateAnimation = new TranslateAnimation(TranslateAnimation.RELATIVE_TO_SELF, 0, TranslateAnimation.RELATIVE_TO_SELF, 0, TranslateAnimation.RELATIVE_TO_SELF, 0, TranslateAnimation.RELATIVE_TO_PARENT, 0);
-                    translateAnimation.setDuration(300);
+                    LinearLayout linearLayoutLocSearch = (LinearLayout) LocationSearch.this.findViewById(R.id.loc_search_layout);
+                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) linearLayoutLocSearch.getLayoutParams();
+
+                    AlphaAnimation alphaAnimation = new AlphaAnimation(1, 0);
+                    alphaAnimation.setDuration(700);
+                    alphaAnimation.setInterpolator(new LinearInterpolator());
+                    alphaAnimation.setFillAfter(true);
+
+                    imageViewlogo.setAnimation(alphaAnimation);
+                    proximaLighttemp1.setAnimation(alphaAnimation);
+                    proximaLighttemp2.setAnimation(alphaAnimation);
+
+                    proximaLighttemp2.animate();
+                    proximaLighttemp1.animate();
+                    imageViewlogo.animate();
+
+
+                    TranslateAnimation translateAnimation = new TranslateAnimation(TranslateAnimation.RELATIVE_TO_SELF, 0, TranslateAnimation.RELATIVE_TO_SELF, 0, TranslateAnimation.RELATIVE_TO_SELF, 0, TranslateAnimation.RELATIVE_TO_PARENT, -0.4f);
+                    translateAnimation.setDuration(1000);
                     translateAnimation.setFillAfter(true);
                     translateAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
 
