@@ -17,6 +17,8 @@
     <uses-permission android:name="android.permission.NETWORK"/>
     <uses-permission android:name="android.permission.USE_CREDENTIALS"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE"/>
 
     <permission
         android:name="com.dsquare.hibour.permission.C2D_MESSAGE"

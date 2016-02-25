@@ -2,7 +2,10 @@ package com.dsquare.hibour.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,7 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
@@ -57,6 +60,7 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
     private ViewPager pager;
     private SlidingTabLayout tabs;
     private List<String> tabsList = new ArrayList<>();
+    private CoordinatorLayout coordinatorLayout;
     public Socialize() {
         // Required empty public constructor
     }
@@ -78,6 +82,8 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
         gson = new Gson();
         socialClient = new SocializeClient(getActivity());
         application = Hibour.getInstance(getActivity());
+        coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id
+                .coordinatorLayout);
 //        doneButton = (Button)view.findViewById(R.id.socialize_done_button);
 //        previous = (Button)view.findViewById(R.id.socialize_prev_button);
         pager = (ViewPager) view.findViewById(R.id.posts_pager);
@@ -155,7 +161,13 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
                 }
             });
         }else{
-            Toast.makeText(getActivity(), "Network connection error", Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
         }
     }
     /* insert prefs*/
@@ -178,7 +190,13 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
                 }
             });
         }else{
-            Toast.makeText(getActivity(),"Network connection error",Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
         }
     }
     /* parse all prefs*/
@@ -285,7 +303,6 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
                     Constants.membersList.add(ch);
                 }
             }
-
             setPager();
         } catch (Exception e) {
             e.printStackTrace();

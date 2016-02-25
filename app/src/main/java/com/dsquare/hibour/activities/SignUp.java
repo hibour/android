@@ -1,12 +1,19 @@
 package com.dsquare.hibour.activities;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -31,6 +38,7 @@ import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.pojos.signup.Data;
 import com.dsquare.hibour.pojos.signup.SignupPojo;
 import com.dsquare.hibour.utils.Constants;
+import com.dsquare.hibour.utils.Helper;
 import com.dsquare.hibour.utils.Hibour;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -59,6 +67,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
 
     private static final int RC_SIGN_IN = 9001;
     private static final String intentText = "pintent";
+    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 33;
     protected GoogleApiClient mGoogleApiClient;
     private String TAG = "signin";
     private GoogleSignInOptions googleSignInOptions;
@@ -82,7 +91,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     private LinearLayout linearmale,linearfemale;
     private String Gender="";
     private DatabaseHandler handler;
-
+    private CoordinatorLayout coordinatorLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +105,8 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     /* initialize views*/
     private void initializeViews(){
         handler = new DatabaseHandler(this);
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id
+                .coordinatorLayout);
         submitButton = (Button)findViewById(R.id.signup_next);
         fname = (EditText)findViewById(R.id.signup_firstname);
         lname = (EditText)findViewById(R.id.signup_lastname);
@@ -148,6 +159,46 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
         inputLayoutlName.setTypeface(tf);
         inputLayoutemail.setTypeface(tf);
         inputLayoutpassword.setTypeface(tf);
+
+        //Trying to prepopulate the form
+        if(ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_CONTACTS)
+                != PackageManager.PERMISSION_GRANTED){
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_CONTACTS},
+                    PERMISSIONS_REQUEST_READ_CONTACTS);
+
+        } else {
+            this.prepopulateForm();
+
+        }
+
+
+
+    }
+
+    private void prepopulateForm() {
+        Helper helper = new Helper(this);
+
+        String emailString = helper.getUserEmail();
+        if(emailString != null){
+            email.setText(emailString);
+
+        }
+
+        String[] name = helper.getName();
+        if(name!= null) {
+            if(name[1] != null && name[2] != null) {
+                fname.setText(name[1]);
+                lname.setText(name[2]);
+            } else if(name[0] != null) {
+                fname.setText(name[0]);
+
+            }
+
+        }
+
     }
 
     private void hideKeyboard() {
@@ -397,10 +448,22 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
             if(application.validateEmail(userMail)){
                 signUpUser(userFname, userLname, userMail, userPass, "normal");
             }else{
-                Toast.makeText(this,"Enter valid email",Toast.LENGTH_LONG).show();
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, "Enter valid email!", Snackbar.LENGTH_LONG);
+                // Changing action button text color
+                View sbView = snackbar.getView();
+                TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                textView.setTextColor(Color.RED);
+                snackbar.show();
             }
         }else{
-            Toast.makeText(this,"Enter valid credentials",Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "Enter valid credentials!", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
         }
     }
     /* sign up the user*/
@@ -409,7 +472,13 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
             signUpDialog = ProgressDialog.show(this,"",getResources()
                     .getString(R.string.progress_dialog_text));
             if (application.getGCMToken().equalsIgnoreCase("")) {
-                Toast.makeText(this, "Check Internet Connectivity.", Toast.LENGTH_SHORT).show();
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, "Check Internet Connectivity.", Snackbar.LENGTH_LONG);
+                // Changing action button text color
+                View sbView = snackbar.getView();
+                TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                textView.setTextColor(Color.RED);
+                snackbar.show();
                 if (application.checkPlayServices(this, null)) {
                     // Start IntentService to register this application with GCM.
                     Intent intent = new Intent(this, GcmRegistration.class);
@@ -433,7 +502,13 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                 }
             });
         }else{
-            Toast.makeText(this,"Network not connected.",Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
         }
     }
     /* parse sign up details*/
@@ -471,4 +546,22 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
         }
 
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+
+        switch(requestCode) {
+            case SignUp.PERMISSIONS_REQUEST_READ_CONTACTS:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    this.prepopulateForm();
+
+                }
+                break;
+
+        }
+
+    }
+
 }

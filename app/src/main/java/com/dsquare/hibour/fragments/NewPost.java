@@ -6,10 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.util.Base64;
 import android.util.Log;
@@ -31,7 +34,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
@@ -95,6 +97,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     private String catFrmPre = "";
     private boolean isMessage = false;
     private PostsListener mListener;
+    private CoordinatorLayout coordinatorLayout;
     public NewPost() {
     }
 
@@ -252,7 +255,13 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                 && !text.getText().toString().equals("null") &&
                 !text.getText().toString().equals("") &&
                 !postimagesstring.equals("")) {
-            Toast.makeText(getActivity(), "All fields are required", Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "All fields are required!", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
         } else {
             Log.d("userid", application.getUserId());
             sendPostData("1", text.getText().toString()
@@ -280,7 +289,13 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                 }
             });
         } else {
-            Toast.makeText(getActivity(), "Network connection error", Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
         }
     }
 
@@ -289,11 +304,23 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         Log.d("json", jsonObject.toString());
         try {
             JSONObject data = jsonObject.getJSONObject("data");
-            Toast.makeText(getActivity(), "Post update successfully", Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "Post update successfully!", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
             mListener.onDoneClicked();
         } catch (JSONException e) {
             e.printStackTrace();
-            Toast.makeText(getActivity(), "Post updation failed", Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "Post updation failed!", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
         }
 
     }
@@ -309,6 +336,8 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     }
 
     private void initializeViews(View view) {
+        coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id
+                .coordinatorLayout);
         getActivity().getWindow().setSoftInputMode(
             WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         done = (TextView) view.findViewById(R.id.create_post_done);
