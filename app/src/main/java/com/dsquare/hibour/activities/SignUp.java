@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -92,6 +93,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     private String Gender="";
     private DatabaseHandler handler;
     private CoordinatorLayout coordinatorLayout;
+    private SharedPreferences preferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,6 +106,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     }
     /* initialize views*/
     private void initializeViews(){
+        preferences = getSharedPreferences("Login Credentials",MODE_PRIVATE);
         handler = new DatabaseHandler(this);
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id
                 .coordinatorLayout);
@@ -486,8 +489,9 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                 }
                 return;
             }
-            accountsClient.signUpUser(userFname, userLname, email, password, Gender, regType, Constants.latitude, Constants.longitude,
-                Constants.locationaddress, Constants.locationaddress1,
+            accountsClient.signUpUser(userFname, userLname, email, password, Gender, regType, preferences.getString("Latitude","")
+                    , preferences.getString("Longitude",""),preferences.getString("Address","")
+                    , preferences.getString("Address1",""),
                 application.getGCMToken(), new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {

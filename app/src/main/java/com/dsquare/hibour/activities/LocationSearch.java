@@ -114,6 +114,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
     private SupportMapFragment mapFragment;
     private CoordinatorLayout coordinatorLayout;
     private SharedPreferences sharedPreferences;
+    private String lat,lng;
     private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
             = new ResultCallback<PlaceBuffer>() {
         @Override
@@ -124,9 +125,6 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 places.release();
                 return;
             }
-//            pDialog = new ProgressDialog(LocationSearch.this);
-//            pDialog.setMessage("Loading Location ....");
-//            pDialog.show();
             // Get the Place object from the buffer.
             place = places.get(0);
             latLng = place.getLatLng();Log.d("address,type",place.getAddress()+" "+place.getPlaceTypes().get(0));
@@ -139,6 +137,8 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
             if (place == null)
                 Toast.makeText(LocationSearch.this, "Location Not Changed", Toast.LENGTH_SHORT).show();
             else {
+                lat = latLng.latitude+"";
+                lng = latLng.longitude+"";
                 getAddress(latLng.latitude+"",latLng.longitude+"",locAddress,place.getId());
                 Log.d("lat and long", latLng.latitude + " " + latLng.longitude);
                 Double[] params = new Double[2];
@@ -214,16 +214,12 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 .addApi(Places.PLACE_DETECTION_API)
                 .addApi(LocationServices.API)
                 .build();
+
        // mapFragment = (SupportMapFragment) getSupportFragmentManager()
          //       .findFragmentById(R.id.loc_map);
-        //mapFragment.getMapAsync(this);
-      //  mapFragment = (SupportMapFragment) getSupportFragmentManager()
-              //  .findFragmentById(R.id.loc_map);
-       // mapFragment = (SupportMapFragment) getSupportFragmentManager()
-               // .findFragmentById(R.id.loc_map);
-        sharedPreferences =
-                (SharedPreferences) (coordinatorLayout = (CoordinatorLayout) findViewById(R.id
-                                .coordinatorLayout));
+        sharedPreferences=getSharedPreferences("Login Credentials",MODE_PRIVATE);
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id
+                .coordinatorLayout);
 //        mapFragment.getMapAsync(this);
         locationClient = new LocationClient(this);
         auto = (LinearLayout) findViewById(R.id.loc_search_layout);
@@ -358,6 +354,12 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.serach_sumbit:
                 Intent intent2 = new Intent(getApplicationContext(), Social.class);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("Address1", subLocality);
+                editor.putString("Address", locAddress);
+                editor.putString("Latitude", lat);
+                editor.putString("Longitude", lng);
+                editor.commit();
                 startActivity(intent2);
                 this.finish();
                 break;
