@@ -243,6 +243,9 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
             if (Constants.postsMap.size() > 0) {
                 Constants.postsMap.clear();
             }
+            if(Constants.postpojosMap.size()>0){
+                Constants.postpojosMap.clear();
+            }
             if (tabsList.size() > 0) {
                 tabsList.clear();
             }
