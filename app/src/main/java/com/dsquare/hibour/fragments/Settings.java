@@ -532,7 +532,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         String eMail=userDetails.get(Constants.SF_EMAIL);
         String mobileNum=userDetails.get(Constants.SF_MOBILE);
         String image=userDetails.get(Constants.SF_IMAGE);
-        Log.d("image",image);
+       // Log.d("image",image);
         name.setText(firstname);
         lastname.setText(lastName);
         if (gender1 != null && gender1.equalsIgnoreCase("0")) {
@@ -544,8 +544,10 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         password.setText(passWord);
         moblie.setText(mobileNum);
         dob.setText(dobbb);
-        imageLoader.get(image, ImageLoader.getImageListener(inputImage
-                , R.drawable.avatar1, R.drawable.avatar1));
+        if(image!=null&& image!=""){
+            imageLoader.get(image, ImageLoader.getImageListener(inputImage
+                    , R.drawable.avatar1, R.drawable.avatar1));
+        }
     }
 
 

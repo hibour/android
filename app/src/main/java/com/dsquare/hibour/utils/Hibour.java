@@ -122,10 +122,12 @@ public class Hibour {
 
     /* remove user id*/
     public void removeUserDetails(){
-       // initializeSharedPrefs();
+        initializeSharedPrefs();
+        editor.clear();
+        editor.apply();
         //editor.remove(Constants.PREFERENCE_USER_ID);
         //editor.apply();
-        sharedPreferences = null;
+       // sharedPreferences = null;
     }
 
     public boolean getIsFirst() {
