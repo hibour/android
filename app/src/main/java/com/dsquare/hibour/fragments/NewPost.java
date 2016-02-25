@@ -80,7 +80,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     private PostsClient postsClient;
     private ProgressDialog newpostDialogue;
     private Gson gson;
-    private String categoriesString = "", postimagesstring = "aa";
+    private String categoriesString = "", postimagesstring = "";
     private String categoriesTypeId = "", neighoursTypeId = "";
     private Bitmap bitmap;
     private Hibour application;

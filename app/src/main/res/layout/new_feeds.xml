@@ -86,7 +86,7 @@
                     android:layout_marginLeft="@dimen/dp_10">
                     <ImageView
                         android:layout_width="@dimen/dp_30"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/dp_30"
                         android:src="@drawable/up_arrow_gray_48"/>
                     <TextView
                         android:layout_width="wrap_content"
@@ -96,7 +96,7 @@
                         android:text="150"/>
                     <ImageView
                         android:layout_width="@dimen/dp_30"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/dp_30"
                         android:src="@drawable/down_arrow_gray_48"/>
                 </LinearLayout>
 
