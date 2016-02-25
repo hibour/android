@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.database.DatabaseHandler;
+import com.dsquare.hibour.dialogs.SignInDialog;
 import com.dsquare.hibour.gcm.GcmRegistration;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
@@ -53,7 +54,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SignIn extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+public class SignIn extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener,SignInDialog.SignInCallback {
 
   private static final String LOG_TAG = SignIn.class.getSimpleName();
   private static final int RC_SIGN_IN = 9001;
@@ -77,6 +78,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
   private Typeface tf;
   private Hibour application;
   private CoordinatorLayout coordinatorLayout;
+  private SignInDialog signInDialogs;
 
   private String userName = "", userNumber = "", userMail = "", socialType = "", userpassword = "", userfirst = "", userlast = "";
   private WebServiceResponseCallback userDetailCallbackListener = new WebServiceResponseCallback() {
@@ -471,62 +473,84 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
     try {
       JSONObject data = jsonObject.getJSONObject("data");
 
-      int id = data.getInt("id");
-      String firstname=data.getString("first_name");
-      String lastname=data.getString("last_name");
-      String gender=data.getString("gender");
-      String dob=data.getString("dob");
-      String notifications=data.getString("notifications");
-      String passWord=data.getString("Password");
-      String address1=data.getString("address1");
-      String address=data.getString("address");
-      String latitude=data.getString("lat");
-      String longitude=data.getString("lng");
-      String email=data.getString("email");
-      String mobile=data.getString("mobile");
+      String credential = data.getString("credentials_matched");
+        Log.d("credential", credential);
+   if(credential.equals("true")) {
+        int id = data.getInt("id");
+       String firstname = data.getString("first_name");
+       String lastname = data.getString("last_name");
+       String gender = data.getString("gender");
+       String dob = data.getString("dob");
+       String notifications = data.getString("notifications");
+       String passWord = data.getString("Password");
+       String address1 = data.getString("address1");
+       String address = data.getString("address");
+       String latitude = data.getString("lat");
+       String longitude = data.getString("lng");
+       String email = data.getString("email");
+       String mobile = data.getString("mobile");
+       String image = data.getString("image");
+       SharedPreferences.Editor editor = sharedPreferences.edit();
 
-      SharedPreferences.Editor editor=sharedPreferences.edit();
+       editor.putInt("Id", id);
+       editor.putString("FirstName", firstname);
+       editor.putString("LastName", lastname);
+       editor.putString("Gender", gender);
+       editor.putString("DOB", dob);
+       editor.putString("Notifications", notifications);
+       editor.putString("Password", passWord);
+       editor.putString("Address1", address1);
+       editor.putString("Address", address);
+       editor.putString("Latitude", latitude);
+       editor.putString("Longitude", longitude);
+       editor.putString("Email", email);
+       editor.putString("Mobile", mobile);
+       editor.putString("Image", image);
+       editor.commit();
 
-      editor.putInt("Id",id);
-      editor.putString("FirstName", firstname);
-      editor.putString("LastName", lastname);
-      editor.putString("Gender", gender);
-      editor.putString("DOB", dob);
-      editor.putString("Notifications", notifications);
-      editor.putString("Password", passWord);
-      editor.putString("Address1", address1);
-      editor.putString("Address", address);
-      editor.putString("Latitude", latitude);
-      editor.putString("Longitude", longitude);
-      editor.putString("Email",email);
-      editor.putString("Mobile",mobile);
-      editor.commit();
+       application.setuserId(id + "");
+       accountsClient.getUserDetails(id + "", userDetailCallbackListener);
+       Snackbar snackbar = Snackbar
+               .make(coordinatorLayout, "Successfully completed!", Snackbar.LENGTH_LONG);
+       // Changing action button text color
+       View sbView = snackbar.getView();
+       TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+       textView.setTextColor(Color.RED);
+       snackbar.show();
+       openHomeActivity();
+   }else{
+       signInDialogs = new SignInDialog();
+       signInDialogs.show(getFragmentManager(), "chooser dialog");
+       Log.d("Postss","choose dialog");
+   }
 
-      Log.d("id", id + "");
-      if (id == 0) {
-//          SignInDialog = new SignInDialog();
+
+
+//      if (credential.equals("false")) {
+//          signInDialogs = new SignInDialog();
+//          signInDialogs.show(getFragmentManager(), "chooser dialog");
 //          Log.d("Postss","choose dialog");
-//          SignInDialog.show(getSupportFragmentManager(), "chooser dialog");
-//          welcomeDialog.setTargetFragment(this, 0);
-          Snackbar snackbar = Snackbar
-                  .make(coordinatorLayout, "Credentials not matched!", Snackbar.LENGTH_LONG);
-          // Changing action button text color
-          View sbView = snackbar.getView();
-          TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-          textView.setTextColor(Color.RED);
-          snackbar.show();
-      } else {
-        application.setuserId(id + "");
-        accountsClient.getUserDetails(id + "", userDetailCallbackListener);
-          Snackbar snackbar = Snackbar
-                  .make(coordinatorLayout, "Successfully completed!", Snackbar.LENGTH_LONG);
-          // Changing action button text color
-          View sbView = snackbar.getView();
-          TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-          textView.setTextColor(Color.RED);
-          snackbar.show();
-        openHomeActivity();
-      }
+//          Snackbar snackbar = Snackbar
+//                  .make(coordinatorLayout, "Credentials not matched!", Snackbar.LENGTH_LONG);
+//          // Changing action button text color
+//          View sbView = snackbar.getView();
+//          TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+//          textView.setTextColor(Color.RED);
+//          snackbar.show();
+//      } else {
+//        application.setuserId(id + "");
+//        accountsClient.getUserDetails(id + "", userDetailCallbackListener);
+//          signInDialogs = new SignInDialog();
+//          signInDialogs.show(getFragmentManager(), "chooser dialog");
+//          Snackbar snackbar = Snackbar
+//                  .make(coordinatorLayout, "Successfully completed!", Snackbar.LENGTH_LONG);
+//          // Changing action button text color
+//          View sbView = snackbar.getView();
+//          TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+//          textView.setTextColor(Color.RED);
+//          snackbar.show();
+//        openHomeActivity();
+//      }
     } catch (JSONException e) {
       e.printStackTrace();
     }
@@ -545,4 +569,9 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
       }
     }
   }
+
+    @Override
+    public void closeDialog(SignInDialog dialogFragment) {
+        signInDialogs.dismiss();
+    }
 }

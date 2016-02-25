@@ -51,6 +51,7 @@ import com.dsquare.hibour.utils.Hibour;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -77,7 +78,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
     private List<String> genderList = new ArrayList<>();
     private NavDrawerCallback callback;
     private Button submitButton;
-//    private ProgressDialog dialog;
+    private ProgressDialog dialog;
     private int PICK_IMAGE_REQUEST = 1;
     private Typeface tf,proxima;
     private DialogFragment chooserDialog;
@@ -185,6 +186,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         proof.setOnClickListener(this);
         soclize.setOnClickListener(this);
         dobimage.setOnClickListener(this);
+        dob.setOnClickListener(this);
     }
 
     /*prepare cards list*/
@@ -219,7 +221,13 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
                 args.putString("data", "a");  //This method is used to send the data from one fragment to another fragment
                 newFragment.setArguments(args);
                 newFragment.show(getFragmentManager(), "DatePicker");
-
+                break;
+            case R.id.settings_dob_edit:
+                final DialogFragment newFragment1 = new SelectDateFragment();
+                Bundle args1 = new Bundle();
+                args1.putString("data", "a");  //This method is used to send the data from one fragment to another fragment
+                newFragment1.setArguments(args1);
+                newFragment1.show(getFragmentManager(), "DatePicker");
                 break;
         }
     }
@@ -331,6 +339,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         String userLastName = lastname.getText().toString();
         String userMail = email.getText().toString();
         String userPass = password.getText().toString();
+        String date = dob.getText().toString();
         if (!userName.equals(null) && !userName.equals("null") && !userName.equals("") &&
             !userLastName.equals(null) && !userLastName.equals("null") && !userLastName.equals("") &&
             !userMail.equals(null) && !userMail.equals("null") && !userMail.equals("") &&
@@ -338,7 +347,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
             if (application.validateEmail(userMail)) {
                 if (moblie.getText().toString().length() < 11 && moblie.getText().toString().length() > 9) {
                     if (gender.getCheckedRadioButtonId() != -1) {
-                        updateProfiletoUser(userName, userLastName, userMail, userPass, moblie.getText().toString());
+                        updateProfiletoUser(userName, userLastName, userMail, userPass, moblie.getText().toString(),date);
                     } else {
                         Snackbar snackbar = Snackbar
                                 .make(coordinatorLayout, "Please select Gender!", Snackbar.LENGTH_LONG);
@@ -377,22 +386,22 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         }
     }
 
-    private void updateProfiletoUser(String userName, String userLastName, String userMail, String userPass, String mobile) {
+    private void updateProfiletoUser(String userName, String userLastName, String userMail, String userPass, String mobile,String dob) {
         if (networkDetector.isConnected()) {
-           /* dialog = ProgressDialog.show(getActivity(), "", getResources()
-                .getString(R.string.progress_dialog_text));*/
+         dialog = ProgressDialog.show(getActivity(), "", getResources()
+                .getString(R.string.progress_dialog_text));
             accountsClient.getAllUpdateSettings(application.getUserId(), userName, userLastName, userMail, userPass, genderstring, mobile
-                , cardImageString, new WebServiceResponseCallback() {
+                ,dob, cardImageString, new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parseUpdateDetails(jsonObject);
-              //      closeDialog();
+                    closeDialog();
                 }
 
                 @Override
                 public void onFailure(VolleyError error) {
                     Log.d("signup", error.toString());
-                 //   closeDialog();
+                    closeDialog();
                 }
             });
         } else {
@@ -409,8 +418,42 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
 
     public void parseUpdateDetails(JSONObject jsonObject) {
         Log.d("update data", jsonObject.toString());
-     //   closeDialog();
-        getAllPrefs();
+        closeDialog();
+        try {
+            JSONObject data = jsonObject.getJSONObject("data");
+
+                String firstname = data.getString("First_name");
+                String lastname = data.getString("Last_name");
+                String gender = data.getString("Gender");
+                String dob = data.getString("dob");
+                String passWord = data.getString("Password");
+                String email = data.getString("Email");
+                String mobile = data.getString("Mobilenumber");
+                String image = data.getString("profileimage");
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                editor.putString("FirstName", firstname);
+                editor.putString("LastName", lastname);
+                editor.putString("Gender", gender);
+                editor.putString("DOB", dob);
+                editor.putString("Password", passWord);
+                editor.putString("Email", email);
+                editor.putString("Mobile", mobile);
+                editor.putString("Image", image);
+                editor.commit();
+
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, "Successfully Updated!", Snackbar.LENGTH_LONG);
+                // Changing action button text color
+                View sbView = snackbar.getView();
+                TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                textView.setTextColor(Color.RED);
+                snackbar.show();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     /* get all prefs*/
@@ -467,15 +510,15 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
             e.printStackTrace();
         }
     }
-    /* close dialog*/
-  /*  private void closeDialog(){
+   /*  close dialog*/
+    private void closeDialog(){
         if(dialog!=null){
             if(dialog.isShowing()){
                 dialog.dismiss();
                 dialog=null;
             }
         }
-    }*/
+    }
 
     private void getLoginDetails() {
         String firstname=sharedPreferences.getString("FirstName", "");
@@ -486,6 +529,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         String passWord=sharedPreferences.getString("Password","");
         String eMail=sharedPreferences.getString("Email","");
         String mobileNum=sharedPreferences.getString("Mobile","");
+        String image=sharedPreferences.getString("Image","");
 
         name.setText(firstname);
         lastname.setText(lastName);
@@ -498,10 +542,8 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         password.setText(passWord);
         moblie.setText(mobileNum);
         dob.setText(dobbb);
-
-
-
-
+        imageLoader.get(image, ImageLoader.getImageListener(inputImage
+                , R.drawable.avatar1, R.drawable.avatar1));
     }
 
 

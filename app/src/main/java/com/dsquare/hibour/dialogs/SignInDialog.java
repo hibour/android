@@ -3,7 +3,6 @@ package com.dsquare.hibour.dialogs;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,10 +15,12 @@ import com.dsquare.hibour.R;
 /**
  * Created by Dsquare Android on 2/25/2016.
  */
-public class SignInDialog extends DialogFragment implements View.OnClickListener {
+public class SignInDialog extends android.app.DialogFragment implements View.OnClickListener {
+
+
 
     public interface SignInCallback {
-        void closeDialog(DialogFragment dialogFragment);
+        void closeDialog(SignInDialog dialogFragment);
     }
     private TextView text,ok;
     private ImageView close;
@@ -42,12 +43,9 @@ public class SignInDialog extends DialogFragment implements View.OnClickListener
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        // Verify that the host activity implements the callback interface
         try {
-            // Instantiate the NoticeDialogListener so we can send events to the host
-            callback = (SignInCallback) getTargetFragment();
+            callback = (SignInCallback) activity;
         } catch (ClassCastException e) {
-            // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(activity.toString()
                     + " must implement NoticeDialogListener");
         }
