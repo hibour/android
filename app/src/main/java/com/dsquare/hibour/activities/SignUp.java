@@ -63,6 +63,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class SignUp extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
@@ -489,9 +490,11 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                 }
                 return;
             }
-            accountsClient.signUpUser(userFname, userLname, email, password, Gender, regType, preferences.getString("Latitude","")
-                    , preferences.getString("Longitude",""),preferences.getString("Address","")
-                    , preferences.getString("Address1",""),
+            Map<String,String> userDetails = application.getUserDetails();
+            accountsClient.signUpUser(userFname, userLname, email, password, Gender, regType
+                    , userDetails.get(Constants.SF_LAT)
+                    , userDetails.get(Constants.SF_LNG),userDetails.get(Constants.SF_LOCADD)
+                    , userDetails.get(Constants.SF_SUB_LOC),
                 application.getGCMToken(), new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {

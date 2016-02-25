@@ -29,6 +29,7 @@ import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.pojos.user.UserDetail;
+import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Fonts;
 import com.dsquare.hibour.utils.Hibour;
 import com.facebook.CallbackManager;
@@ -52,7 +53,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SignIn extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener,SignInDialog.SignInCallback {
 
@@ -490,24 +493,24 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
        String email = data.getString("email");
        String mobile = data.getString("mobile");
        String image = data.getString("image");
-       SharedPreferences.Editor editor = sharedPreferences.edit();
 
-       editor.putInt("Id", id);
-       editor.putString("FirstName", firstname);
-       editor.putString("LastName", lastname);
-       editor.putString("Gender", gender);
-       editor.putString("DOB", dob);
-       editor.putString("Notifications", notifications);
-       editor.putString("Password", passWord);
-       editor.putString("Address1", address1);
-       editor.putString("Address", address);
-       editor.putString("Latitude", latitude);
-       editor.putString("Longitude", longitude);
-       editor.putString("Email", email);
-       editor.putString("Mobile", mobile);
-       editor.putString("Image", image);
-       editor.commit();
-
+       Map<String,String> userDetails = new HashMap<>();
+       userDetails.put(Constants.PREFERENCE_USER_ID,id+"");
+       userDetails.put(Constants.SF_FIRST,firstname);
+       userDetails.put(Constants.SF_LAST,lastname);
+       userDetails.put(Constants.SF_EMAIL,email);
+       userDetails.put(Constants.SF_LOCADD,id+"");
+       userDetails.put(Constants.SF_SUB_LOC,address1);
+       userDetails.put(Constants.SF_LAT,latitude);
+       userDetails.put(Constants.SF_LNG,longitude);
+       userDetails.put(Constants.SF_PASS,passWord);
+       userDetails.put(Constants.SF_DOB,dob);
+       userDetails.put(Constants.SF_NOTIF,notifications);
+       userDetails.put(Constants.SF_IMAGE,image);
+       userDetails.put(Constants.SF_GENDER,gender);
+       userDetails.put(Constants.SF_REGTYPE,"");
+       userDetails.put(Constants.SF_MOBILE,mobile);
+       application.setUserDetails(userDetails);
        application.setuserId(id + "");
        accountsClient.getUserDetails(id + "", userDetailCallbackListener);
        Snackbar snackbar = Snackbar

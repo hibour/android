@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -35,6 +36,10 @@ import com.google.gson.JsonSyntaxException;
 
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,9 +79,7 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id
                 .coordinatorLayout);
         imageLoader = HibourConnector.getInstance(this).getImageLoader();
-//        likeIcon = (ImageView)findViewById(R.id.comments_like_icon);
         backIcon = (ImageView) findViewById(R.id.comments_bacl_icon);
-        //      likesLayout = (RelativeLayout)findViewById(R.id.comments_likes_layout);
         postImage = (ImageView) findViewById(R.id.comments_image);
         postMessage = (TextView) findViewById(R.id.comments_message);
         noCommentsLayout = (RelativeLayout) findViewById(R.id.no_comments_layout);
@@ -96,8 +99,9 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
         postMessage.setText(message);
         if (image.length() > 10) {
             postImage.setVisibility(View.VISIBLE);
-            imageLoader.get(image.replace("\\", ""), ImageLoader.getImageListener(postImage
-                , R.drawable.avatar1, R.drawable.avatar1));
+           // imageLoader.get(image.replace("\\", ""), ImageLoader.getImageListener(postImage
+             //   , R.drawable.avatar1, R.drawable.avatar1));
+            new DownloadWebpageTask().execute(image);
         } else {
             postImage.setVisibility(View.GONE);
         }
@@ -313,4 +317,68 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
     private void parseLike(JSONObject jsonObject) {
         Log.d("data", jsonObject.toString());
     }
+    private Bitmap downloadUrl(String myurl) throws IOException {
+        InputStream is = null;
+        // Only display the first 500 characters of the retrieved
+        // web page content.
+        int len = 500;
+
+        try {
+            URL url = new URL(myurl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(10000 /* milliseconds */);
+            conn.setConnectTimeout(15000 /* milliseconds */);
+            conn.setRequestMethod("GET");
+            conn.setDoInput(true);
+            // Starts the query
+            conn.connect();
+            int response = conn.getResponseCode();
+            Log.d("img tag", "The response is: " + response);
+            is = conn.getInputStream();
+
+            Bitmap bitmap = BitmapFactory.decodeStream(is);
+            return bitmap;
+            // Convert the InputStream into a string
+            // String contentAsString = readIt(is, len);
+            //  return contentAsString;
+
+            // Makes sure that the InputStream is closed after the app is
+            // finished using it.
+        } finally {
+            if (is != null) {
+                is.close();
+            }
+        }
+    }
+
+    private class DownloadWebpageTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... urls) {
+
+            // params comes from the execute() call: params[0] is the url.
+            try {
+                final Bitmap bitmap = downloadUrl(urls[0]);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        postImage.setImageBitmap(bitmap);
+
+                    }
+                });
+
+                return "";
+                //return downloadUrl(urls[0]);
+            } catch (IOException e) {
+                return "Unable to retrieve web page. URL may be invalid.";
+            }
+        }
+
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(String result) {
+            // textView.setText(result);
+        }
+    }
+
+
 }

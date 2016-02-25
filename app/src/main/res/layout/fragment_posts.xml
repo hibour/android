@@ -5,8 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
@@ -138,15 +137,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/posts_tabs"
-            android:layout_weight="1"
-            android:background="@color/white"></android.support.v4.view.ViewPager>
+            android:layout_weight="1"></android.support.v4.view.ViewPager>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/post_posts_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/home_app_bar"
-        android:background="@android:color/white"
         android:scrollbars="vertical"
         android:visibility="gone">
     </android.support.v7.widget.RecyclerView>
@@ -162,6 +159,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No Feeds Found"
+                android:layout_centerInParent="true"
                 android:textColor="@color/black_2"
                 android:textSize="@dimen/text_Size_level5"/>
             </RelativeLayout>

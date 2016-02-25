@@ -361,6 +361,8 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 editor.putString("Latitude", lat);
                 editor.putString("Longitude", lng);
                 editor.commit();
+                application.setLocDetails(subLocality,autoCompleteTextView1.getText().toString()
+                        ,lat,lng);
                 startActivity(intent2);
                 this.finish();
                 break;
