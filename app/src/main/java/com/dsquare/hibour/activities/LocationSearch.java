@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -112,6 +113,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
     private GoogleMap mMap;
     private SupportMapFragment mapFragment;
     private CoordinatorLayout coordinatorLayout;
+    private SharedPreferences sharedPreferences;
     private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
             = new ResultCallback<PlaceBuffer>() {
         @Override
@@ -217,8 +219,11 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
         //mapFragment.getMapAsync(this);
       //  mapFragment = (SupportMapFragment) getSupportFragmentManager()
               //  .findFragmentById(R.id.loc_map);
-        coordinatorLayout = (CoordinatorLayout) findViewById(R.id
-                .coordinatorLayout);
+       // mapFragment = (SupportMapFragment) getSupportFragmentManager()
+               // .findFragmentById(R.id.loc_map);
+        sharedPreferences =
+                (SharedPreferences) (coordinatorLayout = (CoordinatorLayout) findViewById(R.id
+                                .coordinatorLayout));
 //        mapFragment.getMapAsync(this);
         locationClient = new LocationClient(this);
         auto = (LinearLayout) findViewById(R.id.loc_search_layout);
@@ -397,12 +402,13 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
         }
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (mLastLocation != null) {
+
             Double[] params=new Double[2];
             params[0]= mLastLocation.getLatitude();
             params[1]= mLastLocation.getLongitude();
             GetCurrentAddress currentadd=new GetCurrentAddress();
             try {
-               currentadd.execute(params);
+              // currentadd.execute(params);
             } catch (Exception e) {
                 e.printStackTrace();
             }
