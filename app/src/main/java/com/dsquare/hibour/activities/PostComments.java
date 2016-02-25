@@ -4,7 +4,10 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +18,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
@@ -58,6 +60,7 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
     private RelativeLayout likesLayout, noCommentsLayout;
     private ImageView postImage;
     private ImageLoader imageLoader;
+    private CoordinatorLayout coordinatorLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +71,8 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
     }
     /* initialize views*/
     private void initializeViews(){
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id
+                .coordinatorLayout);
         imageLoader = HibourConnector.getInstance(this).getImageLoader();
 //        likeIcon = (ImageView)findViewById(R.id.comments_like_icon);
         backIcon = (ImageView) findViewById(R.id.comments_bacl_icon);
@@ -221,7 +226,14 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
                 }
             });
         }else{
-            Toast.makeText(this,"Network Connection error",Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
+
         }
     }
 
@@ -244,7 +256,13 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
                 }
             });
         }else{
-            Toast.makeText(this,"Network Connection error",Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
         }
     }
     /*close dialog*/

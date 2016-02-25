@@ -1,15 +1,19 @@
 package com.dsquare.hibour.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -107,6 +111,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
     private LocationClient locationClient;
     private GoogleMap mMap;
     private SupportMapFragment mapFragment;
+    private CoordinatorLayout coordinatorLayout;
     private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
             = new ResultCallback<PlaceBuffer>() {
         @Override
@@ -209,6 +214,8 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 .build();
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.loc_map);
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id
+                .coordinatorLayout);
         mapFragment.getMapAsync(this);
         locationClient = new LocationClient(this);
         auto = (LinearLayout) findViewById(R.id.loc_search_layout);
@@ -457,6 +464,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
             }
             return "";
         }
+        @SuppressLint("ResourceAsColor")
         @Override
 
         protected void onPostExecute(String resultString) {
@@ -483,7 +491,13 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                         e.printStackTrace();
                     }
                 } else {
-                    Toast.makeText(getApplicationContext(), "Can't connect to network.", Toast.LENGTH_LONG).show();
+                    Snackbar snackbar = Snackbar
+                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+                    // Changing action button text color
+                    View sbView = snackbar.getView();
+                    TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                    textView.setTextColor(R.color.newbrand);
+                    snackbar.show();
                 }
                 isAutoComplete = false;
 
@@ -508,6 +522,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
             }
         }
     }
+    @SuppressLint("ResourceAsColor")
     private void getMembersCount(String loc){
         if(networkDetector.isConnected()){
             locInsertDialog = ProgressDialog.show(this,""
@@ -526,7 +541,13 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 }
             });
         }else{
-            Toast.makeText(this,"Network error",Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(R.color.newbrand);
+            snackbar.show();
         }
     }
 
@@ -635,6 +656,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
         }
     }
     /* set map*/
+    @SuppressLint("ResourceAsColor")
     public void setOnMap(String address){
         map.setVisibility(View.VISIBLE);
         if(searchLayout.getVisibility()==View.VISIBLE){
@@ -658,7 +680,13 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 e.printStackTrace();
             }
         }else{
-            Toast.makeText(getApplicationContext(),"Can't connect to network.",Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
         }
         anim.setAnimationListener(new TranslateAnimation.AnimationListener() {
 

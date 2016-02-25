@@ -252,7 +252,7 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
   public void onClick(View view) {
     switch (view.getId()) {
       case R.id.serach_sumbit:
-        if (autoCompleteTextView.getText().toString().equals(application.getUserLocation())) {
+        if (autoCompleteTextView.getText().toString().equals(address)) {
           Toast.makeText(this, "please change location", Toast.LENGTH_SHORT).show();
         } else {
           updateUserLocation();

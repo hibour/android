@@ -8,10 +8,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -26,7 +29,6 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
@@ -88,6 +90,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
     private String genderstring = "", cardImageString = "a";
     private ImageLoader imageLoader;
     private SharedPreferences sharedPreferences;
+    private CoordinatorLayout coordinatorLayout;
     public Settings() {
         // Required empty public constructor
     }
@@ -122,6 +125,8 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         networkDetector = new NetworkDetector(getActivity());
         gson = new Gson();
         application =  Hibour.getInstance(getActivity());
+        coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id
+                .coordinatorLayout);
         proxima = Typeface.createFromAsset(getActivity().getAssets(), Fonts.getTypeFaceName());
         menuIcon = (ImageView)view.findViewById(R.id.settings_menu_icon);
         notifIcon = (ImageView)view.findViewById(R.id.settings_notif_icon);
@@ -335,16 +340,40 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
                     if (gender.getCheckedRadioButtonId() != -1) {
                         updateProfiletoUser(userName, userLastName, userMail, userPass, moblie.getText().toString());
                     } else {
-                        Toast.makeText(getActivity(), "Please select Gender", Toast.LENGTH_SHORT).show();
+                        Snackbar snackbar = Snackbar
+                                .make(coordinatorLayout, "Please select Gender!", Snackbar.LENGTH_LONG);
+                        // Changing action button text color
+                        View sbView = snackbar.getView();
+                        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                        textView.setTextColor(Color.RED);
+                        snackbar.show();
                     }
                 } else {
-                    Toast.makeText(getActivity(), "Invalid mobile number", Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar
+                            .make(coordinatorLayout, "Invalid mobile number!", Snackbar.LENGTH_LONG);
+                    // Changing action button text color
+                    View sbView = snackbar.getView();
+                    TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                    textView.setTextColor(Color.RED);
+                    snackbar.show();
                 }
             } else {
-                Toast.makeText(getActivity(), "Enter valid email", Toast.LENGTH_LONG).show();
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, "Enter valid email!", Snackbar.LENGTH_LONG);
+                // Changing action button text color
+                View sbView = snackbar.getView();
+                TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                textView.setTextColor(Color.RED);
+                snackbar.show();
             }
         } else {
-            Toast.makeText(getActivity(), "Enter valid credentials", Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "Enter valid credentials!", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
         }
     }
 
@@ -367,7 +396,13 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
                 }
             });
         } else {
-            Toast.makeText(getActivity(), "Network not connected.", Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
         }
 
     }
@@ -396,7 +431,13 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
                 }
             });
         }else{
-            Toast.makeText(getActivity(), "Network connection error", Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
         }
     }
     /* parse user prefs*/
