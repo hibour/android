@@ -1,7 +1,9 @@
 package com.dsquare.hibour;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
+import android.support.multidex.MultiDex;
 
 import com.activeandroid.ActiveAndroid;
 import com.dsquare.hibour.gcm.GcmRegistration;
@@ -35,4 +37,9 @@ public class HibourApplication extends Application {
     }
   }
 
+  @Override
+  protected void attachBaseContext(Context base) {
+    super.attachBaseContext(base);
+    MultiDex.install(this);
+  }
 }

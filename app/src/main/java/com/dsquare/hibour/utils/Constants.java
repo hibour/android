@@ -111,6 +111,14 @@ public class Constants {
     public static final String REGISTRATION_COMPLETE = "registrationComplete";
     public static final String SHARED_PREFERENCES_GCM_TOKEN = "gcm_token";
     public static final String SERVER_SUCCESS = "success";
+    public static final String USER_STATUS_ONLINE = "online";
+    public static final String USER_STATUS_TYPING = "typing";
+    public static final int SEND_STATUS_INTERVAL = 2000;
+    public static final int CHECK_STATUS_INTERVAL = 4000;
+    public static final int MARK_TYPING_INTERVAL = 3000;
+    // status bar notification id
+    public static final int NOTIFICATION_ID_MESSAGE = 1234;
+    public static final String SHARED_PREFERENCES_FIRST_RUN = "first_run";
     public static Double Longitude = 78.00;
     public static Double Latitude = 21.00;
     public static String longitude;
