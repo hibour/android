@@ -321,7 +321,6 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 } else {
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
