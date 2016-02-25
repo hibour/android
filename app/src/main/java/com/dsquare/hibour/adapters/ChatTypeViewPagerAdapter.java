@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.dsquare.hibour.fragments.BaseChatFragment;
 import com.dsquare.hibour.fragments.NearByUserChat;
 import com.dsquare.hibour.fragments.PreviousChat;
+import com.dsquare.hibour.utils.Constants;
 
 import java.util.HashMap;
 
@@ -27,10 +28,14 @@ public class ChatTypeViewPagerAdapter extends FragmentStatePagerAdapter {
     BaseChatFragment fragment = new NearByUserChat();
     switch (position) {
       case 0:
+        Constants.searchChat.clear();
+        Constants.chatList.clear();
         fragment = new NearByUserChat();
         fragmentHashMap.put(position, fragment);
         return fragment;
       case 1:
+        Constants.searchChat.clear();
+        Constants.chatList.clear();
         fragment = new PreviousChat();
         fragmentHashMap.put(position, fragment);
         return fragment;

@@ -121,38 +121,39 @@ public class Message extends Fragment implements View.OnClickListener {
     autoCompleteTextView.requestFocus();
     uiHelper.showKeyboard();
 
-      ArrayAdapter<String> adapter = new ArrayAdapter<String>
-              (getActivity(), android.R.layout.simple_dropdown_item_1line,
-                      Constants.chatList);
-      autoCompleteTextView.setAdapter(adapter);
-      autoCompleteTextView.setThreshold(1);
-      autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-          @Override
-          public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-              String itemName = autoCompleteTextView.getText().toString();
-              if (parent != null && parent.getChildAt(0) != null) {
-                  String neighbourName = Constants.chatList.get(position);
-                  String neighbourid = Constants.searchChat.get(itemName);
-                  Log.d("catid", neighbourid);
-                  Intent intent = new Intent(getActivity(), SearchInChats.class);
-                  intent.putExtra("value", neighbourid);
-                  intent.putExtra("value1", itemName);
-                  startActivity(intent);
-                  Log.d("neighbourName", neighbourName);
+          ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                  (getActivity(), android.R.layout.simple_dropdown_item_1line,
+                          Constants.chatList);
+          autoCompleteTextView.setAdapter(adapter);
+          autoCompleteTextView.setThreshold(1);
+          autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+              @Override
+              public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                  String itemName = autoCompleteTextView.getText().toString();
+                  if (parent != null && parent.getChildAt(0) != null) {
+                      String neighbourName = Constants.chatList.get(position);
+                      String neighbourid = Constants.searchChat.get(itemName);
+                      Log.d("catid", neighbourid);
+                      Intent intent = new Intent(getActivity(), SearchInChats.class);
+                      intent.putExtra("value", neighbourid);
+                      intent.putExtra("value1", itemName);
+                      startActivity(intent);
+                      Log.d("neighbourName", neighbourName);
 //                        if(!cardType.equals("Select Card")){
 //                            cardTypeId = searchMap.get(cardType);
 //                            Log.d("cardtype",cardType);
 //                        }
-                  ((TextView) parent.getChildAt(0)).setTextColor(getResources()
-                          .getColor(R.color.black_1));
-                  ((TextView) parent.getChildAt(0)).setTypeface(proxima);
-                  ((TextView) parent.getChildAt(0)).setPadding(0, 0, 0, 0);
-                  ((TextView) parent.getChildAt(0)).setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-                  Log.d("itemname", itemName);
+                      ((TextView) parent.getChildAt(0)).setTextColor(getResources()
+                              .getColor(R.color.black_1));
+                      ((TextView) parent.getChildAt(0)).setTypeface(proxima);
+                      ((TextView) parent.getChildAt(0)).setPadding(0, 0, 0, 0);
+                      ((TextView) parent.getChildAt(0)).setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+                      Log.d("itemname", itemName);
 //                setRecyclerList(itemName);
+                  }
               }
-          }
-      });
+          });
+
   }
 
   public boolean hideSearchView() {

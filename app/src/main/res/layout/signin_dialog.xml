@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/gray">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_100"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:background="@color/white"
+        android:orientation="vertical"
+        >
+    <com.dsquare.hibour.utils.ProximaExtraBold
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Incorrect Password"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textSize="@dimen/dp_22"
+        android:id="@+id/signdailog_text"
+        android:textColor="@color/black"
+        />
+        <com.dsquare.hibour.utils.Proxima
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Please enter correct Credentials!"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_5"
+            />
+
+    </LinearLayout>
+    <com.dsquare.hibour.utils.ProximaExtraBold
+        android:id="@+id/signdailog_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OK"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/dp_10"
+        android:textSize="@dimen/dp_22"
+        android:textColor="@color/black"
+        android:layout_marginBottom="@dimen/dp_10"/>
+</LinearLayout>

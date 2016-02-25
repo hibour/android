@@ -2,6 +2,7 @@ package com.dsquare.hibour.activities;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.location.Address;
@@ -85,6 +86,7 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
   private TextView countText;
   private Button next;
   private ImageView back;
+    private SharedPreferences sharedPreferences;
     private String subLocality="",address="",lat="",lng="";
   private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
       = new ResultCallback<PlaceBuffer>() {
@@ -241,6 +243,8 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
       Toast.makeText(getApplicationContext(), "Can't connect to network.", Toast.LENGTH_LONG).show();
     }
     getMembersCount(autoCompleteTextView.getText().toString());
+
+      sharedPreferences=getSharedPreferences("Login Credentials",MODE_PRIVATE);
   }
 
   private void initializeEventListeners() {
@@ -252,7 +256,7 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
   public void onClick(View view) {
     switch (view.getId()) {
       case R.id.serach_sumbit:
-        if (autoCompleteTextView.getText().toString().equals(application.getUserLocation())) {
+        if (autoCompleteTextView.getText().toString().equals(address)) {
           Toast.makeText(this, "please change location", Toast.LENGTH_SHORT).show();
         } else {
           updateUserLocation();
@@ -379,6 +383,11 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
       String data = jsonObject.getString("result");
       Log.d("data", data);
       if (data.equals("success")) {
+          SharedPreferences.Editor editor = sharedPreferences.edit();
+          editor.putString("Address1", Constants.locationaddress1);
+          editor.putString("Address", Constants.locationaddress);
+          editor.putString("Latitude", Constants.latitude);
+          editor.putString("Longitude", Constants.longitude);
         Toast.makeText(this, "Location Updated Successfully", Toast.LENGTH_SHORT).show();
         this.finish();
       } else {

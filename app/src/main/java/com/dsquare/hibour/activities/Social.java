@@ -1,10 +1,13 @@
 package com.dsquare.hibour.activities;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -19,7 +22,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
@@ -87,6 +89,7 @@ public class Social extends FragmentActivity implements View.OnClickListener
   private String Useremail = "", Userfname = "", Userlname = "", Usergender = "";
   private View dot1, dot2, dot3, dot4;
   private LinearLayout socialSignIn;
+    private CoordinatorLayout coordinatorLayout;
   private View.OnClickListener facebookConnectListener = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
@@ -110,6 +113,8 @@ public class Social extends FragmentActivity implements View.OnClickListener
     application = Hibour.getInstance(this);
     application.initializeSharedPrefs();
     accountsClient = new AccountsClient(this);
+      coordinatorLayout = (CoordinatorLayout) findViewById(R.id
+              .coordinatorLayout);
     tf = Typeface.createFromAsset(getAssets(), Fonts.getTypeFaceName());
     submitButton = (Button) findViewById(R.id.social_signup);
     submitButton.setTypeface(tf);
@@ -246,6 +251,7 @@ public class Social extends FragmentActivity implements View.OnClickListener
   }
 
   /* gplus signin*/
+  @SuppressLint("ResourceAsColor")
   private void gplusSignIn() {
     if (networkDetector.isConnected()) { // check for network connectivity
       Log.d("social", "gplussignin");
@@ -255,6 +261,13 @@ public class Social extends FragmentActivity implements View.OnClickListener
 //            closeRegisterDialog();
 //            internetDialog = new NoInternetDialog();
 //            internetDialog.show(getFragmentManager(), getString(R.string.dialog_identifier));
+        Snackbar snackbar = Snackbar
+                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+        // Changing action button text color
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(R.color.newbrand);
+        snackbar.show();
 
     }
 
@@ -302,14 +315,28 @@ public class Social extends FragmentActivity implements View.OnClickListener
           request.executeAsync();
         }
 
+        @SuppressLint("ResourceAsColor")
         @Override
         public void onCancel() {
-          Toast.makeText(Social.this, "User cancelled", Toast.LENGTH_SHORT).show();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "User cancelled", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(R.color.newbrand);
+            snackbar.show();
         }
 
+        @SuppressLint("ResourceAsColor")
         @Override
         public void onError(FacebookException exception) {
-          Toast.makeText(Social.this, "Error on Login, check your facebook app_id", Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "Error on Login, check your facebook app_id", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(R.color.newbrand);
+            snackbar.show();
         }
       });
 
@@ -429,12 +456,19 @@ public class Social extends FragmentActivity implements View.OnClickListener
   }
 
   /* sign up the user*/
+  @SuppressLint("ResourceAsColor")
   private void signUpUser(String userFname, String userLname, String email, String password, String gender, String regType) {
     if (networkDetector.isConnected()) {
       signUpDialog = ProgressDialog.show(this, "", getResources()
           .getString(R.string.progress_dialog_text));
       if (application.getGCMToken().equalsIgnoreCase("")) {
-        Toast.makeText(this, "Check Internet Connectivity.", Toast.LENGTH_SHORT).show();
+          Snackbar snackbar = Snackbar
+                  .make(coordinatorLayout, "Check Internet Connectivity.", Snackbar.LENGTH_LONG);
+          // Changing action button text color
+          View sbView = snackbar.getView();
+          TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+          textView.setTextColor(R.color.newbrand);
+          snackbar.show();
         if (application.checkPlayServices(this, null)) {
           // Start IntentService to register this application with GCM.
           Intent intent = new Intent(this, GcmRegistration.class);
@@ -458,7 +492,13 @@ public class Social extends FragmentActivity implements View.OnClickListener
             }
           });
     } else {
-      Toast.makeText(this, "Network not connected.", Toast.LENGTH_LONG).show();
+        Snackbar snackbar = Snackbar
+                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+        // Changing action button text color
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(R.color.newbrand);
+        snackbar.show();
     }
   }
 

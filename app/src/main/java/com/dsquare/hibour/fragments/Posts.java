@@ -7,9 +7,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -25,14 +28,12 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.activities.SearchInFeeds;
 import com.dsquare.hibour.adapters.HomeTabsPager;
 import com.dsquare.hibour.adapters.PostsAdapter;
-import com.dsquare.hibour.dialogs.WelcomeDialog;
 import com.dsquare.hibour.interfaces.PostsCallback;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.NetworkDetector;
@@ -79,7 +80,7 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
     private PostsCallback callback;
     private ProgressDialog newpostDialogue;
     private NewPost.PostsListener mListener;
-
+    private CoordinatorLayout coordinatorLayout;
     public Posts() {
         // Required empty public constructor
     }
@@ -99,6 +100,8 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
 
     /* initializeViews*/
     private void initializeViews(View view){
+        coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id
+                .coordinatorLayout);
         noFeedsLayout = (RelativeLayout)view.findViewById(R.id.no_feeds_found_layout);
         proxima = Typeface.createFromAsset(getActivity().getAssets(), Fonts.getTypeFaceName());
         postsClient = new PostsClient(getActivity());
@@ -185,7 +188,13 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
                 }
             });
         }else{
-            Toast.makeText(getActivity(),"Check network connection",Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
         }
     }
 
@@ -233,6 +242,9 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
         if(postpojos.size()>0){
             if (Constants.postsMap.size() > 0) {
                 Constants.postsMap.clear();
+            }
+            if(Constants.postpojosMap.size()>0){
+                Constants.postpojosMap.clear();
             }
             if (tabsList.size() > 0) {
                 tabsList.clear();
@@ -326,7 +338,13 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
                 }
             });
         } else {
-            Toast.makeText(getActivity(), "Network connection error", Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
         }
     }
 
@@ -335,11 +353,23 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
         Log.d("json", jsonObject.toString());
         try {
             JSONObject data = jsonObject.getJSONObject("data");
-            Toast.makeText(getActivity(), "Post update successfully", Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "Post update successfully!", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
             mListener.onDoneClicked();
         } catch (JSONException e) {
             e.printStackTrace();
-            Toast.makeText(getActivity(), "Post updation failed", Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "Post updation failed!", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
         }
 
     }
@@ -358,6 +388,9 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
     private void setPager(){
       //  setTabsTitles();
 
+        if(tabsList.contains("")){
+            tabsList.remove(tabsList.indexOf(""));
+        }
         HomeTabsPager pagerAdapter = new HomeTabsPager(getFragmentManager(), tabsList);
         if (tabsList.size() < 4)
             tabs.setDistributeEvenly(true);

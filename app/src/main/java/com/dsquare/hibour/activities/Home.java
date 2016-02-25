@@ -7,9 +7,12 @@ import android.content.pm.LabeledIntent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -20,7 +23,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
@@ -61,7 +63,7 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
   private PostsClient postsClient;
   private ProgressDialog dialog;
   private NetworkDetector networkDetector;
-
+    private CoordinatorLayout coordinatorLayout;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -79,6 +81,8 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
     application =  Hibour.getInstance(this);
     gson = new Gson();
     postsClient = new PostsClient(this);
+      coordinatorLayout = (CoordinatorLayout) findViewById(R.id
+              .coordinatorLayout);
     drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     manager = getSupportFragmentManager();
     drawerList = (ListView) findViewById(R.id.left_drawer);
@@ -149,7 +153,7 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
       case 4:
         isHome = false;
          application.removeUserDetails();
-         Intent signInIntent = new Intent(this, SignIn.class);
+         Intent signInIntent = new Intent(this, LocationSearch.class);
          startActivity(signInIntent);
          this.finish();
         break;
@@ -187,7 +191,13 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
           return;
         }
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please Tap BACK again to exit", Toast.LENGTH_SHORT).show();
+          Snackbar snackbar = Snackbar
+                  .make(coordinatorLayout, "Please Tap BACK again to exit!", Snackbar.LENGTH_LONG);
+          // Changing action button text color
+          View sbView = snackbar.getView();
+          TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+          textView.setTextColor(Color.RED);
+          snackbar.show();
 
         new Handler().postDelayed(new Runnable() {
 
@@ -288,7 +298,13 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
         }
       });
     } else {
-      Toast.makeText(this, "Network connection error", Toast.LENGTH_LONG).show();
+        Snackbar snackbar = Snackbar
+                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+        // Changing action button text color
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.RED);
+        snackbar.show();
     }
   }
 

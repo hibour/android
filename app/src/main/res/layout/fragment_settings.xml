@@ -1,3 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/coordinatorLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -79,15 +88,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="@dimen/dp_10">
+                    android:layout_marginBottom="@dimen/dp_10"
+                    >
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white">
 
                     <com.dsquare.hibour.dialogs.RoundImageView
                         android:id="@+id/settings_image"
                         android:layout_width="@dimen/dp_140"
                         android:layout_height="@dimen/dp_140"
                         android:layout_gravity="center"
-                        android:background="@drawable/avatar1" />
-
+                        android:background="@drawable/avatar" />
+                    </RelativeLayout>
                     <ImageView
                         android:id="@+id/setting_image_editer"
                         android:layout_width="@dimen/dp_30"
@@ -400,4 +415,4 @@
 
     </ScrollView>
 
-</RelativeLayout>
+</RelativeLayout></android.support.design.widget.CoordinatorLayout>

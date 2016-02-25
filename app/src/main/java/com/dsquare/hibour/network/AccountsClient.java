@@ -418,7 +418,7 @@ public class AccountsClient {
     }
 
   /* get all categories types*/
-  public void getAllUpdateSettings(String userId, String userName, String userLastName, String email, String password, String gender, String userNum, String image, final WebServiceResponseCallback callback) {
+  public void getAllUpdateSettings(String userId, String userName, String userLastName, String email, String password, String gender, String userNum,String dob, String image, final WebServiceResponseCallback callback) {
 
     try {
       String urlStr = Constants.URL_PROFILE_UPDATE + userId + "/edit?";
@@ -430,7 +430,8 @@ public class AccountsClient {
       params.put(Constants.KEYWORD_PASSWORD, password);
       params.put(Constants.KEYWORD_GENDER, gender);
       params.put(Constants.KEYWORD_MOBILE_NUMBER1, userNum);
-      params.put(Constants.KEYWORD_SIGNUP_TYPE, "modifiy");
+      params.put("Age", dob);
+      params.put(Constants.KEYWORD_SIGNUP_TYPE, "update");
       params.put(Constants.KEYWORD_PROFILE_IMAGE, image);
       params.put(Constants.KEYWORD_SIGNATURE, Constants.SIGNATURE_VALUE);
       CustomRequest updateRequest = new CustomRequest(Request.Method.POST, urlStr, params

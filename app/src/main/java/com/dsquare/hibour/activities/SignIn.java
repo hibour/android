@@ -3,9 +3,12 @@ package com.dsquare.hibour.activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,11 +19,11 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.database.DatabaseHandler;
+import com.dsquare.hibour.dialogs.SignInDialog;
 import com.dsquare.hibour.gcm.GcmRegistration;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
@@ -51,7 +54,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SignIn extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+public class SignIn extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener,SignInDialog.SignInCallback {
 
   private static final String LOG_TAG = SignIn.class.getSimpleName();
   private static final int RC_SIGN_IN = 9001;
@@ -74,7 +77,8 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
   private SharedPreferences sharedPreferences;
   private Typeface tf;
   private Hibour application;
-
+  private CoordinatorLayout coordinatorLayout;
+  private SignInDialog signInDialogs;
 
   private String userName = "", userNumber = "", userMail = "", socialType = "", userpassword = "", userfirst = "", userlast = "";
   private WebServiceResponseCallback userDetailCallbackListener = new WebServiceResponseCallback() {
@@ -105,6 +109,8 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
 
   /* initialize views*/
   private void initializeViews() {
+      coordinatorLayout = (CoordinatorLayout) findViewById(R.id
+              .coordinatorLayout);
     signIn = (Button) findViewById(R.id.signin_button);
     signUpText = (TextView) findViewById(R.id.signin_signup_text);
     termsText = (TextView) findViewById(R.id.signin_terms);
@@ -223,7 +229,13 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
 //            closeRegisterDialog();
 //            internetDialog = new NoInternetDialog();
 //            internetDialog.show(getFragmentManager(), getString(R.string.dialog_identifier));
-
+        Snackbar snackbar = Snackbar
+                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+        // Changing action button text color
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.RED);
+        snackbar.show();
     }
 
   }
@@ -263,15 +275,25 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
         @Override
         public void onCancel() {
           Log.d("social", "cancelled");
-          Toast.makeText(SignIn.this, "User cancelled", Toast.LENGTH_SHORT).show();
-
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "User cancelled!", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
         }
 
         @Override
         public void onError(FacebookException e) {
           Log.d("social", "hr" + e.toString());
-          Toast.makeText(SignIn.this, "Error on Login, check your facebook app_id", Toast.LENGTH_LONG).show();
-
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "Error on Login, check your facebook app_id!", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
         }
       });
       this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -279,7 +301,13 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
 //            closeRegisterDialog();
 //            internetDialog = new NoInternetDialog();
 //            internetDialog.show(getFragmentManager(), getString(R.string.dialog_identifier));
-
+        Snackbar snackbar = Snackbar
+                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+        // Changing action button text color
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.RED);
+        snackbar.show();
     }
   }
 
@@ -387,7 +415,14 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
         sendDataToServer(mail, pass, "normal");
       }
     } else {
-      Toast.makeText(this, "Enter valid credentials", Toast.LENGTH_LONG).show();
+        Snackbar snackbar = Snackbar
+                .make(coordinatorLayout, "Enter valid credentials!", Snackbar.LENGTH_LONG);
+        // Changing action button text color
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.RED);
+        snackbar.show();
+
     }
   }
 
@@ -420,7 +455,13 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
         }
       });
     } else {
-      Toast.makeText(this, "check internet connectivity", Toast.LENGTH_SHORT).show();
+        Snackbar snackbar = Snackbar
+                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+        // Changing action button text color
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.RED);
+        snackbar.show();
 
     }
   }
@@ -432,46 +473,84 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
     try {
       JSONObject data = jsonObject.getJSONObject("data");
 
-      int id = data.getInt("id");
-      String firstname=data.getString("first_name");
-      String lastname=data.getString("last_name");
-      String gender=data.getString("gender");
-      String dob=data.getString("dob");
-      String notifications=data.getString("notifications");
-      String passWord=data.getString("Password");
-      String address1=data.getString("address1");
-      String address=data.getString("address");
-      String latitude=data.getString("lat");
-      String longitude=data.getString("lng");
-      String email=data.getString("email");
-      String mobile=data.getString("mobile");
+      String credential = data.getString("credentials_matched");
+        Log.d("credential", credential);
+   if(credential.equals("true")) {
+        int id = data.getInt("id");
+       String firstname = data.getString("first_name");
+       String lastname = data.getString("last_name");
+       String gender = data.getString("gender");
+       String dob = data.getString("dob");
+       String notifications = data.getString("notifications");
+       String passWord = data.getString("Password");
+       String address1 = data.getString("address1");
+       String address = data.getString("address");
+       String latitude = data.getString("lat");
+       String longitude = data.getString("lng");
+       String email = data.getString("email");
+       String mobile = data.getString("mobile");
+       String image = data.getString("image");
+       SharedPreferences.Editor editor = sharedPreferences.edit();
 
-      SharedPreferences.Editor editor=sharedPreferences.edit();
+       editor.putInt("Id", id);
+       editor.putString("FirstName", firstname);
+       editor.putString("LastName", lastname);
+       editor.putString("Gender", gender);
+       editor.putString("DOB", dob);
+       editor.putString("Notifications", notifications);
+       editor.putString("Password", passWord);
+       editor.putString("Address1", address1);
+       editor.putString("Address", address);
+       editor.putString("Latitude", latitude);
+       editor.putString("Longitude", longitude);
+       editor.putString("Email", email);
+       editor.putString("Mobile", mobile);
+       editor.putString("Image", image);
+       editor.commit();
 
-      editor.putInt("Id",id);
-      editor.putString("FirstName", firstname);
-      editor.putString("LastName", lastname);
-      editor.putString("Gender", gender);
-      editor.putString("DOB", dob);
-      editor.putString("Notifications", notifications);
-      editor.putString("Password", passWord);
-      editor.putString("Address1", address1);
-      editor.putString("Address", address);
-      editor.putString("Latitude", latitude);
-      editor.putString("Longitude", longitude);
-      editor.putString("Email",email);
-      editor.putString("Mobile",mobile);
-      editor.commit();
+       application.setuserId(id + "");
+       accountsClient.getUserDetails(id + "", userDetailCallbackListener);
+       Snackbar snackbar = Snackbar
+               .make(coordinatorLayout, "Successfully completed!", Snackbar.LENGTH_LONG);
+       // Changing action button text color
+       View sbView = snackbar.getView();
+       TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+       textView.setTextColor(Color.RED);
+       snackbar.show();
+       openHomeActivity();
+   }else{
+       signInDialogs = new SignInDialog();
+       signInDialogs.show(getFragmentManager(), "chooser dialog");
+       Log.d("Postss","choose dialog");
+   }
 
-      Log.d("id", id + "");
-      if (id == 0) {
-        Toast.makeText(this, "Credentials not matched", Toast.LENGTH_LONG).show();
-      } else {
-        application.setuserId(id + "");
-        accountsClient.getUserDetails(id + "", userDetailCallbackListener);
-        Toast.makeText(this, "Successfully completed", Toast.LENGTH_LONG).show();
-        openHomeActivity();
-      }
+
+
+//      if (credential.equals("false")) {
+//          signInDialogs = new SignInDialog();
+//          signInDialogs.show(getFragmentManager(), "chooser dialog");
+//          Log.d("Postss","choose dialog");
+//          Snackbar snackbar = Snackbar
+//                  .make(coordinatorLayout, "Credentials not matched!", Snackbar.LENGTH_LONG);
+//          // Changing action button text color
+//          View sbView = snackbar.getView();
+//          TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+//          textView.setTextColor(Color.RED);
+//          snackbar.show();
+//      } else {
+//        application.setuserId(id + "");
+//        accountsClient.getUserDetails(id + "", userDetailCallbackListener);
+//          signInDialogs = new SignInDialog();
+//          signInDialogs.show(getFragmentManager(), "chooser dialog");
+//          Snackbar snackbar = Snackbar
+//                  .make(coordinatorLayout, "Successfully completed!", Snackbar.LENGTH_LONG);
+//          // Changing action button text color
+//          View sbView = snackbar.getView();
+//          TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+//          textView.setTextColor(Color.RED);
+//          snackbar.show();
+//        openHomeActivity();
+//      }
     } catch (JSONException e) {
       e.printStackTrace();
     }
@@ -490,4 +569,9 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
       }
     }
   }
+
+    @Override
+    public void closeDialog(SignInDialog dialogFragment) {
+        signInDialogs.dismiss();
+    }
 }

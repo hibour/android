@@ -13,11 +13,8 @@
         <option name="ASSEMBLE_TASK_NAME" value="assembleDebug" />
         <option name="COMPILE_JAVA_TASK_NAME" value="compileDebugSources" />
         <option name="ASSEMBLE_TEST_TASK_NAME" value="assembleDebugAndroidTest" />
-        <option name="COMPILE_JAVA_TEST_TASK_NAME" value="compileDebugAndroidTestSources" />
-        <afterSyncTasks>
-          <task>generateDebugAndroidTestSources</task>
-          <task>generateDebugSources</task>
-        </afterSyncTasks>
+        <option name="SOURCE_GEN_TASK_NAME" value="generateDebugSources" />
+        <option name="TEST_SOURCE_GEN_TASK_NAME" value="generateDebugAndroidTestSources" />
         <option name="ALLOW_USER_CONFIGURATION" value="false" />
         <option name="MANIFEST_FILE_RELATIVE_PATH" value="/src/main/AndroidManifest.xml" />
         <option name="RES_FOLDER_RELATIVE_PATH" value="/src/main/res" />
@@ -73,6 +70,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dependency-cache" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dex" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dex-cache" />
+<<<<<<< HEAD
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/cardview-v7/23.1.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/design/23.1.1/jars" />
@@ -113,6 +111,8 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services/8.3.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.kyleduo.switchbutton/library/1.2.9/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/io.fabric.sdk.android/fabric/1.3.10/jars" />
+=======
+>>>>>>> d1a2057a81459ff68901967c10e9e416f8ed2676
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jacoco" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/javaResources" />
@@ -130,51 +130,52 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="answers-1.3.6" level="project" />
-    <orderEntry type="library" exported="" name="crashlytics-core-2.3.8" level="project" />
-    <orderEntry type="library" exported="" name="design-23.1.1" level="project" />
-    <orderEntry type="library" exported="" name="crashlytics-2.5.5" level="project" />
-    <orderEntry type="library" exported="" name="play-services-ads-8.3.0" level="project" />
-    <orderEntry type="library" exported="" name="multidex-1.0.1" level="project" />
-    <orderEntry type="library" exported="" name="fabric-1.3.10" level="project" />
-    <orderEntry type="library" exported="" name="play-services-fitness-8.3.0" level="project" />
-    <orderEntry type="library" exported="" name="play-services-measurement-8.3.0" level="project" />
-    <orderEntry type="library" exported="" name="play-services-games-8.3.0" level="project" />
-    <orderEntry type="library" exported="" name="play-services-vision-8.3.0" level="project" />
-    <orderEntry type="library" exported="" name="appcompat-v7-23.1.1" level="project" />
+    <orderEntry type="library" exported="" name="mediarouter-v7-22.2.0" level="project" />
+    <orderEntry type="library" exported="" name="play-services-location-8.3.0" level="project" />
     <orderEntry type="library" exported="" name="library-1.0.19" level="project" />
-    <orderEntry type="library" exported="" name="play-services-base-8.3.0" level="project" />
+    <orderEntry type="library" exported="" name="play-services-plus-8.3.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-appindexing-8.3.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-auth-8.3.0" level="project" />
-    <orderEntry type="library" exported="" name="play-services-drive-8.3.0" level="project" />
-    <orderEntry type="library" exported="" name="play-services-identity-8.3.0" level="project" />
-    <orderEntry type="library" exported="" name="facebook-android-sdk-4.7.0" level="project" />
-    <orderEntry type="library" exported="" name="play-services-appstate-8.3.0" level="project" />
-    <orderEntry type="library" exported="" name="library-1.2.9" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-23.1.1" level="project" />
-    <orderEntry type="library" exported="" name="play-services-location-8.3.0" level="project" />
-    <orderEntry type="library" exported="" name="play-services-safetynet-8.3.0" level="project" />
-    <orderEntry type="library" exported="" name="mediarouter-v7-22.2.0" level="project" />
-    <orderEntry type="library" exported="" name="play-services-plus-8.3.0" level="project" />
-    <orderEntry type="library" exported="" name="play-services-8.3.0" level="project" />
-    <orderEntry type="library" exported="" name="play-services-appinvite-8.3.0" level="project" />
-    <orderEntry type="library" exported="" name="play-services-cast-8.3.0" level="project" />
-    <orderEntry type="library" exported="" name="eventbus-2.4.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-wearable-8.3.0" level="project" />
-    <orderEntry type="library" exported="" name="bolts-android-1.2.0" level="project" />
-    <orderEntry type="library" exported="" name="play-services-maps-8.3.0" level="project" />
-    <orderEntry type="library" exported="" name="play-services-nearby-8.3.0" level="project" />
-    <orderEntry type="library" exported="" name="recyclerview-v7-23.1.1" level="project" />
-    <orderEntry type="library" exported="" name="support-v4-23.1.1" level="project" />
+    <orderEntry type="library" exported="" name="play-services-base-8.3.0" level="project" />
+    <orderEntry type="library" exported="" name="play-services-measurement-8.3.0" level="project" />
+    <orderEntry type="library" exported="" name="play-services-identity-8.3.0" level="project" />
     <orderEntry type="library" exported="" name="activeandroid-3.1.0-SNAPSHOT" level="project" />
-    <orderEntry type="library" exported="" name="beta-1.1.4" level="project" />
-    <orderEntry type="library" exported="" name="play-services-panorama-8.3.0" level="project" />
-    <orderEntry type="library" exported="" name="play-services-gcm-8.3.0" level="project" />
-    <orderEntry type="library" exported="" name="play-services-analytics-8.3.0" level="project" />
+    <orderEntry type="library" exported="" name="play-services-vision-8.3.0" level="project" />
+    <orderEntry type="library" exported="" name="recyclerview-v7-23.1.1" level="project" />
     <orderEntry type="library" exported="" name="play-services-wallet-8.3.0" level="project" />
-    <orderEntry type="library" exported="" name="cardview-v7-23.1.1" level="project" />
-    <orderEntry type="library" exported="" name="play-services-basement-8.3.0" level="project" />
-    <orderEntry type="library" exported="" name="gson-2.4" level="project" />
+    <orderEntry type="library" exported="" name="library-1.2.9" level="project" />
+    <orderEntry type="library" exported="" name="support-v4-23.1.1" level="project" />
+    <orderEntry type="library" exported="" name="play-services-analytics-8.3.0" level="project" />
+    <orderEntry type="library" exported="" name="play-services-8.3.0" level="project" />
+    <orderEntry type="library" exported="" name="play-services-drive-8.3.0" level="project" />
+    <orderEntry type="library" exported="" name="support-annotations-23.1.1" level="project" />
+    <orderEntry type="library" exported="" name="appcompat-v7-23.1.1" level="project" />
+    <orderEntry type="library" exported="" name="bolts-android-1.2.0" level="project" />
+    <orderEntry type="library" exported="" name="play-services-cast-8.3.0" level="project" />
+    <orderEntry type="library" exported="" name="fabric-1.3.10" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="multidex-instrumentation-1.0.1" level="project" />
+    <orderEntry type="library" exported="" name="play-services-ads-8.3.0" level="project" />
+    <orderEntry type="library" exported="" name="play-services-appinvite-8.3.0" level="project" />
+    <orderEntry type="library" exported="" name="eventbus-2.4.0" level="project" />
+    <orderEntry type="library" exported="" name="gson-2.4" level="project" />
+    <orderEntry type="library" exported="" name="play-services-appstate-8.3.0" level="project" />
+    <orderEntry type="library" exported="" name="crashlytics-2.5.5" level="project" />
+    <orderEntry type="library" exported="" name="cardview-v7-23.1.1" level="project" />
+    <orderEntry type="library" exported="" name="play-services-games-8.3.0" level="project" />
+    <orderEntry type="library" exported="" name="crashlytics-core-2.3.8" level="project" />
+    <orderEntry type="library" exported="" name="beta-1.1.4" level="project" />
+    <orderEntry type="library" exported="" name="play-services-gcm-8.3.0" level="project" />
+    <orderEntry type="library" exported="" name="play-services-safetynet-8.3.0" level="project" />
+    <orderEntry type="library" exported="" name="design-23.1.1" level="project" />
+    <orderEntry type="library" exported="" name="play-services-basement-8.3.0" level="project" />
+    <orderEntry type="library" exported="" name="play-services-maps-8.3.0" level="project" />
+    <orderEntry type="library" exported="" name="facebook-android-sdk-4.7.0" level="project" />
+    <orderEntry type="library" exported="" name="multidex-1.0.1" level="project" />
+    <orderEntry type="library" exported="" name="play-services-nearby-8.3.0" level="project" />
+    <orderEntry type="library" exported="" name="answers-1.3.6" level="project" />
+    <orderEntry type="library" exported="" name="play-services-fitness-8.3.0" level="project" />
+    <orderEntry type="library" exported="" name="play-services-panorama-8.3.0" level="project" />
   </component>
 </module>
+

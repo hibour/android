@@ -1,3 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/coordinatorLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
 <android.support.v4.widget.DrawerLayout
     android:id="@+id/drawer_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -26,14 +35,18 @@
             android:layout_marginTop="@dimen/dp_20"
             android:gravity="center"
             android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
 
             <com.dsquare.hibour.dialogs.RoundImageView
                 android:layout_width="@dimen/dp_100"
                 android:layout_height="@dimen/dp_100"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/avatar1"/>
-
+                android:src="@drawable/avatar"/>
+            </RelativeLayout>
             <com.dsquare.hibour.utils.ProximaExtraBold
                 android:id="@+id/sidemenu_name"
                 android:layout_width="wrap_content"
@@ -62,4 +75,4 @@
         android:divider="@android:color/transparent"
               android:dividerHeight="0dp"/>
     </LinearLayout>
-</android.support.v4.widget.DrawerLayout>
+</android.support.v4.widget.DrawerLayout></android.support.design.widget.CoordinatorLayout>

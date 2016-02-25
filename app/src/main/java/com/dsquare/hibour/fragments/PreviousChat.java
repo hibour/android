@@ -49,7 +49,6 @@ public class PreviousChat extends BaseChatFragment {
     View view = inflater.inflate(R.layout.fragment_previous_chat, container, false);
     socializeClient = new SocializeClient(getContext());
     dbHandler = new DatabaseHandler(getContext());
-    Constants.searchChat.clear();
     initializeViews(view);
     return view;
   }

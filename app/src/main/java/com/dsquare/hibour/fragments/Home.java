@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -52,6 +53,7 @@ public class Home extends Fragment implements View.OnClickListener, PostsTypesDi
     private FloatingActionButton createPost;
     private DialogFragment categoriesDialog;
     private String categoryName = "";
+    private CoordinatorLayout coordinatorLayout;
     public Home() {
         // Required empty public constructor
     }
@@ -69,6 +71,8 @@ public class Home extends Fragment implements View.OnClickListener, PostsTypesDi
 
     /*initialize views*/
     private void initializeViews(View view) {
+        coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id
+                .coordinatorLayout);
         createPost = (FloatingActionButton)view.findViewById(R.id.feeds_create_fab);
         feedIcon = (ImageView) view.findViewById(R.id.home_feed);
         socializeIcon = (ImageView) view.findViewById(R.id.home_socialize_icon);
