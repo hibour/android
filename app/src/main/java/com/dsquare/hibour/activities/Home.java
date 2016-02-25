@@ -171,8 +171,10 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
         transaction.replace(R.id.content_frame, new Settings());
         break;
       case 4:
-        isHome = false;
+         isHome = false;
          application.removeUserDetails();
+         SharedPreferences.Editor editor = sharedPreferences.edit();
+         editor.clear().commit();
          Intent signInIntent = new Intent(this, LocationSearch.class);
          startActivity(signInIntent);
          this.finish();

@@ -41,28 +41,7 @@
                 android:text="@string/home_fragment_title"
                 android:textColor="@color/white"
                 android:textSize="@dimen/app_bar_title_text_size"/>
-            <RelativeLayout
-                android:id="@+id/home_search_layout"
-                android:layout_width="200dp"
-                android:layout_height="@dimen/dp_35"
-                android:layout_centerInParent="true"
-                android:background="@drawable/loc_search_rectangle"
-                android:descendantFocusability="beforeDescendants"
-                android:focusableInTouchMode="true"
-                android:visibility="gone">
 
-                <AutoCompleteTextView
-                    android:id="@+id/home_search_autocomplete"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_30"
-                    android:layout_centerInParent="true"
-                    android:background="@null"
-                    android:gravity="center"
-                    android:hint="search posts"
-                    android:textColor="@color/black_1"
-                    android:textColorHint="@color/white"
-                    android:textSize="@dimen/edit_text_size"/>
-            </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/nav_drawer_bottom_line"
                 android:layout_width="match_parent"
@@ -79,6 +58,37 @@
                 android:layout_marginRight="@dimen/dp_20"
                 android:padding="@dimen/dp_3"
                 android:src="@mipmap/ic_search_white"/>
+            <LinearLayout
+                android:id="@+id/messages_search_bar"
+                android:layout_width="match_parent"
+                android:layout_height="?android:actionBarSize"
+                android:background="@color/newbrand"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/navigation_back"
+                    android:layout_width="?android:actionBarSize"
+                    android:layout_height="?android:actionBarSize"
+                    android:adjustViewBounds="true"
+                    android:padding="@dimen/dp_10"
+                    android:src="@drawable/ic_back_gray"/>
+
+                <AutoCompleteTextView
+                    android:id="@+id/home_search_autocomplete"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_30"
+                    android:layout_marginRight="@dimen/dp_30"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/loc_search_rectangle"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:hint="search.."
+                    android:textColor="@color/black_1"
+                    android:textColorHint="@color/gray"
+                    android:textSize="@dimen/edit_text_size"/>
+            </LinearLayout>
         </RelativeLayout>
     <View
         android:id="@+id/posts_appbar_line"
