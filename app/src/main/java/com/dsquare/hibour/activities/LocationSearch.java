@@ -308,6 +308,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (autoCompleteTextView.equals(null) || autoCompleteTextView.getText().toString().equals("")) {
                     locAddress = autoCompleteTextView.getText().toString();
+                    Log.d("address",locAddress);
                 } else {
                 }
             }
@@ -321,6 +322,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (autoCompleteTextView.equals(null) || autoCompleteTextView.getText().toString().equals("")) {
                     locAddress = autoCompleteTextView1.getText().toString();
+                    Log.d("address",locAddress);
                 } else {
                 }
             }
@@ -354,7 +356,8 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 Intent intent2 = new Intent(getApplicationContext(), Social.class);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("Address1", subLocality);
-                editor.putString("Address", locAddress);
+                Log.d("address",autoCompleteTextView1.getText().toString());
+                editor.putString("Address", autoCompleteTextView1.getText().toString());
                 editor.putString("Latitude", lat);
                 editor.putString("Longitude", lng);
                 editor.commit();
