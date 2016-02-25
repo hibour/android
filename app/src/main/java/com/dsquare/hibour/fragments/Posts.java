@@ -126,10 +126,10 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
                 String itemName = autoCompleteTextView.getText().toString();
                 if (parent != null && parent.getChildAt(0) != null) {
                     String neighbourName = autocompleteList.get(position);
-                  //  String neighbourid = Constants.searchMap.get(itemName);
-                   // Log.d("catid", neighbourid);
+                    String neighbourid = Constants.searchMap.get(itemName);
+                    Log.d("catid", neighbourid);
                     Intent intent = new Intent(getActivity(), SearchInFeeds.class);
-                  //  intent.putExtra("value", neighbourid);
+                    intent.putExtra("value", neighbourid);
                     intent.putExtra("value1", itemName);
                     startActivity(intent);
                     Log.d("neighbourName", neighbourName);

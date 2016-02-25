@@ -2,7 +2,9 @@ package com.dsquare.hibour.activities;
 
 import android.app.ProgressDialog;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.LabeledIntent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -21,10 +23,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.adapters.NavigationDrawerAdapter;
 import com.dsquare.hibour.fragments.AboutUs;
@@ -32,6 +36,7 @@ import com.dsquare.hibour.fragments.NewPost;
 import com.dsquare.hibour.fragments.Settings;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
+import com.dsquare.hibour.network.HibourConnector;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.network.PostsClient;
 import com.dsquare.hibour.pojos.posttype.Datum;
@@ -57,6 +62,7 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
   private DrawerLayout drawer;
   private ListView drawerList;
   private TextView name;
+  private ImageView profile;
   private boolean isHome = true;
   private Hibour application;
   private Gson gson;
@@ -64,6 +70,8 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
   private ProgressDialog dialog;
   private NetworkDetector networkDetector;
     private CoordinatorLayout coordinatorLayout;
+    private SharedPreferences sharedPreferences;
+    private ImageLoader imageLoader;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -91,9 +99,21 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
     gson=new Gson();
     postsClient=new PostsClient(this);
     name = (TextView)findViewById(R.id.sidemenu_name);
+    profile = (ImageView)findViewById(R.id.home_user_profile_pic);
     postsClient = new PostsClient(this);
     networkDetector = new NetworkDetector(this);
       gson = new Gson();
+      imageLoader = HibourConnector.getInstance(this).getImageLoader();
+      sharedPreferences=getSharedPreferences("Login Credentials", Context.MODE_PRIVATE);
+
+      String firstname=sharedPreferences.getString("FirstName", "");
+      String lastName=sharedPreferences.getString("LastName","");
+      String image=sharedPreferences.getString("Image","");
+
+      name.setText(firstname+" "+lastName);
+      imageLoader.get(image, ImageLoader.getImageListener(profile
+              , R.drawable.avatar1, R.drawable.avatar1));
+
   }
 
   private void loadDefaultFragment() {

@@ -34,12 +34,12 @@
     </LinearLayout>
     <com.dsquare.hibour.utils.ProximaExtraBold
         android:id="@+id/signdailog_ok"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
         android:text="OK"
+        android:gravity="center"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/dp_10"
         android:textSize="@dimen/dp_22"
         android:textColor="@color/black"
-        android:layout_marginBottom="@dimen/dp_10"/>
+        />
 </LinearLayout>

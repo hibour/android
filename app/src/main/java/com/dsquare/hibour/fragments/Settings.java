@@ -113,7 +113,6 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         initializeViews(view);
         initializeEventListeners();
-        getAllPrefs();
         getLoginDetails();
         return view;
     }
@@ -449,7 +448,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
                 TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
                 textView.setTextColor(Color.RED);
                 snackbar.show();
-
+            getLoginDetails();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -530,7 +529,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         String eMail=sharedPreferences.getString("Email","");
         String mobileNum=sharedPreferences.getString("Mobile","");
         String image=sharedPreferences.getString("Image","");
-
+        Log.d("image",image);
         name.setText(firstname);
         lastname.setText(lastName);
         if (gender1 != null && gender1.equalsIgnoreCase("0")) {
