@@ -145,6 +145,7 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
 
     public void showSearchView() {
         uiHelper.collapse(tabs);
+        invite.setVisibility(View.GONE);
         searchBar.setVisibility(View.VISIBLE);
         autoCompleteTextView.setText("");
         autoCompleteTextView.requestFocus();
@@ -188,6 +189,7 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
         if (tabs.getVisibility() == View.GONE) {
             uiHelper.expand(tabs);
             searchBar.setVisibility(View.GONE);
+            invite.setVisibility(View.VISIBLE);
             uiHelper.hideKeyboard();
             return true;
         }
