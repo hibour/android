@@ -385,6 +385,9 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
     private void setPager(){
       //  setTabsTitles();
 
+        if(tabsList.contains("")){
+            tabsList.remove(tabsList.indexOf(""));
+        }
         HomeTabsPager pagerAdapter = new HomeTabsPager(getFragmentManager(), tabsList);
         if (tabsList.size() < 4)
             tabs.setDistributeEvenly(true);

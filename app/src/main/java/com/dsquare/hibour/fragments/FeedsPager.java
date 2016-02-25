@@ -135,8 +135,8 @@ public class FeedsPager extends Fragment {
         @Override
         protected Void doInBackground(Void... params) {
             if (categoryName.equals("All")) {
-                for(String s:Constants.postsMap.keySet()){
-                    List<Postpojos> posts = Constants.postsMap.get(s);
+                for(String s:Constants.postpojosMap.keySet()){
+                    List<Postpojos> posts = Constants.postpojosMap.get(s);
                     try {
                         for(int i=0;i<posts.size();i++) {
                             publishProgress(posts.get(i).getPostId(), posts.get(i).getPostImage()
