@@ -65,8 +65,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.net.MalformedURLException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -333,9 +333,16 @@ public class Social extends FragmentActivity implements View.OnClickListener
                     } else if (object.optString("gender").equals("female")) {
                       Usergender = String.valueOf(1);
                     }
-                      String profilePicUrl =  "https://graph.facebook.com/"+object.optString("id")+"/picture";
-                      Log.d("profilePicUrl",profilePicUrl);
-                      bitmap = getProfilePicture(profilePicUrl);
+                     URL url = new URL("https://graph.facebook.com/"+object.optString("id")+"/picture");
+                      Log.d("profilePicUrl",url+"");
+                      HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                      HttpURLConnection.setFollowRedirects(HttpURLConnection.getFollowRedirects());
+                      connection.setDoInput(true);
+                      connection.connect();
+                      InputStream input = connection.getInputStream();
+                      bitmap = BitmapFactory.decodeStream(input);
+//                      bitmap= BitmapFactory.decodeStream(url);
+//                      bitmap = getProfilePicture(profilePicUrl);
                       imageString = getStringImage(bitmap);
                       Log.d("imageString",imageString);
 //                      String profilePicUrl = object.optString("picture").getJSONObject("data").getString("url");
@@ -389,21 +396,11 @@ public class Social extends FragmentActivity implements View.OnClickListener
     }
 
   }
-    public static Bitmap getProfilePicture(String url){
-        URL ProfileURL= null;
-        try {
-            ProfileURL = new URL(url);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        Bitmap bitmap = null;
-        try {
-            bitmap = BitmapFactory.decodeStream(ProfileURL.openConnection().getInputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bitmap;
-    }
+//    public static Bitmap getProfilePicture(String url) throws IOException {
+//        URL facebookProfileURL= new URL(url);
+//        Bitmap bitmap = BitmapFactory.decodeStream(new URL(facebookProfileURL).openConnection().getInputStream());
+//        return bitmap;
+//    }
 
   private void handleSignInResult(GoogleSignInResult result) {
     Log.d(TAG, "handleSignInResult:" + result.isSuccess());
@@ -468,9 +465,13 @@ public class Social extends FragmentActivity implements View.OnClickListener
         }
           String profilePicUrl = String.valueOf(person.getImage());
           Log.d("profilePicUrl",profilePicUrl);
-          bitmap = getProfilePicture(profilePicUrl);
+//          try {
+//              bitmap = getProfilePicture(profilePicUrl);
+//          } catch (IOException e) {
+//              e.printStackTrace();
+//          }
           Log.d("bitmap",bitmap+"");
-          imageString = getStringImage(bitmap);
+//          imageString = getStringImage(bitmap);
           Log.d("imageString",imageString);
         signUpUser(Userfname, Userlname, Useremail
             , "", Usergender, "gp");
