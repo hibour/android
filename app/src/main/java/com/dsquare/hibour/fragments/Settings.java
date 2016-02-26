@@ -12,7 +12,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -59,7 +58,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -291,17 +289,11 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
     /* open camera*/
     private void openCamera(){
         Log.d("Settings", "open camera");
-       /* Intent intent = new Intent(
-                MediaStore.ACTION_IMAGE_CAPTURE);
+        Intent intent = new Intent(
+                android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-            getActivity().startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
-        }*/
-        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        File photo = new File(Environment.getExternalStorageDirectory(),  "Pic.jpg");
-        intent.putExtra(MediaStore.EXTRA_OUTPUT,
-                Uri.fromFile(photo));
-        imageUri = Uri.fromFile(photo);
-        Settings.this.startActivityForResult(intent, 100);
+            this.startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+        }
 
     }
 
@@ -330,47 +322,6 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
                 e.printStackTrace();
             }
         }}
-//        else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK
-//                &&  data != null && data.getData() != null) {
-//            Log.d("settings","camera");
-//>>>>>>> 54fb3ffbb446750ca4b3a0bc388cd94b2a7e7e90
-////            imageUploaded.setVisibility(View.VISIBLE);
-//            /*Uri filePath = data.getData();
-//            try {
-//                inputImage.setImageBitmap(bitmap);
-//                //Getting the Bitmap from Gallery
-//                bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
-////                postimagesstring=getStringImage(bitmap);
-//               cardImageString = getStringImage(bitmap);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//*/
-//                Uri selectedImage = imageUri;
-//                getActivity().getContentResolver().notifyChange(selectedImage, null);
-//                ContentResolver cr = getActivity().getContentResolver();
-//                Bitmap bitmap;
-//                try {
-//                    bitmap = android.provider.MediaStore.Images.Media
-//                            .getBitmap(cr, selectedImage);
-//
-//                    inputImage.setImageBitmap(bitmap);
-//                    Toast.makeText(getActivity(), "photo loaded",
-//                            Toast.LENGTH_LONG).show();
-//                } catch (Exception e) {
-//                    Toast.makeText(getActivity(), "Failed to load", Toast.LENGTH_SHORT)
-//                            .show();
-//                    Log.e("Camera", e.toString());
-//                }
-//            }
-        //get the returned data
-            /*Bundle extras = data.getExtras();
-              //get the cropped bitmap
-            Bitmap thePic = extras.getParcelable("data");
-            inputImage.setImageBitmap(thePic);*/
-
-
-
 
     public String getStringImage(Bitmap bmp) {
         BitmapFactory.Options options = null;
