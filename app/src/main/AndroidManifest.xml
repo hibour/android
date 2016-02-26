@@ -120,7 +120,7 @@
         android:screenOrientation="portrait" />
 
     <activity
-        android:name=".activities.Home"
+        android:name=".activities.HomeActivity"
         android:label="@string/title_activity_home"
         android:screenOrientation="portrait"
         android:theme="@style/MyMaterialTheme"/>

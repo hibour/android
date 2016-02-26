@@ -91,7 +91,7 @@
             android:orientation="vertical">
 
             <com.dsquare.hibour.utils.SlidingTabLayout
-                android:id="@+id/posts_tabs"
+                android:id="@+id/socialize_tabs"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_50"
                 android:layout_below="@id/posts_appbar_line"
@@ -99,7 +99,7 @@
                 android:elevation="2dp"></com.dsquare.hibour.utils.SlidingTabLayout>
 
             <android.support.v4.view.ViewPager
-                android:id="@+id/posts_pager"
+                android:id="@+id/socialize_pager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/posts_tabs"

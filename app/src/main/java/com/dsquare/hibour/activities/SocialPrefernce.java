@@ -126,12 +126,12 @@ public class SocialPrefernce extends AppCompatActivity implements View.OnClickLi
     }
     /* open home activity*/
     private void openHomeActivity(){
-        Intent homeIntent = new Intent(this,Home.class);
+        Intent homeIntent = new Intent(this,HomeActivity.class);
         startActivity(homeIntent);
         this.finishAffinity();
     }
     private void openPreviousActivity(){
-        Intent locationIntent = new Intent(this,Home.class);
+        Intent locationIntent = new Intent(this,HomeActivity.class);
         startActivity(locationIntent);
         finish();
     }

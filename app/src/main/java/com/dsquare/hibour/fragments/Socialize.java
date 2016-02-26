@@ -45,8 +45,7 @@ import java.util.List;
  */
 public class Socialize extends android.support.v4.app.Fragment implements View.OnClickListener {
 
-    CharSequence[] titles = {"PREFERENCES", "ALL"};
-    int NumOfTabs = 2;
+    private SocializeTabsPager mPagerAdapter;
     private Button doneButton,previous;
     private RecyclerView prefsRecycler;
     private List<String[]> prefsList = new ArrayList<>();
@@ -86,10 +85,10 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
                 .coordinatorLayout);
 //        doneButton = (Button)view.findViewById(R.id.socialize_done_button);
 //        previous = (Button)view.findViewById(R.id.socialize_prev_button);
-        pager = (ViewPager) view.findViewById(R.id.posts_pager);
+        pager = (ViewPager) view.findViewById(R.id.socialize_pager);
         tabsList.add("PREFERENCES");
         tabsList.add("ALL");
-        tabs = (SlidingTabLayout) view.findViewById(R.id.posts_tabs);
+        tabs = (SlidingTabLayout) view.findViewById(R.id.socialize_tabs);
         tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
             @Override
             public int getIndicatorColor(int position) {
@@ -140,7 +139,7 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
         if(userPrefs.equals("")){
             openHomeActivity();
         }else{
-            insertUserPrefs(application.getUserId(),userPrefs);
+            insertUserPrefs(application.getUserId(), userPrefs);
         }
     }
     /* get all prefs*/
@@ -235,16 +234,18 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
                     ,Constants.socialPrefsMap.get(s).get(5)};
             prefsList.add(details);
         }
-        prefsRecycler.setAdapter(new SocializeAdapter(getActivity(),prefsList));
+        prefsRecycler.setAdapter(new SocializeAdapter(getActivity(), prefsList));
     }
 
     /*set pager adapter*/
     private void setPager() {
-
-        SocializeTabsPager pagerAdapter = new SocializeTabsPager(getFragmentManager(), tabsList);
+        if (mPagerAdapter == null) {
+            mPagerAdapter = new SocializeTabsPager(getFragmentManager());
+        }
+        mPagerAdapter.updateTabs(tabsList);
         tabs.setDistributeEvenly(true);
         try {
-            pager.setAdapter(pagerAdapter);
+            pager.setAdapter(mPagerAdapter);
             tabs.setViewPager(pager);
         } catch (Exception e) {
             e.printStackTrace();
@@ -264,7 +265,6 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
     /* get socialize pref members*/
     private void getMembers(String userId){
         if(networkDetector.isConnected()){
-            dialog = ProgressDialog.show(getActivity(),"","Please Wait...");
             socialClient.getNeighbours(userId,new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
