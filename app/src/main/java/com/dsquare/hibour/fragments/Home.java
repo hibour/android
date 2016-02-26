@@ -23,7 +23,6 @@ import com.dsquare.hibour.R;
 import com.dsquare.hibour.dialogs.PostsTypesDialog;
 import com.dsquare.hibour.fragments.home.TabType;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
-import com.dsquare.hibour.utils.Constants;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -76,18 +75,7 @@ public class Home extends Fragment implements PostsTypesDialog.CategoryChooserLi
         messageLayout = (LinearLayout) view.findViewById(R.id.home_message_layout);
         moreLayout = (LinearLayout) view.findViewById(R.id.home_more_layout);
 
-        Constants.categoriesMap.put("6", "General");
-        Constants.categoriesMap.put("2","Suggestions");
-        Constants.categoriesMap.put("3","Classifieds");
-        Constants.categoriesMap.put("4", "Crime & saftey");
-        Constants.categoriesMap.put("5", "Lost & Found");
-//        autoCompleteTextView = (AutoCompleteTextView)view.findViewById(R.id.home_search_autocomplete);
-//        searchLayout = (RelativeLayout)view.findViewById(R.id.home_search_layout);
-//        searchIcon = (ImageView)view.findViewById(R.id.home_search_icon);
-//        textView = (TextView)view.findViewById(R.id.home_fragment_title);
-//        invite = (TextView)view.findViewById(R.id.invite_button);
-
-    }
+        }
 
     /* initialize event listeners*/
     private void initializeEventListeners() {
@@ -137,7 +125,6 @@ public class Home extends Fragment implements PostsTypesDialog.CategoryChooserLi
                     createPost.setVisibility(View.GONE);
                 }
                 categoriesDialog = new PostsTypesDialog();
-
                 categoriesDialog.show(getActivity().getSupportFragmentManager(), "categories");
                 categoriesDialog.setTargetFragment(Home.this, 0);
             }
