@@ -113,7 +113,7 @@ public class Home extends Fragment implements PostsTypesDialog.CategoryChooserLi
             @Override
             public void onClick(View v) {
                 applyCurrentStateToAppBarIcons(R.drawable.more_filled, moreIcon);
-                callback.drawerOpen();
+                showTab(TabType.MORE);
             }
         });
 
@@ -208,6 +208,9 @@ public class Home extends Fragment implements PostsTypesDialog.CategoryChooserLi
                 break;
             case MESSAGE:
                 fragment = new Message();
+                break;
+            case MORE:
+                fragment = new More();
                 break;
         }
         return fragment;

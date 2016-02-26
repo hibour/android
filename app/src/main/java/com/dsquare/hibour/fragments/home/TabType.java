@@ -10,5 +10,6 @@ public enum TabType {
     NEWPOST,
     SOCIALIZE,
     MESSAGE,
+    MORE,
     MISC
 }
