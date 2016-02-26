@@ -2,19 +2,14 @@ package com.dsquare.hibour.fragments;
 
 
 import android.app.Activity;
-import android.content.ComponentName;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.os.Bundle;
-import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,24 +21,18 @@ import android.widget.TextView;
 
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.dialogs.PostsTypesDialog;
+import com.dsquare.hibour.fragments.home.TabType;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
 import com.dsquare.hibour.utils.Constants;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 
 
-public class Home extends Fragment implements View.OnClickListener, PostsTypesDialog.categoryChooserListener {
+public class Home extends Fragment implements PostsTypesDialog.CategoryChooserListener {
 
-    private FragmentManager manager;
-    private FragmentTransaction transaction;
-    private TextView inviteBtn;
     private NavDrawerCallback callback;
-    private boolean isHome = true;
     private ImageView feedIcon, socializeIcon, newPostIcon, channelsIcon, moreIcon,postimage,searchIcon;
     private LinearLayout feedLayout, socializeLayout, messageLayout, moreLayout;
     private AutoCompleteTextView autoCompleteTextView;
@@ -54,6 +43,7 @@ public class Home extends Fragment implements View.OnClickListener, PostsTypesDi
     private DialogFragment categoriesDialog;
     private String categoryName = "";
     private CoordinatorLayout coordinatorLayout;
+
     public Home() {
         // Required empty public constructor
     }
@@ -101,102 +91,63 @@ public class Home extends Fragment implements View.OnClickListener, PostsTypesDi
 
     /* initialize event listeners*/
     private void initializeEventListeners() {
-//        inviteBtn.setOnClickListener(this);
-        feedLayout.setOnClickListener(this);
-        socializeLayout.setOnClickListener(this);
-//        newPostIcon.setOnClickListener(this);
-        messageLayout.setOnClickListener(this);
-        moreLayout.setOnClickListener(this);
-//        postimage.setOnClickListener(this);
-        createPost.setOnClickListener(this);
-//        searchIcon.setOnClickListener(this);
-    }
-
-    private void loadDefaultFragment() {
-        applyCurrentStateToAppBarIcons(R.drawable.feed_filled, feedIcon);
-        replaceContainer(0);
-//        Fragment fragment = new NewPosts();
-    }
-
-    /*invite friends*/
-    private void inviteFriends(String invitationMessage) {
-        List<Intent> targetShareIntents = new ArrayList<Intent>();
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, invitationMessage);
-        sendIntent.setType("text/plain");
-
-        PackageManager pm = getActivity().getPackageManager();
-        List<ResolveInfo> resInfo = pm.queryIntentActivities(sendIntent, 0);
-        for (int i = 0; i < resInfo.size(); i++) {
-            // Extract the label, append it, and repackage it in a LabeledIntent
-            ResolveInfo ri = resInfo.get(i);
-            String packageName = ri.activityInfo.packageName;
-            Log.d("Package Name", packageName);
-            if (packageName.contains("android.talk")
-                    || packageName.contains("facebook")
-                    || packageName.contains("whatsapp")
-                    || packageName.contains("mms")
-                    || packageName.contains("android.gm")) {
-                Intent intent = new Intent();
-                intent.setComponent(new ComponentName(packageName, ri.activityInfo.name));
-                intent.setAction(Intent.ACTION_SEND);
-                intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, invitationMessage);
-                intent.setPackage(packageName);
-                targetShareIntents.add(intent);
-            }
-        }
-        if (!targetShareIntents.isEmpty()) {
-            System.out.println("Have Intent");
-            Intent chooserIntent = Intent.createChooser(targetShareIntents.remove(0), "Choose app to invite friends");
-            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
-            startActivity(chooserIntent);
-        } else {
-
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.invite_button:
-                inviteFriends(getString(R.string.invite_msg));
-                break;
-            case R.id.home_feed_layout:
-                if(createPost.getVisibility()==View.GONE)
+        feedLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (createPost.getVisibility() == View.GONE) {
                     createPost.setVisibility(View.VISIBLE);
+                }
                 applyCurrentStateToAppBarIcons(R.drawable.feed_filled, feedIcon);
-                replaceContainer(0);
-                break;
-            case R.id.home_socialize_layout:
+                showTab(TabType.FEED);
+            }
+        });
+
+        socializeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 applyCurrentStateToAppBarIcons(R.drawable.socialize_filled, socializeIcon);
-                if(createPost.getVisibility()==View.GONE)
+                if (createPost.getVisibility() == View.GONE) {
                     createPost.setVisibility(View.VISIBLE);
-                replaceContainer(4);
-                break;
-            case R.id.feeds_create_fab:
+                }
+                showTab(TabType.SOCIALIZE);
+            }
+        });
+
+        messageLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                applyCurrentStateToAppBarIcons(R.mipmap.ic_chat_filed, channelsIcon);
+                showTab(TabType.MESSAGE);
+            }
+        });
+
+        moreLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                applyCurrentStateToAppBarIcons(R.drawable.more_filled, moreIcon);
+                callback.drawerOpen();
+            }
+        });
+
+        createPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 if (bottomBar1.getVisibility() == View.VISIBLE) {
-//                    newPostIcon.setVisibility(View.GONE);
                     bottomBar1.setVisibility(View.GONE);
-//                postimage.setVisibility(View.VISIBLE);
                     createPost.setVisibility(View.GONE);
                 }
                 categoriesDialog = new PostsTypesDialog();
 
                 categoriesDialog.show(getActivity().getSupportFragmentManager(), "categories");
-                categoriesDialog.setTargetFragment(this, 0);
-                //replaceContainer(3);
-                break;
-            case R.id.home_message_layout:
-                applyCurrentStateToAppBarIcons(R.mipmap.ic_chat_filed, channelsIcon);
-                replaceContainer(5);
-                break;
-            case R.id.home_more_layout:
-                applyCurrentStateToAppBarIcons(R.drawable.more_filled, moreIcon);
-                callback.drawerOpen();
-                break;
-        }
+                categoriesDialog.setTargetFragment(Home.this, 0);
+            }
+        });
+//        searchIcon.setOnClickListener(this);
+    }
+
+    private void loadDefaultFragment() {
+        applyCurrentStateToAppBarIcons(R.drawable.feed_filled, feedIcon);
+        showTab(TabType.FEED);
     }
 
     @Override
@@ -214,45 +165,65 @@ public class Home extends Fragment implements View.OnClickListener, PostsTypesDi
         icon.setImageResource(res);
     }
 
+    private Fragment activeFragment = null;
     /* replace tab's fragment*/
-    public void replaceContainer(int id) {
-        Fragment fragment = null;
-        switch (id) {
-            case 0:
-                isHome = false;
-                Log.d("Home", "feed");
-                fragment = new Posts();
-                break;
-            case 1:
-                isHome = false;
-                fragment = new Suggestions();
-                break;
-            case 2:
-                isHome = false;
-                fragment = new Classifieds();
-                break;
-            case 3:
-                isHome = true;
-                fragment = new NewPost();
+    private void showTab(TabType type) {
+        boolean isNewFragment = false;
+        FragmentManager fragmentManager = getFragmentManager();
+        Fragment fragment = fragmentManager.findFragmentByTag(type.toString());
+        if (fragment == null) {
+            isNewFragment = true;
+            fragment = getFragment(type);
+            if (fragment == null) {
+                return;
+            }
+        }
+
+        switch (type) {
+            case NEWPOST:
                 Bundle args = new Bundle();
-                args.putString("category", categoryName);
+                args.putString(NewPost.CATEGORY_BUNDLE_ARG, categoryName);
                 fragment.setArguments(args);
                 break;
-            case 4:
-                isHome = true;
+        }
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if (isNewFragment) {
+            fragmentTransaction.add(R.id.home_fragment_container, fragment, type.toString());
+        } else {
+            fragmentTransaction.show(fragment);
+        }
+        if (activeFragment != null && activeFragment != fragment) {
+            fragmentTransaction.hide(activeFragment);
+        }
+        fragmentTransaction.commit();
+        activeFragment = fragment;
+    }
+
+    @Nullable
+    private Fragment getFragment(TabType type) {
+        Fragment fragment = null;
+        switch (type) {
+            case FEED:
+                fragment = new Posts();
+                break;
+            case SUGGESTIONS:
+                fragment = new Suggestions();
+                break;
+            case CLASSIFIEDS:
+                fragment = new Classifieds();
+                break;
+            case NEWPOST:
+                fragment = new NewPost();
+                break;
+            case SOCIALIZE:
                 fragment = new Socialize();
                 break;
-            case 5:
-                isHome = true;
+            case MESSAGE:
                 fragment = new Message();
                 break;
         }
-        if (fragment != null) {
-            FragmentManager fragmentManager = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.home_fragment_container, fragment);
-            fragmentTransaction.commit();
-        }
+        return fragment;
     }
 
     @Override
@@ -266,9 +237,8 @@ public class Home extends Fragment implements View.OnClickListener, PostsTypesDi
 
     @Override
     public void onCategorySelected(String categoryName, DialogFragment dialog) {
-        this.categoryName = "";
         this.categoryName = categoryName;
         dialog.dismiss();
-        replaceContainer(3);
+        showTab(TabType.NEWPOST);
     }
 }

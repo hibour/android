@@ -19,16 +19,20 @@ import com.dsquare.hibour.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class FeedsPager extends Fragment {
 
+    public static final String CATEGORY_BUNDLE_ARGUMENT = "categoryName";
+
     private RecyclerView postsRecycler;
     private List<Feeds> postsList = new ArrayList<>();
     private FeedsAdapter postsAdapter;
     private String categoryName = "";
+
     public FeedsPager() {
         // Required empty public constructor
     }
@@ -45,85 +49,59 @@ public class FeedsPager extends Fragment {
 
     /* initialize views*/
     private void initializeViews(View view){
-        categoryName = getArguments().getString("categoryName", "");
+        categoryName = getArguments().getString(CATEGORY_BUNDLE_ARGUMENT, "");
         postsRecycler = (RecyclerView)view.findViewById(R.id.post_posts_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         postsRecycler.setLayoutManager(layoutManager);
         postsRecycler.setHasFixedSize(true);
         postsAdapter = new FeedsAdapter(getActivity(), postsList);
-        setAdapter();
-        // new setFeedsTask().execute(categoryName);
-    }
-    /*set adapter*/
-    private void setAdapter(){
-        Log.d("name",categoryName);
-        Log.d("posts size", postsList.size() + "");
         postsRecycler.setAdapter(postsAdapter);
+        refresh();
+    }
+
+    public void refresh() {
         new FeedsTask().execute();
     }
 
     /* asynchronous task to set data to adapter*/
-
     class FeedsTask extends AsyncTask<Void, String, Void> {
-
-        FeedsAdapter feeds;
 
         @Override
         protected void onPostExecute(Void result) {
-            // Toast.makeText(MainActivity.this, "Loading completed", Toast.LENGTH_LONG).show();
+            postsAdapter.notifyDataSetChanged();
+            Log.d("name", categoryName);
+            Log.d("posts size", postsList.size() + "");
         }
 
         @Override
         protected void onPreExecute() {
-            //feeds = (FeedsAdapter) postsRecycler.getAdapter();
         }
 
         @Override
         protected void onProgressUpdate(String... values) {
-            postsList.add(new Feeds(values[0], values[1], values[2], values[3], values[4], values[5], values[6]
-                , values[7], values[8], values[9], values[10], values[11]));
-            postsAdapter.notifyDataSetChanged();
+        }
+
+        private void addPostPojosList(List<Postpojos> postList) {
+            for (Postpojos post : postList) {
+                postsList.add(new Feeds(post));
+            }
         }
 
         @Override
         protected Void doInBackground(Void... params) {
-            if (categoryName.equals("All")) {
-                for(String s:Constants.postpojosMap.keySet()){
-                    List<Postpojos> posts = Constants.postpojosMap.get(s);
-                    try {
-                        for(int i=0;i<posts.size();i++) {
-                            publishProgress(posts.get(i).getPostId(), posts.get(i).getPostImage()
-                                , posts.get(i).getPostMessage()
-                                , posts.get(i).getPostDate(), posts.get(i).getPostTime()
-                                , posts.get(i).getUser().getName(), posts.get(i).getUser().getImage()
-                                , posts.get(i).getUser().getId(), String.valueOf(posts.get(i).getPostUserLiked())
-                                , String.valueOf(posts.get(i).getPostLikesCount())
-                                , String.valueOf(posts.get(i).getPostComments().size())
-                                , posts.get(i).getPostType());
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
+            postsList.clear();
+            try {
+                if (categoryName.equals("All")) {
+                    for(Map.Entry<String, List<Postpojos>> entry: Constants.postpojosMap.entrySet()){
+                        addPostPojosList(entry.getValue());
                     }
+                } else {
+                    addPostPojosList(Constants.postsMap.get(categoryName));
                 }
-            } else if (!categoryName.equals("")) {
-                List<Postpojos> posts = Constants.postsMap.get(categoryName);
-                try {
-                    for (int i = 0; i < posts.size(); i++) {
-                        publishProgress(posts.get(i).getPostId(), posts.get(i).getPostImage()
-                            , posts.get(i).getPostMessage()
-                            , posts.get(i).getPostDate(), posts.get(i).getPostTime()
-                            , posts.get(i).getUser().getName(), posts.get(i).getUser().getImage()
-                            , posts.get(i).getUser().getId(), String.valueOf(posts.get(i).getPostUserLiked())
-                            , String.valueOf(posts.get(i).getPostLikesCount())
-                            , String.valueOf(posts.get(i).getPostComments().size())
-                            , posts.get(i).getPostType());
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
             return null;
         }
 
