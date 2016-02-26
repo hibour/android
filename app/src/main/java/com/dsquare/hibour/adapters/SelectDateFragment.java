@@ -1,12 +1,13 @@
 package com.dsquare.hibour.adapters;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.widget.DatePicker;
 
-import com.dsquare.hibour.fragments.Settings;
+import com.dsquare.hibour.activities.Settings;
 
 import java.util.Calendar;
 
@@ -49,6 +50,16 @@ public class SelectDateFragment extends DialogFragment implements DatePickerDial
 
 
         }
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+           // callback = (SignInCallback) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement NoticeDialogListener");
+        }
+    }
     }
 
 

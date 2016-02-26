@@ -1,4 +1,4 @@
-package com.dsquare.hibour.fragments;
+package com.dsquare.hibour.activities;
 
 
 import android.app.Activity;
@@ -18,12 +18,11 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.util.Base64;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,9 +34,6 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.dsquare.hibour.R;
-import com.dsquare.hibour.activities.Notifications;
-import com.dsquare.hibour.activities.SocialPrefernce;
-import com.dsquare.hibour.activities.UpdateLocation;
 import com.dsquare.hibour.adapters.SelectDateFragment;
 import com.dsquare.hibour.dialogs.PostsImagePicker;
 import com.dsquare.hibour.interfaces.ImagePicker;
@@ -69,7 +65,7 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Settings extends Fragment implements View.OnClickListener,ImagePicker {
+public class Settings extends AppCompatActivity implements View.OnClickListener,ImagePicker {
     private static final int REQUEST_IMAGE_SELECTOR = 100;
     private static final int REQUEST_IMAGE_CAPTURE = 200;
     private static EditText dob;
@@ -117,49 +113,50 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public void onCreate( Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_settings);
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_settings, container, false);
-        initializeViews(view);
+     //   View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        initializeViews();
         initializeEventListeners();
         getLoginDetails();
-        return view;
+     //   return view;
     }
 
 
 
     /* initialize views*/
-    private void initializeViews(View view){
-        accountsClient = new AccountsClient(getActivity());
-        networkDetector = new NetworkDetector(getActivity());
+    private void initializeViews(){
+        accountsClient = new AccountsClient(this);
+        networkDetector = new NetworkDetector(this);
         gson = new Gson();
-        application =  Hibour.getInstance(getActivity());
-        coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id
+        application =  Hibour.getInstance(this);
+        coordinatorLayout = (CoordinatorLayout)findViewById(R.id
                 .coordinatorLayout);
-        proxima = Typeface.createFromAsset(getActivity().getAssets(), Fonts.getTypeFaceName());
+        proxima = Typeface.createFromAsset(getAssets(), Fonts.getTypeFaceName());
         //menuIcon = (ImageView)view.findViewById(R.id.settings_menu_icon);
-        notifIcon = (ImageView)view.findViewById(R.id.settings_notif_icon);
-        inputImage = (ImageView)view.findViewById(R.id.settings_image);
-        imageUploaded = (ImageView)view.findViewById(R.id.setting_image_editer);
-        dobimage = (ImageView)view.findViewById(R.id.settings_name_dob);
-        submitButton = (Button)view.findViewById(R.id.settings_submit);
-        gender = (RadioGroup)view.findViewById(R.id.group_radio);
-        name = (EditText)view.findViewById(R.id.settings_name_edit);
-        lastname = (EditText) view.findViewById(R.id.settings_Last_name_edit);
-        email = (EditText)view.findViewById(R.id.settings_email_edit);
-        password = (EditText)view.findViewById(R.id.settings_password_Edit);
-        dob = (EditText)view.findViewById(R.id.settings_dob_edit);
-        moblie = (EditText)view.findViewById(R.id.settings_phone_edit);
-        proof = (TextView) view.findViewById(R.id.settings_location);
-        soclize = (TextView)view.findViewById(R.id.settings_prefernce);
-        male = (RadioButton) view.findViewById(R.id.radioMale);
-        female = (RadioButton) view.findViewById(R.id.radioFemale);
+        notifIcon = (ImageView)findViewById(R.id.settings_notif_icon);
+        inputImage = (ImageView)findViewById(R.id.settings_image);
+        imageUploaded = (ImageView)findViewById(R.id.setting_image_editer);
+        dobimage = (ImageView)findViewById(R.id.settings_name_dob);
+        submitButton = (Button)findViewById(R.id.settings_submit);
+        gender = (RadioGroup)findViewById(R.id.group_radio);
+        name = (EditText)findViewById(R.id.settings_name_edit);
+        lastname = (EditText)findViewById(R.id.settings_Last_name_edit);
+        email = (EditText)findViewById(R.id.settings_email_edit);
+        password = (EditText)findViewById(R.id.settings_password_Edit);
+        dob = (EditText)findViewById(R.id.settings_dob_edit);
+        moblie = (EditText)findViewById(R.id.settings_phone_edit);
+        proof = (TextView) findViewById(R.id.settings_location);
+        soclize = (TextView)findViewById(R.id.settings_prefernce);
+        male = (RadioButton) findViewById(R.id.radioMale);
+        female = (RadioButton)findViewById(R.id.radioFemale);
         String text = "<u>Change Location</u>";
         String text1 = "<u>Change SocialPrefernce</u>";
         proof.setText(Html.fromHtml(text));
         soclize.setText(Html.fromHtml(text1));
-        tf = Fonts.getTypeFace(getActivity());
+        tf = Fonts.getTypeFace(this);
         submitButton.setTypeface(proxima);
         name.setTypeface(proxima);
         lastname.setTypeface(proxima);
@@ -182,12 +179,12 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
             }
 
         });
-        imageLoader = HibourConnector.getInstance(getActivity()).getImageLoader();
-        sharedPreferences=getActivity().getSharedPreferences("Login Credentials", Context.MODE_PRIVATE);
-        moreLayout = (LinearLayout)view.findViewById(R.id.settings_more_layout);
-        feedsLayout = (LinearLayout)view.findViewById(R.id.settings_feed_layout);
-        socializeLayout = (LinearLayout)view.findViewById(R.id.settings_socialize_layout);
-        messagesLayout = (LinearLayout)view.findViewById(R.id.settings_message_layout);
+        imageLoader = HibourConnector.getInstance(this).getImageLoader();
+        sharedPreferences=getSharedPreferences("Login Credentials", Context.MODE_PRIVATE);
+        moreLayout = (LinearLayout)findViewById(R.id.settings_more_layout);
+        feedsLayout = (LinearLayout)findViewById(R.id.settings_feed_layout);
+        socializeLayout = (LinearLayout)findViewById(R.id.settings_socialize_layout);
+        messagesLayout = (LinearLayout)findViewById(R.id.settings_message_layout);
     }
 
     /* initialize event listeners*/
@@ -249,37 +246,37 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
                 Bundle args = new Bundle();
                 args.putString("data", "a");  //This method is used to send the data from one fragment to another fragment
                 newFragment.setArguments(args);
-                newFragment.show(getFragmentManager(), "DatePicker");
+                newFragment.show(getSupportFragmentManager(), "DatePicker");
                 break;
             case R.id.settings_dob_edit:
                 final DialogFragment newFragment1 = new SelectDateFragment();
                 Bundle args1 = new Bundle();
                 args1.putString("data", "a");  //This method is used to send the data from one fragment to another fragment
                 newFragment1.setArguments(args1);
-                newFragment1.show(getFragmentManager(), "DatePicker");
+                newFragment1.show(getSupportFragmentManager(), "DatePicker");
                 break;
         }
     }
 
     private void openprefernceActivity() {
-        Intent intent = new Intent(getActivity(), SocialPrefernce.class);
+        Intent intent = new Intent(this, SocialPrefernce.class);
         startActivity(intent);
     }
 
     private void openLocationActivity() {
-        Intent intent = new Intent(getActivity(), UpdateLocation.class);
+        Intent intent = new Intent(this, UpdateLocation.class);
         startActivity(intent);
     }
 
     /* open notifications activity*/
     private void openNotifications(){
-        Intent notifIntent = new Intent(getActivity(), Notifications.class);
+        Intent notifIntent = new Intent(this, Notifications.class);
         startActivity(notifIntent);
     }
     private void openImageChooser(){
         chooserDialog = new PostsImagePicker();
-        chooserDialog.show(getActivity().getSupportFragmentManager(), "chooser dialog");
-        chooserDialog.setTargetFragment(this, 3);
+        chooserDialog.show(getSupportFragmentManager(), "chooser dialog");
+     //   chooserDialog.setTargetFragment(getApplicationContext(), 3);
     }
     /* open gallary intent*/
     private void openGallary(){
@@ -322,7 +319,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
             Uri filePath = data.getData();
             try {
                 //Getting the Bitmap from Gallery
-                bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
 //                postimagesstring=getStringImage(bitmap);
                 inputImage.setImageBitmap(bitmap);
                 cardImageString = getStringImage(bitmap);
@@ -384,12 +381,12 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
         return encodedImage;
     }
-    @Override
+    /*@Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         callback = (NavDrawerCallback) activity;
         settingsCallback = (SettingsToHomeCallback)activity;
-    }
+    }*/
 
     @Override
     public void pickerSelection(int choice) {
@@ -459,7 +456,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
     private void updateProfiletoUser(String userName, String userLastName, String userMail, String userPass, String mobile,String dob) {
         if (networkDetector.isConnected()) {
 
-         dialog = ProgressDialog.show(getActivity(), "", getResources()
+         dialog = ProgressDialog.show(this, "", getResources()
                 .getString(R.string.progress_dialog_text));
             accountsClient.getAllUpdateSettings(application.getUserId(), userName, userLastName, userMail, userPass, genderstring, mobile
                 ,dob, cardImageString, new WebServiceResponseCallback() {

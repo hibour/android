@@ -36,7 +36,6 @@ import com.dsquare.hibour.adapters.NavigationDrawerAdapter;
 import com.dsquare.hibour.fragments.AboutUs;
 import com.dsquare.hibour.fragments.Home;
 import com.dsquare.hibour.fragments.NewPost;
-import com.dsquare.hibour.fragments.Settings;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
 import com.dsquare.hibour.interfaces.SettingsToHomeCallback;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
@@ -208,7 +207,7 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerCallback
       case ABOUT_US:
         return new AboutUs();
       case SETTINGS:
-        return new Settings();
+      //  return new Settings();
     }
     return null;
   }
