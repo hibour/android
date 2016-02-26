@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -65,9 +66,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -333,16 +332,20 @@ public class Social extends FragmentActivity implements View.OnClickListener
                     } else if (object.optString("gender").equals("female")) {
                       Usergender = String.valueOf(1);
                     }
-                      String profilePicUrl =  "https://graph.facebook.com/"+object.optString("id")+"/picture";
-                      Log.d("profilePicUrl",profilePicUrl);
-                      bitmap = getProfilePicture(profilePicUrl);
-                      imageString = getStringImage(bitmap);
+                      Userfname=object.optString("first_name");
+                      Userlname=object.optString("last_name");
+                      Useremail=object.optString("email");
+                      String profilePicUrl = "https://graph.facebook.com/"+object.optString("id")+"/picture";
+                      new LoadProfileImage(imageString).execute(profilePicUrl);
+
+//                      bitmap = getBitmapFromURL(profilePicUrl);
+//                      imageString = getStringImage(bitmap);
                       Log.d("imageString",imageString);
 //                      String profilePicUrl = object.optString("picture").getJSONObject("data").getString("url");
 //                      Bitmap profilePic = getFacebookProfilePicture(profilePicUrl);
 
-                    signUpUser(object.optString("first_name"), object.optString("last_name"), object.optString("email")
-                        , "", object.optString("gender"), "fb");
+//                    signUpUser(object.optString("first_name"), object.optString("last_name"), object.optString("email")
+//                        , "", Usergender, "fb");
                   } catch (Exception e) {
                     e.printStackTrace();
                   }
@@ -389,20 +392,19 @@ public class Social extends FragmentActivity implements View.OnClickListener
     }
 
   }
-    public static Bitmap getProfilePicture(String url){
-        URL ProfileURL= null;
-        try {
-            ProfileURL = new URL(url);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        Bitmap bitmap = null;
-        try {
-            bitmap = BitmapFactory.decodeStream(ProfileURL.openConnection().getInputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bitmap;
+    public static Bitmap getBitmapFromURL(String...src) {
+
+        String urldisplay = src[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+
     }
 
   private void handleSignInResult(GoogleSignInResult result) {
@@ -437,6 +439,7 @@ public class Social extends FragmentActivity implements View.OnClickListener
     }
   }
 
+  @SuppressLint("ResourceAsColor")
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
@@ -446,7 +449,7 @@ public class Social extends FragmentActivity implements View.OnClickListener
       Log.d("social", "gp");
       GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
 //            handleSignInResult(result);
-      if (result.isSuccess()) {
+      if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null)  {
         GoogleSignInAccount acct = result.getSignInAccount();
         acct.getPhotoUrl();
         acct.getId();
@@ -466,14 +469,16 @@ public class Social extends FragmentActivity implements View.OnClickListener
         if (person.getName().getGivenName() != null) {
           Userlname = person.getName().getFamilyName();
         }
-          String profilePicUrl = String.valueOf(person.getImage());
+          String profilePicUrl = person.getImage().getUrl();
           Log.d("profilePicUrl",profilePicUrl);
-          bitmap = getProfilePicture(profilePicUrl);
+//          bitmap = getBitmapFromURL(profilePicUrl);
+
+          new LoadProfileImage(imageString).execute(profilePicUrl);
+//          imageString = getStringImage(bitmap);
           Log.d("bitmap",bitmap+"");
-          imageString = getStringImage(bitmap);
           Log.d("imageString",imageString);
-        signUpUser(Userfname, Userlname, Useremail
-            , "", Usergender, "gp");
+//        signUpUser(Userfname, Userlname, Useremail
+//            , "", Usergender, "gp");
         Log.i(TAG, "--------------------------------");
         Log.i(TAG, "Display Name: " + person.getDisplayName());
         Log.i(TAG, "Gender: " + person.getGender());
@@ -483,6 +488,14 @@ public class Social extends FragmentActivity implements View.OnClickListener
 //            Log.i(TAG, "Current Location: " + person.getCurrentLocation());
         Log.i(TAG, "Language: " + person.getLanguage());
 
+      }else {
+          Snackbar snackbar = Snackbar
+                  .make(coordinatorLayout, "Person information is null", Snackbar.LENGTH_LONG);
+          // Changing action button text color
+          View sbView = snackbar.getView();
+          TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+          textView.setTextColor(R.color.newbrand);
+          snackbar.show();
       }
     }
     callbackManager.onActivityResult(requestCode, resultCode, data);
@@ -656,7 +669,33 @@ public class Social extends FragmentActivity implements View.OnClickListener
       }
     }
   }
+    private class LoadProfileImage extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+        String string;
+        public LoadProfileImage(String imageString) {
+        this.string=imageString;
+        }
 
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            imageString=getStringImage(result);
+            Log.d("string",imageString);
+            signUpUser(Userfname, Userlname, Useremail
+                    , "", Usergender, "gp");
+        }
+    }
     public String getStringImage(Bitmap bmp) {
         BitmapFactory.Options options = null;
         options = new BitmapFactory.Options();

@@ -76,7 +76,7 @@ public class AccountsClient {
             params.put(Constants.KEYWORD_ADDRESS1, address1);
             params.put(Constants.KEYWORD_GCM, gcmToken);
             params.put(Constants.KEYWORD_SIGNATURE, Constants.SIGNATURE_VALUE);
-            CustomRequest updateRequest = new CustomRequest(Request.Method.POST, urlStr, params
+            CustomRequest signUpRequest = new CustomRequest(Request.Method.POST, urlStr, params
                     , new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
@@ -91,12 +91,12 @@ public class AccountsClient {
                     callback.onFailure(error);
                 }
             });
-            updateRequest.setRetryPolicy(new DefaultRetryPolicy(
+            signUpRequest.setRetryPolicy(new DefaultRetryPolicy(
                     MY_SOCKET_TIMEOUT_MS,
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
            // HibourConnector.getInstance(context).addToRequestQueue(updateRequest);
-            mConnector.addToRequestQueue(updateRequest);
+            mConnector.addToRequestQueue(signUpRequest);
         } catch (Exception e) {
             e.printStackTrace();
         }
