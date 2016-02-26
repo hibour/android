@@ -76,18 +76,7 @@ public class Home extends Fragment implements PostsTypesDialog.CategoryChooserLi
         messageLayout = (LinearLayout) view.findViewById(R.id.home_message_layout);
         moreLayout = (LinearLayout) view.findViewById(R.id.home_more_layout);
 
-        Constants.categoriesMap.put("6", "General");
-        Constants.categoriesMap.put("2","Suggestions");
-        Constants.categoriesMap.put("3","Classifieds");
-        Constants.categoriesMap.put("4", "Crime & saftey");
-        Constants.categoriesMap.put("5", "Lost & Found");
-//        autoCompleteTextView = (AutoCompleteTextView)view.findViewById(R.id.home_search_autocomplete);
-//        searchLayout = (RelativeLayout)view.findViewById(R.id.home_search_layout);
-//        searchIcon = (ImageView)view.findViewById(R.id.home_search_icon);
-//        textView = (TextView)view.findViewById(R.id.home_fragment_title);
-//        invite = (TextView)view.findViewById(R.id.invite_button);
-
-    }
+        }
 
     /* initialize event listeners*/
     private void initializeEventListeners() {
@@ -133,11 +122,10 @@ public class Home extends Fragment implements PostsTypesDialog.CategoryChooserLi
             @Override
             public void onClick(View v) {
                 if (bottomBar1.getVisibility() == View.VISIBLE) {
-                    bottomBar1.setVisibility(View.GONE);
+                   // bottomBar1.setVisibility(View.GONE);
                     createPost.setVisibility(View.GONE);
                 }
                 categoriesDialog = new PostsTypesDialog();
-
                 categoriesDialog.show(getActivity().getSupportFragmentManager(), "categories");
                 categoriesDialog.setTargetFragment(Home.this, 0);
             }
