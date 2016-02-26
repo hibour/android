@@ -52,7 +52,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white">
 
         <com.dsquare.hibour.dialogs.RoundImageView
             android:id="@+id/profile_image"
@@ -60,7 +61,7 @@
             android:layout_height="@dimen/dp_140"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dp_20"
-            android:background="@drawable/avatar1"/>
+            android:background="@drawable/avatar"/>
     </RelativeLayout>
 
     <TextView

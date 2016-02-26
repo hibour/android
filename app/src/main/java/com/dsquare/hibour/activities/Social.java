@@ -3,6 +3,8 @@ package com.dsquare.hibour.activities;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,12 +28,14 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.database.DatabaseHandler;
 import com.dsquare.hibour.gcm.GcmRegistration;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.pojos.signup.Data;
 import com.dsquare.hibour.pojos.signup.SignupPojo;
+import com.dsquare.hibour.pojos.user.UserDetail;
 import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Fonts;
 import com.dsquare.hibour.utils.Hibour;
@@ -56,10 +61,17 @@ import com.google.android.gms.plus.model.people.Person;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Aditya Ravikanti on 2/5/2016.
@@ -90,18 +102,37 @@ public class Social extends FragmentActivity implements View.OnClickListener
   private View dot1, dot2, dot3, dot4;
   private LinearLayout socialSignIn;
     private CoordinatorLayout coordinatorLayout;
+    private Bitmap bitmap;
+    private String imageString="a";
   private View.OnClickListener facebookConnectListener = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
       facebookLoginButton.performClick();
+        fbSignIn();
     }
   };
   private View.OnClickListener googleConnectListener = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
       googleSignInButton.performClick();
+        gplusSignIn();
     }
   };
+
+    private WebServiceResponseCallback userDetailCallbackListener = new WebServiceResponseCallback() {
+        @Override
+        public void onSuccess(JSONObject jsonObject) {
+            try {
+                UserDetail user = new Gson().fromJson(jsonObject.getString("data"), UserDetail.class);
+                new DatabaseHandler(getApplicationContext()).insertUserDetails(user);
+            } catch (JSONException e) {
+            }
+        }
+
+        @Override
+        public void onFailure(VolleyError error) {
+        }
+    };
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -296,11 +327,20 @@ public class Social extends FragmentActivity implements View.OnClickListener
                     Log.d("fname", object.optString("first_name"));
                     Log.d("lname", object.optString("last_name"));
                     Log.d("gender", object.optString("gender"));
+
                     if (object.optString("gender").equals("male")) {
                       Usergender = String.valueOf(0);
                     } else if (object.optString("gender").equals("female")) {
                       Usergender = String.valueOf(1);
                     }
+                      String profilePicUrl =  "https://graph.facebook.com/"+object.optString("id")+"/picture";
+                      Log.d("profilePicUrl",profilePicUrl);
+                      bitmap = getProfilePicture(profilePicUrl);
+                      imageString = getStringImage(bitmap);
+                      Log.d("imageString",imageString);
+//                      String profilePicUrl = object.optString("picture").getJSONObject("data").getString("url");
+//                      Bitmap profilePic = getFacebookProfilePicture(profilePicUrl);
+
                     signUpUser(object.optString("first_name"), object.optString("last_name"), object.optString("email")
                         , "", object.optString("gender"), "fb");
                   } catch (Exception e) {
@@ -349,6 +389,21 @@ public class Social extends FragmentActivity implements View.OnClickListener
     }
 
   }
+    public static Bitmap getProfilePicture(String url){
+        URL ProfileURL= null;
+        try {
+            ProfileURL = new URL(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        Bitmap bitmap = null;
+        try {
+            bitmap = BitmapFactory.decodeStream(ProfileURL.openConnection().getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
 
   private void handleSignInResult(GoogleSignInResult result) {
     Log.d(TAG, "handleSignInResult:" + result.isSuccess());
@@ -411,6 +466,12 @@ public class Social extends FragmentActivity implements View.OnClickListener
         if (person.getName().getGivenName() != null) {
           Userlname = person.getName().getFamilyName();
         }
+          String profilePicUrl = String.valueOf(person.getImage());
+          Log.d("profilePicUrl",profilePicUrl);
+          bitmap = getProfilePicture(profilePicUrl);
+          Log.d("bitmap",bitmap+"");
+          imageString = getStringImage(bitmap);
+          Log.d("imageString",imageString);
         signUpUser(Userfname, Userlname, Useremail
             , "", Usergender, "gp");
         Log.i(TAG, "--------------------------------");
@@ -421,6 +482,7 @@ public class Social extends FragmentActivity implements View.OnClickListener
         Log.i(TAG, "image: " + person.getImage());
 //            Log.i(TAG, "Current Location: " + person.getCurrentLocation());
         Log.i(TAG, "Language: " + person.getLanguage());
+
       }
     }
     callbackManager.onActivityResult(requestCode, resultCode, data);
@@ -476,8 +538,10 @@ public class Social extends FragmentActivity implements View.OnClickListener
         }
         return;
       }
-      accountsClient.signUpUser(userFname, userLname, email, password, gender, regType, Constants.latitude, Constants.longitude,
-          Constants.locationaddress, Constants.locationaddress1,
+        Map<String,String> userDetails = application.getUserDetails();
+      accountsClient.signUpUser(userFname, userLname, email, password, gender, regType,imageString,userDetails.get(Constants.SF_LAT)
+              , userDetails.get(Constants.SF_LNG),userDetails.get(Constants.SF_LOCADD)
+              , userDetails.get(Constants.SF_SUB_LOC),
           application.getGCMToken(), new WebServiceResponseCallback() {
             @Override
             public void onSuccess(JSONObject jsonObject) {
@@ -512,10 +576,25 @@ public class Social extends FragmentActivity implements View.OnClickListener
 //            Integer integer = data.getId();
       String s = String.valueOf(data.getId());
       Log.d("integer", s);
-      String[] regidetails = {String.valueOf(data.getId()), data.getFirstName(), data.getLastName(), data.getEmail(), data.getGender(), data.getRegtype(), Constants.locationaddress};
-      application.setLoginDetails(regidetails);
-//            Log.d("integer", String.valueOf(integer));
-      Log.d("regidetails", String.valueOf(regidetails));
+        Map<String,String> userDetails = new HashMap<>();
+        userDetails.put(Constants.PREFERENCE_USER_ID,data.getId()+"");
+        userDetails.put(Constants.SF_FIRST,data.getFirstName());
+        userDetails.put(Constants.SF_LAST,data.getLastName());
+        userDetails.put(Constants.SF_EMAIL,data.getEmail());
+        userDetails.put(Constants.SF_LOCADD,data.getAddress());
+        userDetails.put(Constants.SF_SUB_LOC,data.getAddress1());
+        userDetails.put(Constants.SF_LAT,data.getLattiude());
+        userDetails.put(Constants.SF_LNG,data.getLongittude());
+        userDetails.put(Constants.SF_PASS,data.getPassword());
+        userDetails.put(Constants.SF_DOB,data.getDob());
+        userDetails.put(Constants.SF_IMAGE,data.getImage());
+        userDetails.put(Constants.SF_GENDER,data.getGender());
+        userDetails.put(Constants.SF_REGTYPE,data.getRegtype());
+        userDetails.put(Constants.SF_MOBILE,data.getMobile());
+        application.setUserDetails(userDetails);
+        accountsClient.getUserDetails(data.getId() + "", userDetailCallbackListener);
+//      String[] regidetails = {String.valueOf(data.getId()), data.getFirstName(), data.getLastName(), data.getEmail(), data.getGender(), data.getRegtype(), Constants.locationaddress};
+//      application.setLoginDetails(regidetails);
       Intent homeIntent = new Intent(this, MobileNumber.class);
       startActivity(homeIntent);
       this.finish();
@@ -577,4 +656,17 @@ public class Social extends FragmentActivity implements View.OnClickListener
       }
     }
   }
+
+    public String getStringImage(Bitmap bmp) {
+        BitmapFactory.Options options = null;
+        options = new BitmapFactory.Options();
+        options.inSampleSize = 3;
+//        bitmap = BitmapFactory.decodeFile(imgPath,
+//                options);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
+    }
 }

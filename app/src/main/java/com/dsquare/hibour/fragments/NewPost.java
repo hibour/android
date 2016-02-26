@@ -188,29 +188,43 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK
-            && data != null && data.getData() != null) {
-//            imageUploaded.setVisibility(View.VISIBLE);
-            Log.d("camera", "yes");
-            Uri filePath = data.getData();
-            try {
-                //Getting the Bitmap from Gallery
-                bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
-                int nh = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
-                Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
-                if (layout.getVisibility() == View.GONE) {
-                    layout.setVisibility(View.VISIBLE);
-                    postImage.setAdjustViewBounds(true);
-                    postImage.setScaleType(ImageView.ScaleType.FIT_XY);
-                    postImage.setImageBitmap(scaled);
-                    gallary.setVisibility(View.GONE);
-                    getActivity().getWindow().setSoftInputMode(
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+            bitmap = (Bitmap) data.getExtras().get("data");
+            int nh = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
+            Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
+            postImage.setImageBitmap(bitmap);
+            postimagesstring = getStringImage(bitmap);
+            if (layout.getVisibility() == View.GONE) {
+                layout.setVisibility(View.VISIBLE);
+                postImage.setAdjustViewBounds(true);
+                postImage.setScaleType(ImageView.ScaleType.FIT_XY);
+                postImage.setImageBitmap(scaled);
+                gallary.setVisibility(View.GONE);
+                getActivity().getWindow().setSoftInputMode(
                         WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-                }
-                postimagesstring = getStringImage(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+            Log.d("bitmap", "camera");
+            Log.d("bitmap", bitmap + "");
+            Log.d("camera", "yes");
+//            Uri filePath = data.getData();
+//            try {
+//                //Getting the Bitmap from Gallery
+//                bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
+//                int nh = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
+//                Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
+//                if (layout.getVisibility() == View.GONE) {
+//                    layout.setVisibility(View.VISIBLE);
+//                    postImage.setAdjustViewBounds(true);
+//                    postImage.setScaleType(ImageView.ScaleType.FIT_XY);
+//                    postImage.setImageBitmap(scaled);
+//                    gallary.setVisibility(View.GONE);
+//                    getActivity().getWindow().setSoftInputMode(
+//                        WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+//                }
+//                postimagesstring = getStringImage(bitmap);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
 
         }else if(requestCode == REQUEST_IMAGE_SELECTOR && resultCode == Activity.RESULT_OK
                 &&  data != null && data.getData() != null){

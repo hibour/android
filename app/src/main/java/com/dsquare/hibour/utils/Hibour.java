@@ -88,6 +88,7 @@ public class Hibour {
         details.put(Constants.SF_PASS,sharedPreferences.getString(Constants.SF_PASS,""));
         details.put(Constants.SF_DOB,sharedPreferences.getString(Constants.SF_DOB,""));
         details.put(Constants.SF_NOTIF,sharedPreferences.getString(Constants.SF_NOTIF,""));
+        details.put(Constants.SF_IMAGE,sharedPreferences.getString(Constants.SF_IMAGE,""));
         details.put(Constants.SF_MOBILE,sharedPreferences.getString(Constants.SF_MOBILE,""));
         return details;
     }

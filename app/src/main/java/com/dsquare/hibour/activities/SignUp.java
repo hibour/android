@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -38,6 +39,7 @@ import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.pojos.signup.Data;
 import com.dsquare.hibour.pojos.signup.SignupPojo;
+import com.dsquare.hibour.pojos.user.UserDetail;
 import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Helper;
 import com.dsquare.hibour.utils.Hibour;
@@ -59,9 +61,11 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -95,6 +99,23 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     private DatabaseHandler handler;
     private CoordinatorLayout coordinatorLayout;
     private SharedPreferences preferences;
+    private Bitmap bitmap;
+    private String imageString="a";
+
+    private WebServiceResponseCallback userDetailCallbackListener = new WebServiceResponseCallback() {
+        @Override
+        public void onSuccess(JSONObject jsonObject) {
+            try {
+                UserDetail user = new Gson().fromJson(jsonObject.getString("data"), UserDetail.class);
+                new DatabaseHandler(getApplicationContext()).insertUserDetails(user);
+            } catch (JSONException e) {
+            }
+        }
+
+        @Override
+        public void onFailure(VolleyError error) {
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -491,7 +512,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                 return;
             }
             Map<String,String> userDetails = application.getUserDetails();
-            accountsClient.signUpUser(userFname, userLname, email, password, Gender, regType
+            accountsClient.signUpUser(userFname, userLname, email, password, Gender, regType," "
                     , userDetails.get(Constants.SF_LAT)
                     , userDetails.get(Constants.SF_LNG),userDetails.get(Constants.SF_LOCADD)
                     , userDetails.get(Constants.SF_SUB_LOC),
@@ -528,11 +549,27 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
 //            Integer integer = data.getId();
             String s = String.valueOf(data.getId());
             Log.d("integer", s);
-            String[] regidetails = {String.valueOf(data.getId()), data.getFirstName(), data.getLastName(), data.getEmail(), data.getGender(), data.getRegtype(), Constants.locationaddress};
-            application.setLoginDetails(regidetails);
+            Map<String,String> userDetails = new HashMap<>();
+            userDetails.put(Constants.PREFERENCE_USER_ID,data.getId()+"");
+            userDetails.put(Constants.SF_FIRST,data.getFirstName());
+            userDetails.put(Constants.SF_LAST,data.getLastName());
+            userDetails.put(Constants.SF_EMAIL,data.getEmail());
+            userDetails.put(Constants.SF_LOCADD,data.getAddress());
+            userDetails.put(Constants.SF_SUB_LOC,data.getAddress1());
+            userDetails.put(Constants.SF_LAT,data.getLattiude());
+            userDetails.put(Constants.SF_LNG,data.getLongittude());
+            userDetails.put(Constants.SF_PASS,data.getPassword());
+            userDetails.put(Constants.SF_DOB,data.getDob());
+            userDetails.put(Constants.SF_IMAGE,data.getImage());
+            userDetails.put(Constants.SF_GENDER,data.getGender());
+            userDetails.put(Constants.SF_REGTYPE,data.getRegtype());
+            userDetails.put(Constants.SF_MOBILE,data.getMobile());
+            application.setUserDetails(userDetails);
+            accountsClient.getUserDetails(data.getId() + "", userDetailCallbackListener);
+
+//            String[] regidetails = {String.valueOf(data.getId()), data.getFirstName(), data.getLastName(), data.getEmail(), data.getGender(), data.getRegtype(), Constants.locationaddress};
+//            application.setLoginDetails(regidetails);
             application.setIsFirst(true);
-//            Log.d("integer", String.valueOf(integer));
-            Log.d("regidetails", String.valueOf(regidetails));
             Intent homeIntent = new Intent(this, MobileNumber.class);
             startActivity(homeIntent);
             this.finish();
@@ -570,5 +607,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
         }
 
     }
+
+
 
 }

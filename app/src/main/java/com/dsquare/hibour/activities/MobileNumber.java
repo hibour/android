@@ -107,7 +107,7 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
                 public void onSuccess(JSONObject jsonObject) {
                     Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                     startActivity(intent);
-                    //      parsemobileDetails(jsonObject);
+                  //  parsemobileDetails(jsonObject);
                     closeMobileDialog();
                 }
                 @Override

@@ -2,7 +2,6 @@ package com.dsquare.hibour.activities;
 
 import android.app.ProgressDialog;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.LabeledIntent;
@@ -110,14 +109,10 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerCallback
     networkDetector = new NetworkDetector(this);
       gson = new Gson();
       imageLoader = HibourConnector.getInstance(this).getImageLoader();
-      sharedPreferences=getSharedPreferences("Login Credentials", Context.MODE_PRIVATE);
+      Map<String,String> userDetails = application.getUserDetails();
 
-      String firstname=sharedPreferences.getString("FirstName", "");
-      String lastName=sharedPreferences.getString("LastName","");
-      String image=sharedPreferences.getString("Image","");
-
-      name.setText(firstname+" "+lastName);
-      imageLoader.get(image, ImageLoader.getImageListener(profile
+      name.setText(userDetails.get(Constants.SF_FIRST)+" "+userDetails.get(Constants.SF_LAST));
+      imageLoader.get(userDetails.get(Constants.SF_IMAGE), ImageLoader.getImageListener(profile
               , R.drawable.avatar1, R.drawable.avatar1));
 
   }

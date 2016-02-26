@@ -61,7 +61,7 @@ public class VerifyOtp extends AppCompatActivity implements View.OnClickListener
 //        otp.setTypeface(numbers);
         resend = (TextView) findViewById(R.id.otp_resend);
         back = (TextView) findViewById(R.id.otp_back);
-        enterOtp.setText(data.getExtras().getString("otp"));
+//        enterOtp.setText(data.getExtras().getString("otp"));
         accountsClient = new AccountsClient(this);
         networkDetector = new NetworkDetector(this);
         gson = new Gson();

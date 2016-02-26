@@ -61,7 +61,7 @@ public class PreviousChat extends BaseChatFragment {
           List<UserDetail> data1 = new ArrayList<>();
           data1.add(userDetail);
           Constants.chatsMap.put(userDetail.id, data1);
-          Constants.searchChat.put(userDetail.Email, userDetail.id);
+          Constants.searchChat.put(userDetail.Username, userDetail.id);
           if (Constants.searchChat.size() > 0) {
               Constants.chatList.clear();
               for (String key1 : Constants.searchChat.keySet()) {
