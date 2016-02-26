@@ -496,9 +496,11 @@ public class AccountsClient {
         try {
           String urlStr = String.format(Constants.URL_USER_DETAIL, userId, Constants.SIGNATURE_VALUE);
             URL url = new URL(urlStr);
+
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
                     , url.getPath(), url.getQuery(), url.getRef());
             url = uri.toURL();
+            Log.d("About user",url.toString());
             JsonObjectRequest proofsRequest = new JsonObjectRequest(Request.Method.GET
                     , url.toString(), (String) null, new Response.Listener<JSONObject>() {
                 @Override

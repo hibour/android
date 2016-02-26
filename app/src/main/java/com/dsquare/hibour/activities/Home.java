@@ -112,7 +112,7 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
 
       name.setText(firstname+" "+lastName);
       imageLoader.get(image, ImageLoader.getImageListener(profile
-              , R.drawable.avatar1, R.drawable.avatar1));
+              , R.drawable.avatar, R.drawable.avatar));
 
   }
 

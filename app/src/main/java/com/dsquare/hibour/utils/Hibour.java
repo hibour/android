@@ -8,6 +8,9 @@ import android.util.Log;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Android Dsquare on 12/29/2015.
  */
@@ -48,6 +51,54 @@ public class Hibour {
         editor.putString(Constants.SF_LOCADD, details[6]);
         editor.commit();
     }
+    /* set user details*/
+    public void setUserDetails(Map<String,String> userDetails){
+        initializeSharedPrefs();
+        editor.putString(Constants.PREFERENCE_USER_ID, userDetails.get(Constants.PREFERENCE_USER_ID));
+        editor.putString(Constants.SF_FIRST, userDetails.get(Constants.SF_FIRST));
+        editor.putString(Constants.SF_LAST, userDetails.get(Constants.SF_LAST));
+        editor.putString(Constants.SF_EMAIL, userDetails.get(Constants.SF_EMAIL));
+        editor.putString(Constants.SF_GENDER, userDetails.get(Constants.SF_GENDER));
+        editor.putString(Constants.SF_REGTYPE, userDetails.get(Constants.SF_REGTYPE));
+        editor.putString(Constants.SF_LOCADD, userDetails.get(Constants.SF_LOCADD));
+        editor.putString(Constants.SF_SUB_LOC, userDetails.get(Constants.SF_SUB_LOC));
+        editor.putString(Constants.SF_LAT, userDetails.get(Constants.SF_LAT));
+        editor.putString(Constants.SF_LNG, userDetails.get(Constants.SF_LNG));
+        editor.putString(Constants.SF_PASS, userDetails.get(Constants.SF_PASS));
+        editor.putString(Constants.SF_DOB, userDetails.get(Constants.SF_DOB));
+        editor.putString(Constants.SF_NOTIF, userDetails.get(Constants.SF_NOTIF));
+        editor.putString(Constants.SF_IMAGE, userDetails.get(Constants.SF_IMAGE));
+        editor.putString(Constants.SF_MOBILE, userDetails.get(Constants.SF_MOBILE));
+        editor.commit();
+    }
+    /* get user details*/
+    public  Map<String,String> getUserDetails(){
+        Map<String,String> details = new HashMap<>();
+        details.put(Constants.PREFERENCE_USER_ID
+                ,sharedPreferences.getString(Constants.PREFERENCE_USER_ID,""));
+        details.put(Constants.SF_FIRST,sharedPreferences.getString(Constants.SF_FIRST,""));
+        details.put(Constants.SF_LAST,sharedPreferences.getString(Constants.SF_LAST,""));
+        details.put(Constants.SF_EMAIL,sharedPreferences.getString(Constants.SF_EMAIL,""));
+        details.put(Constants.SF_GENDER,sharedPreferences.getString(Constants.SF_GENDER,""));
+        details.put(Constants.SF_REGTYPE,sharedPreferences.getString(Constants.SF_REGTYPE,""));
+        details.put(Constants.SF_LOCADD,sharedPreferences.getString(Constants.SF_LOCADD,""));
+        details.put(Constants.SF_SUB_LOC,sharedPreferences.getString(Constants.SF_SUB_LOC,""));
+        details.put(Constants.SF_LAT,sharedPreferences.getString(Constants.SF_LAT,""));
+        details.put(Constants.SF_LNG,sharedPreferences.getString(Constants.SF_LNG,""));
+        details.put(Constants.SF_PASS,sharedPreferences.getString(Constants.SF_PASS,""));
+        details.put(Constants.SF_DOB,sharedPreferences.getString(Constants.SF_DOB,""));
+        details.put(Constants.SF_NOTIF,sharedPreferences.getString(Constants.SF_NOTIF,""));
+        details.put(Constants.SF_MOBILE,sharedPreferences.getString(Constants.SF_MOBILE,""));
+        return details;
+    }
+    public void setLocDetails(String subLocality,String loc,String lat,String lng){
+        initializeSharedPrefs();
+        editor.putString(Constants.SF_LAT, lat);
+        editor.putString(Constants.SF_LNG, lng);
+        editor.putString(Constants.SF_SUB_LOC, subLocality);
+        editor.putString(Constants.SF_LOCADD, loc);
+        editor.commit();
+    }
     public void setuserId(String userId){
         initializeSharedPrefs();
         editor.putString(Constants.PREFERENCE_USER_ID,userId);
@@ -72,8 +123,11 @@ public class Hibour {
     /* remove user id*/
     public void removeUserDetails(){
         initializeSharedPrefs();
-        editor.remove(Constants.PREFERENCE_USER_ID);
+        editor.clear();
         editor.apply();
+        //editor.remove(Constants.PREFERENCE_USER_ID);
+        //editor.apply();
+       // sharedPreferences = null;
     }
 
     public boolean getIsFirst() {

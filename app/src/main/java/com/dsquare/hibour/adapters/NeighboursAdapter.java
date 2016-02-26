@@ -47,12 +47,12 @@ public class NeighboursAdapter extends RecyclerView.Adapter<NeighboursAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final UserDetail item = listItems.get(position);
-        String displayName = "";
-        if(item.Username != null && item.Username.length() <= 0) {
+        String displayName = item.Username;
+       /* if(item.Username != null && item.Username.length() <= 0) {
             displayName = item.Username;
         } else {
             displayName = item.Email;
-        }
+        }*/
         holder.userName.setText(displayName);
         if(holder.profession != null) {
             holder.profession.setText(item.Address);

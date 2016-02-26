@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +51,8 @@ public class UserChatListAdapter extends RecyclerView.Adapter<UserChatListAdapte
   @Override
   public void onBindViewHolder(ViewHolder holder, int position) {
     final UserDetail item = listItems.get(position);
-    holder.userName.setText(listItems.get(position).Email);
+    holder.userName.setText(listItems.get(position).Username);
+//    Log.d("username",listItems.get(position).Username);
     holder.profession.setText(listItems.get(position).Address);
     holder.entireView.setOnClickListener(new View.OnClickListener() {
       @Override

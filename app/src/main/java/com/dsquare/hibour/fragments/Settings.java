@@ -49,6 +49,7 @@ import com.dsquare.hibour.network.HibourConnector;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.pojos.settings.Data;
 import com.dsquare.hibour.pojos.settings.Settingspojo;
+import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Fonts;
 import com.dsquare.hibour.utils.Hibour;
 import com.google.gson.Gson;
@@ -62,6 +63,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -565,16 +567,17 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
     }
 
     private void getLoginDetails() {
-        String firstname=sharedPreferences.getString("FirstName", "");
-        String lastName=sharedPreferences.getString("LastName","");
-        String gender1=sharedPreferences.getString("Gender","");
-        String dobbb=sharedPreferences.getString("DOB","");
-        String notifications=sharedPreferences.getString("Notifications","");
-        String passWord=sharedPreferences.getString("Password","");
-        String eMail=sharedPreferences.getString("Email","");
-        String mobileNum=sharedPreferences.getString("Mobile","");
-        String image=sharedPreferences.getString("Image","");
-        Log.d("image",image);
+        Map<String,String> userDetails = application.getUserDetails();
+        String firstname=userDetails.get(Constants.SF_FIRST);
+        String lastName=userDetails.get(Constants.SF_LAST);
+        String gender1=userDetails.get(Constants.SF_GENDER);
+        String dobbb=userDetails.get(Constants.SF_DOB);
+        String notifications=userDetails.get(Constants.SF_NOTIF);
+        String passWord=userDetails.get(Constants.SF_PASS);
+        String eMail=userDetails.get(Constants.SF_EMAIL);
+        String mobileNum=userDetails.get(Constants.SF_MOBILE);
+        String image=userDetails.get(Constants.SF_IMAGE);
+       // Log.d("image",image);
         name.setText(firstname);
         lastname.setText(lastName);
         if (gender1 != null && gender1.equalsIgnoreCase("0")) {
@@ -588,6 +591,10 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         dob.setText(dobbb);
         imageLoader.get(image, ImageLoader.getImageListener(inputImage
                 , R.drawable.avatar, R.drawable.avatar));
+       /* if(image!=null&& image!=""){
+            imageLoader.get(image, ImageLoader.getImageListener(inputImage
+                    , R.drawable.avatar, R.drawable.avatar));
+        }*/
     }
 
 

@@ -2,13 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/feed_bg"
     tools:context="com.dsquare.hibour.fragments.FeedsPager">
     <android.support.v7.widget.RecyclerView
         android:scrollbars="vertical"
-        android:background="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/dp_7"
+        android:background="@color/feed_bg"
         android:id="@+id/post_posts_list">
     </android.support.v7.widget.RecyclerView>
 
