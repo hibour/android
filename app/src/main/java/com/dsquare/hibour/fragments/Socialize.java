@@ -288,6 +288,9 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
             Data socialize = gson.fromJson(jsonObject.toString(),Data.class);
             List<com.dsquare.hibour.pojos.Socialize.Datum> data = socialize.getData();
             Constants.socialPrefsList.clear();
+            Constants.socialPrefsMap.clear();
+            Constants.prefsMap.clear();
+            Constants.membersList.clear();
             for(com.dsquare.hibour.pojos.Socialize.Datum d:data){
                 Constants.socialPrefsList.add(d);
                 List<String> dd = new ArrayList<>();
