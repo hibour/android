@@ -27,9 +27,9 @@ import java.util.List;
 /**
  * Created by Dsquare Android on 2/3/2016.
  */
-public class PostsTypesDialog extends DialogFragment implements View.OnClickListener
-    , CategoriesCallback {
-  categoryChooserListener listener;
+public class PostsTypesDialog extends DialogFragment implements View.OnClickListener, CategoriesCallback {
+
+  CategoryChooserListener listener;
   private Context context;
   private RecyclerView categoriesRecycler;
   private List<String> categoriesList = new ArrayList<>();
@@ -39,7 +39,7 @@ public class PostsTypesDialog extends DialogFragment implements View.OnClickList
   public void onAttach(Activity activity) {
     super.onAttach(activity);
     try {
-      listener = (categoryChooserListener) getTargetFragment();
+      listener = (CategoryChooserListener) getTargetFragment();
     } catch (ClassCastException e) {
       throw new ClassCastException(activity.toString()
           + " must implement NoticeDialogListener");
@@ -104,7 +104,7 @@ public class PostsTypesDialog extends DialogFragment implements View.OnClickList
     listener.onCategorySelected(categoryName, this);
   }
 
-  public interface categoryChooserListener {
+  public interface CategoryChooserListener {
     void onCancel(DialogFragment dialog);
 
     void onCategorySelected(String categoryName, DialogFragment dialog);

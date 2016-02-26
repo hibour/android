@@ -129,13 +129,13 @@ public class SocialCategories extends AppCompatActivity implements View.OnClickL
     }
     /* open home activity*/
     private void openHomeActivity(){
-        Intent homeIntent = new Intent(this,Home.class);
+        Intent homeIntent = new Intent(this,HomeActivity.class);
         startActivity(homeIntent);
         //    this.finishAffinity();
     }
     private void openPreviousActivity(){
 //        Intent otpIntent = new Intent(this,VerifyOtp.class);
-        Intent otpIntent = new Intent(this, Home.class);
+        Intent otpIntent = new Intent(this, HomeActivity.class);
         startActivity(otpIntent);
         finish();
     }
