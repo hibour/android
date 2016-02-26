@@ -62,7 +62,7 @@ import java.util.Set;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Posts extends Fragment implements View.OnClickListener, PostsCallback {
+public class Posts extends HibourBaseTabFragment implements View.OnClickListener, PostsCallback {
     private NetworkDetector networkDetector;
     private Gson gson;
     private PostsClient postsClient;
@@ -82,7 +82,6 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
     private Context context;
     private Hibour application;
     private ProgressDialog newpostDialogue;
-    private NewPost.PostsListener mListener;
     private CoordinatorLayout coordinatorLayout;
     private UIHelper uiHelper;
     private View searchBar;
@@ -100,6 +99,7 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
         uiHelper = new UIHelper(getContext());
         initializeViews(view);
         initializeEventListeners();
+        refreshPosts();
         return view;
     }
 
@@ -158,9 +158,11 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        refreshPosts();
+    public void onVisible() {
+        super.onVisible();
+        if (coordinatorLayout != null) {
+            refreshPosts();
+        }
     }
 
     private void showSearchView() {
@@ -380,7 +382,6 @@ public class Posts extends Fragment implements View.OnClickListener, PostsCallba
             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
             textView.setTextColor(Color.RED);
             snackbar.show();
-            mListener.onDoneClicked();
         } catch (JSONException e) {
             e.printStackTrace();
             Snackbar snackbar = Snackbar

@@ -5,11 +5,7 @@ package com.dsquare.hibour.fragments.home;
  */
 public enum TabType {
     FEED,
-    SUGGESTIONS,
-    CLASSIFIEDS,
-    NEWPOST,
     SOCIALIZE,
     MESSAGE,
-    MORE,
-    MISC
+    MORE
 }

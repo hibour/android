@@ -34,7 +34,7 @@ import com.dsquare.hibour.views.CustomViewPager;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Message extends Fragment implements View.OnClickListener {
+public class Message extends HibourBaseTabFragment implements View.OnClickListener {
 
 
   private static final String LOG_TAG = Message.class.getSimpleName();

@@ -29,7 +29,7 @@ import com.dsquare.hibour.interfaces.NavDrawerCallback;
  */
 
 
-public class Home extends Fragment implements PostsTypesDialog.CategoryChooserListener {
+public class Home extends Fragment implements PostsTypesDialog.CategoryChooserListener, NewPost.PostsListener {
 
     private NavDrawerCallback callback;
     private ImageView feedIcon, socializeIcon, newPostIcon, channelsIcon, moreIcon,postimage,searchIcon;
@@ -54,7 +54,7 @@ public class Home extends Fragment implements PostsTypesDialog.CategoryChooserLi
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         initializeViews(view);
         initializeEventListeners();
-        loadDefaultFragment();
+        showTab(TabType.FEED);
         return view;
     }
 
@@ -82,10 +82,6 @@ public class Home extends Fragment implements PostsTypesDialog.CategoryChooserLi
         feedLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (createPost.getVisibility() == View.GONE) {
-                    createPost.setVisibility(View.VISIBLE);
-                }
-                applyCurrentStateToAppBarIcons(R.drawable.feed_filled, feedIcon);
                 showTab(TabType.FEED);
             }
         });
@@ -93,10 +89,6 @@ public class Home extends Fragment implements PostsTypesDialog.CategoryChooserLi
         socializeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                applyCurrentStateToAppBarIcons(R.drawable.socialize_filled, socializeIcon);
-                if (createPost.getVisibility() == View.GONE) {
-                    createPost.setVisibility(View.VISIBLE);
-                }
                 showTab(TabType.SOCIALIZE);
             }
         });
@@ -104,7 +96,6 @@ public class Home extends Fragment implements PostsTypesDialog.CategoryChooserLi
         messageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                applyCurrentStateToAppBarIcons(R.mipmap.ic_chat_filed, channelsIcon);
                 showTab(TabType.MESSAGE);
             }
         });
@@ -112,7 +103,6 @@ public class Home extends Fragment implements PostsTypesDialog.CategoryChooserLi
         moreLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                applyCurrentStateToAppBarIcons(R.drawable.more_filled, moreIcon);
                 showTab(TabType.MORE);
             }
         });
@@ -132,11 +122,6 @@ public class Home extends Fragment implements PostsTypesDialog.CategoryChooserLi
 //        searchIcon.setOnClickListener(this);
     }
 
-    private void loadDefaultFragment() {
-        applyCurrentStateToAppBarIcons(R.drawable.feed_filled, feedIcon);
-        showTab(TabType.FEED);
-    }
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -152,56 +137,62 @@ public class Home extends Fragment implements PostsTypesDialog.CategoryChooserLi
         icon.setImageResource(res);
     }
 
-    private Fragment activeFragment = null;
+    private HibourBaseTabFragment activeFragment = null;
     /* replace tab's fragment*/
     private void showTab(TabType type) {
         boolean isNewFragment = false;
         FragmentManager fragmentManager = getFragmentManager();
         Fragment fragment = fragmentManager.findFragmentByTag(type.toString());
-        if (fragment == null) {
+        HibourBaseTabFragment hibourFragment = null;
+        if (!(fragment instanceof HibourBaseTabFragment)) {
             isNewFragment = true;
-            fragment = getFragment(type);
-            if (fragment == null) {
-                return;
-            }
+            hibourFragment = getFragment(type);
+        } else {
+            hibourFragment = (HibourBaseTabFragment) fragment;
         }
 
+        if (hibourFragment == null || activeFragment == hibourFragment) {
+            return;
+        }
+
+
+        createPost.setVisibility(View.VISIBLE);
         switch (type) {
-            case NEWPOST:
-                Bundle args = new Bundle();
-                args.putString(NewPost.CATEGORY_BUNDLE_ARG, categoryName);
-                fragment.setArguments(args);
+            case FEED:
+                applyCurrentStateToAppBarIcons(R.drawable.feed_filled, feedIcon);
+                break;
+            case SOCIALIZE:
+                applyCurrentStateToAppBarIcons(R.drawable.socialize_filled, socializeIcon);
+                break;
+            case MESSAGE:
+                applyCurrentStateToAppBarIcons(R.mipmap.ic_chat_filed, channelsIcon);
+                break;
+            case MORE:
+                applyCurrentStateToAppBarIcons(R.drawable.more_filled, moreIcon);
                 break;
         }
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if (isNewFragment) {
-            fragmentTransaction.add(R.id.home_fragment_container, fragment, type.toString());
+            fragmentTransaction.add(R.id.home_fragment_container, hibourFragment, type.toString());
         } else {
-            fragmentTransaction.show(fragment);
+            fragmentTransaction.show(hibourFragment);
         }
-        if (activeFragment != null && activeFragment != fragment) {
+        if (activeFragment != null) {
+            activeFragment.onHidden();
             fragmentTransaction.hide(activeFragment);
         }
         fragmentTransaction.commit();
-        activeFragment = fragment;
+        activeFragment = hibourFragment;
+        activeFragment.onVisible();
     }
 
     @Nullable
-    private Fragment getFragment(TabType type) {
-        Fragment fragment = null;
+    private HibourBaseTabFragment getFragment(TabType type) {
+        HibourBaseTabFragment fragment = null;
         switch (type) {
             case FEED:
                 fragment = new Posts();
-                break;
-            case SUGGESTIONS:
-                fragment = new Suggestions();
-                break;
-            case CLASSIFIEDS:
-                fragment = new Classifieds();
-                break;
-            case NEWPOST:
-                fragment = new NewPost();
                 break;
             case SOCIALIZE:
                 fragment = new Socialize();
@@ -218,10 +209,8 @@ public class Home extends Fragment implements PostsTypesDialog.CategoryChooserLi
 
     @Override
     public void onCancel(DialogFragment dialog) {
-        if (bottomBar1.getVisibility() == View.GONE) {
-            bottomBar1.setVisibility(View.VISIBLE);
-            createPost.setVisibility(View.VISIBLE);
-        }
+        bottomBar1.setVisibility(View.VISIBLE);
+        createPost.setVisibility(View.VISIBLE);
         dialog.dismiss();
     }
 
@@ -229,6 +218,49 @@ public class Home extends Fragment implements PostsTypesDialog.CategoryChooserLi
     public void onCategorySelected(String categoryName, DialogFragment dialog) {
         this.categoryName = categoryName;
         dialog.dismiss();
-        showTab(TabType.NEWPOST);
+        showNewPost();
+    }
+
+    @Override
+    public void onNewPostCancelled() {
+        closeNewPostFragment();
+    }
+
+    @Override
+    public void onNewPostPosted() {
+        closeNewPostFragment();
+    }
+
+    private static final String NEW_POST_NAME = "newpost";
+
+    private void showNewPost() {
+        Fragment fragment = new NewPost();
+        Bundle args = new Bundle();
+        args.putString(NewPost.CATEGORY_BUNDLE_ARG, categoryName);
+        fragment.setArguments(args);
+        fragment.setTargetFragment(Home.this, 0);
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.home_fragment_container, fragment, NEW_POST_NAME);
+        fragmentTransaction.addToBackStack(NEW_POST_NAME);
+        fragmentTransaction.commit();
+        if (activeFragment != null) {
+            activeFragment.onHidden();
+        }
+    }
+
+    private void closeNewPostFragment() {
+        FragmentManager fragmentManager = getFragmentManager();
+        Fragment fragment = fragmentManager.findFragmentByTag(NEW_POST_NAME);
+        if (fragment == null) {
+            return;
+        }
+        bottomBar1.setVisibility(View.VISIBLE);
+        createPost.setVisibility(View.VISIBLE);
+        fragmentManager.popBackStack();
+        if (activeFragment != null) {
+            activeFragment.onVisible();
+        }
     }
 }

@@ -58,7 +58,7 @@ import java.util.List;
 import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity implements NavDrawerCallback,
-        AdapterView.OnItemClickListener, NewPost.PostsListener {
+        AdapterView.OnItemClickListener {
 
   boolean doubleBackToExitPressedOnce = false;
   private FragmentManager manager;
@@ -83,7 +83,7 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerCallback
     initializeViews();
     initializeDrawerAdapter();
     initializeEventListeners();
-    loadDefaultFragment();
+    handleAction(NavActionType.HOME);
     getAllCategoriesTypes();
   }
 
@@ -118,10 +118,6 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerCallback
       imageLoader.get(image, ImageLoader.getImageListener(profile
               , R.drawable.avatar1, R.drawable.avatar1));
 
-  }
-
-  private void loadDefaultFragment() {
-    handleAction(NavActionType.HOME);
   }
 
   private void initializeDrawerAdapter() {
@@ -188,6 +184,8 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerCallback
       if (fragment == null) {
         return;
       }
+    } else if (activeFragment == fragment) {
+      return;
     }
 
     FragmentTransaction fragmentTransaction = manager.beginTransaction();
@@ -313,7 +311,7 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerCallback
           Constants.postTypesMap.put(d.getPosttypename(), postsTypesMap);
         }
       }
-      loadDefaultFragment();
+      handleAction(NavActionType.HOME);
     } catch (JsonSyntaxException e) {
       e.printStackTrace();
     }
@@ -360,16 +358,6 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerCallback
     } catch (Exception e) {
       e.printStackTrace();
     }
-  }
-
-  @Override
-  public void onCancelClicked() {
-    handleAction(NavActionType.HOME);
-  }
-
-  @Override
-  public void onDoneClicked() {
-    handleAction(NavActionType.HOME);
   }
 }
 
