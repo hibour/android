@@ -78,17 +78,30 @@ public class AccountsClient {
     }
 
     /* get user sign up url String*/
-    public void signUpUser(String userFname, String userLname, String email, String password, String gender, String regType,
+    public void signUpUser(String userFname, String userLname, String email, String password, String gender, String regType,String image,
                            String userlat, String userlog, String address,
                            String address1, String gcmToken, final WebServiceResponseCallback callback) {
+
         try {
-          String urlStr = getSignUpUrl(userFname, userLname, email, password, gender, regType, userlat, userlog, address, address1, gcmToken);
-            URL url = new URL(urlStr);
-            URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
-                    , url.getPath(), url.getQuery(), url.getRef());
-            url = uri.toURL();
-          JsonObjectRequest signUpRequest = new JsonObjectRequest(Request.Method.POST
-                    , url.toString(), (String) null, new Response.Listener<JSONObject>() {
+            String urlStr = Constants.URL_SIGN_UP;
+            Map<String, String> params = new HashMap<>();
+//            Log.d("post",userId+postType+postsubType+postMessages+postImages+status);
+            params.put(Constants.KEYWORD_USER_NAME, userFname);
+            params.put(Constants.KEYWORD_USER_FIRSTNAME, userFname);
+            params.put(Constants.KEYWORD_USER_LASTNAME, userLname);
+            params.put(Constants.KEYWORD_EMAIL, email);
+            params.put(Constants.KEYWORD_PASSWORD, password);
+            params.put(Constants.KEYWORD_GENDER1, gender);
+            params.put(Constants.KEYWORD_SIGNUP_TYPE, regType);
+            params.put(Constants.KEYWORD_PROFILE_IMAGE, image);
+            params.put(Constants.KEYWORD_USER_LATITUDE, userlat);
+            params.put(Constants.KEYWORD_USER_LONGITUDE, userlog);
+            params.put(Constants.KEYWORD_ADDRESS, address);
+            params.put(Constants.KEYWORD_ADDRESS1, address1);
+            params.put(Constants.KEYWORD_GCM, gcmToken);
+            params.put(Constants.KEYWORD_SIGNATURE, Constants.SIGNATURE_VALUE);
+            CustomRequest updateRequest = new CustomRequest(Request.Method.POST, urlStr, params
+                    , new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     callback.onSuccess(response);
@@ -96,19 +109,50 @@ public class AccountsClient {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    if (error != null) {
+                        Log.d("TAG", Log.getStackTraceString(error));
+                    }
                     callback.onFailure(error);
                 }
             });
-            signUpRequest.setRetryPolicy(new DefaultRetryPolicy(
+            updateRequest.setRetryPolicy(new DefaultRetryPolicy(
                     MY_SOCKET_TIMEOUT_MS,
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            HibourConnector.getInstance(context).addToRequestQueue(signUpRequest);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
+            HibourConnector.getInstance(context).addToRequestQueue(updateRequest);
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
+//        try {
+//          String urlStr = getSignUpUrl(userFname, userLname, email, password, gender, regType, userlat, userlog, address, address1, gcmToken);
+//            URL url = new URL(urlStr);
+//            URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
+//                    , url.getPath(), url.getQuery(), url.getRef());
+//            url = uri.toURL();
+//          JsonObjectRequest signUpRequest = new JsonObjectRequest(Request.Method.POST
+//                    , url.toString(), (String) null, new Response.Listener<JSONObject>() {
+//                @Override
+//                public void onResponse(JSONObject response) {
+//                    callback.onSuccess(response);
+//                }
+//            }, new Response.ErrorListener() {
+//                @Override
+//                public void onErrorResponse(VolleyError error) {
+//                    callback.onFailure(error);
+//                }
+//            });
+//            signUpRequest.setRetryPolicy(new DefaultRetryPolicy(
+//                    MY_SOCKET_TIMEOUT_MS,
+//                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+//                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+//            HibourConnector.getInstance(context).addToRequestQueue(signUpRequest);
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        } catch (URISyntaxException e) {
+//            e.printStackTrace();
+//        }
+
     }
 
     /* get signup url string*/

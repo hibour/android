@@ -58,52 +58,6 @@ public class FeedsPager extends Fragment {
     /*set adapter*/
     private void setAdapter(){
         Log.d("name",categoryName);
-        /*if(categoryName.equals("All")){
-            for(String s:Constants.postsMap.keySet()){
-                List<Postpojos> posts = Constants.postsMap.get(s);
-                try {
-                    for(int i=0;i<posts.size();i++) {
-                        String[] data = new String[11];
-                        data[0] = posts.get(i).getUser().getId();
-                        data[1] = posts.get(i).getPostDate();
-                        data[2] = posts.get(i).getPostMessage();
-                        data[3] = posts.get(i).getPostType();
-                        data[4] = String.valueOf(posts.get(i).getPostLikesCount());
-                        data[5] = Arrays.toString(new int[]{posts.get(i).getPostComments().size()}).replaceAll("\\[|\\]", "");
-                        data[6] = posts.get(i).getPostId();
-                        data[7] = String.valueOf(posts.get(i).getPostUserLiked());
-                        data[8] = posts.get(i).getPostImage();
-                        data[9] = posts.get(i).getPostTime();
-                        data[10]=posts.get(i).getUser().getName();
-                        postsList.add(data);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }else if(!categoryName.equals("")){
-            List<Postpojos> posts = Constants.postsMap.get(categoryName);
-
-            try {
-                for(int i=0;i<posts.size();i++) {
-                    String[] data = new String[11];
-                    data[0] = posts.get(i).getUser().getId();
-                    data[1] = posts.get(i).getPostDate();
-                    data[2] = posts.get(i).getPostMessage();
-                    data[3] = posts.get(i).getPostType();
-                    data[4] = String.valueOf(posts.get(i).getPostLikesCount());
-                    data[5] = Arrays.toString(new int[]{posts.get(i).getPostComments().size()}).replaceAll("\\[|\\]", "");
-                    data[6] = posts.get(i).getPostId();
-                    data[7] = String.valueOf(posts.get(i).getPostUserLiked());
-                    data[8] = posts.get(i).getPostImage();
-                    data[9] = posts.get(i).getPostTime();
-                    data[10]=posts.get(i).getUser().getName();
-                    postsList.add(data);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }*/
         Log.d("posts size", postsList.size() + "");
         postsRecycler.setAdapter(postsAdapter);
         new FeedsTask().execute();

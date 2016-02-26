@@ -6,226 +6,320 @@ import com.google.gson.annotations.SerializedName;
 
 public class Data {
 
-  @SerializedName("id")
-  @Expose
-  private Integer id;
-  @SerializedName("Username")
-  @Expose
-  private String Username;
-  @SerializedName("first_name")
-  @Expose
-  private String firstName;
-  @SerializedName("last_name")
-  @Expose
-  private String lastName;
-  @SerializedName("Password")
-  @Expose
-  private String Password;
-  @SerializedName("Email")
-  @Expose
-  private String Email;
-  @SerializedName("gender")
-  @Expose
-  private String gender;
-  @SerializedName("lattiude")
-  @Expose
-  private String lattiude;
-  @SerializedName("longittude")
-  @Expose
-  private String longittude;
-  @SerializedName("Regtype")
-  @Expose
-  private String Regtype;
-  @SerializedName("gcm")
-  @Expose
-  private String gcm;
-  @SerializedName("Address")
-  @Expose
-  private String Address;
-  @SerializedName("Address1")
-  @Expose
-  private String Address1;
+    @SerializedName("id")
+    @Expose
+    private Integer id;
+    @SerializedName("first_name")
+    @Expose
+    private String firstName;
+    @SerializedName("last_name")
+    @Expose
+    private String lastName;
+    @SerializedName("Password")
+    @Expose
+    private String Password;
+    @SerializedName("Email")
+    @Expose
+    private String Email;
+    @SerializedName("gender")
+    @Expose
+    private String gender;
+    @SerializedName("lattiude")
+    @Expose
+    private String lattiude;
+    @SerializedName("longittude")
+    @Expose
+    private String longittude;
+    @SerializedName("Regtype")
+    @Expose
+    private String Regtype;
+    @SerializedName("gcm")
+    @Expose
+    private String gcm;
+    @SerializedName("Address")
+    @Expose
+    private String Address;
+    @SerializedName("Address1")
+    @Expose
+    private String Address1;
+    @SerializedName("image")
+    @Expose
+    private String image;
+    @SerializedName("dob")
+    @Expose
+    private String dob;
+    @SerializedName("mobile")
+    @Expose
+    private String mobile;
 
-  /**
-   * @return The id
-   */
-  public Integer getId() {
-    return id;
-  }
+    /**
+     *
+     * @return
+     * The id
+     */
+    public Integer getId() {
+        return id;
+    }
 
-  /**
-   * @param id The id
-   */
-  public void setId(Integer id) {
-    this.id = id;
-  }
+    /**
+     *
+     * @param id
+     * The id
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-  /**
-   * @return The Username
-   */
-  public String getUsername() {
-    return Username;
-  }
+    /**
+     *
+     * @return
+     * The firstName
+     */
+    public String getFirstName() {
+        return firstName;
+    }
 
-  /**
-   * @param Username The Username
-   */
-  public void setUsername(String Username) {
-    this.Username = Username;
-  }
+    /**
+     *
+     * @param firstName
+     * The first_name
+     */
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-  /**
-   * @return The firstName
-   */
-  public String getFirstName() {
-    return firstName;
-  }
+    /**
+     *
+     * @return
+     * The lastName
+     */
+    public String getLastName() {
+        return lastName;
+    }
 
-  /**
-   * @param firstName The first_name
-   */
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
-  }
+    /**
+     *
+     * @param lastName
+     * The last_name
+     */
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-  /**
-   * @return The lastName
-   */
-  public String getLastName() {
-    return lastName;
-  }
+    /**
+     *
+     * @return
+     * The Password
+     */
+    public String getPassword() {
+        return Password;
+    }
 
-  /**
-   * @param lastName The last_name
-   */
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
-  }
+    /**
+     *
+     * @param Password
+     * The Password
+     */
+    public void setPassword(String Password) {
+        this.Password = Password;
+    }
 
-  /**
-   * @return The Password
-   */
-  public String getPassword() {
-    return Password;
-  }
+    /**
+     *
+     * @return
+     * The Email
+     */
+    public String getEmail() {
+        return Email;
+    }
 
-  /**
-   * @param Password The Password
-   */
-  public void setPassword(String Password) {
-    this.Password = Password;
-  }
+    /**
+     *
+     * @param Email
+     * The Email
+     */
+    public void setEmail(String Email) {
+        this.Email = Email;
+    }
 
-  /**
-   * @return The Email
-   */
-  public String getEmail() {
-    return Email;
-  }
+    /**
+     *
+     * @return
+     * The gender
+     */
+    public String getGender() {
+        return gender;
+    }
 
-  /**
-   * @param Email The Email
-   */
-  public void setEmail(String Email) {
-    this.Email = Email;
-  }
+    /**
+     *
+     * @param gender
+     * The gender
+     */
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
-  /**
-   * @return The gender
-   */
-  public String getGender() {
-    return gender;
-  }
+    /**
+     *
+     * @return
+     * The lattiude
+     */
+    public String getLattiude() {
+        return lattiude;
+    }
 
-  /**
-   * @param gender The gender
-   */
-  public void setGender(String gender) {
-    this.gender = gender;
-  }
+    /**
+     *
+     * @param lattiude
+     * The lattiude
+     */
+    public void setLattiude(String lattiude) {
+        this.lattiude = lattiude;
+    }
 
-  /**
-   * @return The lattiude
-   */
-  public String getLattiude() {
-    return lattiude;
-  }
+    /**
+     *
+     * @return
+     * The longittude
+     */
+    public String getLongittude() {
+        return longittude;
+    }
 
-  /**
-   * @param lattiude The lattiude
-   */
-  public void setLattiude(String lattiude) {
-    this.lattiude = lattiude;
-  }
+    /**
+     *
+     * @param longittude
+     * The longittude
+     */
+    public void setLongittude(String longittude) {
+        this.longittude = longittude;
+    }
 
-  /**
-   * @return The longittude
-   */
-  public String getLongittude() {
-    return longittude;
-  }
+    /**
+     *
+     * @return
+     * The Regtype
+     */
+    public String getRegtype() {
+        return Regtype;
+    }
 
-  /**
-   * @param longittude The longittude
-   */
-  public void setLongittude(String longittude) {
-    this.longittude = longittude;
-  }
+    /**
+     *
+     * @param Regtype
+     * The Regtype
+     */
+    public void setRegtype(String Regtype) {
+        this.Regtype = Regtype;
+    }
 
-  /**
-   * @return The Regtype
-   */
-  public String getRegtype() {
-    return Regtype;
-  }
+    /**
+     *
+     * @return
+     * The gcm
+     */
+    public String getGcm() {
+        return gcm;
+    }
 
-  /**
-   * @param Regtype The Regtype
-   */
-  public void setRegtype(String Regtype) {
-    this.Regtype = Regtype;
-  }
+    /**
+     *
+     * @param gcm
+     * The gcm
+     */
+    public void setGcm(String gcm) {
+        this.gcm = gcm;
+    }
 
-  /**
-   * @return The gcm
-   */
-  public String getGcm() {
-    return gcm;
-  }
+    /**
+     *
+     * @return
+     * The Address
+     */
+    public String getAddress() {
+        return Address;
+    }
 
-  /**
-   * @param gcm The gcm
-   */
-  public void setGcm(String gcm) {
-    this.gcm = gcm;
-  }
+    /**
+     *
+     * @param Address
+     * The Address
+     */
+    public void setAddress(String Address) {
+        this.Address = Address;
+    }
 
-  /**
-   * @return The Address
-   */
-  public String getAddress() {
-    return Address;
-  }
+    /**
+     *
+     * @return
+     * The Address1
+     */
+    public String getAddress1() {
+        return Address1;
+    }
 
-  /**
-   * @param Address The Address
-   */
-  public void setAddress(String Address) {
-    this.Address = Address;
-  }
+    /**
+     *
+     * @param Address1
+     * The Address1
+     */
+    public void setAddress1(String Address1) {
+        this.Address1 = Address1;
+    }
 
-  /**
-   * @return The Address1
-   */
-  public String getAddress1() {
-    return Address1;
-  }
+    /**
+     *
+     * @return
+     * The image
+     */
+    public String getImage() {
+        return image;
+    }
 
-  /**
-   * @param Address1 The Address1
-   */
-  public void setAddress1(String Address1) {
-    this.Address1 = Address1;
-  }
+    /**
+     *
+     * @param image
+     * The image
+     */
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    /**
+     *
+     * @return
+     * The dob
+     */
+    public String getDob() {
+        return dob;
+    }
+
+    /**
+     *
+     * @param dob
+     * The dob
+     */
+    public void setDob(String dob) {
+        this.dob = dob;
+    }
+
+    /**
+     *
+     * @return
+     * The mobile
+     */
+    public String getMobile() {
+        return mobile;
+    }
+
+    /**
+     *
+     * @param mobile
+     * The mobile
+     */
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
 
 }

@@ -106,6 +106,12 @@ public class Constants {
     public static final String SF_LOCADD = "locAddress";
     public static final String SF_LAT = "lati";
     public static final String SF_LNG = "longi";
+    public static final String SF_SUB_LOC="sublocality";
+    public static final String SF_PASS="password";
+    public static final String SF_DOB="dob";
+    public static final String SF_NOTIF="notif";
+    public static final String SF_IMAGE = "image";
+    public static final String SF_MOBILE="mobile";
     //animation constants
     public static final int DURATION_DEFAULT = 300;
     public static final int DURATION_SHORT = 100;

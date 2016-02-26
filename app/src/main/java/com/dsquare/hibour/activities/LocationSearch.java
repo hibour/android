@@ -76,6 +76,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by Dsquare Android on 1/14/2016.
@@ -335,6 +336,12 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
         tf = Typeface.createFromAsset(getAssets(), Fonts.getTypeFaceName());
         autoCompleteTextView.setTypeface(tf);
         autoCompleteTextView1.setTypeface(tf);
+        if(!application.getUserDetails().get(Constants.SF_SUB_LOC).equals("")){
+            Map<String,String> userDetails = application.getUserDetails();
+            autoCompleteTextView.setText(userDetails.get(Constants.SF_LOCADD));
+            getAddress(userDetails.get(Constants.SF_LAT),userDetails.get(Constants.SF_LNG)
+                    ,userDetails.get(Constants.SF_LOCADD),"");
+        }
     }
 
     private void initializeEventListeners() {
@@ -361,6 +368,8 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 editor.putString("Latitude", lat);
                 editor.putString("Longitude", lng);
                 editor.commit();
+                application.setLocDetails(subLocality,autoCompleteTextView1.getText().toString()
+                        ,lat,lng);
                 startActivity(intent2);
                 this.finish();
                 break;

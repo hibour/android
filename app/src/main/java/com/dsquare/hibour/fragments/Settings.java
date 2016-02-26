@@ -46,6 +46,7 @@ import com.dsquare.hibour.network.HibourConnector;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.pojos.settings.Data;
 import com.dsquare.hibour.pojos.settings.Settingspojo;
+import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Fonts;
 import com.dsquare.hibour.utils.Hibour;
 import com.google.gson.Gson;
@@ -57,7 +58,9 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -238,10 +241,6 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
 
     private void openLocationActivity() {
         Intent intent = new Intent(getActivity(), UpdateLocation.class);
-        intent.putExtra("Address1",sharedPreferences.getString("Address1",""));
-        intent.putExtra("Address",sharedPreferences.getString("Address",""));
-        intent.putExtra("Latitude",sharedPreferences.getString("Latitude",""));
-        intent.putExtra("Longitude",sharedPreferences.getString("Longitude",""));
         startActivity(intent);
     }
 
@@ -273,19 +272,24 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK
-                &&  data != null && data.getData() != null) {
-//            imageUploaded.setVisibility(View.VISIBLE);
-            Uri filePath = data.getData();
-            try {
-                //Getting the Bitmap from Gallery
-                bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
-//                postimagesstring=getStringImage(bitmap);
-                inputImage.setImageBitmap(bitmap);
-                cardImageString = getStringImage(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+            bitmap = (Bitmap) data.getExtras().get("data");
+            inputImage.setImageBitmap(bitmap);
+            cardImageString = getStringImage(bitmap);
+            Log.d("bitmap", "camera");
+            Log.d("bitmap", bitmap + "");
+
+//            Uri filePath = data.getData();
+
+//            try {
+//                //Getting the Bitmap from Gallery
+//                bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
+////                postimagesstring=getStringImage(bitmap);
+//                inputImage.setImageBitmap(bitmap);
+//                cardImageString = getStringImage(bitmap);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
         }else if(requestCode == REQUEST_IMAGE_SELECTOR && resultCode == Activity.RESULT_OK
                 &&  data != null && data.getData() != null){
 //            imageUploaded.setVisibility(View.VISIBLE);
@@ -429,17 +433,18 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
                 String email = data.getString("Email");
                 String mobile = data.getString("Mobilenumber");
                 String image = data.getString("profileimage");
-                SharedPreferences.Editor editor = sharedPreferences.edit();
 
-                editor.putString("FirstName", firstname);
-                editor.putString("LastName", lastname);
-                editor.putString("Gender", gender);
-                editor.putString("DOB", dob);
-                editor.putString("Password", passWord);
-                editor.putString("Email", email);
-                editor.putString("Mobile", mobile);
-                editor.putString("Image", image);
-                editor.commit();
+            Map<String,String> userDetails = new HashMap<>();
+            userDetails.put(Constants.SF_FIRST,firstname);
+            userDetails.put(Constants.SF_LAST,lastname);
+            userDetails.put(Constants.SF_EMAIL,email);
+            userDetails.put(Constants.SF_PASS,passWord);
+            userDetails.put(Constants.SF_DOB,dob);
+            userDetails.put(Constants.SF_IMAGE,image);
+            userDetails.put(Constants.SF_GENDER,gender);
+            userDetails.put(Constants.SF_REGTYPE,"");
+            userDetails.put(Constants.SF_MOBILE,mobile);
+            application.setUserDetails(userDetails);
 
                 Snackbar snackbar = Snackbar
                         .make(coordinatorLayout, "Successfully Updated!", Snackbar.LENGTH_LONG);
@@ -520,16 +525,17 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
     }
 
     private void getLoginDetails() {
-        String firstname=sharedPreferences.getString("FirstName", "");
-        String lastName=sharedPreferences.getString("LastName","");
-        String gender1=sharedPreferences.getString("Gender","");
-        String dobbb=sharedPreferences.getString("DOB","");
-        String notifications=sharedPreferences.getString("Notifications","");
-        String passWord=sharedPreferences.getString("Password","");
-        String eMail=sharedPreferences.getString("Email","");
-        String mobileNum=sharedPreferences.getString("Mobile","");
-        String image=sharedPreferences.getString("Image","");
-        Log.d("image",image);
+        Map<String,String> userDetails = application.getUserDetails();
+        String firstname=userDetails.get(Constants.SF_FIRST);
+        String lastName=userDetails.get(Constants.SF_LAST);
+        String gender1=userDetails.get(Constants.SF_GENDER);
+        String dobbb=userDetails.get(Constants.SF_DOB);
+        String notifications=userDetails.get(Constants.SF_NOTIF);
+        String passWord=userDetails.get(Constants.SF_PASS);
+        String eMail=userDetails.get(Constants.SF_EMAIL);
+        String mobileNum=userDetails.get(Constants.SF_MOBILE);
+        String image=userDetails.get(Constants.SF_IMAGE);
+       // Log.d("image",image);
         name.setText(firstname);
         lastname.setText(lastName);
         if (gender1 != null && gender1.equalsIgnoreCase("0")) {
@@ -541,8 +547,10 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         password.setText(passWord);
         moblie.setText(mobileNum);
         dob.setText(dobbb);
-        imageLoader.get(image, ImageLoader.getImageListener(inputImage
-                , R.drawable.avatar1, R.drawable.avatar1));
+        if(image!=null&& image!=""){
+            imageLoader.get(image, ImageLoader.getImageListener(inputImage
+                    , R.drawable.avatar1, R.drawable.avatar1));
+        }
     }
 
 
