@@ -121,7 +121,7 @@ public class Home extends Fragment implements PostsTypesDialog.CategoryChooserLi
             @Override
             public void onClick(View v) {
                 if (bottomBar1.getVisibility() == View.VISIBLE) {
-                    bottomBar1.setVisibility(View.GONE);
+                   // bottomBar1.setVisibility(View.GONE);
                     createPost.setVisibility(View.GONE);
                 }
                 categoriesDialog = new PostsTypesDialog();
