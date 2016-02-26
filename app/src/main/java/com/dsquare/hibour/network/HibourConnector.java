@@ -4,8 +4,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.LruCache;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.RetryPolicy;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
@@ -13,10 +15,17 @@ import com.android.volley.toolbox.Volley;
  * Created by Android Dsquare on 12/29/2015.
  */
 public class HibourConnector {
+    private final int MY_SOCKET_TIMEOUT_MS = 30000;
+    private final RetryPolicy HIBOUR_DEFAULT_RETRY_POLICY = new DefaultRetryPolicy(
+            MY_SOCKET_TIMEOUT_MS,
+            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+
     private static HibourConnector mInstance;
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
     private static Context mCtx;
+
 
     private HibourConnector(Context context) {
         mCtx = context;
@@ -56,6 +65,11 @@ public class HibourConnector {
     }
 
     public <T> void addToRequestQueue(Request<T> req) {
+        addToRequestQueue(req, HIBOUR_DEFAULT_RETRY_POLICY);
+    }
+
+    public <T> void addToRequestQueue(Request<T> req, RetryPolicy retryPolicy) {
+        req.setRetryPolicy(retryPolicy);
         getRequestQueue().add(req);
     }
 

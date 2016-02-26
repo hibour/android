@@ -153,7 +153,6 @@ public class Constants {
 
     public static Map<String, List<Postpojos>> postsMap = new LinkedHashMap<>();
     public static Map<String, List<Postpojos>> postpojosMap = new LinkedHashMap<>();
-    public static Map<String, List<Postpojos>> postpojosMap1 = new LinkedHashMap<>();
     public static Map<String, List<PostLikedUser>> postlikesMap = new LinkedHashMap<>();
     public static Map<String, String> categoriesMap = new HashMap<>();
     public static Map<String, String> searchMap = new LinkedHashMap<String, String>();
