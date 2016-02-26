@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.util.Base64;
 import android.util.Log;
 import android.util.TypedValue;
@@ -104,13 +105,11 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (PostsListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                + " must implement NoticeDialogListener");
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Fragment parent = getTargetFragment();
+        if (parent instanceof PostsListener) {
+            mListener = (PostsListener) parent;
         }
     }
 
@@ -153,7 +152,9 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                 opendeleteImage();
                 break;
             case R.id.creat_post_cancel:
-                mListener.onCancelClicked();
+                if (mListener != null) {
+                    mListener.onNewPostCancelled();
+                }
                 break;
         }
     }
@@ -297,12 +298,13 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
             newpostDialogue = ProgressDialog.show(getActivity(), "", getResources()
                 .getString(R.string.progress_dialog_text));
             postsClient.insertonPost(application.getUserId(), cat_str, posttypeid, postMessage, postImage
-                , "1", "", new WebServiceResponseCallback() {
+                    , "1", "", new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parsePostDetails(jsonObject);
                     closePostDialog();
                 }
+
                 @Override
                 public void onFailure(VolleyError error) {
                     Log.d("govt", error.toString());
@@ -332,7 +334,9 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
             textView.setTextColor(Color.RED);
             snackbar.show();
-            mListener.onDoneClicked();
+            if (mListener != null) {
+                mListener.onNewPostPosted();
+            }
         } catch (JSONException e) {
             e.printStackTrace();
             Snackbar snackbar = Snackbar
@@ -637,9 +641,8 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     }
 
     public interface PostsListener {
-        void onCancelClicked();
-
-        void onDoneClicked();
+        void onNewPostCancelled();
+        void onNewPostPosted();
     }
 
 }

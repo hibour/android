@@ -58,7 +58,11 @@ import java.util.Map;
 
 
 public class HomeActivity extends AppCompatActivity implements NavDrawerCallback
-    , AdapterView.OnItemClickListener, NewPost.PostsListener,SettingsToHomeCallback {
+    , AdapterView.OnItemClickListener, /*NewPost.PostsListener,*/SettingsToHomeCallback {
+
+//public class HomeActivity extends AppCompatActivity implements NavDrawerCallback,
+//        AdapterView.OnItemClickListener {
+
 
   boolean doubleBackToExitPressedOnce = false;
   private FragmentManager manager;
@@ -83,7 +87,7 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerCallback
     initializeViews();
     initializeDrawerAdapter();
     initializeEventListeners();
-    loadDefaultFragment();
+    handleAction(NavActionType.HOME);
     getAllCategoriesTypes();
   }
 
@@ -114,10 +118,6 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerCallback
       imageLoader.get(userDetails.get(Constants.SF_IMAGE), ImageLoader.getImageListener(profile
               , R.drawable.avatar1, R.drawable.avatar1));
 
-  }
-
-  private void loadDefaultFragment() {
-    handleAction(NavActionType.HOME);
   }
 
   private void initializeDrawerAdapter() {
@@ -184,6 +184,8 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerCallback
       if (fragment == null) {
         return;
       }
+    } else if (activeFragment == fragment) {
+      return;
     }
 
     FragmentTransaction fragmentTransaction = manager.beginTransaction();
@@ -309,7 +311,7 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerCallback
           Constants.postTypesMap.put(d.getPosttypename(), postsTypesMap);
         }
       }
-      loadDefaultFragment();
+      handleAction(NavActionType.HOME);
     } catch (JsonSyntaxException e) {
       e.printStackTrace();
     }
@@ -357,8 +359,7 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerCallback
       e.printStackTrace();
     }
   }
-
-  @Override
+ /* @Override
   public void onCancelClicked() {
     handleAction(NavActionType.HOME);
   }
@@ -366,12 +367,13 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerCallback
   @Override
   public void onDoneClicked() {
     handleAction(NavActionType.HOME);
-  }
+  }*/
 
   @Override
   public void onTabsChoosed(int pos) {
     handleAction(NavActionType.HOME);
   }
+
 }
 
 

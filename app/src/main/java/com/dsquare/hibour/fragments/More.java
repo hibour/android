@@ -19,7 +19,7 @@ import java.util.Map;
 /**
  * Created by deepthi on 2/25/16.
  */
-public class More extends android.support.v4.app.Fragment implements View.OnClickListener {
+public class More extends HibourBaseTabFragment implements View.OnClickListener {
     private static final String LOG_TAG = Message.class.getSimpleName();
 
     private UIHelper uiHelper;

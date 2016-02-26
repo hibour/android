@@ -43,7 +43,7 @@ import java.util.List;
 /**
  * Created by Dsquare Android on 1/22/2016.
  */
-public class Socialize extends android.support.v4.app.Fragment implements View.OnClickListener {
+public class Socialize extends HibourBaseTabFragment implements View.OnClickListener {
 
     private SocializeTabsPager mPagerAdapter;
     private Button doneButton,previous;
