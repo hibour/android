@@ -12,8 +12,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/dp_10"
-        android:layout_marginLeft="@dimen/dp_10"
-        android:layout_marginRight="@dimen/dp_10"
         android:elevation="@dimen/dp_2"
         card_view:cardCornerRadius="0dp">
 
@@ -67,7 +65,8 @@
                         android:layout_margin="@dimen/dp_5"
                         android:layout_marginTop="@dimen/dp_10"
                         android:background="@color/white"
-                        android:text="Had one of the best time of life today" />
+                        android:text="Had one of the best time of life today"
+                        android:textSize="@dimen/sp_14"/>
 
                     <ImageView
                         android:id="@+id/feeds_image"
@@ -86,17 +85,17 @@
                     android:layout_marginLeft="@dimen/dp_10">
                     <ImageView
                         android:layout_width="@dimen/dp_30"
-                        android:layout_height="@dimen/dp_30"
+                        android:layout_height="@dimen/dp_20"
                         android:src="@drawable/up_arrow_gray_48"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/sp_16"
+                        android:textSize="@dimen/sp_14"
                         android:layout_gravity="center_horizontal"
                         android:text="150"/>
                     <ImageView
                         android:layout_width="@dimen/dp_30"
-                        android:layout_height="@dimen/dp_30"
+                        android:layout_height="@dimen/dp_20"
                         android:src="@drawable/down_arrow_gray_48"/>
                 </LinearLayout>
 

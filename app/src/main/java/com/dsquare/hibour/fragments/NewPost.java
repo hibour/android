@@ -65,6 +65,8 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     , ImagePicker, AdapterView.OnItemClickListener {
     private static final int REQUEST_IMAGE_SELECTOR = 1000;
     private static final int REQUEST_IMAGE_CAPTURE = 1001;
+    public static final String CATEGORY_BUNDLE_ARG = "category";
+
     private String category;
     private Button send;
     private EditText text;
@@ -116,7 +118,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_post_screen, container, false);
-        catFrmPre = getArguments().getString("category", "");
+        catFrmPre = getArguments().getString(CATEGORY_BUNDLE_ARG, "");
         initializeViews(view);
         initializeEventListeners();
         //  getNeighbourHoods(application.getUserId());
@@ -124,8 +126,13 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         return view;
     }
 
-    private void initializeEventListeners() {
+    @Override
+    public void onResume() {
+        super.onResume();
+        catFrmPre = getArguments().getString(CATEGORY_BUNDLE_ARG, "");
+    }
 
+    private void initializeEventListeners() {
         gallary.setOnClickListener(this);
         delete.setOnClickListener(this);
        // done.setOnClickListener(this);

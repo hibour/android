@@ -24,10 +24,11 @@ import java.util.Map;
  * Created by Dsquare Android on 1/8/2016.
  */
 public class PostsClient {
-    private Context context;
-    private int MY_SOCKET_TIMEOUT_MS= 30000;
-    public PostsClient(Context context){
-        this.context=context;
+
+    private HibourConnector mConnector;
+
+    public PostsClient(Context context) {
+        mConnector = HibourConnector.getInstance(context);
     }
 
     /* To get all posts*/
@@ -39,7 +40,7 @@ public class PostsClient {
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
                     , url.getPath(), url.getQuery(), url.getRef());
             url = uri.toURL();
-            Log.d("url",""+url);
+            Log.d("url", "" + url);
             JsonObjectRequest postsRequest = new JsonObjectRequest(Request.Method.GET
                     , url.toString(), (String) null, new Response.Listener<JSONObject>() {
 
@@ -53,11 +54,7 @@ public class PostsClient {
                     callback.onFailure(error);
                 }
             });
-            postsRequest.setRetryPolicy(new DefaultRetryPolicy(
-                    MY_SOCKET_TIMEOUT_MS,
-                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            HibourConnector.getInstance(context).addToRequestQueue(postsRequest);
+            mConnector.addToRequestQueue(postsRequest);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {
@@ -73,7 +70,7 @@ public class PostsClient {
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
                     , url.getPath(), url.getQuery(), url.getRef());
             url = uri.toURL();
-            Log.d("url ",""+url);
+            Log.d("url ", "" + url);
             JsonObjectRequest postsRequest = new JsonObjectRequest(Request.Method.GET
                     , url.toString(), (String) null, new Response.Listener<JSONObject>() {
                 @Override
@@ -86,11 +83,7 @@ public class PostsClient {
                     callback.onFailure(error);
                 }
             });
-            postsRequest.setRetryPolicy(new DefaultRetryPolicy(
-                    MY_SOCKET_TIMEOUT_MS,
-                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            HibourConnector.getInstance(context).addToRequestQueue(postsRequest);
+            mConnector.addToRequestQueue(postsRequest);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {
@@ -115,7 +108,7 @@ public class PostsClient {
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
                     , url.getPath(), url.getQuery(), url.getRef());
             url = uri.toURL();
-            Log.d("url ",""+url);
+            Log.d("url ", "" + url);
             JsonObjectRequest postsAllRequest = new JsonObjectRequest(Request.Method.GET
                     , url.toString(), (String) null, new Response.Listener<JSONObject>() {
                 @Override
@@ -128,11 +121,7 @@ public class PostsClient {
                     callback.onFailure(error);
                 }
             });
-            postsAllRequest.setRetryPolicy(new DefaultRetryPolicy(
-                    MY_SOCKET_TIMEOUT_MS,
-                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            HibourConnector.getInstance(context).addToRequestQueue(postsAllRequest);
+            mConnector.addToRequestQueue(postsAllRequest);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {
@@ -178,11 +167,7 @@ public class PostsClient {
                     callback.onFailure(error);
                 }
             });
-            postsRequest.setRetryPolicy(new DefaultRetryPolicy(
-                    MY_SOCKET_TIMEOUT_MS,
-                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            HibourConnector.getInstance(context).addToRequestQueue(postsRequest);
+            mConnector.addToRequestQueue(postsRequest);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -208,11 +193,7 @@ public class PostsClient {
                     callback.onFailure(error);
                 }
             });
-            proofsRequest.setRetryPolicy(new DefaultRetryPolicy(
-                    MY_SOCKET_TIMEOUT_MS,
-                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            HibourConnector.getInstance(context).addToRequestQueue(proofsRequest);
+            mConnector.addToRequestQueue(proofsRequest);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {
@@ -241,11 +222,7 @@ public class PostsClient {
                     callback.onFailure(error);
                 }
             });
-            neighbourhoodsRequest.setRetryPolicy(new DefaultRetryPolicy(
-                    MY_SOCKET_TIMEOUT_MS,
-                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            HibourConnector.getInstance(context).addToRequestQueue(neighbourhoodsRequest);
+            mConnector.addToRequestQueue(neighbourhoodsRequest);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {
@@ -262,7 +239,7 @@ public class PostsClient {
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
                     , url.getPath(), url.getQuery(), url.getRef());
             url = uri.toURL();
-            Log.d("url",""+url);
+            Log.d("url", "" + url);
             JsonObjectRequest neighbourhoodsRequest = new JsonObjectRequest(Request.Method.GET
                     , url.toString(), (String) null, new Response.Listener<JSONObject>() {
                 @Override
@@ -275,11 +252,7 @@ public class PostsClient {
                     callback.onFailure(error);
                 }
             });
-            neighbourhoodsRequest.setRetryPolicy(new DefaultRetryPolicy(
-                    MY_SOCKET_TIMEOUT_MS,
-                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            HibourConnector.getInstance(context).addToRequestQueue(neighbourhoodsRequest);
+            mConnector.addToRequestQueue(neighbourhoodsRequest);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {
@@ -309,11 +282,7 @@ public class PostsClient {
                     callback.onFailure(error);
                 }
             });
-            insertLikeRequest.setRetryPolicy(new DefaultRetryPolicy(
-                MY_SOCKET_TIMEOUT_MS,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            HibourConnector.getInstance(context).addToRequestQueue(insertLikeRequest);
+            mConnector.addToRequestQueue(insertLikeRequest);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {

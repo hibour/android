@@ -153,7 +153,6 @@ public class Constants {
 
     public static Map<String, List<Postpojos>> postsMap = new LinkedHashMap<>();
     public static Map<String, List<Postpojos>> postpojosMap = new LinkedHashMap<>();
-    public static Map<String, List<Postpojos>> postpojosMap1 = new LinkedHashMap<>();
     public static Map<String, List<PostLikedUser>> postlikesMap = new LinkedHashMap<>();
     public static Map<String, String> categoriesMap = new HashMap<>();
     public static Map<String, String> searchMap = new LinkedHashMap<String, String>();
@@ -176,4 +175,6 @@ public class Constants {
     public static int SEND_STATUS_INTERVAL = 3000;
     public static int MARK_TYPING_INTERVAL = 3000;
     public static int NOTIFICATION_ID_MESSAGE = 1;
+
+    public static int FRAGMENT_POS = 0;
 }

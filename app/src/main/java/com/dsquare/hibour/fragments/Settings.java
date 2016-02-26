@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -41,6 +42,7 @@ import com.dsquare.hibour.adapters.SelectDateFragment;
 import com.dsquare.hibour.dialogs.PostsImagePicker;
 import com.dsquare.hibour.interfaces.ImagePicker;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
+import com.dsquare.hibour.interfaces.SettingsToHomeCallback;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.HibourConnector;
@@ -98,6 +100,8 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
     private SharedPreferences sharedPreferences;
     private Uri imageUri;
     private CoordinatorLayout coordinatorLayout;
+    private LinearLayout moreLayout,feedsLayout,socializeLayout,messagesLayout;
+    private SettingsToHomeCallback settingsCallback;
     public Settings() {
         // Required empty public constructor
     }
@@ -134,7 +138,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id
                 .coordinatorLayout);
         proxima = Typeface.createFromAsset(getActivity().getAssets(), Fonts.getTypeFaceName());
-        menuIcon = (ImageView)view.findViewById(R.id.settings_menu_icon);
+        //menuIcon = (ImageView)view.findViewById(R.id.settings_menu_icon);
         notifIcon = (ImageView)view.findViewById(R.id.settings_notif_icon);
         inputImage = (ImageView)view.findViewById(R.id.settings_image);
         imageUploaded = (ImageView)view.findViewById(R.id.setting_image_editer);
@@ -180,11 +184,15 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         });
         imageLoader = HibourConnector.getInstance(getActivity()).getImageLoader();
         sharedPreferences=getActivity().getSharedPreferences("Login Credentials", Context.MODE_PRIVATE);
+        moreLayout = (LinearLayout)view.findViewById(R.id.settings_more_layout);
+        feedsLayout = (LinearLayout)view.findViewById(R.id.settings_feed_layout);
+        socializeLayout = (LinearLayout)view.findViewById(R.id.settings_socialize_layout);
+        messagesLayout = (LinearLayout)view.findViewById(R.id.settings_message_layout);
     }
 
     /* initialize event listeners*/
     private void initializeEventListeners() {
-        menuIcon.setOnClickListener(this);
+        //menuIcon.setOnClickListener(this);
         notifIcon.setOnClickListener(this);
         submitButton.setOnClickListener(this);
         imageUploaded.setOnClickListener(this);
@@ -192,6 +200,10 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         soclize.setOnClickListener(this);
         dobimage.setOnClickListener(this);
         dob.setOnClickListener(this);
+        moreLayout.setOnClickListener(this);
+        feedsLayout.setOnClickListener(this);
+        messagesLayout.setOnClickListener(this);
+        socializeLayout.setOnClickListener(this);
     }
 
     /*prepare cards list*/
@@ -202,7 +214,19 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.settings_menu_icon:
+            case R.id.settings_socialize_layout:
+                Constants.FRAGMENT_POS = 4;
+                settingsCallback.onTabsChoosed(0);
+                break;
+            case R.id.settings_feed_layout:
+                Constants.FRAGMENT_POS = 0;
+                settingsCallback.onTabsChoosed(0);
+                break;
+            case R.id.settings_message_layout:
+                Constants.FRAGMENT_POS = 5;
+                settingsCallback.onTabsChoosed(0);
+                break;
+            case R.id.settings_more_layout:
                 callback.drawerOpen();
                 break;
             case R.id.settings_notif_icon:
@@ -364,6 +388,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         callback = (NavDrawerCallback) activity;
+        settingsCallback = (SettingsToHomeCallback)activity;
     }
 
     @Override

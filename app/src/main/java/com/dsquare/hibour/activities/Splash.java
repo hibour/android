@@ -27,7 +27,7 @@ public class Splash extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
+        //Fabric.with(this, new Crashlytics());
 
 
         setContentView(R.layout.activity_splash);
@@ -50,7 +50,7 @@ public class Splash extends AppCompatActivity{
                         Intent i = new Intent(Splash.this, LocationSearch.class);
                         startActivity(i);
                     }else{
-                        Intent homeIntent = new Intent(Splash.this,Home.class);
+                        Intent homeIntent = new Intent(Splash.this,HomeActivity.class);
                         startActivity(homeIntent);
                     }
                     finish();

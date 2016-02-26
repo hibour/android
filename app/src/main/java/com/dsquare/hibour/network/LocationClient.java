@@ -22,11 +22,13 @@ import java.net.URL;
  * Created by Aditya Ravikanti on 2/23/2016.
  */
 public class LocationClient {
-    private Context context;
-    private int MY_SOCKET_TIMEOUT_MS= 30000;
-    public LocationClient(Context context){
-        this.context=context;
+
+    private HibourConnector mConnector;
+
+    public LocationClient(Context context) {
+        mConnector = HibourConnector.getInstance(context);
     }
+
     /* To get all posts*/
     public void getAddress(String lat,String lon,final WebServiceResponseCallback callback){
         try {
@@ -50,11 +52,7 @@ public class LocationClient {
                     callback.onFailure(error);
                 }
             });
-            addressRequest.setRetryPolicy(new DefaultRetryPolicy(
-                    MY_SOCKET_TIMEOUT_MS,
-                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            HibourConnector.getInstance(context).addToRequestQueue(addressRequest);
+            mConnector.addToRequestQueue(addressRequest);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {

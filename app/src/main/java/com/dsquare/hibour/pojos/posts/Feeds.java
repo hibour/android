@@ -38,6 +38,15 @@ public class Feeds {
     this.postyType = postyType;
   }
 
+  public Feeds(Postpojos post) {
+    this(post.getPostId(), post.getPostImage(), post.getPostMessage(),
+            post.getPostDate(), post.getPostTime(), post.getUser().getName(), post.getUser().getImage(),
+            post.getUser().getId(), String.valueOf(post.getPostUserLiked()),
+            String.valueOf(post.getPostLikesCount()),
+            String.valueOf(post.getPostComments().size()),
+            post.getPostType());
+  }
+
   public String getPostId() {
     return postId;
   }

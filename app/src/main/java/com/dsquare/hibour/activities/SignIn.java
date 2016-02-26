@@ -401,7 +401,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
 
   /* open Home Activity*/
   private void openHomeActivity() {
-    Intent homeIntent = new Intent(this, Home.class);
+    Intent homeIntent = new Intent(this, HomeActivity.class);
     startActivity(homeIntent);
     this.finishAffinity();
   }

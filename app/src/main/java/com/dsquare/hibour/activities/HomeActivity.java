@@ -12,8 +12,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -29,11 +31,14 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.activities.home.NavActionType;
 import com.dsquare.hibour.adapters.NavigationDrawerAdapter;
 import com.dsquare.hibour.fragments.AboutUs;
+import com.dsquare.hibour.fragments.Home;
 import com.dsquare.hibour.fragments.NewPost;
 import com.dsquare.hibour.fragments.Settings;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
+import com.dsquare.hibour.interfaces.SettingsToHomeCallback;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.HibourConnector;
 import com.dsquare.hibour.network.NetworkDetector;
@@ -52,8 +57,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Home extends AppCompatActivity implements NavDrawerCallback
-    , AdapterView.OnItemClickListener, NewPost.PostsListener {
+
+public class HomeActivity extends AppCompatActivity implements NavDrawerCallback
+    , AdapterView.OnItemClickListener, NewPost.PostsListener,SettingsToHomeCallback {
 
   boolean doubleBackToExitPressedOnce = false;
   private FragmentManager manager;
@@ -112,9 +118,7 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
   }
 
   private void loadDefaultFragment() {
-    transaction = manager.beginTransaction();
-    transaction.replace(R.id.content_frame, new com.dsquare.hibour.fragments.Home());
-    transaction.commit();
+    handleAction(NavActionType.HOME);
   }
 
   private void initializeDrawerAdapter() {
@@ -137,58 +141,76 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
   }
 
   @Override
-  public void replaceFragment(int position) {
-    replaceWithNewFragment(position);
-  }
-
-  @Override
   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-    replaceWithNewFragment(position);
+    handleAction(NavActionType.values()[position]);
   }
 
-  private void replaceWithNewFragment(int position) {
-    transaction = manager.beginTransaction();
-    switch (position) {
-      case 0:
+  private Fragment activeFragment = null;
+  private void handleAction(NavActionType type) {
+    switch (type) {
+      case HOME:
         isHome = true;
-        transaction.replace(R.id.content_frame, new com.dsquare.hibour.fragments.Home());
         break;
-      case 1:
+      case ABOUT_US:
         isHome = false;
-        transaction.replace(R.id.content_frame, new AboutUs());
         break;
-      case 2:
-        isHome = false;
-          inviteFriends("Hey let's use Hi'bour application");
-        break;
-      case 3:
-        isHome = false;
-        transaction.replace(R.id.content_frame, new Settings());
-        break;
-      case 4:
-         isHome = false;
-         application.removeUserDetails();
-         Intent signInIntent = new Intent(this, LocationSearch.class);
-         startActivity(signInIntent);
-         this.finish();
-        break;
-      case 5:
-        isHome = false;
+      case INVITE:
         inviteFriends("Hey let's use Hi'bour application");
         break;
-      case 7:
+      case SETTINGS:
         isHome = false;
-        transaction.replace(R.id.content_frame, new Settings());
         break;
-      case 8:
+      case LOCATION_SEARCH:
+        isHome = false;
+        application.removeUserDetails();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear().commit();
+        Intent signInIntent = new Intent(this, LocationSearch.class);
+        startActivity(signInIntent);
+        this.finish();
+        break;
+      case SIGNIN:
         isHome = false;
         application.removeUserDetails();
         Intent signInIntent1 = new Intent(this, SignIn.class);
         startActivity(signInIntent1);
         this.finish();
     }
-    transaction.commit();
-    hideDrawer();
+
+    boolean isNewFragment = false;
+    Fragment fragment = manager.findFragmentByTag(type.toString());
+    if (fragment == null) {
+      isNewFragment = true;
+      fragment = getFragment(type);
+      if (fragment == null) {
+        return;
+      }
+    }
+
+    FragmentTransaction fragmentTransaction = manager.beginTransaction();
+    if (isNewFragment) {
+      fragmentTransaction.add(R.id.content_frame, fragment, type.toString());
+    } else {
+      fragmentTransaction.show(fragment);
+    }
+    if (activeFragment != null && activeFragment != fragment) {
+      fragmentTransaction.hide(activeFragment);
+    }
+    fragmentTransaction.commit();
+    activeFragment = fragment;
+  }
+
+  @Nullable
+  private Fragment getFragment(NavActionType type) {
+    switch (type) {
+      case HOME:
+        return new Home();
+      case ABOUT_US:
+        return new AboutUs();
+      case SETTINGS:
+        return new Settings();
+    }
+    return null;
   }
 
   @Override
@@ -223,7 +245,7 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
         }, 2000);
         return;
       }
-      replaceWithNewFragment(0);
+      handleAction(NavActionType.HOME);
     }
   }
     /*invite friends*/
@@ -339,12 +361,17 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
 
   @Override
   public void onCancelClicked() {
-    replaceWithNewFragment(0);
+    handleAction(NavActionType.HOME);
   }
 
   @Override
   public void onDoneClicked() {
-    replaceWithNewFragment(0);
+    handleAction(NavActionType.HOME);
+  }
+
+  @Override
+  public void onTabsChoosed(int pos) {
+    handleAction(NavActionType.HOME);
   }
 }
 
