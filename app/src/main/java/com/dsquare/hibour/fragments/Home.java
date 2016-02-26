@@ -98,8 +98,27 @@ public class Home extends Fragment implements View.OnClickListener, PostsTypesDi
     }
 
     private void loadDefaultFragment() {
-        applyCurrentStateToAppBarIcons(R.drawable.feed_filled, feedIcon);
-        replaceContainer(0);
+        switch(Constants.FRAGMENT_POS){
+            case 0:
+                if(createPost.getVisibility()==View.GONE)
+                    createPost.setVisibility(View.VISIBLE);
+                applyCurrentStateToAppBarIcons(R.drawable.feed_filled, feedIcon);
+                replaceContainer(0);
+                break;
+            case 4:
+                applyCurrentStateToAppBarIcons(R.drawable.socialize_filled, socializeIcon);
+                if(createPost.getVisibility()==View.GONE)
+                    createPost.setVisibility(View.VISIBLE);
+                replaceContainer(4);
+                break;
+            case 5:
+                applyCurrentStateToAppBarIcons(R.mipmap.ic_chat_filed, channelsIcon);
+                replaceContainer(5);
+                break;
+
+        }
+     //   applyCurrentStateToAppBarIcons(R.drawable.feed_filled, feedIcon);
+       // replaceContainer(Constants.FRAGMENT_POS);
 //        Fragment fragment = new NewPosts();
     }
 

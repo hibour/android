@@ -35,6 +35,7 @@ import com.dsquare.hibour.fragments.AboutUs;
 import com.dsquare.hibour.fragments.NewPost;
 import com.dsquare.hibour.fragments.Settings;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
+import com.dsquare.hibour.interfaces.SettingsToHomeCallback;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.HibourConnector;
 import com.dsquare.hibour.network.NetworkDetector;
@@ -54,7 +55,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Home extends AppCompatActivity implements NavDrawerCallback
-    , AdapterView.OnItemClickListener, NewPost.PostsListener {
+    , AdapterView.OnItemClickListener, NewPost.PostsListener,SettingsToHomeCallback {
 
   boolean doubleBackToExitPressedOnce = false;
   private FragmentManager manager;
@@ -351,6 +352,11 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
 
   @Override
   public void onDoneClicked() {
+    replaceWithNewFragment(0);
+  }
+
+  @Override
+  public void onTabsChoosed(int pos) {
     replaceWithNewFragment(0);
   }
 }

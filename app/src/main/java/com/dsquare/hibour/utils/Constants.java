@@ -176,4 +176,6 @@ public class Constants {
     public static int SEND_STATUS_INTERVAL = 3000;
     public static int MARK_TYPING_INTERVAL = 3000;
     public static int NOTIFICATION_ID_MESSAGE = 1;
+
+    public static int FRAGMENT_POS = 0;
 }

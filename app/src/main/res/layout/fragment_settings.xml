@@ -18,13 +18,6 @@
         android:layout_height="?android:actionBarSize"
         android:background="@color/white">
 
-        <ImageView
-            android:id="@+id/settings_menu_icon"
-            android:layout_width="@dimen/app_bar_icon_size"
-            android:layout_height="@dimen/app_bar_icon_size"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dp_20"
-            android:src="@drawable/ic_menu_white" />
 
         <com.dsquare.hibour.utils.ProximaExtraBold
             android:layout_width="wrap_content"
@@ -54,9 +47,119 @@
             android:src="@drawable/ic_notification_gray" />
     </RelativeLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?android:actionBarSize"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/settings_bottom_bar">
+
+        <LinearLayout
+            android:id="@+id/settings_feed_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/home_feed"
+                android:layout_width="@dimen/app_bar_icon_size"
+                android:layout_height="@dimen/app_bar_icon_size"
+                android:layout_marginTop="3dp"
+                android:gravity="center"
+                android:src="@drawable/feed" />
+            <com.dsquare.hibour.utils.Proxima
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Feed"
+                android:textColor="@color/app_bar_gray"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/settings_socialize_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/home_socialize_icon"
+                android:layout_width="@dimen/app_bar_icon_size"
+                android:layout_height="@dimen/app_bar_icon_size"
+                android:layout_marginTop="3dp"
+                android:gravity="center"
+                android:src="@drawable/socialize" />
+            <com.dsquare.hibour.utils.Proxima
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Socialize"
+                android:textColor="@color/app_bar_gray"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/dummy_view"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:id="@+id/settings_message_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/home_channels"
+                android:layout_width="@dimen/app_bar_icon_size"
+                android:layout_height="@dimen/app_bar_icon_size"
+                android:layout_marginTop="3dp"
+                android:gravity="center"
+                android:src="@mipmap/ic_chat_gray"/>
+            <com.dsquare.hibour.utils.Proxima
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Messages"
+                android:textColor="@color/app_bar_gray"
+                android:textSize="12sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/settings_more_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/home_more_icon"
+                android:layout_width="@dimen/app_bar_icon_size"
+                android:layout_height="@dimen/app_bar_icon_size"
+                android:layout_marginTop="3dp"
+                android:gravity="center"
+                android:src="@drawable/more" />
+            <com.dsquare.hibour.utils.Proxima
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="More"
+                android:textColor="@color/app_bar_gray"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/settings_bottom_bar"
         android:layout_below="@id/settings_app_bar">
 
         <LinearLayout
