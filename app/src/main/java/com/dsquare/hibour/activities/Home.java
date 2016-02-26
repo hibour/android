@@ -103,13 +103,7 @@ public class Home extends AppCompatActivity implements NavDrawerCallback
     networkDetector = new NetworkDetector(this);
       gson = new Gson();
       imageLoader = HibourConnector.getInstance(this).getImageLoader();
-//      sharedPreferences=getSharedPreferences("Login Credentials", Context.MODE_PRIVATE);
-
       Map<String,String> userDetails = application.getUserDetails();
-
-//      String firstname=sharedPreferences.getString("FirstName", "");
-//      String lastName=sharedPreferences.getString("LastName","");
-//      String image=sharedPreferences.getString("Image","");
 
       name.setText(userDetails.get(Constants.SF_FIRST)+" "+userDetails.get(Constants.SF_LAST));
       imageLoader.get(userDetails.get(Constants.SF_IMAGE), ImageLoader.getImageListener(profile

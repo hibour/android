@@ -24,7 +24,7 @@ public class WelcomeDialog extends android.support.v4.app.DialogFragment impleme
 
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    Log.d("Welcome dialog", "welcome");
+    Log.d("WelcomeDialog", "welcome");
     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
     LayoutInflater inflater = getActivity().getLayoutInflater();
     View view = inflater.inflate(R.layout.welcome_dialog, null);

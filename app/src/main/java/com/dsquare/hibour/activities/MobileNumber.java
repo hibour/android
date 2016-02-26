@@ -105,9 +105,10 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
                     ,new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
-                    Intent intent = new Intent(getApplicationContext(), Home.class);
+
+                    Intent intent = new Intent(getApplicationContext(), VerifyOtp.class);
                     startActivity(intent);
-                    //      parsemobileDetails(jsonObject);
+                  //  parsemobileDetails(jsonObject);
                     closeMobileDialog();
                 }
                 @Override

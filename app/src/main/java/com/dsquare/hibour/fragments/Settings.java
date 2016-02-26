@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -56,6 +57,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,8 +68,8 @@ import java.util.Map;
  * A simple {@link Fragment} subclass.
  */
 public class Settings extends Fragment implements View.OnClickListener,ImagePicker {
-    private static final int REQUEST_IMAGE_SELECTOR = 1000;
-    private static final int REQUEST_IMAGE_CAPTURE = 1001;
+    private static final int REQUEST_IMAGE_SELECTOR = 100;
+    private static final int REQUEST_IMAGE_CAPTURE = 200;
     private static EditText dob;
     private ImageView menuIcon,notifIcon,inputImage,imageUploaded,dobimage;
     private RadioGroup gender;
@@ -94,6 +96,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
     private String genderstring = "", cardImageString = "a";
     private ImageLoader imageLoader;
     private SharedPreferences sharedPreferences;
+    private Uri imageUri;
     private CoordinatorLayout coordinatorLayout;
     public Settings() {
         // Required empty public constructor
@@ -252,25 +255,35 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
     private void openImageChooser(){
         chooserDialog = new PostsImagePicker();
         chooserDialog.show(getActivity().getSupportFragmentManager(), "chooser dialog");
-        chooserDialog.setTargetFragment(this, 0);
+        chooserDialog.setTargetFragment(this, 3);
     }
     /* open gallary intent*/
     private void openGallary(){
+        Log.d("Settings","open gallery");
         Intent galleryIntent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         this.startActivityForResult(galleryIntent, REQUEST_IMAGE_SELECTOR);
     }
     /* open camera*/
     private void openCamera(){
-        Intent intent = new Intent(
-                android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        Log.d("Settings", "open camera");
+       /* Intent intent = new Intent(
+                MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-            startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
-        }
+            getActivity().startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+        }*/
+        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+        File photo = new File(Environment.getExternalStorageDirectory(),  "Pic.jpg");
+        intent.putExtra(MediaStore.EXTRA_OUTPUT,
+                Uri.fromFile(photo));
+        imageUri = Uri.fromFile(photo);
+        Settings.this.startActivityForResult(intent, 100);
+
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("Seeings", "result");
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
             bitmap = (Bitmap) data.getExtras().get("data");
@@ -279,20 +292,9 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
             Log.d("bitmap", "camera");
             Log.d("bitmap", bitmap + "");
 
-//            Uri filePath = data.getData();
-
-//            try {
-//                //Getting the Bitmap from Gallery
-//                bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
-////                postimagesstring=getStringImage(bitmap);
-//                inputImage.setImageBitmap(bitmap);
-//                cardImageString = getStringImage(bitmap);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-        }else if(requestCode == REQUEST_IMAGE_SELECTOR && resultCode == Activity.RESULT_OK
-                &&  data != null && data.getData() != null){
-//            imageUploaded.setVisibility(View.VISIBLE);
+        } else if (requestCode == REQUEST_IMAGE_SELECTOR && resultCode == Activity.RESULT_OK
+                && data != null && data.getData() != null) {
+            Log.d("Settings", "gallery");
             Uri filePath = data.getData();
             try {
                 //Getting the Bitmap from Gallery
@@ -303,8 +305,48 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-    }
+        }}
+//        else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK
+//                &&  data != null && data.getData() != null) {
+//            Log.d("settings","camera");
+//>>>>>>> 54fb3ffbb446750ca4b3a0bc388cd94b2a7e7e90
+////            imageUploaded.setVisibility(View.VISIBLE);
+//            /*Uri filePath = data.getData();
+//            try {
+//                inputImage.setImageBitmap(bitmap);
+//                //Getting the Bitmap from Gallery
+//                bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
+////                postimagesstring=getStringImage(bitmap);
+//               cardImageString = getStringImage(bitmap);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//*/
+//                Uri selectedImage = imageUri;
+//                getActivity().getContentResolver().notifyChange(selectedImage, null);
+//                ContentResolver cr = getActivity().getContentResolver();
+//                Bitmap bitmap;
+//                try {
+//                    bitmap = android.provider.MediaStore.Images.Media
+//                            .getBitmap(cr, selectedImage);
+//
+//                    inputImage.setImageBitmap(bitmap);
+//                    Toast.makeText(getActivity(), "photo loaded",
+//                            Toast.LENGTH_LONG).show();
+//                } catch (Exception e) {
+//                    Toast.makeText(getActivity(), "Failed to load", Toast.LENGTH_SHORT)
+//                            .show();
+//                    Log.e("Camera", e.toString());
+//                }
+//            }
+        //get the returned data
+            /*Bundle extras = data.getExtras();
+              //get the cropped bitmap
+            Bitmap thePic = extras.getParcelable("data");
+            inputImage.setImageBitmap(thePic);*/
+
+
+
 
     public String getStringImage(Bitmap bmp) {
         BitmapFactory.Options options = null;
@@ -391,6 +433,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
 
     private void updateProfiletoUser(String userName, String userLastName, String userMail, String userPass, String mobile,String dob) {
         if (networkDetector.isConnected()) {
+
          dialog = ProgressDialog.show(getActivity(), "", getResources()
                 .getString(R.string.progress_dialog_text));
             accountsClient.getAllUpdateSettings(application.getUserId(), userName, userLastName, userMail, userPass, genderstring, mobile
@@ -422,6 +465,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
     public void parseUpdateDetails(JSONObject jsonObject) {
         Log.d("update data", jsonObject.toString());
         closeDialog();
+        getAllPrefs();
         try {
             JSONObject data = jsonObject.getJSONObject("data");
 
@@ -461,7 +505,8 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
     }
 
     /* get all prefs*/
-    private void getAllPrefs(){
+    private void
+    getAllPrefs(){
         if(networkDetector.isConnected()){
            /* dialog = ProgressDialog.show(getActivity(),"",getResources()
                     .getString(R.string.progress_dialog_text));*/
@@ -498,7 +543,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
             password.setText(data.getPassword());
             moblie.setText(data.getMobileNumber());
             imageLoader.get(data.getImage(), ImageLoader.getImageListener(inputImage
-                , R.drawable.avatar1, R.drawable.avatar1));
+                , R.drawable.avatar, R.drawable.avatar));
             String genderValue = data.getGender();
             Log.d("gender", data.getGender());
             if (genderValue != null && genderValue.equalsIgnoreCase("0")) {
@@ -514,7 +559,7 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
             e.printStackTrace();
         }
     }
-   /*  close dialog*/
+    /* close dialog*/
     private void closeDialog(){
         if(dialog!=null){
             if(dialog.isShowing()){
@@ -547,10 +592,12 @@ public class Settings extends Fragment implements View.OnClickListener,ImagePick
         password.setText(passWord);
         moblie.setText(mobileNum);
         dob.setText(dobbb);
-        if(image!=null&& image!=""){
+        imageLoader.get(image, ImageLoader.getImageListener(inputImage
+                , R.drawable.avatar, R.drawable.avatar));
+       /* if(image!=null&& image!=""){
             imageLoader.get(image, ImageLoader.getImageListener(inputImage
-                    , R.drawable.avatar1, R.drawable.avatar1));
-        }
+                    , R.drawable.avatar, R.drawable.avatar));
+        }*/
     }
 
 

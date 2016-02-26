@@ -188,7 +188,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+       /* mMap = googleMap;
         if( mapFragment.getView().getVisibility() == View.GONE){
             Log.d("visibility","yes");
             mapFragment.getView().setVisibility(View.VISIBLE);
@@ -196,7 +196,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
         // Add a marker in Sydney, Australia, and move the camera.
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));*/
     }
 
     @Override
@@ -215,12 +215,13 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 .addApi(Places.PLACE_DETECTION_API)
                 .addApi(LocationServices.API)
                 .build();
-        mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.loc_map);
+
+       // mapFragment = (SupportMapFragment) getSupportFragmentManager()
+         //       .findFragmentById(R.id.loc_map);
         sharedPreferences=getSharedPreferences("Login Credentials",MODE_PRIVATE);
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id
                 .coordinatorLayout);
-        mapFragment.getMapAsync(this);
+//        mapFragment.getMapAsync(this);
         locationClient = new LocationClient(this);
         auto = (LinearLayout) findViewById(R.id.loc_search_layout);
         map = (RelativeLayout) findViewById(R.id.relative_map);
@@ -564,7 +565,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
             // Changing action button text color
             View sbView = snackbar.getView();
             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-            textView.setTextColor(R.color.newbrand);
+            textView.setTextColor(getResources().getColor(R.color.newbrand));
             snackbar.show();
         }
     }

@@ -63,6 +63,8 @@ public class Chat extends AppCompatActivity implements View.OnClickListener {
       try {
         Log.e(LOG_TAG, jsonObject.toString());
         user = new Gson().fromJson(jsonObject.getString("data"), UserDetail.class);
+        Log.d("chat",user.Username);
+        Log.d("Chat",user.Email);
         dbHandler.insertUserDetails(user);
         updateUserUI();
       } catch (JSONException e) {

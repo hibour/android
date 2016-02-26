@@ -51,6 +51,7 @@ public class UserChatListAdapter extends RecyclerView.Adapter<UserChatListAdapte
   public void onBindViewHolder(ViewHolder holder, int position) {
     final UserDetail item = listItems.get(position);
     holder.userName.setText(listItems.get(position).Username);
+//    Log.d("username",listItems.get(position).Username);
     holder.profession.setText(listItems.get(position).Address);
     holder.entireView.setOnClickListener(new View.OnClickListener() {
       @Override
