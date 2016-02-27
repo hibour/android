@@ -174,7 +174,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
         present_dislikes_count_int--;
         viewHolder.likes.setText(String.valueOf(present_dislikes_count_int));
         viewHolder.dislikesImage.setEnabled(false);
-        viewHolder.dislikesImage.setEnabled(true);
+        viewHolder.likesImage.setEnabled(true);
         break;
       case R.id.feeds_user_image:
         openUserProfile(listItems.get(position).getPostedUserId());

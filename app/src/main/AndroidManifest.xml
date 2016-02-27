@@ -81,6 +81,12 @@
         android:label="@string/app_name"
         android:screenOrientation="portrait"
         android:theme="@style/FullScreenTheme" />
+
+        <activity
+            android:name=".activities.Settings"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullScreenTheme" />
     <activity
         android:name=".activities.Social"
         android:label="@string/app_name"
