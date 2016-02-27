@@ -34,6 +34,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.adapters.SelectDateFragment;
+import com.dsquare.hibour.dialogs.ImagePickerDialog;
 import com.dsquare.hibour.dialogs.PostsImagePicker;
 import com.dsquare.hibour.interfaces.ImagePicker;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
@@ -63,7 +64,7 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Settings extends AppCompatActivity implements View.OnClickListener,ImagePicker {
+public class Settings extends AppCompatActivity implements View.OnClickListener,ImagePickerDialog.ImageChooserListener {
     private static final int REQUEST_IMAGE_SELECTOR = 100;
     private static final int REQUEST_IMAGE_CAPTURE = 200;
     private static EditText dob;
@@ -121,7 +122,6 @@ public class Settings extends AppCompatActivity implements View.OnClickListener,
         getLoginDetails();
      //   return view;
     }
-
 
 
     /* initialize views*/
@@ -272,7 +272,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener,
         startActivity(notifIntent);
     }
     private void openImageChooser(){
-        chooserDialog = new PostsImagePicker();
+        chooserDialog = new ImagePickerDialog();
         chooserDialog.show(getSupportFragmentManager(), "chooser dialog");
      //   chooserDialog.setTargetFragment(getApplicationContext(), 3);
     }
@@ -338,9 +338,8 @@ public class Settings extends AppCompatActivity implements View.OnClickListener,
         callback = (NavDrawerCallback) activity;
         settingsCallback = (SettingsToHomeCallback)activity;
     }*/
-
     @Override
-    public void pickerSelection(int choice) {
+    public void onChoose(int choice) {
         switch (choice){
             case 0:
                 openGallary();

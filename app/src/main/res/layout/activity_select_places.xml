@@ -2,7 +2,7 @@
 <android.support.design.widget.CoordinatorLayout
     android:id="@+id/coordinatorLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,13 +11,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
-    <!--<fragment
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/loc_map"
-        android:visibility="gone"
-        tools:context=".activities.LocationSearch"
-        android:name="com.google.android.gms.maps.SupportMapFragment" />-->
+    <!--<fragment-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/loc_map"-->
+        <!--android:visibility="gone"-->
+        <!--tools:context=".activities.LocationSearch"-->
+        <!--android:name="com.google.android.gms.maps.SupportMapFragment" />-->
     <LinearLayout
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -182,9 +182,25 @@
             android:layout_below="@id/location_toolbar"
             android:visibility="gone">
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white">
+            <fragment
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/loc_map"
+                tools:context=".activities.LocationSearch"
+                android:name="com.google.android.gms.maps.SupportMapFragment" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_120"
+                android:layout_height="@dimen/dp_50"
                 android:layout_alignParentBottom="true"
                 android:background="@color/white"
                 android:id="@+id/location_button_bar">
@@ -197,31 +213,30 @@
                     android:background="@color/brand"
                     android:text="Connect to your neighbours"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginTop="@dimen/dp_10"
                     android:id="@+id/serach_sumbit"/>
-                <com.dsquare.hibour.utils.Avenir
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:textColor="@color/black_1"
-                    android:textSize="@dimen/text_size_level4"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:layout_above="@id/serach_sumbit"
-                    android:id="@+id/loc_members_count"
-                    android:text=""/>
+                <!--<com.dsquare.hibour.utils.Avenir-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:gravity="center_horizontal"-->
+                    <!--android:textColor="@color/black_1"-->
+                    <!--android:textSize="@dimen/text_size_level4"-->
+                    <!--android:layout_centerHorizontal="true"-->
+                    <!--android:layout_marginTop="@dimen/dp_10"-->
+                    <!--android:layout_above="@id/serach_sumbit"-->
+                    <!--android:id="@+id/loc_members_count"-->
+                    <!--android:text=""/>-->
             </RelativeLayout>
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_10"
                 android:id="@+id/loc_search_top_layout"
-                android:background="@color/white">
+                >
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="@color/white">
+                    >
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -267,15 +282,16 @@
 
                     </RelativeLayout>
                 </LinearLayout>
-            </RelativeLayout>
-            <WebView
+            </RelativeLayout></RelativeLayout>
+           <!-- <WebView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/loc_search_top_layout"
                 android:layout_above="@id/location_button_bar"
                 android:layout_marginRight="@dimen/dp_5"
                 android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:id="@+id/map"></WebView>
+                android:id="@+id/map"></WebView>-->
+           </FrameLayout>
         </RelativeLayout>
     </LinearLayout>
 </FrameLayout>
