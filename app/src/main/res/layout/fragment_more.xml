@@ -31,6 +31,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/more_userLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_30"
@@ -86,6 +87,7 @@
                 android:background="@color/more_divider" />
 
             <RelativeLayout
+                android:id="@+id/more_inviteFriendslayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -300,6 +302,7 @@
                 android:background="@color/more_divider" />
 
             <RelativeLayout
+                android:id="@+id/more_logoutlayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"

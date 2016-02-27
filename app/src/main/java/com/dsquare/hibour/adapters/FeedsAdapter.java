@@ -82,6 +82,10 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
     holder.feedImage.setTag(holder);
     holder.userImageDefault.setOnClickListener(this);
     holder.userImageDefault.setTag(holder);
+    holder.likesImage.setOnClickListener(this);
+    holder.likesImage.setTag(holder);
+    holder.dislikesImage.setOnClickListener(this);
+    holder.dislikesImage.setTag(holder);
     return holder;
   }
 
@@ -156,6 +160,22 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
 //        likePost(listItems.get(position).getPostId());
 //        changeLikesCount(position);
 //        break;
+      case R.id.feeds_likes:
+        String present_likes_count=viewHolder.likes.getText().toString();
+        int present_likes_count_int=Integer.parseInt(present_likes_count);
+        present_likes_count_int++;
+        viewHolder.likes.setText(present_likes_count_int);
+        viewHolder.likesImage.setEnabled(false);
+        viewHolder.dislikesImage.setEnabled(true);
+        break;
+      case R.id.feeds_dislikes:
+        String present_dislikes_count=viewHolder.likes.getText().toString();
+        int present_dislikes_count_int=Integer.parseInt(present_dislikes_count);
+        present_dislikes_count_int--;
+        viewHolder.likes.setText(present_dislikes_count_int);
+        viewHolder.dislikesImage.setEnabled(false);
+        viewHolder.dislikesImage.setEnabled(true);
+        break;
       case R.id.feeds_user_image:
         openUserProfile(listItems.get(position).getPostedUserId());
         break;
@@ -350,7 +370,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
 
   public static class ViewHolder extends RecyclerView.ViewHolder {
     private TextView timeStamp, message, categoryName, likes, comments, userText, userImageDefault;
-    private ImageView userImage, shareImage, likesImage, feedImage;
+    private ImageView userImage, shareImage, likesImage,dislikesImage, feedImage;
     private LinearLayout commentsLayout, likesLayout;
     private String imgUrl;
     private Bitmap bitmap;
@@ -359,12 +379,13 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
       timeStamp = (TextView) itemView.findViewById(R.id.feeds_timestamp);
       message = (TextView) itemView.findViewById(R.id.feeds_message);
 //            categoryName = (TextView)itemView.findViewById(R.id.feeds_category_name);
-//      likes = (TextView) itemView.findViewById(R.id.feeds_likes_text);
+      likes = (TextView) itemView.findViewById(R.id.feeds_likes_text);
       comments = (TextView) itemView.findViewById(R.id.feeds_comments_text);
       userImageDefault = (TextView) itemView.findViewById(R.id.feeds_user_image_text);
       userImage = (ImageView) itemView.findViewById(R.id.feeds_user_image);
       userText = (TextView) itemView.findViewById(R.id.feeds_user_textview);
-//      likesImage = (ImageView) itemView.findViewById(R.id.feeds_likes_image);
+      likesImage = (ImageView) itemView.findViewById(R.id.feeds_likes);
+      dislikesImage=(ImageView)itemView.findViewById(R.id.feeds_dislikes);
       feedImage = (ImageView) itemView.findViewById(R.id.feeds_image);
       commentsLayout = (LinearLayout) itemView.findViewById(R.id.feeds_comments_layout);
 //      likesLayout = (LinearLayout) itemView.findViewById(R.id.feeds_likes_layout);

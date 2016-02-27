@@ -37,7 +37,7 @@ android {
         disable 'InvalidPackage'
     }
 
-    productFlavors {
+    /*productFlavors {
         // Define separate dev and prod product flavors.
         dev {
             // dev utilizes minSDKVersion = 21 to allow the Android gradle plugin
@@ -49,7 +49,7 @@ android {
             // The actual minSdkVersion for the application.
             minSdkVersion 15
         }
-    }
+    }*/
 }
 
 repositories {
