@@ -72,7 +72,7 @@
                     android:layout_height="?android:actionBarSize"
                     android:adjustViewBounds="true"
                     android:padding="@dimen/dp_10"
-                    android:src="@drawable/ic_back_gray"/>
+                    android:src="@mipmap/ic_back_white"/>
                 <RelativeLayout
                     android:id="@+id/home_search_layout"
                     android:layout_width="match_parent"

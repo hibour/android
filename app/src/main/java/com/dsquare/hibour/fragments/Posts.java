@@ -33,6 +33,8 @@ import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.activities.SearchInFeeds;
 import com.dsquare.hibour.adapters.FeedsPagerAdapter;
+import com.dsquare.hibour.database.DatabaseHandler;
+import com.dsquare.hibour.database.table.FeedsTable;
 import com.dsquare.hibour.interfaces.PostsCallback;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.NetworkDetector;
@@ -67,9 +69,7 @@ public class Posts extends HibourBaseTabFragment implements View.OnClickListener
     private Gson gson;
     private PostsClient postsClient;
     private AutoCompleteTextView autoCompleteTextView;
-
     private FeedsPagerAdapter mPagerAdapter;
-
     private RelativeLayout searchLayout;
     private TextView textView,invite;
     private ImageView searchIcon,navigationBack;
@@ -85,6 +85,7 @@ public class Posts extends HibourBaseTabFragment implements View.OnClickListener
     private CoordinatorLayout coordinatorLayout;
     private UIHelper uiHelper;
     private View searchBar;
+    private DatabaseHandler dbHandler;
 
     public Posts() {
         // Required empty public constructor
@@ -105,6 +106,7 @@ public class Posts extends HibourBaseTabFragment implements View.OnClickListener
 
     /* initializeViews*/
     private void initializeViews(View view){
+        dbHandler = new DatabaseHandler(getActivity().getApplicationContext());
         coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id
                 .coordinatorLayout);
         noFeedsLayout = (RelativeLayout)view.findViewById(R.id.no_feeds_found_layout);
@@ -283,17 +285,64 @@ public class Posts extends HibourBaseTabFragment implements View.OnClickListener
     private void parsePostsDetails(JSONObject jsonObject) {
         Log.d("post data", jsonObject.toString());
         PostData posts = gson.fromJson(jsonObject.toString(), PostData.class);
+        dbHandler.insertFeeds(posts);
+        List<FeedsTable> feedsData = dbHandler.getFeeds();
+        Log.d("feeds size",dbHandler.getFeeds().size()+"");
         List<Postpojos> postpojos = posts.getData();
 
-        Map<String, List<Postpojos>> postsMap = new LinkedHashMap<>();
-        Map<String, List<Postpojos>> postpojosMap = new LinkedHashMap<>();
+        Map<String, List<FeedsTable>> postsMap = new LinkedHashMap<>();
+        Map<String, List<FeedsTable>> postpojosMap = new LinkedHashMap<>();
         Map<String, List<PostLikedUser>> postlikesMap = new LinkedHashMap<>();
         Map<String, String> categoriesMap = new HashMap<>();
         Map<String, String> searchMap = new LinkedHashMap<String, String>();
         Map<String, Map<String, String>> postTypesMap = new LinkedHashMap<>();
         Set<String> postTypesSet = new HashSet<>();
 
-        if(postpojos.size()>0){
+        if(feedsData.size()>0){
+            postTypesSet.add("All");
+            for (FeedsTable p : feedsData) {
+                //postlikesMap.put(p., p.getPostLikedUsers());
+
+                List<FeedsTable> data1 = new ArrayList<>();
+                data1.add(p);
+                postpojosMap.put(p.postid, data1);
+
+                searchMap.put(p.description, p.postid);
+
+                String postType = p.posttype ;
+                List<FeedsTable> postslist = postsMap.get(postType);
+                if (postslist == null) {
+                    postslist = new ArrayList<>();
+                    postsMap.put(postType, postslist);
+                }
+                postslist.add(p);
+
+                if (!TextUtils.isEmpty(postType)) {
+                    postTypesSet.add(postType);
+                }
+            }
+
+            List<String> postTypeList = new ArrayList<>();
+            postTypeList.addAll(postTypesSet);
+            Collections.sort(postTypeList);
+
+            Constants.postsMap = postsMap;
+            Constants.postpojosMap = postpojosMap;
+            Constants.postlikesMap = postlikesMap;
+            Constants.searchMap = searchMap;
+
+            updatePager(postTypeList);
+
+            autocompleteList.clear();
+            for (String key : searchMap.keySet()) {
+                autocompleteList.add(key);
+            }
+        }else{
+            noFeedsLayout.setVisibility(View.VISIBLE);
+            tabs.setVisibility(View.GONE);
+            pager.setVisibility(View.GONE);
+        }
+        /*if(postpojos.size()>0){
             postTypesSet.add("All");
             for (Postpojos p : postpojos) {
                 postlikesMap.put(p.getPostId(), p.getPostLikedUsers());
@@ -336,7 +385,7 @@ public class Posts extends HibourBaseTabFragment implements View.OnClickListener
             noFeedsLayout.setVisibility(View.VISIBLE);
             tabs.setVisibility(View.GONE);
             pager.setVisibility(View.GONE);
-        }
+        }*/
     }
 
     //  send data to server

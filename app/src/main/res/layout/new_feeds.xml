@@ -84,16 +84,19 @@
                     android:orientation="vertical"
                     android:layout_marginLeft="@dimen/dp_10">
                     <ImageView
+                        android:id="@+id/feeds_likes"
                         android:layout_width="@dimen/dp_30"
                         android:layout_height="@dimen/dp_20"
                         android:src="@drawable/up_arrow_gray_48"/>
                     <TextView
+                        android:id="@+id/feeds_likes_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp_14"
                         android:layout_gravity="center_horizontal"
                         android:text="150"/>
                     <ImageView
+                        android:id="@+id/feeds_dislikes"
                         android:layout_width="@dimen/dp_30"
                         android:layout_height="@dimen/dp_20"
                         android:src="@drawable/down_arrow_gray_48"/>

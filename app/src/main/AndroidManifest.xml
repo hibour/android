@@ -49,7 +49,8 @@
             android:name="AA_MODELS"
             android:value="com.dsquare.hibour.database.table.NotificationTable,
                             com.dsquare.hibour.database.table.UserMessageTable,
-                            com.dsquare.hibour.database.table.UserDetailTable"/>
+                            com.dsquare.hibour.database.table.UserDetailTable,
+                            com.dsquare.hibour.database.table.FeedsTable"/>
 
         <meta-data
             android:name="AA_SERIALIZERS"
@@ -81,6 +82,12 @@
         android:label="@string/app_name"
         android:screenOrientation="portrait"
         android:theme="@style/FullScreenTheme" />
+
+        <activity
+            android:name=".activities.Settings"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullScreenTheme" />
     <activity
         android:name=".activities.Social"
         android:label="@string/app_name"

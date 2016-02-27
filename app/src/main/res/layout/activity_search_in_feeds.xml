@@ -17,7 +17,7 @@
             android:layout_height="@dimen/app_bar_icon_size"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp_20"
-            android:src="@mipmap/ic_back_gray"/>
+            android:src="@mipmap/ic_back_white"/>
 
         <RelativeLayout
             android:id="@+id/home_search_layout"
@@ -39,17 +39,18 @@
                 android:textColor="@color/black_1"
                 android:textColorHint="@color/gray"
                 android:textSize="@dimen/edit_text_size"/>
+
+            <ImageView
+                android:id="@+id/feeds_search_icon"
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_20"
+                android:padding="@dimen/dp_3"
+                android:src="@mipmap/ic_search_red"/>
         </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/feeds_search_icon"
-            android:layout_width="@dimen/dp_30"
-            android:layout_height="@dimen/dp_30"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dp_20"
-            android:padding="@dimen/dp_3"
-            android:src="@drawable/ic_search_white"/>
     </RelativeLayout>
 
     <View
