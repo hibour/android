@@ -13,8 +13,8 @@ import android.view.ViewGroup;
 
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.adapters.FeedsAdapter;
+import com.dsquare.hibour.database.table.FeedsTable;
 import com.dsquare.hibour.pojos.posts.Feeds;
-import com.dsquare.hibour.pojos.posts.Postpojos;
 import com.dsquare.hibour.utils.Constants;
 
 import java.util.ArrayList;
@@ -82,8 +82,8 @@ public class FeedsPager extends Fragment {
         protected void onProgressUpdate(String... values) {
         }
 
-        private void addPostPojosList(List<Postpojos> postList) {
-            for (Postpojos post : postList) {
+        private void addPostPojosList(List<FeedsTable> postList) {
+            for (FeedsTable post : postList) {
                 postsList.add(new Feeds(post));
             }
         }
@@ -93,7 +93,7 @@ public class FeedsPager extends Fragment {
             postsList.clear();
             try {
                 if (categoryName.equals("All")) {
-                    for(Map.Entry<String, List<Postpojos>> entry: Constants.postpojosMap.entrySet()){
+                    for(Map.Entry<String, List<FeedsTable>> entry: Constants.postpojosMap.entrySet()){
                         addPostPojosList(entry.getValue());
                     }
                 } else {

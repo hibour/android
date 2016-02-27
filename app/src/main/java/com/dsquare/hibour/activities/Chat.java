@@ -217,9 +217,10 @@ public class Chat extends AppCompatActivity implements View.OnClickListener {
 
     refreshUserMessages();
     user = dbHandler.getUserDetail(secondUserId);
-    if (user == null)
-      accountsClient.getUserDetails(secondUserId, userDetailsResultCallback);
-    else
+    if (user == null){
+        Log.d("user null","yes");
+        accountsClient.getUserDetails(secondUserId, userDetailsResultCallback);
+    }else
       updateUserUI();
     chatAdapter = new ChatingAdapter(this, chatList, resendMessageResultCallback);
     chatRecycler.setAdapter(chatAdapter);

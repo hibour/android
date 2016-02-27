@@ -10,6 +10,8 @@ import com.dsquare.hibour.database.table.UserDetailTable;
 import com.dsquare.hibour.database.table.UserMessageTable;
 import com.dsquare.hibour.database.table.UserProfileTable;
 import com.dsquare.hibour.pojos.message.UserMessage;
+import com.dsquare.hibour.pojos.posts.PostData;
+import com.dsquare.hibour.pojos.posts.Postpojos;
 import com.dsquare.hibour.pojos.user.UserDetail;
 import com.dsquare.hibour.pojos.user.UserProfile;
 import com.dsquare.hibour.utils.Hibour;
@@ -29,10 +31,16 @@ public class DatabaseHandler {
   }
 
   /* insert posts in posts table*/
-   /* public void insertFeeds(String postid, String date, String time,String description
-            , String imgurl,FeedsUserTable posteduser){
-        new FeedsTable(postid,date,time,description,imgurl,posteduser);
-    }*/
+    public void insertFeeds(PostData data){
+        List<Postpojos> feedsData = data.getData();
+        for(Postpojos feed:feedsData){
+            new FeedsTable(feed.getPostId(),feed.getPostDate(),feed.getPostTime(),feed.getPostMessage()
+                    ,feed.getPostImage(),feed.getUser().getId(),feed.getUser().getImage()
+                    ,feed.getPostLikesCount()+"",feed.getUser().getName(),feed.getPostType()
+                    ,feed.getPostComments().size()+"",feed.getPostUserLiked()+"").save();
+        }
+
+    }
     /**/
   public void insertUserMessage(UserMessage userMessage) {
     new UserMessageTable(userMessage, application.getUserId()).save();

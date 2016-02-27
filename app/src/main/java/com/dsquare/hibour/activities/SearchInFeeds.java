@@ -18,8 +18,8 @@ import android.widget.TextView;
 
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.adapters.FeedsAdapter;
+import com.dsquare.hibour.database.table.FeedsTable;
 import com.dsquare.hibour.pojos.posts.Feeds;
-import com.dsquare.hibour.pojos.posts.Postpojos;
 import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Fonts;
 
@@ -148,17 +148,25 @@ public class SearchInFeeds extends AppCompatActivity implements View.OnClickList
 
     @Override
     protected Void doInBackground(Void... params) {
-      List<Postpojos> posts = Constants.postpojosMap.get(Constants.CATID);
+      List<FeedsTable> posts = Constants.postpojosMap.get(Constants.CATID);
       try {
         for (int i = 0; i < posts.size(); i++) {
-          publishProgress(posts.get(i).getPostId(), posts.get(i).getPostImage()
+          /*publishProgress(posts.get(i).getPostId(), posts.get(i).getPostImage()
               , posts.get(i).getPostMessage()
               , posts.get(i).getPostDate(), posts.get(i).getPostTime()
               , posts.get(i).getUser().getName(), posts.get(i).getUser().getImage()
               , posts.get(i).getUser().getId(), String.valueOf(posts.get(i).getPostUserLiked())
               , String.valueOf(posts.get(i).getPostLikesCount())
               , String.valueOf(posts.get(i).getPostComments().size())
-              , posts.get(i).getPostType());
+              , posts.get(i).getPostType());*/
+            publishProgress(posts.get(i).postid, posts.get(i).imgurl
+                    , posts.get(i).description
+                    , posts.get(i).date, posts.get(i).time
+                    , posts.get(i).username, posts.get(i).userimgurl
+                    , posts.get(i).userid, posts.get(i).userliked
+                    , posts.get(i).likescount
+                    , posts.get(i).commentscount
+                    , posts.get(i).posttype);
         }
       } catch (Exception e) {
         e.printStackTrace();

@@ -1,9 +1,9 @@
 package com.dsquare.hibour.utils;
 
+import com.dsquare.hibour.database.table.FeedsTable;
 import com.dsquare.hibour.pojos.Socialize.ChoosedUser;
 import com.dsquare.hibour.pojos.Socialize.Datum;
 import com.dsquare.hibour.pojos.posts.PostLikedUser;
-import com.dsquare.hibour.pojos.posts.Postpojos;
 import com.dsquare.hibour.pojos.user.UserDetail;
 
 import java.util.ArrayList;
@@ -151,8 +151,8 @@ public class Constants {
     public static int MESSAGE_SENT = 3;
     public static int MESSAGE_RECEIVED = 4;
 
-    public static Map<String, List<Postpojos>> postsMap = new LinkedHashMap<>();
-    public static Map<String, List<Postpojos>> postpojosMap = new LinkedHashMap<>();
+    public static Map<String, List<FeedsTable>> postsMap = new LinkedHashMap<>();
+    public static Map<String, List<FeedsTable>> postpojosMap = new LinkedHashMap<>();
     public static Map<String, List<PostLikedUser>> postlikesMap = new LinkedHashMap<>();
     public static Map<String, String> categoriesMap = new HashMap<>();
     public static Map<String, String> searchMap = new LinkedHashMap<String, String>();
