@@ -164,7 +164,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
         String present_likes_count=viewHolder.likes.getText().toString();
         int present_likes_count_int=Integer.parseInt(present_likes_count);
         present_likes_count_int++;
-        viewHolder.likes.setText(present_likes_count_int);
+        viewHolder.likes.setText(String.valueOf(present_likes_count_int));
         viewHolder.likesImage.setEnabled(false);
         viewHolder.dislikesImage.setEnabled(true);
         break;
@@ -172,7 +172,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
         String present_dislikes_count=viewHolder.likes.getText().toString();
         int present_dislikes_count_int=Integer.parseInt(present_dislikes_count);
         present_dislikes_count_int--;
-        viewHolder.likes.setText(present_dislikes_count_int);
+        viewHolder.likes.setText(String.valueOf(present_dislikes_count_int));
         viewHolder.dislikesImage.setEnabled(false);
         viewHolder.dislikesImage.setEnabled(true);
         break;
