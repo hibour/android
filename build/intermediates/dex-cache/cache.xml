@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" >
+<items version="2" />
 
+<<<<<<< HEAD
     <item
         jar="B:\hibour-android\hibour-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\8.3.0\jars\classes.jar"
         jumboMode="false"
@@ -318,3 +319,5 @@
     </item>
 
 </items>
+=======
+>>>>>>> 4f8d034896eb4f6c51632c5c82f56709b56aae18
