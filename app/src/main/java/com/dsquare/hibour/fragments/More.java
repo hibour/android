@@ -2,6 +2,7 @@ package com.dsquare.hibour.fragments;
 
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.activities.LocationSearch;
 import com.dsquare.hibour.activities.Settings;
 import com.dsquare.hibour.activities.SignIn;
 import com.dsquare.hibour.network.HibourConnector;
@@ -108,8 +110,12 @@ public class More extends HibourBaseTabFragment implements View.OnClickListener 
                 inviteFriends(getString(R.string.invite_msg));
                 break;
             case R.id.more_logoutlayout:
-                Intent openSignin=new Intent(getActivity(), SignIn.class);
-                startActivity(openSignin);
+                application.removeUserDetails();
+                //SharedPreferences.Editor editor = sharedPreferences.edit();
+                //editor.clear().commit();
+                Intent signInIntent = new Intent(getActivity(), LocationSearch.class);
+                startActivity(signInIntent);
+                getActivity().finish();
                 break;
         }
     }

@@ -344,6 +344,9 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
         if(!application.getUserDetails().get(Constants.SF_SUB_LOC).equals("")){
             Map<String,String> userDetails = application.getUserDetails();
             autoCompleteTextView.setText(userDetails.get(Constants.SF_LOCADD));
+            lat = userDetails.get(Constants.SF_LAT);
+            lng = userDetails.get(Constants.SF_LNG);
+
             getAddress(userDetails.get(Constants.SF_LAT),userDetails.get(Constants.SF_LNG)
                     ,userDetails.get(Constants.SF_LOCADD),"");
         }
@@ -392,8 +395,8 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 //                .position(new LatLng(-34, 151))
 //                .title("Marker"));
 
-        LatLng coords = new LatLng(latLng.latitude, latLng.longitude);
-        Log.d("double", latLng.latitude + latLng.longitude + "");
+        LatLng coords = new LatLng(Double.valueOf(lat), Double.valueOf(lng));
+//        Log.d("double", latLng.latitude + latLng.longitude + "");
         if(marker==null){
             marker = googleMap.addMarker(new MarkerOptions().position(coords).title("There are about "+number+" members registered from your area.").draggable(true));
         }else{

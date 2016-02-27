@@ -309,16 +309,17 @@ public class Posts extends HibourBaseTabFragment implements View.OnClickListener
 
                 searchMap.put(p.description, p.postid);
 
+
                 String postType = p.posttype ;
                 List<FeedsTable> postslist = postsMap.get(postType);
                 if (postslist == null) {
                     postslist = new ArrayList<>();
-                    postsMap.put(postType, postslist);
+                    postsMap.put(Constants.postTypesMap.get(postType).get("name"), postslist);
                 }
                 postslist.add(p);
 
                 if (!TextUtils.isEmpty(postType)) {
-                    postTypesSet.add(postType);
+                    postTypesSet.add(Constants.postTypesMap.get(postType).get("name"));
                 }
             }
 
