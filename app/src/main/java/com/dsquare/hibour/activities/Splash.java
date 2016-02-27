@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import com.crashlytics.android.Crashlytics;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.utils.Hibour;
+import com.onesignal.OneSignal;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -28,6 +29,7 @@ public class Splash extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Fabric.with(this, new Crashlytics());
+        OneSignal.startInit(this).init();
 
 
         setContentView(R.layout.activity_splash);
