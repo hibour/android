@@ -1,9 +1,10 @@
 package com.dsquare.hibour.utils;
 
+import com.dsquare.hibour.database.table.FeedsTable;
 import com.dsquare.hibour.pojos.Socialize.ChoosedUser;
 import com.dsquare.hibour.pojos.Socialize.Datum;
 import com.dsquare.hibour.pojos.posts.PostLikedUser;
-import com.dsquare.hibour.pojos.posts.Postpojos;
+import com.dsquare.hibour.pojos.user.UserDetail;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,8 +44,13 @@ public class Constants {
     public static final String URL_GET_NEIGHBOURHOODS = URL_DOMAIN + "Userreg/address?";
     public static final String URL_SEND_MESSAGE = URL_DOMAIN + "Messages/create?";
     public static final String URL_GET_NEARBY_USER = URL_DOMAIN + "Userreg/%s?signature=%s";
-    public static final String URL_GET_OTHER_USR_DETAILS = URL_DOMAIN + "getprofile?";
-    public static final String URL_UPDATE_USER_LOCATION = URL_DOMAIN + "neighbourhood?";
+    public static final String URL_GET_OTHER_USR_DETAILS = URL_DOMAIN+"getprofile?";
+    public static final String URL_UPDATE_USER_LOCATION = URL_DOMAIN+"neighbourhood?";
+
+    public static final String URL_GOOGLE_LOC_ADDRESS= "https://maps.googleapis.com/maps/api/geocode/json?";
+
+    public static final String GOOGLE_ADDRESS_API_KEY = "AIzaSyC9Cnku7Rz_ZAkuEwbd5jf5D94MzTTk784";
+
     public static final String URL_SEND_USER_STATUS = URL_DOMAIN + "Userstatus/%s/status/%s?signature=%s";
 
     /*user constants*/
@@ -100,6 +106,12 @@ public class Constants {
     public static final String SF_LOCADD = "locAddress";
     public static final String SF_LAT = "lati";
     public static final String SF_LNG = "longi";
+    public static final String SF_SUB_LOC="sublocality";
+    public static final String SF_PASS="password";
+    public static final String SF_DOB="dob";
+    public static final String SF_NOTIF="notif";
+    public static final String SF_IMAGE = "image";
+    public static final String SF_MOBILE="mobile";
     //animation constants
     public static final int DURATION_DEFAULT = 300;
     public static final int DURATION_SHORT = 100;
@@ -128,6 +140,7 @@ public class Constants {
     public static String LocationAddress;
     public static String userAddress = "";
     public static String CATID;
+    public static String CHATID;
     // message view types
     public static int MESSAGE_LEFT = 1;
     public static int MESSAGE_RIGHT = 2;
@@ -146,14 +159,17 @@ public class Constants {
     public static int MESSAGE_SENT = 3;
     public static int MESSAGE_RECEIVED = 4;
 
-    public static Map<String, List<Postpojos>> postsMap = new LinkedHashMap<>();
-    public static Map<String, List<Postpojos>> postpojosMap = new LinkedHashMap<>();
-    public static Map<String, List<Postpojos>> postpojosMap1 = new LinkedHashMap<>();
+    public static Map<String, List<FeedsTable>> postsMap = new LinkedHashMap<>();
+    public static Map<String, List<FeedsTable>> postpojosMap = new LinkedHashMap<>();
     public static Map<String, List<PostLikedUser>> postlikesMap = new LinkedHashMap<>();
     public static Map<String, String> categoriesMap = new HashMap<>();
     public static Map<String, String> searchMap = new LinkedHashMap<String, String>();
-
     public static Map<String, Map<String, String>> postTypesMap = new LinkedHashMap<>();
+
+    public static Map<String, String> searchChat = new LinkedHashMap<String, String>();
+    public static List<String> chatList = new ArrayList<>();
+    public static Map<String, List<UserDetail>> chatsMap = new LinkedHashMap<>();
+
 
     // gcm message fields
     public static String GCM_FIELDS_MESSAGE_TYPE = "MessagesType";
@@ -161,4 +177,12 @@ public class Constants {
     public static String GCM_FIELDS_RECEIVER_ID = "Receiveruserid";
     public static String GCM_FIELDS_SENDER_ID = "Senderuserid";
 
+    public static String SHARED_PREFERENCES_FIRST_RUN = "firstRun";
+    public static String USER_STATUS_TYPING = "Typing...";
+    public static String USER_STATUS_ONLINE = "Online";
+    public static int SEND_STATUS_INTERVAL = 3000;
+    public static int MARK_TYPING_INTERVAL = 3000;
+    public static int NOTIFICATION_ID_MESSAGE = 1;
+
+    public static int FRAGMENT_POS = 0;
 }

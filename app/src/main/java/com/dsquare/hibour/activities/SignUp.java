@@ -1,12 +1,21 @@
 package com.dsquare.hibour.activities;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -23,13 +32,16 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.database.DatabaseHandler;
 import com.dsquare.hibour.gcm.GcmRegistration;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.pojos.signup.Data;
 import com.dsquare.hibour.pojos.signup.SignupPojo;
+import com.dsquare.hibour.pojos.user.UserDetail;
 import com.dsquare.hibour.utils.Constants;
+import com.dsquare.hibour.utils.Helper;
 import com.dsquare.hibour.utils.Hibour;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -49,15 +61,19 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SignUp extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     private static final int RC_SIGN_IN = 9001;
     private static final String intentText = "pintent";
+    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 33;
     protected GoogleApiClient mGoogleApiClient;
     private String TAG = "signin";
     private GoogleSignInOptions googleSignInOptions;
@@ -77,9 +93,29 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     private Intent data;
     private String string;
     private String userName="",userNumber="",userMail="",socialType="",userpassword="",userfirst="",userlast="";
-    private ImageView male, female;
-    private LinearLayout linearmale, linearfemale;
-    private String Gender = "";
+    private ImageView male,female;
+    private LinearLayout linearmale,linearfemale;
+    private String Gender="";
+    private DatabaseHandler handler;
+    private CoordinatorLayout coordinatorLayout;
+    private SharedPreferences preferences;
+    private Bitmap bitmap;
+    private String imageString="a";
+
+    private WebServiceResponseCallback userDetailCallbackListener = new WebServiceResponseCallback() {
+        @Override
+        public void onSuccess(JSONObject jsonObject) {
+            try {
+                UserDetail user = new Gson().fromJson(jsonObject.getString("data"), UserDetail.class);
+                new DatabaseHandler(getApplicationContext()).insertUserDetails(user);
+            } catch (JSONException e) {
+            }
+        }
+
+        @Override
+        public void onFailure(VolleyError error) {
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,9 +128,14 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     }
     /* initialize views*/
     private void initializeViews(){
-        submitButton = (Button) findViewById(R.id.signup_next);
-        fname = (EditText) findViewById(R.id.signup_firstname);
-        lname = (EditText) findViewById(R.id.signup_lastname);
+        preferences = getSharedPreferences("Login Credentials",MODE_PRIVATE);
+        handler = new DatabaseHandler(this);
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id
+                .coordinatorLayout);
+        submitButton = (Button)findViewById(R.id.signup_next);
+        fname = (EditText)findViewById(R.id.signup_firstname);
+        lname = (EditText)findViewById(R.id.signup_lastname);
+
         email= (EditText)findViewById(R.id.signup_email);
         password = (EditText) findViewById(R.id.signup_pwd);
         male = (ImageView) findViewById(R.id.image_male);
@@ -143,6 +184,46 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
         inputLayoutlName.setTypeface(tf);
         inputLayoutemail.setTypeface(tf);
         inputLayoutpassword.setTypeface(tf);
+
+        //Trying to prepopulate the form
+        if(ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_CONTACTS)
+                != PackageManager.PERMISSION_GRANTED){
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_CONTACTS},
+                    PERMISSIONS_REQUEST_READ_CONTACTS);
+
+        } else {
+            this.prepopulateForm();
+
+        }
+
+
+
+    }
+
+    private void prepopulateForm() {
+        Helper helper = new Helper(this);
+
+        String emailString = helper.getUserEmail();
+        if(emailString != null){
+            email.setText(emailString);
+
+        }
+
+        String[] name = helper.getName();
+        if(name!= null) {
+            if(name[1] != null && name[2] != null) {
+                fname.setText(name[1]);
+                lname.setText(name[2]);
+            } else if(name[0] != null) {
+                fname.setText(name[0]);
+
+            }
+
+        }
+
     }
 
     private void hideKeyboard() {
@@ -392,10 +473,22 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
             if(application.validateEmail(userMail)){
                 signUpUser(userFname, userLname, userMail, userPass, "normal");
             }else{
-                Toast.makeText(this,"Enter valid email",Toast.LENGTH_LONG).show();
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, "Enter valid email!", Snackbar.LENGTH_LONG);
+                // Changing action button text color
+                View sbView = snackbar.getView();
+                TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                textView.setTextColor(Color.RED);
+                snackbar.show();
             }
         }else{
-            Toast.makeText(this,"Enter valid credentials",Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "Enter valid credentials!", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
         }
     }
     /* sign up the user*/
@@ -404,7 +497,13 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
             signUpDialog = ProgressDialog.show(this,"",getResources()
                     .getString(R.string.progress_dialog_text));
             if (application.getGCMToken().equalsIgnoreCase("")) {
-                Toast.makeText(this, "Check Internet Connectivity.", Toast.LENGTH_SHORT).show();
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, "Check Internet Connectivity.", Snackbar.LENGTH_LONG);
+                // Changing action button text color
+                View sbView = snackbar.getView();
+                TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                textView.setTextColor(Color.RED);
+                snackbar.show();
                 if (application.checkPlayServices(this, null)) {
                     // Start IntentService to register this application with GCM.
                     Intent intent = new Intent(this, GcmRegistration.class);
@@ -412,8 +511,11 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                 }
                 return;
             }
-            accountsClient.signUpUser(userFname, userLname, email, password, Gender, regType, Constants.latitude, Constants.longitude,
-                Constants.locationaddress, Constants.locationaddress1,
+            Map<String,String> userDetails = application.getUserDetails();
+            accountsClient.signUpUser(userFname, userLname, email, password, Gender, regType," "
+                    , userDetails.get(Constants.SF_LAT)
+                    , userDetails.get(Constants.SF_LNG),userDetails.get(Constants.SF_LOCADD)
+                    , userDetails.get(Constants.SF_SUB_LOC),
                 application.getGCMToken(), new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
@@ -428,7 +530,13 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                 }
             });
         }else{
-            Toast.makeText(this,"Network not connected.",Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
         }
     }
     /* parse sign up details*/
@@ -441,11 +549,27 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
 //            Integer integer = data.getId();
             String s = String.valueOf(data.getId());
             Log.d("integer", s);
-            String[] regidetails = {String.valueOf(data.getId()), data.getFirstName(), data.getLastName(), data.getEmail(), data.getGender(), data.getRegtype(), Constants.locationaddress};
-            application.setLoginDetails(regidetails);
+            Map<String,String> userDetails = new HashMap<>();
+            userDetails.put(Constants.PREFERENCE_USER_ID,data.getId()+"");
+            userDetails.put(Constants.SF_FIRST,data.getFirstName());
+            userDetails.put(Constants.SF_LAST,data.getLastName());
+            userDetails.put(Constants.SF_EMAIL,data.getEmail());
+            userDetails.put(Constants.SF_LOCADD,data.getAddress());
+            userDetails.put(Constants.SF_SUB_LOC,data.getAddress1());
+            userDetails.put(Constants.SF_LAT,data.getLattiude());
+            userDetails.put(Constants.SF_LNG,data.getLongittude());
+            userDetails.put(Constants.SF_PASS,data.getPassword());
+            userDetails.put(Constants.SF_DOB,data.getDob());
+            userDetails.put(Constants.SF_IMAGE,data.getImage());
+            userDetails.put(Constants.SF_GENDER,data.getGender());
+            userDetails.put(Constants.SF_REGTYPE,data.getRegtype());
+            userDetails.put(Constants.SF_MOBILE,data.getMobile());
+            application.setUserDetails(userDetails);
+            accountsClient.getUserDetails(data.getId() + "", userDetailCallbackListener);
+
+//            String[] regidetails = {String.valueOf(data.getId()), data.getFirstName(), data.getLastName(), data.getEmail(), data.getGender(), data.getRegtype(), Constants.locationaddress};
+//            application.setLoginDetails(regidetails);
             application.setIsFirst(true);
-//            Log.d("integer", String.valueOf(integer));
-            Log.d("regidetails", String.valueOf(regidetails));
             Intent homeIntent = new Intent(this, MobileNumber.class);
             startActivity(homeIntent);
             this.finish();
@@ -466,4 +590,24 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
         }
 
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+
+        switch(requestCode) {
+            case SignUp.PERMISSIONS_REQUEST_READ_CONTACTS:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    this.prepopulateForm();
+
+                }
+                break;
+
+        }
+
+    }
+
+
+
 }

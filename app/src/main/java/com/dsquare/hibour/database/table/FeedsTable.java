@@ -28,31 +28,35 @@ public class FeedsTable extends Model {
   public String commentscount;
   @Column(name = "userliked")
   public String userliked;
-  @Column(name = "posteduser")
-  public FeedsUserTable posteduser;
   @Column(name = "username")
   public String username;
   @Column(name = "userid")
   public String userid;
   @Column(name = "userimgurl")
   public String userimgurl;
+  //  @Column(name="timestamp")
+   // public String timestamp;
 
   public FeedsTable() {
     super();
   }
 
-  public FeedsTable(String postid, String date, String time, String description, String imgurl
-      , FeedsUserTable posteduser, String postType) {
+  public FeedsTable(String postid, String date, String time, String description, String imgurl,
+      String userid,String userimgurl,String likescount,String username, String postType
+          /*,String timestamp*/,String commentscount,String userliked) {
     super();
     this.postid = postid;
     this.date = date;
     this.time = time;
     this.description = description;
     this.imgurl = imgurl;
-    this.posteduser = posteduser;
-    this.userid = posteduser.id;
-    this.userimgurl = posteduser.imgurl;
-    this.username = posteduser.name;
+    this.userid = userid;
+    this.userimgurl = userimgurl;
+    this.username = username;
     this.posttype = postType;
+     // this.timestamp = timestamp;
+      this.likescount=likescount;
+      this.commentscount = commentscount;
+      this.userliked = userliked;
   }
 }

@@ -26,6 +26,8 @@ import java.util.List;
  */
 public class SocializePager extends Fragment {
 
+  public static final String CATEGORY_BUNDLE_ARGUMENT = "categoryName";
+
   private RecyclerView postsRecycler;
   private List<Feeds> postsList = new ArrayList<>();
   private List<String[]> prefsList = new ArrayList<>();
@@ -48,7 +50,7 @@ public class SocializePager extends Fragment {
   }
 
   private void initializeViews(View view) {
-    categoryName = getArguments().getString("categoryName", "");
+    categoryName = getArguments().getString(CATEGORY_BUNDLE_ARGUMENT, "");
     Log.d("catg", categoryName);
     postsRecycler = (RecyclerView) view.findViewById(R.id.post_posts_list);
     if (categoryName.equals("PREFERENCES")) {
@@ -65,7 +67,6 @@ public class SocializePager extends Fragment {
       postsRecycler.setHasFixedSize(true);
       setNeighbours();
     }
-    // new setFeedsTask().execute(categoryName);
   }
 
   private void setAdapter() {

@@ -21,10 +21,10 @@ import java.net.URL;
  * Created by Dsquare Android on 1/8/2016.
  */
 public class AboutUsClient {
-    private Context context;
-    private int MY_SOCKET_TIMEOUT_MS= 30000;
+
+    private HibourConnector mConnector;
     public AboutUsClient(Context context){
-        this.context=context;
+        mConnector = HibourConnector.getInstance(context);
     }
 
     /* To get about us data*/
@@ -47,11 +47,7 @@ public class AboutUsClient {
                     callback.onFailure(error);
                 }
             });
-            aboutUsRequest.setRetryPolicy(new DefaultRetryPolicy(
-                    MY_SOCKET_TIMEOUT_MS,
-                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            HibourConnector.getInstance(context).addToRequestQueue(aboutUsRequest);
+            mConnector.addToRequestQueue(aboutUsRequest);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {

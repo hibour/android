@@ -18,7 +18,7 @@
         android:layout_width="@dimen/dp_40"
         android:layout_height="@dimen/dp_40"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/avatar1"
+        android:src="@drawable/avatar"
         android:layout_gravity="center"
         android:id="@+id/pref_icon"
         android:layout_marginTop="@dimen/dp_20"/>

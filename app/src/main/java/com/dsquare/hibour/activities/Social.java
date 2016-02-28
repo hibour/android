@@ -1,15 +1,22 @@
 package com.dsquare.hibour.activities;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,16 +26,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.database.DatabaseHandler;
 import com.dsquare.hibour.gcm.GcmRegistration;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.pojos.signup.Data;
 import com.dsquare.hibour.pojos.signup.SignupPojo;
+import com.dsquare.hibour.pojos.user.UserDetail;
 import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Fonts;
 import com.dsquare.hibour.utils.Hibour;
@@ -54,10 +62,15 @@ import com.google.android.gms.plus.model.people.Person;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Aditya Ravikanti on 2/5/2016.
@@ -87,18 +100,38 @@ public class Social extends FragmentActivity implements View.OnClickListener
   private String Useremail = "", Userfname = "", Userlname = "", Usergender = "";
   private View dot1, dot2, dot3, dot4;
   private LinearLayout socialSignIn;
+    private CoordinatorLayout coordinatorLayout;
+    private Bitmap bitmap;
+    private String imageString="a";
   private View.OnClickListener facebookConnectListener = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
       facebookLoginButton.performClick();
+        fbSignIn();
     }
   };
   private View.OnClickListener googleConnectListener = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
       googleSignInButton.performClick();
+        gplusSignIn();
     }
   };
+
+    private WebServiceResponseCallback userDetailCallbackListener = new WebServiceResponseCallback() {
+        @Override
+        public void onSuccess(JSONObject jsonObject) {
+            try {
+                UserDetail user = new Gson().fromJson(jsonObject.getString("data"), UserDetail.class);
+                new DatabaseHandler(getApplicationContext()).insertUserDetails(user);
+            } catch (JSONException e) {
+            }
+        }
+
+        @Override
+        public void onFailure(VolleyError error) {
+        }
+    };
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +143,8 @@ public class Social extends FragmentActivity implements View.OnClickListener
     application = Hibour.getInstance(this);
     application.initializeSharedPrefs();
     accountsClient = new AccountsClient(this);
+      coordinatorLayout = (CoordinatorLayout) findViewById(R.id
+              .coordinatorLayout);
     tf = Typeface.createFromAsset(getAssets(), Fonts.getTypeFaceName());
     submitButton = (Button) findViewById(R.id.social_signup);
     submitButton.setTypeface(tf);
@@ -246,6 +281,7 @@ public class Social extends FragmentActivity implements View.OnClickListener
   }
 
   /* gplus signin*/
+  @SuppressLint("ResourceAsColor")
   private void gplusSignIn() {
     if (networkDetector.isConnected()) { // check for network connectivity
       Log.d("social", "gplussignin");
@@ -255,6 +291,13 @@ public class Social extends FragmentActivity implements View.OnClickListener
 //            closeRegisterDialog();
 //            internetDialog = new NoInternetDialog();
 //            internetDialog.show(getFragmentManager(), getString(R.string.dialog_identifier));
+        Snackbar snackbar = Snackbar
+                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+        // Changing action button text color
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(R.color.newbrand);
+        snackbar.show();
 
     }
 
@@ -283,13 +326,26 @@ public class Social extends FragmentActivity implements View.OnClickListener
                     Log.d("fname", object.optString("first_name"));
                     Log.d("lname", object.optString("last_name"));
                     Log.d("gender", object.optString("gender"));
+
                     if (object.optString("gender").equals("male")) {
                       Usergender = String.valueOf(0);
                     } else if (object.optString("gender").equals("female")) {
                       Usergender = String.valueOf(1);
                     }
-                    signUpUser(object.optString("first_name"), object.optString("last_name"), object.optString("email")
-                        , "", object.optString("gender"), "fb");
+                      Userfname=object.optString("first_name");
+                      Userlname=object.optString("last_name");
+                      Useremail=object.optString("email");
+                      String profilePicUrl = "https://graph.facebook.com/"+object.optString("id")+"/picture";
+                      new LoadProfileImage(imageString).execute(profilePicUrl);
+
+//                      bitmap = getBitmapFromURL(profilePicUrl);
+//                      imageString = getStringImage(bitmap);
+                      Log.d("imageString",imageString);
+//                      String profilePicUrl = object.optString("picture").getJSONObject("data").getString("url");
+//                      Bitmap profilePic = getFacebookProfilePicture(profilePicUrl);
+
+//                    signUpUser(object.optString("first_name"), object.optString("last_name"), object.optString("email")
+//                        , "", Usergender, "fb");
                   } catch (Exception e) {
                     e.printStackTrace();
                   }
@@ -302,14 +358,28 @@ public class Social extends FragmentActivity implements View.OnClickListener
           request.executeAsync();
         }
 
+        @SuppressLint("ResourceAsColor")
         @Override
         public void onCancel() {
-          Toast.makeText(Social.this, "User cancelled", Toast.LENGTH_SHORT).show();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "User cancelled", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(R.color.newbrand);
+            snackbar.show();
         }
 
+        @SuppressLint("ResourceAsColor")
         @Override
         public void onError(FacebookException exception) {
-          Toast.makeText(Social.this, "Error on Login, check your facebook app_id", Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "Error on Login, check your facebook app_id", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(R.color.newbrand);
+            snackbar.show();
         }
       });
 
@@ -322,6 +392,20 @@ public class Social extends FragmentActivity implements View.OnClickListener
     }
 
   }
+    public static Bitmap getBitmapFromURL(String...src) {
+
+        String urldisplay = src[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+
+    }
 
   private void handleSignInResult(GoogleSignInResult result) {
     Log.d(TAG, "handleSignInResult:" + result.isSuccess());
@@ -355,6 +439,7 @@ public class Social extends FragmentActivity implements View.OnClickListener
     }
   }
 
+  @SuppressLint("ResourceAsColor")
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
@@ -364,7 +449,7 @@ public class Social extends FragmentActivity implements View.OnClickListener
       Log.d("social", "gp");
       GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
 //            handleSignInResult(result);
-      if (result.isSuccess()) {
+      if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null)  {
         GoogleSignInAccount acct = result.getSignInAccount();
         acct.getPhotoUrl();
         acct.getId();
@@ -384,8 +469,16 @@ public class Social extends FragmentActivity implements View.OnClickListener
         if (person.getName().getGivenName() != null) {
           Userlname = person.getName().getFamilyName();
         }
-        signUpUser(Userfname, Userlname, Useremail
-            , "", Usergender, "gp");
+          String profilePicUrl = person.getImage().getUrl();
+          Log.d("profilePicUrl",profilePicUrl);
+//          bitmap = getBitmapFromURL(profilePicUrl);
+
+          new LoadProfileImage(imageString).execute(profilePicUrl);
+//          imageString = getStringImage(bitmap);
+          Log.d("bitmap",bitmap+"");
+          Log.d("imageString",imageString);
+//        signUpUser(Userfname, Userlname, Useremail
+//            , "", Usergender, "gp");
         Log.i(TAG, "--------------------------------");
         Log.i(TAG, "Display Name: " + person.getDisplayName());
         Log.i(TAG, "Gender: " + person.getGender());
@@ -394,6 +487,15 @@ public class Social extends FragmentActivity implements View.OnClickListener
         Log.i(TAG, "image: " + person.getImage());
 //            Log.i(TAG, "Current Location: " + person.getCurrentLocation());
         Log.i(TAG, "Language: " + person.getLanguage());
+
+      }else {
+          Snackbar snackbar = Snackbar
+                  .make(coordinatorLayout, "Person information is null", Snackbar.LENGTH_LONG);
+          // Changing action button text color
+          View sbView = snackbar.getView();
+          TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+          textView.setTextColor(R.color.newbrand);
+          snackbar.show();
       }
     }
     callbackManager.onActivityResult(requestCode, resultCode, data);
@@ -429,12 +531,19 @@ public class Social extends FragmentActivity implements View.OnClickListener
   }
 
   /* sign up the user*/
+  @SuppressLint("ResourceAsColor")
   private void signUpUser(String userFname, String userLname, String email, String password, String gender, String regType) {
     if (networkDetector.isConnected()) {
       signUpDialog = ProgressDialog.show(this, "", getResources()
           .getString(R.string.progress_dialog_text));
       if (application.getGCMToken().equalsIgnoreCase("")) {
-        Toast.makeText(this, "Check Internet Connectivity.", Toast.LENGTH_SHORT).show();
+          Snackbar snackbar = Snackbar
+                  .make(coordinatorLayout, "Check Internet Connectivity.", Snackbar.LENGTH_LONG);
+          // Changing action button text color
+          View sbView = snackbar.getView();
+          TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+          textView.setTextColor(R.color.newbrand);
+          snackbar.show();
         if (application.checkPlayServices(this, null)) {
           // Start IntentService to register this application with GCM.
           Intent intent = new Intent(this, GcmRegistration.class);
@@ -442,8 +551,10 @@ public class Social extends FragmentActivity implements View.OnClickListener
         }
         return;
       }
-      accountsClient.signUpUser(userFname, userLname, email, password, gender, regType, Constants.latitude, Constants.longitude,
-          Constants.locationaddress, Constants.locationaddress1,
+        Map<String,String> userDetails = application.getUserDetails();
+      accountsClient.signUpUser(userFname, userLname, email, password, gender, regType,imageString,userDetails.get(Constants.SF_LAT)
+              , userDetails.get(Constants.SF_LNG),userDetails.get(Constants.SF_LOCADD)
+              , userDetails.get(Constants.SF_SUB_LOC),
           application.getGCMToken(), new WebServiceResponseCallback() {
             @Override
             public void onSuccess(JSONObject jsonObject) {
@@ -458,7 +569,13 @@ public class Social extends FragmentActivity implements View.OnClickListener
             }
           });
     } else {
-      Toast.makeText(this, "Network not connected.", Toast.LENGTH_LONG).show();
+        Snackbar snackbar = Snackbar
+                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+        // Changing action button text color
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(R.color.newbrand);
+        snackbar.show();
     }
   }
 
@@ -472,10 +589,25 @@ public class Social extends FragmentActivity implements View.OnClickListener
 //            Integer integer = data.getId();
       String s = String.valueOf(data.getId());
       Log.d("integer", s);
-      String[] regidetails = {String.valueOf(data.getId()), data.getFirstName(), data.getLastName(), data.getEmail(), data.getGender(), data.getRegtype(), Constants.locationaddress};
-      application.setLoginDetails(regidetails);
-//            Log.d("integer", String.valueOf(integer));
-      Log.d("regidetails", String.valueOf(regidetails));
+        Map<String,String> userDetails = new HashMap<>();
+        userDetails.put(Constants.PREFERENCE_USER_ID,data.getId()+"");
+        userDetails.put(Constants.SF_FIRST,data.getFirstName());
+        userDetails.put(Constants.SF_LAST,data.getLastName());
+        userDetails.put(Constants.SF_EMAIL,data.getEmail());
+        userDetails.put(Constants.SF_LOCADD,data.getAddress());
+        userDetails.put(Constants.SF_SUB_LOC,data.getAddress1());
+        userDetails.put(Constants.SF_LAT,data.getLattiude());
+        userDetails.put(Constants.SF_LNG,data.getLongittude());
+        userDetails.put(Constants.SF_PASS,data.getPassword());
+        userDetails.put(Constants.SF_DOB,data.getDob());
+        userDetails.put(Constants.SF_IMAGE,data.getImage());
+        userDetails.put(Constants.SF_GENDER,data.getGender());
+        userDetails.put(Constants.SF_REGTYPE,data.getRegtype());
+        userDetails.put(Constants.SF_MOBILE,data.getMobile());
+        application.setUserDetails(userDetails);
+        accountsClient.getUserDetails(data.getId() + "", userDetailCallbackListener);
+//      String[] regidetails = {String.valueOf(data.getId()), data.getFirstName(), data.getLastName(), data.getEmail(), data.getGender(), data.getRegtype(), Constants.locationaddress};
+//      application.setLoginDetails(regidetails);
       Intent homeIntent = new Intent(this, MobileNumber.class);
       startActivity(homeIntent);
       this.finish();
@@ -537,4 +669,43 @@ public class Social extends FragmentActivity implements View.OnClickListener
       }
     }
   }
+    private class LoadProfileImage extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+        String string;
+        public LoadProfileImage(String imageString) {
+        this.string=imageString;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            imageString=getStringImage(result);
+            Log.d("string",imageString);
+            signUpUser(Userfname, Userlname, Useremail
+                    , "", Usergender, "gp");
+        }
+    }
+    public String getStringImage(Bitmap bmp) {
+        BitmapFactory.Options options = null;
+        options = new BitmapFactory.Options();
+        options.inSampleSize = 3;
+//        bitmap = BitmapFactory.decodeFile(imgPath,
+//                options);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
+    }
 }

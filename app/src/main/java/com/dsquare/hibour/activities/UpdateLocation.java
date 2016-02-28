@@ -1,14 +1,19 @@
 package com.dsquare.hibour.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -27,6 +32,7 @@ import com.dsquare.hibour.R;
 import com.dsquare.hibour.adapters.PlaceAutoCompleteAdapter;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
+import com.dsquare.hibour.network.LocationClient;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Fonts;
@@ -44,6 +50,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -53,8 +60,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by Dsquare Android on 2/22/2016.
@@ -69,7 +78,7 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
   private List<Integer> filterTypes = new ArrayList<Integer>();
   private Place place;
   private ProgressDialog pDialog;
-  private AutoCompleteTextView autoCompleteTextView, autoCompleteTextView1;
+  private AutoCompleteTextView autoCompleteTextView;
   private double latitude, longitude;
   private String locAddress;
   private LatLng latLng;
@@ -85,6 +94,10 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
   private TextView countText;
   private Button next;
   private ImageView back;
+    private LocationClient locationClient;
+    private CoordinatorLayout coordinatorLayout;
+    private SharedPreferences sharedPreferences;
+    private String subLocality="",address="",lat="",lng="";
   private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
       = new ResultCallback<PlaceBuffer>() {
     @Override
@@ -109,6 +122,9 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
       if (place == null)
         Toast.makeText(UpdateLocation.this, "Location Not Changed", Toast.LENGTH_SHORT).show();
       else {
+          lat = latLng.latitude+"";
+          lng = latLng.longitude+"";
+          getAddress(latLng.latitude+"",latLng.longitude+"",locAddress,place.getId());
         Log.d("lat and long", latLng.latitude + " " + latLng.longitude);
 //                locationDisplayTextView.setText("");
         Double[] params = new Double[2];
@@ -117,7 +133,7 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
         GetCurrentAddress currentadd = new GetCurrentAddress();
         try {
           isAutoComplete = true;
-          currentadd.execute(params);
+//          currentadd.execute(params);
         } catch (Exception e) {
           e.printStackTrace();
         }
@@ -164,6 +180,12 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
   }
 
   private void initializeViews() {
+      application =  Hibour.getInstance(this);
+      Map<String,String> userDetails = application.getUserDetails();
+      subLocality = userDetails.get(Constants.SF_SUB_LOC);
+      address = userDetails.get(Constants.SF_LOCADD);
+      lat = userDetails.get(Constants.SF_LAT);
+      lng = userDetails.get(Constants.SF_LNG);
     mGoogleApiClient = new GoogleApiClient.Builder(this)
         .addConnectionCallbacks(this)
         .addOnConnectionFailedListener(this)
@@ -171,6 +193,9 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
         .addApi(Places.PLACE_DETECTION_API)
         .addApi(LocationServices.API)
         .build();
+      coordinatorLayout = (CoordinatorLayout) findViewById(R.id
+              .coordinatorLayout);
+      locationClient = new LocationClient(this);
     locMap = (WebView) findViewById(R.id.map);
     countText = (TextView) findViewById(R.id.loc_members_count);
     back = (ImageView) findViewById(R.id.change_location_back);
@@ -192,7 +217,7 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
 
       }
     });
-    autoCompleteTextView.setText(application.getUserLocation());
+    autoCompleteTextView.setText(address);
     networkDetector = new NetworkDetector(this);
     accountsClient = new AccountsClient(this);
     filterTypes.add(Place.TYPE_GEOCODE);
@@ -204,7 +229,7 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
       @Override
       public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         if (autoCompleteTextView.equals(null) || autoCompleteTextView.getText().toString().equals("")) {
-
+            locAddress = autoCompleteTextView.getText().toString();
         } else {
         }
 
@@ -236,6 +261,8 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
       Toast.makeText(getApplicationContext(), "Can't connect to network.", Toast.LENGTH_LONG).show();
     }
     getMembersCount(autoCompleteTextView.getText().toString());
+
+      sharedPreferences=getSharedPreferences("Login Credentials",MODE_PRIVATE);
   }
 
   private void initializeEventListeners() {
@@ -247,7 +274,7 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
   public void onClick(View view) {
     switch (view.getId()) {
       case R.id.serach_sumbit:
-        if (autoCompleteTextView.getText().toString().equals(application.getUserLocation())) {
+        if (autoCompleteTextView.getText().toString().equals(address)) {
           Toast.makeText(this, "please change location", Toast.LENGTH_SHORT).show();
         } else {
           updateUserLocation();
@@ -288,7 +315,7 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
       params[1] = mLastLocation.getLongitude();
       GetCurrentAddress currentadd = new GetCurrentAddress();
       try {
-        currentadd.execute(params);
+//        currentadd.execute(params);
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -374,6 +401,12 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
       String data = jsonObject.getString("result");
       Log.d("data", data);
       if (data.equals("success")) {
+          Map<String,String> userDetails = new HashMap<>();
+          userDetails.put(Constants.SF_SUB_LOC,subLocality);
+          userDetails.put(Constants.SF_LOCADD,locAddress);
+          userDetails.put(Constants.SF_LAT,lat);
+          userDetails.put(Constants.SF_LNG,lng);
+          application.setUserDetails(userDetails);
         Toast.makeText(this, "Location Updated Successfully", Toast.LENGTH_SHORT).show();
         this.finish();
       } else {
@@ -483,4 +516,96 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
       }
     }
   }
+    /* get address from google javascript api*/
+    public void getAddress(String lat,String lng, final String locAddress1, final String placeId){
+        if(networkDetector.isConnected()){
+            locationClient.getAddress(lat, lng, new WebServiceResponseCallback() {
+                @Override
+                public void onSuccess(JSONObject jsonObject) {
+                    parseLocationDetails(jsonObject,locAddress1,placeId);
+                }
+
+                @Override
+                public void onFailure(VolleyError error) {
+                    Log.d("error",error.toString());
+                }
+            });
+        }else{
+
+        }
+    }
+    /* parse location details*/
+    public void parseLocationDetails(JSONObject jsonObject,String locAddress,String placeId){
+        try {
+            Log.d("loc",jsonObject.toString());
+            JSONArray results = jsonObject.getJSONArray("results");
+            JSONObject addressData = results.getJSONObject(0);
+            JSONArray addressComponents = addressData.getJSONArray("address_components");
+            if(addressComponents.toString().contains("sublocality_level_1")){
+                for(int i=0;i<addressComponents.length();i++) {
+                    JSONObject addressObject = addressComponents.getJSONObject(i);
+                    JSONArray types = addressObject.getJSONArray("types");
+                    if(types.toString().contains("sublocality_level_1")){
+                        String sub_locality = addressObject.getString("long_name");
+                        Log.d("sublocalityIf",sub_locality);
+                        subLocality = sub_locality;
+                        setOnMap(locAddress);
+                    }
+                }
+            }else if(addressComponents.toString().contains("sublocality_level_2")){
+                for(int i=0;i<addressComponents.length();i++) {
+                    JSONObject addressObject = addressComponents.getJSONObject(i);
+                    JSONArray types = addressObject.getJSONArray("types");
+                    if(types.toString().contains("sublocality_level_2")){
+                        String sub_locality = addressObject.getString("long_name");
+                        Log.d("sublocalityElse", sub_locality);
+                        subLocality = sub_locality;
+                        setOnMap(locAddress);
+                    }
+                }
+            }else{
+                for(int i=0;i<addressComponents.length();i++) {
+                    JSONObject addressObject = addressComponents.getJSONObject(i);
+                    JSONArray types = addressObject.getJSONArray("types");
+                    if(types.toString().contains("locality")){
+                        String sub_locality = addressObject.getString("long_name");
+                        Log.d("localityElse",sub_locality);
+                        subLocality = sub_locality;
+                        setOnMap(locAddress);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    /* set map*/
+    @SuppressLint("ResourceAsColor")
+    public void setOnMap(String address){
+
+        Constants.userAddress = locAddress;
+        if(networkDetector.isConnected()){
+            try {
+                URL url = new URL("http://hibour.com/test.php?area="+autoCompleteTextView.getText().toString());
+                URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
+                        , url.getPath(), url.getQuery(), url.getRef());
+                url = uri.toURL();
+                locMap.loadUrl(url.toString());
+                locMap.getSettings().setJavaScriptEnabled(true);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }else{
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
+        }
+        getMembersCount(autoCompleteTextView.getText().toString());
+    }
 }

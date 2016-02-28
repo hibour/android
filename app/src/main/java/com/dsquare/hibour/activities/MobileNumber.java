@@ -2,8 +2,11 @@ package com.dsquare.hibour.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -11,7 +14,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
@@ -36,6 +38,7 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
     private  Gson gson;
     private Hibour application;
     private String genderstring = "", serviceString = "";
+    private CoordinatorLayout coordinatorLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +49,8 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
     private void initializeViews() {
         Typeface numbers = Typeface.createFromAsset(getAssets(),
                 "fonts/pn_regular.otf");
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id
+                .coordinatorLayout);
         mobile = (EditText) findViewById(R.id.mobile_edit);
         mobile.setTypeface(numbers);
         sumbit = (Button) findViewById(R.id.moblie_send);
@@ -82,7 +87,13 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
         if (mobile.getText().toString().length() < 11 && mobile.getText().toString().length() > 9) {
             sendtoMobilenumUser();
         } else {
-            Toast.makeText(this, "Invalid mobile number", Toast.LENGTH_SHORT).show();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "Invalid mobile number!", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
         }
     }
     /* mobile the user*/
@@ -94,9 +105,9 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
                     ,new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
-                    Intent intent = new Intent(getApplicationContext(), Home.class);
+                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                     startActivity(intent);
-                    //      parsemobileDetails(jsonObject);
+                  //  parsemobileDetails(jsonObject);
                     closeMobileDialog();
                 }
                 @Override
@@ -106,7 +117,13 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
                 }
             });
         }else{
-            Toast.makeText(this, "Network not connected.", Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
         }
     }
     private void parsemobileDetails(JSONObject jsonObject){
@@ -118,13 +135,19 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
             String otp = data.getString("otp");
             if (!otp.equals(null) && !otp.equals("null") && !otp.equals("")) {
                 //   Intent intent = new Intent(getApplicationContext(), VerifyOtp.class);
-                Intent intent = new Intent(getApplicationContext(), Home.class);
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                 intent.putExtra("number", number);
                 intent.putExtra("otp", otp);
                 startActivity(intent);
                 finish();
             } else {
-                Toast.makeText(getApplicationContext(), "Invalid User", Toast.LENGTH_SHORT).show();
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, "Invalid User!", Snackbar.LENGTH_LONG);
+                // Changing action button text color
+                View sbView = snackbar.getView();
+                TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                textView.setTextColor(Color.RED);
+                snackbar.show();
             }
         } catch (JSONException e) {
             e.printStackTrace();

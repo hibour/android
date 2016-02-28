@@ -33,7 +33,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -73,14 +72,20 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
     View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_feeds
         , parent, false);
     final ViewHolder holder = new ViewHolder(v);
-    holder.likesLayout.setOnClickListener(this);
-    holder.likesLayout.setTag(holder);
+//    holder.likesLayout.setOnClickListener(this);
+//    holder.likesLayout.setTag(holder);
     holder.commentsLayout.setOnClickListener(this);
     holder.commentsLayout.setTag(holder);
     holder.userImage.setOnClickListener(this);
     holder.userImage.setTag(holder);
+    holder.feedImage.setOnClickListener(this);
+    holder.feedImage.setTag(holder);
     holder.userImageDefault.setOnClickListener(this);
     holder.userImageDefault.setTag(holder);
+    holder.likesImage.setOnClickListener(this);
+    holder.likesImage.setTag(holder);
+    holder.dislikesImage.setOnClickListener(this);
+    holder.dislikesImage.setTag(holder);
     return holder;
   }
 
@@ -92,14 +97,13 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
       categoryString = Constants.categoriesMap.get(listItems.get(position).getPostyType());
     holder.userText.setText(listItems.get(position).getPostedUserName());
 //        holder.categoryName.setText(categoryString);
-    holder.likes.setText(listItems.get(position).getLikesCount());
+//    holder.likes.setText(listItems.get(position).getLikesCount());
     holder.comments.setText(listItems.get(position).getCommentsCount());
     if (listItems.get(position).getPostImage().length() > 10) {
       Log.d("image", listItems.get(position).getPostImage());
       try {
-        imageLoader.get(listItems.get(position).getPostImage().replace("\\", ""), ImageLoader.getImageListener(holder.feedImage
-            , R.drawable.avatar1, R.drawable.avatar1));
-        // new DownloadWebpageTask(holder.feedImage).execute(listItems.get(position).getPostImage().replace("\\",""));
+        holder.imgUrl = listItems.get(position).getPostImage().replace("\\", "");
+         new DownloadWebpageTask().execute(holder);
       } catch (Exception e) {
         e.printStackTrace();
         holder.feedImage.setVisibility(View.GONE);
@@ -108,11 +112,11 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
       holder.feedImage.setVisibility(View.GONE);
     }
     if (listItems.get(position).isUserLiked().equals("true")) {
-      Bitmap likesIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_thumb_up_filled);
-      holder.likesImage.setImageBitmap(likesIcon);
+//      Bitmap likesIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_thumb_up_filled);
+//      holder.likesImage.setImageBitmap(likesIcon);
     } else {
-      Bitmap likesIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_thumb_up);
-      holder.likesImage.setImageBitmap(likesIcon);
+//      Bitmap likesIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_thumb_up);
+//      holder.likesImage.setImageBitmap(likesIcon);
     }
     holder.timeStamp.setText(getTimeStamp(listItems.get(position).getPostDate()
         , listItems.get(position).getPostTime()));
@@ -147,9 +151,30 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
             , listItems.get(position).isUserLiked(), listItems.get(position).getPostDescription()
             , listItems.get(position).getPostImage());
         break;
-      case R.id.feeds_likes_layout:
-        likePost(listItems.get(position).getPostId());
-        changeLikesCount(position);
+      case R.id.feeds_image:
+          openCommentsDialog(listItems.get(position).getPostId(), listItems.get(position).getLikesCount()
+                  , listItems.get(position).isUserLiked(), listItems.get(position).getPostDescription()
+                  , listItems.get(position).getPostImage());
+          break;
+//      case R.id.feeds_likes_layout:
+//        likePost(listItems.get(position).getPostId());
+//        changeLikesCount(position);
+//        break;
+      case R.id.feeds_likes:
+        String present_likes_count=viewHolder.likes.getText().toString();
+        int present_likes_count_int=Integer.parseInt(present_likes_count);
+        present_likes_count_int++;
+        viewHolder.likes.setText(String.valueOf(present_likes_count_int));
+        viewHolder.likesImage.setEnabled(false);
+        viewHolder.dislikesImage.setEnabled(true);
+        break;
+      case R.id.feeds_dislikes:
+        String present_dislikes_count=viewHolder.likes.getText().toString();
+        int present_dislikes_count_int=Integer.parseInt(present_dislikes_count);
+        present_dislikes_count_int--;
+        viewHolder.likes.setText(String.valueOf(present_dislikes_count_int));
+        viewHolder.dislikesImage.setEnabled(false);
+        viewHolder.likesImage.setEnabled(true);
         break;
       case R.id.feeds_user_image:
         openUserProfile(listItems.get(position).getPostedUserId());
@@ -345,9 +370,10 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
 
   public static class ViewHolder extends RecyclerView.ViewHolder {
     private TextView timeStamp, message, categoryName, likes, comments, userText, userImageDefault;
-    private ImageView userImage, shareImage, likesImage, feedImage;
+    private ImageView userImage, shareImage, likesImage,dislikesImage, feedImage;
     private LinearLayout commentsLayout, likesLayout;
-
+    private String imgUrl;
+    private Bitmap bitmap;
     public ViewHolder(View itemView) {
       super(itemView);
       timeStamp = (TextView) itemView.findViewById(R.id.feeds_timestamp);
@@ -358,56 +384,44 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
       userImageDefault = (TextView) itemView.findViewById(R.id.feeds_user_image_text);
       userImage = (ImageView) itemView.findViewById(R.id.feeds_user_image);
       userText = (TextView) itemView.findViewById(R.id.feeds_user_textview);
-      likesImage = (ImageView) itemView.findViewById(R.id.feeds_likes_image);
+      likesImage = (ImageView) itemView.findViewById(R.id.feeds_likes);
+      dislikesImage=(ImageView)itemView.findViewById(R.id.feeds_dislikes);
       feedImage = (ImageView) itemView.findViewById(R.id.feeds_image);
       commentsLayout = (LinearLayout) itemView.findViewById(R.id.feeds_comments_layout);
-      likesLayout = (LinearLayout) itemView.findViewById(R.id.feeds_likes_layout);
+//      likesLayout = (LinearLayout) itemView.findViewById(R.id.feeds_likes_layout);
     }
   }
 
-  private class DownloadWebpageTask extends AsyncTask<String, Void, Bitmap> {
-    private final WeakReference<ImageView> imageViewReference;
-
-    public DownloadWebpageTask(ImageView imageView) {
-      imageViewReference = new WeakReference<ImageView>(imageView);
-    }
+  private class DownloadWebpageTask extends AsyncTask<ViewHolder, Void, ViewHolder> {
 
     @Override
-    protected Bitmap doInBackground(String... urls) {
+    protected ViewHolder doInBackground(ViewHolder... params) {
       Bitmap bitmap = null;
       // params comes from the execute() call: params[0] is the url.
 
+      ViewHolder viewHolder = params[0];
       try {
-        Log.d("url", urls[0]);
-        return downloadUrl(urls[0]);
+        URL imageURL = new URL(viewHolder.imgUrl);
+        viewHolder.bitmap = BitmapFactory.decodeStream(imageURL.openStream());
       } catch (IOException e) {
-        e.printStackTrace();
+        // TODO: handle exception
+        Log.e("error", "Downloading Image Failed");
+        viewHolder.bitmap = null;
       }
+      return viewHolder;
 
-      //return downloadUrl(urls[0]);
-      return bitmap;
     }
 
     // onPostExecute displays the results of the AsyncTask.
     @Override
-    protected void onPostExecute(Bitmap result) {
+    protected void onPostExecute(ViewHolder result) {
       Bitmap bitmap = null;
-           /* if (isCancelled()) {
-                bitmap = null;
-            }*/
-
-      if (imageViewReference != null) {
-        ImageView imageView = imageViewReference.get();
-        if (imageView != null) {
-          if (bitmap != null) {
-            imageView.setImageBitmap(bitmap);
-          } else {
-            Log.d("bitmap", "null");
-            // Drawable placeholder = imageView.getContext().getResources().getDrawable(R.drawable.avatar1);
-            //imageView.setImageDrawable(placeholder);
-          }
-        }
+      if (result.bitmap == null) {
+        //result.feedImage.setImageResource(R.drawable.postthumb_loading);
+      } else {
+        result.feedImage.setImageBitmap(result.bitmap);
       }
+
     }
   }
 

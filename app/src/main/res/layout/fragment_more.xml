@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/feed_bg"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/feed_bg">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:id="@+id/more_app_bar"
+                android:layout_width="match_parent"
+                android:layout_height="?android:actionBarSize"
+                android:background="@color/newbrand">
+            <com.dsquare.hibour.utils.ProximaExtraBold
+                android:id="@+id/more_fragment_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="@string/more_title"
+                android:textColor="@color/white"
+                android:textSize="@dimen/app_bar_title_text_size"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/more_userLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_30"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:padding="@dimen/dp_10">
+
+                <com.dsquare.hibour.dialogs.RoundImageView
+                    android:id="@+id/profile_pic"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_gravity="center_vertical"
+                     />
+
+                <com.dsquare.hibour.utils.Proxima
+                    android:id="@+id/settings_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_toRightOf="@+id/profile_pic"
+                    android:gravity="center_vertical"
+                    android:text="Firstname Lastname"
+                    android:textSize="@dimen/sp_18" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/arrow_forward" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/more_divider" />
+
+            <!--<com.dsquare.hibour.utils.Proxima-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="@dimen/dp_20"-->
+                <!--android:padding="@dimen/dp_15"-->
+                <!--android:text="Love on Us"-->
+                <!--android:textColor="@color/newbrand"-->
+                <!--android:textSize="@dimen/sp_18" />-->
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/more_divider" />
+
+            <RelativeLayout
+                android:id="@+id/more_inviteFriendslayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_marginTop="@dimen/dp_30"
+                android:orientation="horizontal"
+                android:padding="@dimen/dp_10">
+
+                <ImageView
+                    android:id="@+id/invite_ic"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_invite" />
+
+                <com.dsquare.hibour.utils.Proxima
+                    android:id="@+id/invite_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_toRightOf="@id/invite_ic"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:text="Invite Neighbours"
+                    android:textSize="@dimen/sp_16" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/more_divider" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:padding="@dimen/dp_10">
+
+                <ImageView
+                    android:id="@+id/rate_ic"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_rate" />
+
+                <com.dsquare.hibour.utils.Proxima
+                    android:id="@+id/rate_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_toRightOf="@id/rate_ic"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:text="Rate Hibour"
+                    android:textSize="@dimen/sp_16" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/arrow_forward" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/more_divider" />
+
+
+            <!--<com.dsquare.hibour.utils.Proxima-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="@dimen/dp_30"-->
+                <!--android:padding="@dimen/dp_15"-->
+                <!--android:text="Important Stuff"-->
+                <!--android:textColor="@color/newbrand"-->
+                <!--android:textSize="@dimen/sp_18" />-->
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/more_divider" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_marginTop="@dimen/dp_30"
+                android:orientation="horizontal"
+                android:padding="@dimen/dp_10">
+
+                <ImageView
+                    android:id="@+id/contact_ic"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_contact" />
+
+                <com.dsquare.hibour.utils.Proxima
+                    android:id="@+id/contact_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_toRightOf="@id/contact_ic"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:text="Contact Us"
+                    android:textSize="@dimen/sp_16" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/arrow_forward" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/more_divider" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:padding="@dimen/dp_10">
+
+                <ImageView
+                    android:id="@+id/terms_ic"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_terms" />
+
+                <com.dsquare.hibour.utils.Proxima
+                    android:id="@+id/terms_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_toRightOf="@id/terms_ic"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:text="Terms of Service"
+                    android:textSize="@dimen/sp_16" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/arrow_forward" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/more_divider" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:padding="@dimen/dp_10">
+
+                <ImageView
+                    android:id="@+id/rules_ic"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_rules" />
+
+                <com.dsquare.hibour.utils.Proxima
+                    android:id="@+id/rules_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_toRightOf="@id/rules_ic"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:text="Rules and Info"
+                    android:textSize="@dimen/sp_16" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/arrow_forward" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/more_divider" />
+
+            <RelativeLayout
+                android:id="@+id/more_logoutlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/dp_30"
+                android:padding="@dimen/dp_10">
+
+                <ImageView
+                    android:id="@+id/logout_ic"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/logout" />
+
+                <com.dsquare.hibour.utils.Proxima
+                    android:id="@+id/logout_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_toRightOf="@id/logout_ic"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:text="Logout"
+                    android:textSize="@dimen/sp_16" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

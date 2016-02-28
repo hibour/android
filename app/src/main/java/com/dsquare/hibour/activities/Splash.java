@@ -18,7 +18,7 @@ import io.fabric.sdk.android.Fabric;
 /**
  * Created by Dsquare Android on 1/14/2016.
  */
-public class Splash extends AppCompatActivity {
+public class Splash extends AppCompatActivity{
 
     private static int SPLASH_TIME_OUT = 2000;
     private Hibour application;
@@ -27,7 +27,8 @@ public class Splash extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
+        //Fabric.with(this, new Crashlytics());
+
 
         setContentView(R.layout.activity_splash);
 
@@ -49,11 +50,12 @@ public class Splash extends AppCompatActivity {
                         Intent i = new Intent(Splash.this, LocationSearch.class);
                         startActivity(i);
                     }else{
-                        Intent homeIntent = new Intent(Splash.this,Home.class);
+                        Intent homeIntent = new Intent(Splash.this,HomeActivity.class);
                         startActivity(homeIntent);
                     }
                     finish();
             }
         }, SPLASH_TIME_OUT);
     }
+
 }

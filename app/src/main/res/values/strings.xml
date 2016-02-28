@@ -84,6 +84,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="home_fragment_title">hi\'bour</string>
+    <string name="more_title">More</string>
     <string name="posts_share_text">SHARE</string>
     <string name="signin_button">Sign in</string>
     <string name="signin_signup_text">Don\'t have an account? join here.</string>

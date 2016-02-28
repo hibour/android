@@ -1,5 +1,7 @@
 package com.dsquare.hibour.pojos.posts;
 
+import com.dsquare.hibour.database.table.FeedsTable;
+
 /**
  * Created by ASHOK on 2/7/2016.
  */
@@ -36,6 +38,15 @@ public class Feeds {
     this.likesCount = likesCount;
     this.commentsCount = commentsCount;
     this.postyType = postyType;
+  }
+
+  public Feeds(FeedsTable post) {
+    this(post.postid, post.imgurl, post.description,
+            post.date, post.time, post.username, post.userimgurl,
+            post.userid, String.valueOf(post.userliked),
+            String.valueOf(post.likescount),
+            String.valueOf(post.commentscount),
+            post.posttype);
   }
 
   public String getPostId() {

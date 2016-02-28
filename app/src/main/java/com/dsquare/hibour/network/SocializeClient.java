@@ -27,12 +27,11 @@ import java.net.URL;
  */
 public class SocializeClient {
   private static final String LOG_TAG = SocializeClient.class.getSimpleName();
-  Hibour hibour;
-  private Context context;
-  private int MY_SOCKET_TIMEOUT_MS = 30000;
+
+  private HibourConnector mConnector;
 
   public SocializeClient(Context context) {
-    this.context = context;
+    mConnector = HibourConnector.getInstance(context);
   }
 
   /* To get all categories*/
@@ -58,11 +57,7 @@ public class SocializeClient {
           callback.onFailure(error);
         }
       });
-      neighboursRequest.setRetryPolicy(new DefaultRetryPolicy(
-          MY_SOCKET_TIMEOUT_MS,
-          DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-          DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-      HibourConnector.getInstance(context).addToRequestQueue(neighboursRequest);
+      mConnector.addToRequestQueue(neighboursRequest);
     } catch (MalformedURLException e) {
       e.printStackTrace();
     } catch (URISyntaxException e) {
@@ -95,11 +90,7 @@ public class SocializeClient {
           callback.onResultCallBack(message, Constants.MESSAGE_FAILED, null);
         }
       });
-      sendMessageRequest.setRetryPolicy(new DefaultRetryPolicy(
-          MY_SOCKET_TIMEOUT_MS,
-          DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-          DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-      HibourConnector.getInstance(context).addToRequestQueue(sendMessageRequest);
+      mConnector.addToRequestQueue(sendMessageRequest);
     } catch (MalformedURLException e) {
       e.printStackTrace();
     } catch (URISyntaxException e) {
@@ -128,11 +119,7 @@ public class SocializeClient {
           callback.onFailure(error);
         }
       });
-      neighboursRequest.setRetryPolicy(new DefaultRetryPolicy(
-          MY_SOCKET_TIMEOUT_MS,
-          DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-          DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-      HibourConnector.getInstance(context).addToRequestQueue(neighboursRequest);
+      mConnector.addToRequestQueue(neighboursRequest);
     } catch (MalformedURLException e) {
       e.printStackTrace();
     } catch (URISyntaxException e) {
@@ -163,11 +150,7 @@ public class SocializeClient {
           Log.e(LOG_TAG, "error: send user status");
         }
       });
-      sendMessageRequest.setRetryPolicy(new DefaultRetryPolicy(
-          MY_SOCKET_TIMEOUT_MS,
-          DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-          DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-      HibourConnector.getInstance(context).addToRequestQueue(sendMessageRequest);
+      mConnector.addToRequestQueue(sendMessageRequest);
     } catch (MalformedURLException e) {
       e.printStackTrace();
     } catch (URISyntaxException e) {

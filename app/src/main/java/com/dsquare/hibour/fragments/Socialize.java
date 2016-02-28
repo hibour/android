@@ -2,7 +2,10 @@ package com.dsquare.hibour.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,7 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
@@ -40,10 +43,9 @@ import java.util.List;
 /**
  * Created by Dsquare Android on 1/22/2016.
  */
-public class Socialize extends android.support.v4.app.Fragment implements View.OnClickListener {
+public class Socialize extends HibourBaseTabFragment implements View.OnClickListener {
 
-    CharSequence[] titles = {"PREFERENCES", "ALL"};
-    int NumOfTabs = 2;
+    private SocializeTabsPager mPagerAdapter;
     private Button doneButton,previous;
     private RecyclerView prefsRecycler;
     private List<String[]> prefsList = new ArrayList<>();
@@ -57,6 +59,7 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
     private ViewPager pager;
     private SlidingTabLayout tabs;
     private List<String> tabsList = new ArrayList<>();
+    private CoordinatorLayout coordinatorLayout;
     public Socialize() {
         // Required empty public constructor
     }
@@ -78,19 +81,21 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
         gson = new Gson();
         socialClient = new SocializeClient(getActivity());
         application = Hibour.getInstance(getActivity());
+        coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id
+                .coordinatorLayout);
 //        doneButton = (Button)view.findViewById(R.id.socialize_done_button);
 //        previous = (Button)view.findViewById(R.id.socialize_prev_button);
-        pager = (ViewPager) view.findViewById(R.id.posts_pager);
+        pager = (ViewPager) view.findViewById(R.id.socialize_pager);
         tabsList.add("PREFERENCES");
         tabsList.add("ALL");
-        tabs = (SlidingTabLayout) view.findViewById(R.id.posts_tabs);
+        tabs = (SlidingTabLayout) view.findViewById(R.id.socialize_tabs);
         tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
             @Override
             public int getIndicatorColor(int position) {
-                return getResources().getColor(R.color.white);
+                return getResources().getColor(R.color.newbrand);
             }
         });
-        tabs.setTabsBackgroundColor(getResources().getColor(R.color.brand));
+        tabs.setTabsBackgroundColor(getResources().getColor(R.color.white));
 //        prefsRecycler = (RecyclerView)view.findViewById(R.id.social_prefs_list);
 //        prefsRecycler.setLayoutManager(new GridLayoutManager(getActivity(), 3));
 //        prefsRecycler.addItemDecoration(new GridLayoutSpacing(3, 5, true));
@@ -134,7 +139,7 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
         if(userPrefs.equals("")){
             openHomeActivity();
         }else{
-            insertUserPrefs(application.getUserId(),userPrefs);
+            insertUserPrefs(application.getUserId(), userPrefs);
         }
     }
     /* get all prefs*/
@@ -155,7 +160,13 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
                 }
             });
         }else{
-            Toast.makeText(getActivity(), "Network connection error", Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
         }
     }
     /* insert prefs*/
@@ -178,7 +189,13 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
                 }
             });
         }else{
-            Toast.makeText(getActivity(),"Network connection error",Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
         }
     }
     /* parse all prefs*/
@@ -217,16 +234,18 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
                     ,Constants.socialPrefsMap.get(s).get(5)};
             prefsList.add(details);
         }
-        prefsRecycler.setAdapter(new SocializeAdapter(getActivity(),prefsList));
+        prefsRecycler.setAdapter(new SocializeAdapter(getActivity(), prefsList));
     }
 
     /*set pager adapter*/
     private void setPager() {
-
-        SocializeTabsPager pagerAdapter = new SocializeTabsPager(getFragmentManager(), tabsList);
+        if (mPagerAdapter == null) {
+            mPagerAdapter = new SocializeTabsPager(getFragmentManager());
+        }
+        mPagerAdapter.updateTabs(tabsList);
         tabs.setDistributeEvenly(true);
         try {
-            pager.setAdapter(pagerAdapter);
+            pager.setAdapter(mPagerAdapter);
             tabs.setViewPager(pager);
         } catch (Exception e) {
             e.printStackTrace();
@@ -246,7 +265,6 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
     /* get socialize pref members*/
     private void getMembers(String userId){
         if(networkDetector.isConnected()){
-            dialog = ProgressDialog.show(getActivity(),"","Please Wait...");
             socialClient.getNeighbours(userId,new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
@@ -270,6 +288,9 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
             Data socialize = gson.fromJson(jsonObject.toString(),Data.class);
             List<com.dsquare.hibour.pojos.Socialize.Datum> data = socialize.getData();
             Constants.socialPrefsList.clear();
+            Constants.socialPrefsMap.clear();
+            Constants.prefsMap.clear();
+            Constants.membersList.clear();
             for(com.dsquare.hibour.pojos.Socialize.Datum d:data){
                 Constants.socialPrefsList.add(d);
                 List<String> dd = new ArrayList<>();
@@ -285,7 +306,6 @@ public class Socialize extends android.support.v4.app.Fragment implements View.O
                     Constants.membersList.add(ch);
                 }
             }
-
             setPager();
         } catch (Exception e) {
             e.printStackTrace();
