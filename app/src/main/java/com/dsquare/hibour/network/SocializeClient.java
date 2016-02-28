@@ -9,6 +9,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.listener.MessageStateResultCallBack;
+import com.dsquare.hibour.listener.ResultCallBack;
 import com.dsquare.hibour.pojos.message.UserMessage;
 import com.dsquare.hibour.pojos.message.UserStatus;
 import com.dsquare.hibour.utils.Constants;
@@ -125,10 +126,10 @@ public class SocializeClient {
         }
     }
 
-  public void sendUserStatus(final UserStatus status) {
+  public void sendUserStatus(final UserStatus status, final ResultCallBack resultCallBack) {
     try {
 
-      String urlStr = String.format(Constants.URL_SEND_USER_STATUS, status.currentUserId, status.status, Constants.SIGNATURE_VALUE);
+      String urlStr = String.format(Constants.URL_SEND_USER_STATUS, status.fromUserId, status.status, Constants.SIGNATURE_VALUE);
       if (status.toUserId != null)
         urlStr += ("&to_user_id=" + status.toUserId);
       Log.d("send message url", urlStr);
@@ -141,11 +142,13 @@ public class SocializeClient {
         @Override
         public void onResponse(JSONObject response) {
           Log.e(LOG_TAG, response.toString() + "");
+          resultCallBack.onResultCallBack(null, null);
         }
       }, new Response.ErrorListener() {
         @Override
         public void onErrorResponse(VolleyError error) {
           Log.e(LOG_TAG, "error: send user status");
+          resultCallBack.onResultCallBack(null, null);
         }
       });
       mConnector.addToRequestQueue(sendMessageRequest);

@@ -50,6 +50,11 @@ public class NearByUserChat extends BaseChatFragment {
         List<UserDetail> list = new Gson().fromJson(jsonObject.getString("data"), new TypeToken<ArrayList<UserDetail>>() {
         }.getType());
         adapter.getUserList().clear();
+        UserDetail temp = new UserDetail();
+        temp.id = "356";
+        temp.Username = "Ashok";
+        temp.Email = "ashok@dsquarelabs.com";
+        adapter.getUserList().add(temp);
         adapter.getUserList().addAll(list);
         adapter.notifyDataSetChanged();
         for (UserDetail userDetail : list) {

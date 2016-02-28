@@ -51,7 +51,7 @@ public class Constants {
 
     public static final String GOOGLE_ADDRESS_API_KEY = "AIzaSyC9Cnku7Rz_ZAkuEwbd5jf5D94MzTTk784";
 
-    public static final String URL_SEND_USER_STATUS = URL_DOMAIN + "Userstatus/%s/status/%s?signature=%s";
+    public static final String URL_SEND_USER_STATUS = URL_DOMAIN + "Users/onlinestatus?userid=%s&user_status=%s&signature=%s";
 
     /*user constants*/
     public static final String KEYWORD_USER_NAME = "Username";

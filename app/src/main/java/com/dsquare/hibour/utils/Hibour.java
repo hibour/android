@@ -77,6 +77,10 @@ public class Hibour {
     /* set user details*/
     public void setUserDetails(Map<String, String> userDetails) {
         initializeSharedPrefs();
+        Log.e(LOG_TAG, userDetails.get(Constants.PREFERENCE_USER_ID));
+        Log.e(LOG_TAG, userDetails.get(Constants.SF_FIRST));
+        Log.e(LOG_TAG, userDetails.get(Constants.SF_LAST));
+        Log.e(LOG_TAG, userDetails.get(Constants.SF_EMAIL));
         editor.putString(Constants.PREFERENCE_USER_ID, userDetails.get(Constants.PREFERENCE_USER_ID));
         editor.putString(Constants.SF_FIRST, userDetails.get(Constants.SF_FIRST));
         editor.putString(Constants.SF_LAST, userDetails.get(Constants.SF_LAST));
