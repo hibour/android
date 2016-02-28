@@ -230,4 +230,5 @@
     </ScrollView>
 </LinearLayout>
 
-</FrameLayout></android.support.design.widget.CoordinatorLayout>
+</FrameLayout>
+</android.support.design.widget.CoordinatorLayout>

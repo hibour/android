@@ -185,4 +185,5 @@
     </FrameLayout>
 
 
-</RelativeLayout></android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

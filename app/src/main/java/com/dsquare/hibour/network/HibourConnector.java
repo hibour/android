@@ -15,16 +15,15 @@ import com.android.volley.toolbox.Volley;
  * Created by Android Dsquare on 12/29/2015.
  */
 public class HibourConnector {
+    private static HibourConnector mInstance;
+    private static Context mCtx;
     private final int MY_SOCKET_TIMEOUT_MS = 30000;
     private final RetryPolicy HIBOUR_DEFAULT_RETRY_POLICY = new DefaultRetryPolicy(
-            MY_SOCKET_TIMEOUT_MS,
-            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-
-    private static HibourConnector mInstance;
+        MY_SOCKET_TIMEOUT_MS,
+        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
-    private static Context mCtx;
 
 
     private HibourConnector(Context context) {

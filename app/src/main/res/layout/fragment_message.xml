@@ -17,14 +17,14 @@
             android:background="@color/newbrand">
 
             <com.dsquare.hibour.utils.ProximaExtraBold
+                android:id="@+id/neighbours_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="@string/messages_title"
                 android:textColor="@color/white"
-                android:textSize="@dimen/app_bar_title_text_size"
-                android:id="@+id/neighbours_name"/>
-            
+                android:textSize="@dimen/app_bar_title_text_size"/>
+
             <ImageView
                 android:id="@+id/messages_search_icon"
                 android:layout_width="@dimen/dp_30"
@@ -57,11 +57,11 @@
                 android:id="@+id/home_search_autocomplete"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_30"
-                android:layout_marginRight="@dimen/dp_30"
                 android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/dp_30"
                 android:background="@drawable/loc_search_rectangle"
                 android:gravity="center"
-                android:layout_gravity="center"
                 android:hint="search.."
                 android:textColor="@color/black_1"
                 android:textColorHint="@color/gray"

@@ -64,10 +64,9 @@ import java.util.Map;
 
 public class NewPost extends android.support.v4.app.Fragment implements View.OnClickListener
     , ImagePicker, AdapterView.OnItemClickListener {
+    public static final String CATEGORY_BUNDLE_ARG = "category";
     private static final int REQUEST_IMAGE_SELECTOR = 1000;
     private static final int REQUEST_IMAGE_CAPTURE = 1001;
-    public static final String CATEGORY_BUNDLE_ARG = "category";
-
     private String category;
     private Button send;
     private EditText text;
@@ -134,7 +133,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     private void initializeEventListeners() {
         gallary.setOnClickListener(this);
         delete.setOnClickListener(this);
-       // done.setOnClickListener(this);
+        // done.setOnClickListener(this);
         cancel.setOnClickListener(this);
     }
 
@@ -278,7 +277,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                 !text.getText().toString().equals("") &&
                 !postimagesstring.equals("")) {
             Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, "All fields are required!", Snackbar.LENGTH_LONG);
+                .make(coordinatorLayout, "All fields are required!", Snackbar.LENGTH_LONG);
             // Changing action button text color
             View sbView = snackbar.getView();
             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
@@ -298,7 +297,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
             newpostDialogue = ProgressDialog.show(getActivity(), "", getResources()
                 .getString(R.string.progress_dialog_text));
             postsClient.insertonPost(application.getUserId(), cat_str, posttypeid, postMessage, postImage
-                    , "1", "", new WebServiceResponseCallback() {
+                , "1", "", new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parsePostDetails(jsonObject);
@@ -313,7 +312,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
             });
         } else {
             Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
             // Changing action button text color
             View sbView = snackbar.getView();
             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
@@ -328,7 +327,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         try {
             JSONObject data = jsonObject.getJSONObject("data");
             Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, "Post update successfully!", Snackbar.LENGTH_LONG);
+                .make(coordinatorLayout, "Post update successfully!", Snackbar.LENGTH_LONG);
             // Changing action button text color
             View sbView = snackbar.getView();
             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
@@ -340,7 +339,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         } catch (JSONException e) {
             e.printStackTrace();
             Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, "Post updation failed!", Snackbar.LENGTH_LONG);
+                .make(coordinatorLayout, "Post updation failed!", Snackbar.LENGTH_LONG);
             // Changing action button text color
             View sbView = snackbar.getView();
             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
@@ -362,7 +361,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
 
     private void initializeViews(View view) {
         coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id
-                .coordinatorLayout);
+            .coordinatorLayout);
         getActivity().getWindow().setSoftInputMode(
             WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         done = (TextView) view.findViewById(R.id.create_post_done);
@@ -383,23 +382,22 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         postWidget = (LinearLayout) view.findViewById(R.id.post_widget);
         editPost.requestFocus();
 
-        editPost.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        editPost.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus){
-                Log.d("edit text","On Foucs. Has Focus = " + hasFocus);
-                if (hasFocus){
-                        done.setTextColor(getActivity().getResources().getColor(R.color.black_1));
-                        setOnClickForDone();
+            public void onFocusChange(View v, boolean hasFocus) {
+                Log.d("edit text", "On Foucs. Has Focus = " + hasFocus);
+                if (hasFocus) {
+                    done.setTextColor(getActivity().getResources().getColor(R.color.black_1));
+                    setOnClickForDone();
                     //open keyboard
                     ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(v,
-                            InputMethodManager.SHOW_FORCED);
+                        InputMethodManager.SHOW_FORCED);
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.showSoftInput(editPost, InputMethodManager.SHOW_IMPLICIT);
-                }
-                else{
+                } else {
                     //close keyboard
                     ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(v,
-                            InputMethodManager.SHOW_FORCED);
+                        InputMethodManager.SHOW_FORCED);
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.showSoftInput(editPost, InputMethodManager.SHOW_IMPLICIT);
                 }
@@ -407,10 +405,9 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         });
 
         //Set on click listener to clear focus
-        editPost.setOnClickListener(new View.OnClickListener(){
+        editPost.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View clickedView)
-            {
+            public void onClick(View clickedView) {
                 clickedView.clearFocus();
                 clickedView.requestFocus();
             }
@@ -642,6 +639,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
 
     public interface PostsListener {
         void onNewPostCancelled();
+
         void onNewPostPosted();
     }
 

@@ -51,7 +51,7 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prefernceview);
         frmAdapter = getIntent().getBooleanExtra("frmAdapter", false);
-        Log.d("frmAdapter",frmAdapter+"");
+        Log.d("frmAdapter", frmAdapter + "");
         prepareNeighboursList();
         initializeViews();
         initializeEventListeners();
@@ -135,7 +135,7 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
         if (frmAdapter) {
             List<ChoosedUser> user = Constants.prefsMap.get(getIntent()
                 .getStringExtra("prefId")).getChoosedUsers();
-            Log.d("size of prefs",user.size()+"");
+            Log.d("size of prefs", user.size() + "");
             for (i = 0; i < user.size(); i++) {
                 if (user.get(i).getUserName() != null && !user.get(i).getUserName().equals("null")) {
                     userDetail = new UserDetail();

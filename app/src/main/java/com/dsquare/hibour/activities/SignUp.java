@@ -93,14 +93,14 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     private Intent data;
     private String string;
     private String userName="",userNumber="",userMail="",socialType="",userpassword="",userfirst="",userlast="";
-    private ImageView male,female;
-    private LinearLayout linearmale,linearfemale;
-    private String Gender="";
+    private ImageView male, female;
+    private LinearLayout linearmale, linearfemale;
+    private String Gender = "";
     private DatabaseHandler handler;
     private CoordinatorLayout coordinatorLayout;
     private SharedPreferences preferences;
     private Bitmap bitmap;
-    private String imageString="a";
+    private String imageString = "a";
 
     private WebServiceResponseCallback userDetailCallbackListener = new WebServiceResponseCallback() {
         @Override
@@ -128,13 +128,13 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     }
     /* initialize views*/
     private void initializeViews(){
-        preferences = getSharedPreferences("Login Credentials",MODE_PRIVATE);
+        preferences = getSharedPreferences("Login Credentials", MODE_PRIVATE);
         handler = new DatabaseHandler(this);
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id
-                .coordinatorLayout);
-        submitButton = (Button)findViewById(R.id.signup_next);
-        fname = (EditText)findViewById(R.id.signup_firstname);
-        lname = (EditText)findViewById(R.id.signup_lastname);
+            .coordinatorLayout);
+        submitButton = (Button) findViewById(R.id.signup_next);
+        fname = (EditText) findViewById(R.id.signup_firstname);
+        lname = (EditText) findViewById(R.id.signup_lastname);
 
         email= (EditText)findViewById(R.id.signup_email);
         password = (EditText) findViewById(R.id.signup_pwd);
@@ -186,13 +186,13 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
         inputLayoutpassword.setTypeface(tf);
 
         //Trying to prepopulate the form
-        if(ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_CONTACTS)
-                != PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(this,
+            Manifest.permission.READ_CONTACTS)
+            != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_CONTACTS},
-                    PERMISSIONS_REQUEST_READ_CONTACTS);
+                new String[]{Manifest.permission.READ_CONTACTS},
+                PERMISSIONS_REQUEST_READ_CONTACTS);
 
         } else {
             this.prepopulateForm();
@@ -207,17 +207,17 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
         Helper helper = new Helper(this);
 
         String emailString = helper.getUserEmail();
-        if(emailString != null){
+        if (emailString != null) {
             email.setText(emailString);
 
         }
 
         String[] name = helper.getName();
-        if(name!= null) {
-            if(name[1] != null && name[2] != null) {
+        if (name != null) {
+            if (name[1] != null && name[2] != null) {
                 fname.setText(name[1]);
                 lname.setText(name[2]);
-            } else if(name[0] != null) {
+            } else if (name[0] != null) {
                 fname.setText(name[0]);
 
             }
@@ -474,7 +474,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                 signUpUser(userFname, userLname, userMail, userPass, "normal");
             }else{
                 Snackbar snackbar = Snackbar
-                        .make(coordinatorLayout, "Enter valid email!", Snackbar.LENGTH_LONG);
+                    .make(coordinatorLayout, "Enter valid email!", Snackbar.LENGTH_LONG);
                 // Changing action button text color
                 View sbView = snackbar.getView();
                 TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
@@ -483,7 +483,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
             }
         }else{
             Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, "Enter valid credentials!", Snackbar.LENGTH_LONG);
+                .make(coordinatorLayout, "Enter valid credentials!", Snackbar.LENGTH_LONG);
             // Changing action button text color
             View sbView = snackbar.getView();
             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
@@ -498,7 +498,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                     .getString(R.string.progress_dialog_text));
             if (application.getGCMToken().equalsIgnoreCase("")) {
                 Snackbar snackbar = Snackbar
-                        .make(coordinatorLayout, "Check Internet Connectivity.", Snackbar.LENGTH_LONG);
+                    .make(coordinatorLayout, "Check Internet Connectivity.", Snackbar.LENGTH_LONG);
                 // Changing action button text color
                 View sbView = snackbar.getView();
                 TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
@@ -511,11 +511,11 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
                 }
                 return;
             }
-            Map<String,String> userDetails = application.getUserDetails();
-            accountsClient.signUpUser(userFname, userLname, email, password, Gender, regType," "
-                    , userDetails.get(Constants.SF_LAT)
-                    , userDetails.get(Constants.SF_LNG),userDetails.get(Constants.SF_LOCADD)
-                    , userDetails.get(Constants.SF_SUB_LOC),
+            Map<String, String> userDetails = application.getUserDetails();
+            accountsClient.signUpUser(userFname, userLname, email, password, Gender, regType, " "
+                , userDetails.get(Constants.SF_LAT)
+                , userDetails.get(Constants.SF_LNG), userDetails.get(Constants.SF_LOCADD)
+                , userDetails.get(Constants.SF_SUB_LOC),
                 application.getGCMToken(), new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
@@ -531,7 +531,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
             });
         }else{
             Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
             // Changing action button text color
             View sbView = snackbar.getView();
             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
@@ -549,21 +549,21 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
 //            Integer integer = data.getId();
             String s = String.valueOf(data.getId());
             Log.d("integer", s);
-            Map<String,String> userDetails = new HashMap<>();
-            userDetails.put(Constants.PREFERENCE_USER_ID,data.getId()+"");
-            userDetails.put(Constants.SF_FIRST,data.getFirstName());
-            userDetails.put(Constants.SF_LAST,data.getLastName());
-            userDetails.put(Constants.SF_EMAIL,data.getEmail());
-            userDetails.put(Constants.SF_LOCADD,data.getAddress());
-            userDetails.put(Constants.SF_SUB_LOC,data.getAddress1());
-            userDetails.put(Constants.SF_LAT,data.getLattiude());
-            userDetails.put(Constants.SF_LNG,data.getLongittude());
-            userDetails.put(Constants.SF_PASS,data.getPassword());
-            userDetails.put(Constants.SF_DOB,data.getDob());
-            userDetails.put(Constants.SF_IMAGE,data.getImage());
-            userDetails.put(Constants.SF_GENDER,data.getGender());
-            userDetails.put(Constants.SF_REGTYPE,data.getRegtype());
-            userDetails.put(Constants.SF_MOBILE,data.getMobile());
+            Map<String, String> userDetails = new HashMap<>();
+            userDetails.put(Constants.PREFERENCE_USER_ID, data.getId() + "");
+            userDetails.put(Constants.SF_FIRST, data.getFirstName());
+            userDetails.put(Constants.SF_LAST, data.getLastName());
+            userDetails.put(Constants.SF_EMAIL, data.getEmail());
+            userDetails.put(Constants.SF_LOCADD, data.getAddress());
+            userDetails.put(Constants.SF_SUB_LOC, data.getAddress1());
+            userDetails.put(Constants.SF_LAT, data.getLattiude());
+            userDetails.put(Constants.SF_LNG, data.getLongittude());
+            userDetails.put(Constants.SF_PASS, data.getPassword());
+            userDetails.put(Constants.SF_DOB, data.getDob());
+            userDetails.put(Constants.SF_IMAGE, data.getImage());
+            userDetails.put(Constants.SF_GENDER, data.getGender());
+            userDetails.put(Constants.SF_REGTYPE, data.getRegtype());
+            userDetails.put(Constants.SF_MOBILE, data.getMobile());
             application.setUserDetails(userDetails);
             accountsClient.getUserDetails(data.getId() + "", userDetailCallbackListener);
 
@@ -595,10 +595,10 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
 
-        switch(requestCode) {
+        switch (requestCode) {
             case SignUp.PERMISSIONS_REQUEST_READ_CONTACTS:
                 if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     this.prepopulateForm();
 
                 }

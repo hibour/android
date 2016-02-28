@@ -3,7 +3,6 @@ package com.dsquare.hibour.network;
 import android.content.Context;
 import android.util.Log;
 
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -13,7 +12,6 @@ import com.dsquare.hibour.listener.MessageStateResultCallBack;
 import com.dsquare.hibour.pojos.message.UserMessage;
 import com.dsquare.hibour.pojos.message.UserStatus;
 import com.dsquare.hibour.utils.Constants;
-import com.dsquare.hibour.utils.Hibour;
 
 import org.json.JSONObject;
 

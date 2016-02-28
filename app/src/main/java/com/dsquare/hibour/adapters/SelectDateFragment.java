@@ -50,14 +50,15 @@ public class SelectDateFragment extends DialogFragment implements DatePickerDial
 
 
         }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-           // callback = (SignInCallback) activity;
+            // callback = (SignInCallback) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement NoticeDialogListener");
+                + " must implement NoticeDialogListener");
         }
     }
     }

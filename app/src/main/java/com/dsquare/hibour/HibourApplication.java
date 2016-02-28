@@ -37,15 +37,11 @@ public class HibourApplication extends Application {
       startService(intent);
     }
   }
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(base);
-    }
 
   @Override
   protected void attachBaseContext(Context base) {
     super.attachBaseContext(base);
-    MultiDex.install(this);
+    MultiDex.install(base);
   }
+
 }

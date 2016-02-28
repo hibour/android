@@ -159,14 +159,14 @@ public class SearchInFeeds extends AppCompatActivity implements View.OnClickList
               , String.valueOf(posts.get(i).getPostLikesCount())
               , String.valueOf(posts.get(i).getPostComments().size())
               , posts.get(i).getPostType());*/
-            publishProgress(posts.get(i).postid, posts.get(i).imgurl
-                    , posts.get(i).description
-                    , posts.get(i).date, posts.get(i).time
-                    , posts.get(i).username, posts.get(i).userimgurl
-                    , posts.get(i).userid, posts.get(i).userliked
-                    , posts.get(i).likescount
-                    , posts.get(i).commentscount
-                    , posts.get(i).posttype);
+          publishProgress(posts.get(i).postid, posts.get(i).imgurl
+              , posts.get(i).description
+              , posts.get(i).date, posts.get(i).time
+              , posts.get(i).username, posts.get(i).userimgurl
+              , posts.get(i).userid, posts.get(i).userliked
+              , posts.get(i).likescount
+              , posts.get(i).commentscount
+              , posts.get(i).posttype);
         }
       } catch (Exception e) {
         e.printStackTrace();

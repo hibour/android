@@ -57,19 +57,19 @@ public class PreviousChat extends BaseChatFragment {
     adapter.getUserList().clear();
     adapter.getUserList().addAll(dbHandler.getChartUserList());
     adapter.notifyDataSetChanged();
-      for (UserDetail userDetail:dbHandler.getChartUserList()) {
-          List<UserDetail> data1 = new ArrayList<>();
-          data1.add(userDetail);
-          Constants.chatsMap.put(userDetail.id, data1);
-          Constants.searchChat.put(userDetail.Username, userDetail.id);
-          if (Constants.searchChat.size() > 0) {
-              Constants.chatList.clear();
-              for (String key1 : Constants.searchChat.keySet()) {
-                  Constants.chatList.add(key1);
-                  Log.d("size1", "" + Constants.chatList.size());
-              }
-          }
+    for (UserDetail userDetail : dbHandler.getChartUserList()) {
+      List<UserDetail> data1 = new ArrayList<>();
+      data1.add(userDetail);
+      Constants.chatsMap.put(userDetail.id, data1);
+      Constants.searchChat.put(userDetail.Username, userDetail.id);
+      if (Constants.searchChat.size() > 0) {
+        Constants.chatList.clear();
+        for (String key1 : Constants.searchChat.keySet()) {
+          Constants.chatList.add(key1);
+          Log.d("size1", "" + Constants.chatList.size());
+        }
       }
+    }
   }
 
   /* initialize views*/

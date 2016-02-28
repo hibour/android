@@ -42,11 +42,11 @@ public class Feeds {
 
   public Feeds(FeedsTable post) {
     this(post.postid, post.imgurl, post.description,
-            post.date, post.time, post.username, post.userimgurl,
-            post.userid, String.valueOf(post.userliked),
-            String.valueOf(post.likescount),
-            String.valueOf(post.commentscount),
-            post.posttype);
+        post.date, post.time, post.username, post.userimgurl,
+        post.userid, String.valueOf(post.userliked),
+        String.valueOf(post.likescount),
+        String.valueOf(post.commentscount),
+        post.posttype);
   }
 
   public String getPostId() {

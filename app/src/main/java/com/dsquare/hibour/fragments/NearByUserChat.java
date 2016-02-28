@@ -52,19 +52,19 @@ public class NearByUserChat extends BaseChatFragment {
         adapter.getUserList().clear();
         adapter.getUserList().addAll(list);
         adapter.notifyDataSetChanged();
-          for (UserDetail userDetail:list) {
-              List<UserDetail> data1 = new ArrayList<>();
-              data1.add(userDetail);
-              Constants.chatsMap.put(userDetail.id, data1);
-              Constants.searchChat.put(userDetail.Username,userDetail.id);
-              if (Constants.searchChat.size() > 0) {
-                  Constants.chatList.clear();
-                  for (String key : Constants.searchChat.keySet()) {
-                      Constants.chatList.add(key);
-                      Log.d("size",""+Constants.chatList.size());
-                  }
-              }
+        for (UserDetail userDetail : list) {
+          List<UserDetail> data1 = new ArrayList<>();
+          data1.add(userDetail);
+          Constants.chatsMap.put(userDetail.id, data1);
+          Constants.searchChat.put(userDetail.Username, userDetail.id);
+          if (Constants.searchChat.size() > 0) {
+            Constants.chatList.clear();
+            for (String key : Constants.searchChat.keySet()) {
+              Constants.chatList.add(key);
+              Log.d("size", "" + Constants.chatList.size());
+            }
           }
+        }
 
       } catch (JSONException e) {
         e.printStackTrace();

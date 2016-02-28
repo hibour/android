@@ -2,7 +2,6 @@
 <android.support.design.widget.CoordinatorLayout
     android:id="@+id/coordinatorLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -57,6 +56,7 @@
                 android:layout_marginRight="@dimen/dp_20"
                 android:padding="@dimen/dp_3"
                 android:src="@mipmap/ic_search_white"/>
+
             <LinearLayout
                 android:id="@+id/messages_search_bar"
                 android:layout_width="match_parent"
@@ -73,15 +73,16 @@
                     android:adjustViewBounds="true"
                     android:padding="@dimen/dp_10"
                     android:src="@mipmap/ic_back_white"/>
+
                 <RelativeLayout
                     android:id="@+id/home_search_layout"
                     android:layout_width="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
                     android:layout_height="@dimen/dp_35"
-                    android:layout_marginRight="@dimen/dp_50"
                     android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/dp_50"
                     android:background="@drawable/loc_search_rectangle"
+                    android:gravity="center"
                     >
 
                     <AutoCompleteTextView
@@ -95,27 +96,28 @@
                         android:textColor="@color/black_1"
                         android:textColorHint="@color/gray"
                         android:textSize="@dimen/edit_text_size"/>
+
                     <ImageView
                         android:layout_width="?android:actionBarSize"
                         android:layout_height="?android:actionBarSize"
-                        android:adjustViewBounds="true"
                         android:layout_alignParentRight="true"
+                        android:adjustViewBounds="true"
                         android:padding="@dimen/dp_5"
                         android:src="@mipmap/ic_search_red_icon"/>
                 </RelativeLayout>
                 <!--<AutoCompleteTextView-->
-                    <!--android:id="@+id/home_search_autocomplete"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="@dimen/dp_30"-->
-                    <!--android:layout_marginRight="@dimen/dp_30"-->
-                    <!--android:layout_centerInParent="true"-->
-                    <!--android:background="@drawable/loc_search_rectangle"-->
-                    <!--android:gravity="center"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:hint="search.."-->
-                    <!--android:textColor="@color/black_1"-->
-                    <!--android:textColorHint="@color/gray"-->
-                    <!--android:textSize="@dimen/edit_text_size"/>-->
+                <!--android:id="@+id/home_search_autocomplete"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/dp_30"-->
+                <!--android:layout_marginRight="@dimen/dp_30"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:background="@drawable/loc_search_rectangle"-->
+                <!--android:gravity="center"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:hint="search.."-->
+                <!--android:textColor="@color/black_1"-->
+                <!--android:textColorHint="@color/gray"-->
+                <!--android:textSize="@dimen/edit_text_size"/>-->
             </LinearLayout>
         </RelativeLayout>
     <View
@@ -158,8 +160,8 @@
             <com.dsquare.hibour.utils.Proxima
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="No Feeds Found"
                 android:layout_centerInParent="true"
+                android:text="No Feeds Found"
                 android:textColor="@color/black_2"
                 android:textSize="@dimen/text_Size_level5"/>
             </RelativeLayout>

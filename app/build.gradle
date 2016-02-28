@@ -37,7 +37,6 @@ android {
         disable 'InvalidPackage'
     }
 
-
     /*productFlavors {
         // Define separate dev and prod product flavors.
         dev {
