@@ -77,7 +77,7 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
     /* initialize views*/
     private void initializeViews(){
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id
-                .coordinatorLayout);
+            .coordinatorLayout);
         imageLoader = HibourConnector.getInstance(this).getImageLoader();
         backIcon = (ImageView) findViewById(R.id.comments_bacl_icon);
         postImage = (ImageView) findViewById(R.id.comments_image);
@@ -99,8 +99,8 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
         postMessage.setText(message);
         if (image.length() > 10) {
             postImage.setVisibility(View.VISIBLE);
-           // imageLoader.get(image.replace("\\", ""), ImageLoader.getImageListener(postImage
-             //   , R.drawable.avatar1, R.drawable.avatar1));
+            // imageLoader.get(image.replace("\\", ""), ImageLoader.getImageListener(postImage
+            //   , R.drawable.avatar1, R.drawable.avatar1));
             new DownloadWebpageTask().execute(image);
         } else {
             postImage.setVisibility(View.GONE);
@@ -231,7 +231,7 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
             });
         }else{
             Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
             // Changing action button text color
             View sbView = snackbar.getView();
             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
@@ -261,7 +261,7 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
             });
         }else{
             Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
             // Changing action button text color
             View sbView = snackbar.getView();
             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
@@ -317,6 +317,7 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
     private void parseLike(JSONObject jsonObject) {
         Log.d("data", jsonObject.toString());
     }
+
     private Bitmap downloadUrl(String myurl) throws IOException {
         InputStream is = null;
         // Only display the first 500 characters of the retrieved

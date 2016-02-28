@@ -50,7 +50,7 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
         Typeface numbers = Typeface.createFromAsset(getAssets(),
                 "fonts/pn_regular.otf");
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id
-                .coordinatorLayout);
+            .coordinatorLayout);
         mobile = (EditText) findViewById(R.id.mobile_edit);
         mobile.setTypeface(numbers);
         sumbit = (Button) findViewById(R.id.moblie_send);
@@ -88,7 +88,7 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
             sendtoMobilenumUser();
         } else {
             Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, "Invalid mobile number!", Snackbar.LENGTH_LONG);
+                .make(coordinatorLayout, "Invalid mobile number!", Snackbar.LENGTH_LONG);
             // Changing action button text color
             View sbView = snackbar.getView();
             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
@@ -107,7 +107,7 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
                 public void onSuccess(JSONObject jsonObject) {
                     Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                     startActivity(intent);
-                  //  parsemobileDetails(jsonObject);
+                    //  parsemobileDetails(jsonObject);
                     closeMobileDialog();
                 }
                 @Override
@@ -118,7 +118,7 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
             });
         }else{
             Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
             // Changing action button text color
             View sbView = snackbar.getView();
             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
@@ -142,7 +142,7 @@ public class MobileNumber extends AppCompatActivity implements View.OnClickListe
                 finish();
             } else {
                 Snackbar snackbar = Snackbar
-                        .make(coordinatorLayout, "Invalid User!", Snackbar.LENGTH_LONG);
+                    .make(coordinatorLayout, "Invalid User!", Snackbar.LENGTH_LONG);
                 // Changing action button text color
                 View sbView = snackbar.getView();
                 TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);

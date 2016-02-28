@@ -21,14 +21,14 @@ import java.util.Map;
  * Created by ASHOK on 1/7/2016.
  */
 public class AccountsClient {
-    private static final String LOG_TAG = AccountsClient.class.getSimpleName();
-    private HibourConnector mConnector;
-    private NetworkUtils mNetworkUtils;
-    private final int MY_SOCKET_TIMEOUT_MS = 30000;
+  private static final String LOG_TAG = AccountsClient.class.getSimpleName();
+  private final int MY_SOCKET_TIMEOUT_MS = 30000;
+  private HibourConnector mConnector;
+  private NetworkUtils mNetworkUtils;
 
     public AccountsClient(Context context) {
-        mConnector = HibourConnector.getInstance(context);
-        mNetworkUtils = new NetworkUtils();
+      mConnector = HibourConnector.getInstance(context);
+      mNetworkUtils = new NetworkUtils();
     }
 
     /* To get all categories*/
@@ -37,7 +37,7 @@ public class AccountsClient {
         try {
             String urlStr = getSignInString(userName, password, signInType, gcmToken);
             Log.d("signin url", urlStr);
-            mConnector.addToRequestQueue(mNetworkUtils.getJsonObjectRequest(urlStr, callback));
+          mConnector.addToRequestQueue(mNetworkUtils.getJsonObjectRequest(urlStr, callback));
         } catch (MalformedURLException | URISyntaxException e) {
             e.printStackTrace();
         }
@@ -45,39 +45,39 @@ public class AccountsClient {
 
     /* get user signin url String*/
     private String getSignInString(String userName, String password, String signInType, String gcmToken) {
-        return Constants.URL_SIGN_IN + "email=" + userName + "&"
+      return Constants.URL_SIGN_IN + "email=" + userName + "&"
                 + Constants.KEYWORD_PASSWORD + "=" + password + "&" + Constants.KEYWORD_GCM + "=" + gcmToken + "&"
                 + Constants.KEYWORD_SIGNIN_TYPE + "=" + signInType + "&" + Constants.KEYWORD_SIGNATURE + "=" + Constants.SIGNATURE_VALUE;
     }
 
     /* get user sign up url String*/
-    public void signUpUser(String userFname, String userLname, String email, String password, String gender, String regType,String image,
+    public void signUpUser(String userFname, String userLname, String email, String password, String gender, String regType, String image,
                            String userlat, String userlog, String address,
                            String address1, String gcmToken, final WebServiceResponseCallback callback) {
 
         try {
-            //String urlStr = getSignUpUrl(userFname, userLname, email, password, gender, regType, userlat, userlog, address, address1, gcmToken);
-            //Log.d("signup url", urlStr);
-            //mConnector.addToRequestQueue(mNetworkUtils.getJsonObjectRequest(urlStr, callback));
-            String urlStr = Constants.URL_SIGN_UP;
-            Map<String, String> params = new HashMap<>();
+          //String urlStr = getSignUpUrl(userFname, userLname, email, password, gender, regType, userlat, userlog, address, address1, gcmToken);
+          //Log.d("signup url", urlStr);
+          //mConnector.addToRequestQueue(mNetworkUtils.getJsonObjectRequest(urlStr, callback));
+          String urlStr = Constants.URL_SIGN_UP;
+          Map<String, String> params = new HashMap<>();
 //            Log.d("post",userId+postType+postsubType+postMessages+postImages+status);
-            params.put(Constants.KEYWORD_USER_NAME, userFname);
-            params.put(Constants.KEYWORD_USER_FIRSTNAME, userFname);
-            params.put(Constants.KEYWORD_USER_LASTNAME, userLname);
-            params.put(Constants.KEYWORD_EMAIL, email);
-            params.put(Constants.KEYWORD_PASSWORD, password);
-            params.put(Constants.KEYWORD_GENDER1, gender);
-            params.put(Constants.KEYWORD_SIGNUP_TYPE, regType);
-            params.put(Constants.KEYWORD_PROFILE_IMAGE, image);
-            params.put(Constants.KEYWORD_USER_LATITUDE, userlat);
-            params.put(Constants.KEYWORD_USER_LONGITUDE, userlog);
-            params.put(Constants.KEYWORD_ADDRESS, address);
-            params.put(Constants.KEYWORD_ADDRESS1, address1);
-            params.put(Constants.KEYWORD_GCM, gcmToken);
-            params.put(Constants.KEYWORD_SIGNATURE, Constants.SIGNATURE_VALUE);
-            CustomRequest signUpRequest = new CustomRequest(Request.Method.POST, urlStr, params
-                    , new Response.Listener<JSONObject>() {
+          params.put(Constants.KEYWORD_USER_NAME, userFname);
+          params.put(Constants.KEYWORD_USER_FIRSTNAME, userFname);
+          params.put(Constants.KEYWORD_USER_LASTNAME, userLname);
+          params.put(Constants.KEYWORD_EMAIL, email);
+          params.put(Constants.KEYWORD_PASSWORD, password);
+          params.put(Constants.KEYWORD_GENDER1, gender);
+          params.put(Constants.KEYWORD_SIGNUP_TYPE, regType);
+          params.put(Constants.KEYWORD_PROFILE_IMAGE, image);
+          params.put(Constants.KEYWORD_USER_LATITUDE, userlat);
+          params.put(Constants.KEYWORD_USER_LONGITUDE, userlog);
+          params.put(Constants.KEYWORD_ADDRESS, address);
+          params.put(Constants.KEYWORD_ADDRESS1, address1);
+          params.put(Constants.KEYWORD_GCM, gcmToken);
+          params.put(Constants.KEYWORD_SIGNATURE, Constants.SIGNATURE_VALUE);
+          CustomRequest signUpRequest = new CustomRequest(Request.Method.POST, urlStr, params
+              , new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     callback.onSuccess(response);
@@ -85,9 +85,9 @@ public class AccountsClient {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    if (error != null) {
-                        Log.d("TAG", Log.getStackTraceString(error));
-                    }
+                  if (error != null) {
+                    Log.d("TAG", Log.getStackTraceString(error));
+                  }
                     callback.onFailure(error);
                 }
             });
@@ -95,8 +95,8 @@ public class AccountsClient {
                     MY_SOCKET_TIMEOUT_MS,
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-           // HibourConnector.getInstance(context).addToRequestQueue(updateRequest);
-            mConnector.addToRequestQueue(signUpRequest);
+          // HibourConnector.getInstance(context).addToRequestQueue(updateRequest);
+          mConnector.addToRequestQueue(signUpRequest);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -153,7 +153,7 @@ public class AccountsClient {
     public void getTermsAndConditions(final WebServiceResponseCallback callback) {
         try {
             String urlStr = Constants.URL_TERMS;
-            mConnector.addToRequestQueue(mNetworkUtils.getJsonObjectRequest(urlStr, callback));
+          mConnector.addToRequestQueue(mNetworkUtils.getJsonObjectRequest(urlStr, callback));
         } catch (MalformedURLException | URISyntaxException e) {
             e.printStackTrace();
         }
@@ -164,7 +164,7 @@ public class AccountsClient {
     public void getAllProofTypes(final WebServiceResponseCallback callback) {
         try {
             String urlStr = Constants.URL_GET_ALL_PROOFS + "?" + Constants.KEYWORD_SIGNATURE + "=" + Constants.SIGNATURE_VALUE;
-            mConnector.addToRequestQueue(mNetworkUtils.getJsonObjectRequest(urlStr, callback));
+          mConnector.addToRequestQueue(mNetworkUtils.getJsonObjectRequest(urlStr, callback));
         } catch (MalformedURLException | URISyntaxException e) {
             e.printStackTrace();
         }
@@ -176,7 +176,7 @@ public class AccountsClient {
             , String gender, final WebServiceResponseCallback callback) {
         try {
             String urlStr = getProofString(userId, cardType, cardNumber, proofImage, gender);
-            mConnector.addToRequestQueue(mNetworkUtils.getJsonObjectRequest(urlStr, callback));
+          mConnector.addToRequestQueue(mNetworkUtils.getJsonObjectRequest(urlStr, callback));
         } catch (MalformedURLException | URISyntaxException e) {
             e.printStackTrace();
         }
@@ -200,7 +200,7 @@ public class AccountsClient {
             , final WebServiceResponseCallback callback) {
         try {
             String urlStr = getInsertLocString(userId, lat, longi, address);
-            mConnector.addToRequestQueue(mNetworkUtils.getJsonObjectRequest(urlStr, callback));
+          mConnector.addToRequestQueue(mNetworkUtils.getJsonObjectRequest(urlStr, callback));
         } catch (MalformedURLException | URISyntaxException e) {
             e.printStackTrace();
         }
@@ -218,7 +218,7 @@ public class AccountsClient {
     public void getAllSocialPrefs(final WebServiceResponseCallback callback) {
         try {
             String urlStr = Constants.URL_PREFS_ALL + Constants.KEYWORD_SIGNATURE + "=" + Constants.SIGNATURE_VALUE;
-            mConnector.addToRequestQueue(mNetworkUtils.getJsonObjectRequest(urlStr, callback));
+          mConnector.addToRequestQueue(mNetworkUtils.getJsonObjectRequest(urlStr, callback));
         } catch (MalformedURLException | URISyntaxException e) {
             e.printStackTrace();
         }
@@ -228,7 +228,7 @@ public class AccountsClient {
     public void insertUserPrefs(String userId, String prefs, final WebServiceResponseCallback callback) {
         try {
             String urlStr = getUserPrefsString(userId, prefs);
-            mConnector.addToRequestQueue(mNetworkUtils.getJsonObjectRequest(urlStr, callback));
+          mConnector.addToRequestQueue(mNetworkUtils.getJsonObjectRequest(urlStr, callback));
         } catch (MalformedURLException | URISyntaxException e) {
             e.printStackTrace();
         }
@@ -236,7 +236,7 @@ public class AccountsClient {
 
     /* get insert userprefs string*/
     private String getUserPrefsString(String userId, String prefs) {
-        return Constants.URL_PREFS_INSERT + Constants.KEYWORD_USR_ID + "=" + userId + "&"
+      return Constants.URL_PREFS_INSERT + Constants.KEYWORD_USR_ID + "=" + userId + "&"
                 + Constants.KEYWORD_PREFS_IDS + "=" + prefs + "&" + Constants.KEYWORD_SIGNATURE + "="
                 + Constants.SIGNATURE_VALUE;
     }
@@ -245,7 +245,7 @@ public class AccountsClient {
     public void getMembersCount(String loc, final WebServiceResponseCallback callback) {
         try {
             String urlStr = Constants.URL_MEMBERS_COUNT + "address=" + loc + "&" + Constants.KEYWORD_SIGNATURE + "=" + Constants.SIGNATURE_VALUE;
-            mConnector.addToRequestQueue(mNetworkUtils.getJsonObjectRequest(urlStr, callback));
+          mConnector.addToRequestQueue(mNetworkUtils.getJsonObjectRequest(urlStr, callback));
         } catch (MalformedURLException | URISyntaxException e) {
             e.printStackTrace();
         }
@@ -256,14 +256,14 @@ public class AccountsClient {
         try {
             String urlStr = Constants.URL_SETTINGS + "userid=" + userId + "&"
                     + Constants.KEYWORD_SIGNATURE + "=" + Constants.SIGNATURE_VALUE;
-            mConnector.addToRequestQueue(mNetworkUtils.getJsonObjectRequest(urlStr, callback));
+          mConnector.addToRequestQueue(mNetworkUtils.getJsonObjectRequest(urlStr, callback));
         } catch (MalformedURLException | URISyntaxException e) {
             e.printStackTrace();
         }
     }
 
   /* get all categories types*/
-  public void getAllUpdateSettings(String userId, String userName, String userLastName, String email, String password, String gender, String userNum,String dob, String image, final WebServiceResponseCallback callback) {
+  public void getAllUpdateSettings(String userId, String userName, String userLastName, String email, String password, String gender, String userNum, String dob, String image, final WebServiceResponseCallback callback) {
 
     try {
       String urlStr = Constants.URL_PROFILE_UPDATE + userId + "/edit?";
@@ -302,8 +302,8 @@ public class AccountsClient {
     /* get user details*/
     public void getUserDetails(String userId, final WebServiceResponseCallback callback) {
         try {
-            String urlStr = String.format(Constants.URL_USER_DETAIL, userId, Constants.SIGNATURE_VALUE);
-            mConnector.addToRequestQueue(mNetworkUtils.getJsonObjectRequest(urlStr, callback));
+          String urlStr = String.format(Constants.URL_USER_DETAIL, userId, Constants.SIGNATURE_VALUE);
+          mConnector.addToRequestQueue(mNetworkUtils.getJsonObjectRequest(urlStr, callback));
         } catch (MalformedURLException | URISyntaxException e) {
             e.printStackTrace();
         }
@@ -312,12 +312,12 @@ public class AccountsClient {
   /* get user phoneno url String*/
   public void mobilenumUser(String userid, String userNum, final WebServiceResponseCallback callback) {
     try {
-        String urlStr = getPhoneUserUrl(userid, userNum);
-        mConnector.addToRequestQueue(mNetworkUtils.getJsonObjectRequest(urlStr, callback));
+      String urlStr = getPhoneUserUrl(userid, userNum);
+      mConnector.addToRequestQueue(mNetworkUtils.getJsonObjectRequest(urlStr, callback));
     } catch (MalformedURLException e) {
-        e.printStackTrace();
+      e.printStackTrace();
     } catch (URISyntaxException e) {
-        e.printStackTrace();
+      e.printStackTrace();
     }
 
   }
@@ -331,7 +331,7 @@ public class AccountsClient {
     public void getAllBusinessServiceTypes(final WebServiceResponseCallback callback) {
         try {
             String urlStr = Constants.URL_GET_ALL_BUSINEES_TYPES + "?" + Constants.KEYWORD_SIGNATURE + "=" + Constants.SIGNATURE_VALUE;
-            mConnector.addToRequestQueue(mNetworkUtils.getJsonObjectRequest(urlStr, callback));
+          mConnector.addToRequestQueue(mNetworkUtils.getJsonObjectRequest(urlStr, callback));
         } catch (MalformedURLException | URISyntaxException e) {
             e.printStackTrace();
         }
@@ -340,7 +340,7 @@ public class AccountsClient {
     public void getAllBusinessServiceSubTypes(String userId,String busiId, final WebServiceResponseCallback callback) {
         try {
             String urlStr = Constants.URL_GET_ALL_BUSINEES_SUB_TYPES + "?id="+userId+"bid="+busiId+ Constants.KEYWORD_SIGNATURE + "=" + Constants.SIGNATURE_VALUE;
-            mConnector.addToRequestQueue(mNetworkUtils.getJsonObjectRequest(urlStr, callback));
+          mConnector.addToRequestQueue(mNetworkUtils.getJsonObjectRequest(urlStr, callback));
         } catch (MalformedURLException | URISyntaxException e) {
             e.printStackTrace();
         }
@@ -351,7 +351,7 @@ public class AccountsClient {
     try {
       String urlStr = Constants.URL_GET_OTHER_USR_DETAILS + Constants.KEYWORD_USR_ID +
           "=" + userId + "&" + Constants.KEYWORD_SIGNATURE + "=" + Constants.SIGNATURE_VALUE;
-        mConnector.addToRequestQueue(mNetworkUtils.getJsonObjectRequest(urlStr, callback));
+      mConnector.addToRequestQueue(mNetworkUtils.getJsonObjectRequest(urlStr, callback));
     } catch (MalformedURLException e) {
       e.printStackTrace();
     } catch (URISyntaxException e) {

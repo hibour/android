@@ -45,6 +45,7 @@ import java.util.Map;
  */
 public class SocialPrefernce extends AppCompatActivity implements View.OnClickListener{
 
+    public static Map<String, String> searchMap = new LinkedHashMap<>();
     private Button doneButton,previous;
     private AutoCompleteTextView searchText;
     private Typeface proxima;
@@ -52,7 +53,6 @@ public class SocialPrefernce extends AppCompatActivity implements View.OnClickLi
     private ImageView back;
     private List<String[]> prefsList = new ArrayList<>();
     private List<String> searchList=new ArrayList<>();
-    public static Map<String, String> searchMap = new LinkedHashMap<>();
     private List<String> suggestionList = new ArrayList<>();
     private PreferencesAdapter adapter;
     private NetworkDetector networkDetector;
@@ -126,12 +126,12 @@ public class SocialPrefernce extends AppCompatActivity implements View.OnClickLi
     }
     /* open home activity*/
     private void openHomeActivity(){
-        Intent homeIntent = new Intent(this,HomeActivity.class);
+        Intent homeIntent = new Intent(this, HomeActivity.class);
         startActivity(homeIntent);
         this.finishAffinity();
     }
     private void openPreviousActivity(){
-        Intent locationIntent = new Intent(this,HomeActivity.class);
+        Intent locationIntent = new Intent(this, HomeActivity.class);
         startActivity(locationIntent);
         finish();
     }

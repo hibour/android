@@ -2,7 +2,6 @@ package com.dsquare.hibour.network;
 
 import android.content.Context;
 
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;

@@ -93,7 +93,7 @@ public class FeedsPager extends Fragment {
             postsList.clear();
             try {
                 if (categoryName.equals("All")) {
-                    for(Map.Entry<String, List<FeedsTable>> entry: Constants.postpojosMap.entrySet()){
+                    for (Map.Entry<String, List<FeedsTable>> entry : Constants.postpojosMap.entrySet()) {
                         addPostPojosList(entry.getValue());
                     }
                 } else {

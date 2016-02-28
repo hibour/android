@@ -5,5 +5,6 @@ package com.dsquare.hibour.interfaces;
  */
 public interface NavDrawerCallback {
     void drawerOpen();
+
     void hideDrawer();
 }

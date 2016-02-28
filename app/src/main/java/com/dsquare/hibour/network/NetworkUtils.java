@@ -18,23 +18,23 @@ import java.net.URL;
  */
 public class NetworkUtils {
 
-    public JsonObjectRequest getJsonObjectRequest(final String urlStr, final WebServiceResponseCallback callback)
-            throws MalformedURLException, URISyntaxException {
-        URL url = new URL(urlStr);
-        URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
-                , url.getPath(), url.getQuery(), url.getRef());
-        url = uri.toURL();
-        return new JsonObjectRequest(Request.Method.GET, url.toString(), (String) null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        callback.onSuccess(response);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                callback.onFailure(error);
-            }
-        });
-    }
+  public JsonObjectRequest getJsonObjectRequest(final String urlStr, final WebServiceResponseCallback callback)
+      throws MalformedURLException, URISyntaxException {
+    URL url = new URL(urlStr);
+    URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
+        , url.getPath(), url.getQuery(), url.getRef());
+    url = uri.toURL();
+    return new JsonObjectRequest(Request.Method.GET, url.toString(), (String) null,
+        new Response.Listener<JSONObject>() {
+          @Override
+          public void onResponse(JSONObject response) {
+            callback.onSuccess(response);
+          }
+        }, new Response.ErrorListener() {
+      @Override
+      public void onErrorResponse(VolleyError error) {
+        callback.onFailure(error);
+      }
+    });
+  }
 }

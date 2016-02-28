@@ -38,7 +38,7 @@ public class Message extends HibourBaseTabFragment implements View.OnClickListen
 
 
   private static final String LOG_TAG = Message.class.getSimpleName();
-//  private EditText searchView;
+  //  private EditText searchView;
   private CustomViewPager pager;
   private TabLayout tabs;
   private UIHelper uiHelper;
@@ -47,9 +47,9 @@ public class Message extends HibourBaseTabFragment implements View.OnClickListen
   private View searchBar;
   private Typeface proxima;
   private ChatTypeViewPagerAdapter adapter;
-    private AutoCompleteTextView autoCompleteTextView;
-    private RelativeLayout searchLayout;
-    private TextView name;
+  private AutoCompleteTextView autoCompleteTextView;
+  private RelativeLayout searchLayout;
+  private TextView name;
   private TextWatcher textChangeListener = new TextWatcher() {
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -102,9 +102,9 @@ public class Message extends HibourBaseTabFragment implements View.OnClickListen
     navigationBack = (ImageView) view.findViewById(R.id.navigation_back);
     searchBar = view.findViewById(R.id.messages_search_bar);
 //    searchView = (EditText) view.findViewById(R.id.search_key);
-    autoCompleteTextView = (AutoCompleteTextView)view.findViewById(R.id.home_search_autocomplete);
-    searchLayout = (RelativeLayout)view.findViewById(R.id.home_search_layout);
-    name = (TextView)view.findViewById(R.id.neighbours_name);
+    autoCompleteTextView = (AutoCompleteTextView) view.findViewById(R.id.home_search_autocomplete);
+    searchLayout = (RelativeLayout) view.findViewById(R.id.home_search_layout);
+    name = (TextView) view.findViewById(R.id.neighbours_name);
     adapter = new ChatTypeViewPagerAdapter(getChildFragmentManager(), getResources().getStringArray(R.array.chat_types));
     tabs.setTabTextColors(ContextCompat.getColorStateList(getContext(), R.color.selector));
     pager.setAdapter(adapter);
@@ -121,38 +121,38 @@ public class Message extends HibourBaseTabFragment implements View.OnClickListen
     autoCompleteTextView.requestFocus();
     uiHelper.showKeyboard();
 
-          ArrayAdapter<String> adapter = new ArrayAdapter<String>
-                  (getActivity(), android.R.layout.simple_dropdown_item_1line,
-                          Constants.chatList);
-          autoCompleteTextView.setAdapter(adapter);
-          autoCompleteTextView.setThreshold(1);
-          autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-              @Override
-              public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                  String itemName = autoCompleteTextView.getText().toString();
-                  if (parent != null && parent.getChildAt(0) != null) {
-                      String neighbourName = Constants.chatList.get(position);
-                      String neighbourid = Constants.searchChat.get(itemName);
-                      Log.d("catid", neighbourid);
-                      Intent intent = new Intent(getActivity(), SearchInChats.class);
-                      intent.putExtra("value", neighbourid);
-                      intent.putExtra("value1", itemName);
-                      startActivity(intent);
-                      Log.d("neighbourName", neighbourName);
+    ArrayAdapter<String> adapter = new ArrayAdapter<String>
+        (getActivity(), android.R.layout.simple_dropdown_item_1line,
+            Constants.chatList);
+    autoCompleteTextView.setAdapter(adapter);
+    autoCompleteTextView.setThreshold(1);
+    autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      @Override
+      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        String itemName = autoCompleteTextView.getText().toString();
+        if (parent != null && parent.getChildAt(0) != null) {
+          String neighbourName = Constants.chatList.get(position);
+          String neighbourid = Constants.searchChat.get(itemName);
+          Log.d("catid", neighbourid);
+          Intent intent = new Intent(getActivity(), SearchInChats.class);
+          intent.putExtra("value", neighbourid);
+          intent.putExtra("value1", itemName);
+          startActivity(intent);
+          Log.d("neighbourName", neighbourName);
 //                        if(!cardType.equals("Select Card")){
 //                            cardTypeId = searchMap.get(cardType);
 //                            Log.d("cardtype",cardType);
 //                        }
-                      ((TextView) parent.getChildAt(0)).setTextColor(getResources()
-                              .getColor(R.color.black_1));
-                      ((TextView) parent.getChildAt(0)).setTypeface(proxima);
-                      ((TextView) parent.getChildAt(0)).setPadding(0, 0, 0, 0);
-                      ((TextView) parent.getChildAt(0)).setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-                      Log.d("itemname", itemName);
+          ((TextView) parent.getChildAt(0)).setTextColor(getResources()
+              .getColor(R.color.black_1));
+          ((TextView) parent.getChildAt(0)).setTypeface(proxima);
+          ((TextView) parent.getChildAt(0)).setPadding(0, 0, 0, 0);
+          ((TextView) parent.getChildAt(0)).setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+          Log.d("itemname", itemName);
 //                setRecyclerList(itemName);
-                  }
-              }
-          });
+        }
+      }
+    });
 
   }
 

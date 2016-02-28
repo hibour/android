@@ -82,7 +82,7 @@ public class Socialize extends HibourBaseTabFragment implements View.OnClickList
         socialClient = new SocializeClient(getActivity());
         application = Hibour.getInstance(getActivity());
         coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id
-                .coordinatorLayout);
+            .coordinatorLayout);
 //        doneButton = (Button)view.findViewById(R.id.socialize_done_button);
 //        previous = (Button)view.findViewById(R.id.socialize_prev_button);
         pager = (ViewPager) view.findViewById(R.id.socialize_pager);
@@ -161,7 +161,7 @@ public class Socialize extends HibourBaseTabFragment implements View.OnClickList
             });
         }else{
             Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
             // Changing action button text color
             View sbView = snackbar.getView();
             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
@@ -190,7 +190,7 @@ public class Socialize extends HibourBaseTabFragment implements View.OnClickList
             });
         }else{
             Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
             // Changing action button text color
             View sbView = snackbar.getView();
             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);

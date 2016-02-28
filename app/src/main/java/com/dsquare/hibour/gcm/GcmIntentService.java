@@ -11,6 +11,7 @@ import com.dsquare.hibour.helper.NotificationHelper;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
 import com.dsquare.hibour.pojos.message.UserMessage;
+import com.dsquare.hibour.pojos.message.UserStatus;
 import com.dsquare.hibour.pojos.user.UserDetail;
 import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Hibour;
@@ -67,25 +68,40 @@ public class GcmIntentService extends GcmListenerService {
 
     try {
       JSONObject jsonMessage = new JSONObject(messageText);
-      if (jsonMessage.getString(Constants.GCM_FIELDS_MESSAGE_TYPE).equalsIgnoreCase("message")) {
-        String receiverId = jsonMessage.getString(Constants.GCM_FIELDS_RECEIVER_ID);
-        String senderId = jsonMessage.getString(Constants.GCM_FIELDS_SENDER_ID);
-        userMessage = jsonMessage.getString(Constants.GCM_FIELDS_MESSAGE);
+      if (jsonMessage.has(Constants.GCM_FIELDS_MESSAGE_TYPE)) {
+        if (jsonMessage.getString(Constants.GCM_FIELDS_MESSAGE_TYPE).equalsIgnoreCase("message")) {
+          String receiverId = jsonMessage.getString(Constants.GCM_FIELDS_RECEIVER_ID);
+          String senderId = jsonMessage.getString(Constants.GCM_FIELDS_SENDER_ID);
+          userMessage = jsonMessage.getString(Constants.GCM_FIELDS_MESSAGE);
 
-        if (Hibour.getInstance(getApplicationContext()).getUserId().equalsIgnoreCase(receiverId)) {
-          UserMessage message = new UserMessage(new Date(), senderId, receiverId, userMessage,
-              Constants.MESSAGE_RECEIVED);
-          dbHandler.insertUserMessage(message);
-          EventBus.getDefault().post(message);
-          Log.e(LOG_TAG, "AppStatus:" + notificationHelper.isAppOnForeground());
-          UserDetail user = dbHandler.getUserDetail(senderId);
-          if (user != null) {
-            if (!notificationHelper.isAppOnForeground()) {
-              createUserMessageNotification(user);
+          if (Hibour.getInstance(getApplicationContext()).getUserId().equalsIgnoreCase(receiverId)) {
+            UserMessage message = new UserMessage(new Date(), senderId, receiverId, userMessage,
+                Constants.MESSAGE_RECEIVED);
+            dbHandler.insertUserMessage(message);
+            EventBus.getDefault().post(message);
+            Log.e(LOG_TAG, "AppStatus:" + notificationHelper.isAppOnForeground());
+            UserDetail user = dbHandler.getUserDetail(senderId);
+            if (user != null) {
+              if (!notificationHelper.isAppOnForeground()) {
+                createUserMessageNotification(user);
+              }
+            } else {
+              new AccountsClient(this).getUserDetails(senderId, userDetailsResultCallback);
             }
-          } else {
-            new AccountsClient(this).getUserDetails(senderId, userDetailsResultCallback);
           }
+        }
+      } else {
+        if (jsonMessage.getString("MessageType").equalsIgnoreCase("user_status")) {
+          String senderId = jsonMessage.getString(Constants.GCM_FIELDS_SENDER_ID);
+          userMessage = jsonMessage.getString("message");
+
+          UserStatus userStatus = new UserStatus();
+          userStatus.toUserId = Hibour.getInstance(this).getUserId();
+          userStatus.fromUserId = senderId;
+          userStatus.status = userMessage;
+
+          EventBus.getDefault().postSticky(userStatus);
+
         }
       }
     } catch (Exception e) {

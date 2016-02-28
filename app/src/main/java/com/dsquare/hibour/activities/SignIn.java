@@ -57,7 +57,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SignIn extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener,SignInDialog.SignInCallback {
+public class SignIn extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, SignInDialog.SignInCallback {
 
   private static final String LOG_TAG = SignIn.class.getSimpleName();
   private static final int RC_SIGN_IN = 9001;
@@ -112,8 +112,8 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
 
   /* initialize views*/
   private void initializeViews() {
-      coordinatorLayout = (CoordinatorLayout) findViewById(R.id
-              .coordinatorLayout);
+    coordinatorLayout = (CoordinatorLayout) findViewById(R.id
+        .coordinatorLayout);
     signIn = (Button) findViewById(R.id.signin_button);
     signUpText = (TextView) findViewById(R.id.signin_signup_text);
     termsText = (TextView) findViewById(R.id.signin_terms);
@@ -144,7 +144,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
     application = Hibour.getInstance(this);
     application.initializeSharedPrefs();
 
-    sharedPreferences=getSharedPreferences("Login Credentials",MODE_PRIVATE);
+    sharedPreferences = getSharedPreferences("Login Credentials", MODE_PRIVATE);
 
   }
 
@@ -232,13 +232,13 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
 //            closeRegisterDialog();
 //            internetDialog = new NoInternetDialog();
 //            internetDialog.show(getFragmentManager(), getString(R.string.dialog_identifier));
-        Snackbar snackbar = Snackbar
-                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
-        // Changing action button text color
-        View sbView = snackbar.getView();
-        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-        textView.setTextColor(Color.RED);
-        snackbar.show();
+      Snackbar snackbar = Snackbar
+          .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+      // Changing action button text color
+      View sbView = snackbar.getView();
+      TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+      textView.setTextColor(Color.RED);
+      snackbar.show();
     }
 
   }
@@ -278,25 +278,25 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
         @Override
         public void onCancel() {
           Log.d("social", "cancelled");
-            Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, "User cancelled!", Snackbar.LENGTH_LONG);
-            // Changing action button text color
-            View sbView = snackbar.getView();
-            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-            textView.setTextColor(Color.RED);
-            snackbar.show();
+          Snackbar snackbar = Snackbar
+              .make(coordinatorLayout, "User cancelled!", Snackbar.LENGTH_LONG);
+          // Changing action button text color
+          View sbView = snackbar.getView();
+          TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+          textView.setTextColor(Color.RED);
+          snackbar.show();
         }
 
         @Override
         public void onError(FacebookException e) {
           Log.d("social", "hr" + e.toString());
-            Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, "Error on Login, check your facebook app_id!", Snackbar.LENGTH_LONG);
-            // Changing action button text color
-            View sbView = snackbar.getView();
-            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-            textView.setTextColor(Color.RED);
-            snackbar.show();
+          Snackbar snackbar = Snackbar
+              .make(coordinatorLayout, "Error on Login, check your facebook app_id!", Snackbar.LENGTH_LONG);
+          // Changing action button text color
+          View sbView = snackbar.getView();
+          TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+          textView.setTextColor(Color.RED);
+          snackbar.show();
         }
       });
       this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -304,13 +304,13 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
 //            closeRegisterDialog();
 //            internetDialog = new NoInternetDialog();
 //            internetDialog.show(getFragmentManager(), getString(R.string.dialog_identifier));
-        Snackbar snackbar = Snackbar
-                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
-        // Changing action button text color
-        View sbView = snackbar.getView();
-        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-        textView.setTextColor(Color.RED);
-        snackbar.show();
+      Snackbar snackbar = Snackbar
+          .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+      // Changing action button text color
+      View sbView = snackbar.getView();
+      TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+      textView.setTextColor(Color.RED);
+      snackbar.show();
     }
   }
 
@@ -418,13 +418,13 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
         sendDataToServer(mail, pass, "normal");
       }
     } else {
-        Snackbar snackbar = Snackbar
-                .make(coordinatorLayout, "Enter valid credentials!", Snackbar.LENGTH_LONG);
-        // Changing action button text color
-        View sbView = snackbar.getView();
-        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-        textView.setTextColor(Color.RED);
-        snackbar.show();
+      Snackbar snackbar = Snackbar
+          .make(coordinatorLayout, "Enter valid credentials!", Snackbar.LENGTH_LONG);
+      // Changing action button text color
+      View sbView = snackbar.getView();
+      TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+      textView.setTextColor(Color.RED);
+      snackbar.show();
 
     }
   }
@@ -458,13 +458,13 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
         }
       });
     } else {
-        Snackbar snackbar = Snackbar
-                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
-        // Changing action button text color
-        View sbView = snackbar.getView();
-        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-        textView.setTextColor(Color.RED);
-        snackbar.show();
+      Snackbar snackbar = Snackbar
+          .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+      // Changing action button text color
+      View sbView = snackbar.getView();
+      TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+      textView.setTextColor(Color.RED);
+      snackbar.show();
 
     }
   }
@@ -477,56 +477,55 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
       JSONObject data = jsonObject.getJSONObject("data");
 
       String credential = data.getString("credentials_matched");
-        Log.d("credential", credential);
-   if(credential.equals("true")) {
+      Log.d("credential", credential);
+      if (credential.equals("true")) {
         int id = data.getInt("id");
-       String firstname = data.getString("first_name");
-       String lastname = data.getString("last_name");
-       String gender = data.getString("gender");
-       String dob = data.getString("dob");
-       String notifications = data.getString("notifications");
-       String passWord = data.getString("Password");
-       String address1 = data.getString("address1");
-       String address = data.getString("address");
-       String latitude = data.getString("lat");
-       String longitude = data.getString("lng");
-       String email = data.getString("email");
-       String mobile = data.getString("mobile");
-       String image = data.getString("image");
+        String firstname = data.getString("first_name");
+        String lastname = data.getString("last_name");
+        String gender = data.getString("gender");
+        String dob = data.getString("dob");
+        String notifications = data.getString("notifications");
+        String passWord = data.getString("Password");
+        String address1 = data.getString("address1");
+        String address = data.getString("address");
+        String latitude = data.getString("lat");
+        String longitude = data.getString("lng");
+        String email = data.getString("email");
+        String mobile = data.getString("mobile");
+        String image = data.getString("image");
 
-       Map<String,String> userDetails = new HashMap<>();
-       userDetails.put(Constants.PREFERENCE_USER_ID,id+"");
-       userDetails.put(Constants.SF_FIRST,firstname);
-       userDetails.put(Constants.SF_LAST,lastname);
-       userDetails.put(Constants.SF_EMAIL,email);
-       userDetails.put(Constants.SF_LOCADD,address);
-       userDetails.put(Constants.SF_SUB_LOC,address1);
-       userDetails.put(Constants.SF_LAT,latitude);
-       userDetails.put(Constants.SF_LNG,longitude);
-       userDetails.put(Constants.SF_PASS,passWord);
-       userDetails.put(Constants.SF_DOB,dob);
-       userDetails.put(Constants.SF_NOTIF,notifications);
-       userDetails.put(Constants.SF_IMAGE,image);
-       userDetails.put(Constants.SF_GENDER,gender);
-       userDetails.put(Constants.SF_REGTYPE,"");
-       userDetails.put(Constants.SF_MOBILE,mobile);
-       application.setUserDetails(userDetails);
-       application.setuserId(id + "");
-       accountsClient.getUserDetails(id + "", userDetailCallbackListener);
-       Snackbar snackbar = Snackbar
-               .make(coordinatorLayout, "Successfully completed!", Snackbar.LENGTH_LONG);
-       // Changing action button text color
-       View sbView = snackbar.getView();
-       TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-       textView.setTextColor(Color.RED);
-       snackbar.show();
-       openHomeActivity();
-   }else{
-       signInDialogs = new SignInDialog();
-       signInDialogs.show(getFragmentManager(), "chooser dialog");
-       Log.d("Postss","choose dialog");
-   }
-
+        Map<String, String> userDetails = new HashMap<>();
+        userDetails.put(Constants.PREFERENCE_USER_ID, id + "");
+        userDetails.put(Constants.SF_FIRST, firstname);
+        userDetails.put(Constants.SF_LAST, lastname);
+        userDetails.put(Constants.SF_EMAIL, email);
+        userDetails.put(Constants.SF_LOCADD, address);
+        userDetails.put(Constants.SF_SUB_LOC, address1);
+        userDetails.put(Constants.SF_LAT, latitude);
+        userDetails.put(Constants.SF_LNG, longitude);
+        userDetails.put(Constants.SF_PASS, passWord);
+        userDetails.put(Constants.SF_DOB, dob);
+        userDetails.put(Constants.SF_NOTIF, notifications);
+        userDetails.put(Constants.SF_IMAGE, image);
+        userDetails.put(Constants.SF_GENDER, gender);
+        userDetails.put(Constants.SF_REGTYPE, "");
+        userDetails.put(Constants.SF_MOBILE, mobile);
+        application.setUserDetails(userDetails);
+        application.setuserId(id + "");
+        accountsClient.getUserDetails(id + "", userDetailCallbackListener);
+        Snackbar snackbar = Snackbar
+            .make(coordinatorLayout, "Successfully completed!", Snackbar.LENGTH_LONG);
+        // Changing action button text color
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.RED);
+        snackbar.show();
+        openHomeActivity();
+      } else {
+        signInDialogs = new SignInDialog();
+        signInDialogs.show(getFragmentManager(), "chooser dialog");
+        Log.d("Postss", "choose dialog");
+      }
 
 
 //      if (credential.equals("false")) {
@@ -573,8 +572,8 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
     }
   }
 
-    @Override
-    public void closeDialog(SignInDialog dialogFragment) {
-        signInDialogs.dismiss();
-    }
+  @Override
+  public void closeDialog(SignInDialog dialogFragment) {
+    signInDialogs.dismiss();
+  }
 }

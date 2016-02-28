@@ -44,14 +44,14 @@ public class Constants {
     public static final String URL_GET_NEIGHBOURHOODS = URL_DOMAIN + "Userreg/address?";
     public static final String URL_SEND_MESSAGE = URL_DOMAIN + "Messages/create?";
     public static final String URL_GET_NEARBY_USER = URL_DOMAIN + "Userreg/%s?signature=%s";
-    public static final String URL_GET_OTHER_USR_DETAILS = URL_DOMAIN+"getprofile?";
-    public static final String URL_UPDATE_USER_LOCATION = URL_DOMAIN+"neighbourhood?";
+    public static final String URL_GET_OTHER_USR_DETAILS = URL_DOMAIN + "getprofile?";
+    public static final String URL_UPDATE_USER_LOCATION = URL_DOMAIN + "neighbourhood?";
 
-    public static final String URL_GOOGLE_LOC_ADDRESS= "https://maps.googleapis.com/maps/api/geocode/json?";
+    public static final String URL_GOOGLE_LOC_ADDRESS = "https://maps.googleapis.com/maps/api/geocode/json?";
 
     public static final String GOOGLE_ADDRESS_API_KEY = "AIzaSyC9Cnku7Rz_ZAkuEwbd5jf5D94MzTTk784";
 
-    public static final String URL_SEND_USER_STATUS = URL_DOMAIN + "Userstatus/%s/status/%s?signature=%s";
+    public static final String URL_SEND_USER_STATUS = URL_DOMAIN + "Users/onlinestatus?userid=%s&user_status=%s&signature=%s";
 
     /*user constants*/
     public static final String KEYWORD_USER_NAME = "Username";
@@ -106,12 +106,12 @@ public class Constants {
     public static final String SF_LOCADD = "locAddress";
     public static final String SF_LAT = "lati";
     public static final String SF_LNG = "longi";
-    public static final String SF_SUB_LOC="sublocality";
-    public static final String SF_PASS="password";
-    public static final String SF_DOB="dob";
-    public static final String SF_NOTIF="notif";
+    public static final String SF_SUB_LOC = "sublocality";
+    public static final String SF_PASS = "password";
+    public static final String SF_DOB = "dob";
+    public static final String SF_NOTIF = "notif";
     public static final String SF_IMAGE = "image";
-    public static final String SF_MOBILE="mobile";
+    public static final String SF_MOBILE = "mobile";
     //animation constants
     public static final int DURATION_DEFAULT = 300;
     public static final int DURATION_SHORT = 100;
@@ -123,6 +123,14 @@ public class Constants {
     public static final String REGISTRATION_COMPLETE = "registrationComplete";
     public static final String SHARED_PREFERENCES_GCM_TOKEN = "gcm_token";
     public static final String SERVER_SUCCESS = "success";
+    public static final String USER_STATUS_ONLINE = "online";
+    public static final String USER_STATUS_TYPING = "typing";
+    public static final int SEND_STATUS_INTERVAL = 2000;
+    public static final int CHECK_STATUS_INTERVAL = 4000;
+    public static final int MARK_TYPING_INTERVAL = 3000;
+    // status bar notification id
+    public static final int NOTIFICATION_ID_MESSAGE = 1234;
+    public static final String SHARED_PREFERENCES_FIRST_RUN = "first_run";
     public static Double Longitude = 78.00;
     public static Double Latitude = 21.00;
     public static String longitude;
@@ -168,13 +176,6 @@ public class Constants {
     public static String GCM_FIELDS_MESSAGE = "Messages";
     public static String GCM_FIELDS_RECEIVER_ID = "Receiveruserid";
     public static String GCM_FIELDS_SENDER_ID = "Senderuserid";
-
-    public static String SHARED_PREFERENCES_FIRST_RUN = "firstRun";
-    public static String USER_STATUS_TYPING = "Typing...";
-    public static String USER_STATUS_ONLINE = "Online";
-    public static int SEND_STATUS_INTERVAL = 3000;
-    public static int MARK_TYPING_INTERVAL = 3000;
-    public static int NOTIFICATION_ID_MESSAGE = 1;
 
     public static int FRAGMENT_POS = 0;
 }

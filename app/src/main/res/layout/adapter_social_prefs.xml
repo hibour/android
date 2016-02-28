@@ -1,46 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:background="@android:color/white"
+<RelativeLayout
     android:id="@+id/pref_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     >
 
     <LinearLayout
+        android:id="@+id/pref_linear_layout"
         android:layout_width="@dimen/dp_100"
         android:layout_height="@dimen/dp_100"
         android:layout_centerHorizontal="true"
-        android:orientation="vertical"
+        android:layout_marginTop="@dimen/dp_10"
         android:background="@drawable/social_prefs_unselected_state"
-        android:id="@+id/pref_linear_layout"
-        android:layout_marginTop="@dimen/dp_10">
+        android:orientation="vertical">
     <ImageView
+        android:id="@+id/pref_icon"
         android:layout_width="@dimen/dp_40"
         android:layout_height="@dimen/dp_40"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/avatar"
         android:layout_gravity="center"
-        android:id="@+id/pref_icon"
-        android:layout_marginTop="@dimen/dp_20"/>
+        android:layout_marginTop="@dimen/dp_20"
+        android:src="@drawable/avatar"/>
     <com.dsquare.hibour.utils.Avenir
+        android:id="@+id/pref_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/pref_icon"
-        android:text=""
-        android:visibility="gone"
-        android:textColor="@color/brand"
         android:layout_gravity="center"
+        android:text=""
+        android:textColor="@color/brand"
         android:textSize="@dimen/sp_12"
-        android:id="@+id/pref_count"/>
+        android:visibility="gone"/>
     <com.dsquare.hibour.utils.Avenir
+        android:id="@+id/pref_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/pref_count"
-        android:text="Software"
-        android:layout_marginTop="2dp"
-        android:textColor="@color/brand"
         android:layout_gravity="center"
-        android:textSize="@dimen/sp_12"
-        android:id="@+id/pref_name"/>
+        android:layout_marginTop="2dp"
+        android:text="Software"
+        android:textColor="@color/brand"
+        android:textSize="@dimen/sp_12"/>
     </LinearLayout>
 </RelativeLayout>
