@@ -32,6 +32,7 @@ import com.dsquare.hibour.utils.Constants;
 
 public class Home extends Fragment implements PostsTypesDialog.CategoryChooserListener, NewPost.PostsListener {
 
+    private static final String NEW_POST_NAME = "newpost";
     private NavDrawerCallback callback;
     private ImageView feedIcon, socializeIcon, newPostIcon, channelsIcon, moreIcon,postimage,searchIcon;
     private LinearLayout feedLayout, socializeLayout, messageLayout, moreLayout;
@@ -43,6 +44,7 @@ public class Home extends Fragment implements PostsTypesDialog.CategoryChooserLi
     private DialogFragment categoriesDialog;
     private String categoryName = "";
     private CoordinatorLayout coordinatorLayout;
+    private HibourBaseTabFragment activeFragment = null;
 
     public Home() {
         // Required empty public constructor
@@ -59,10 +61,22 @@ public class Home extends Fragment implements PostsTypesDialog.CategoryChooserLi
         return view;
     }
 
+//        searchIcon.setOnClickListener(this);
+
+   /* private void loadDefaultFragment() {
+        applyCurrentStateToAppBarIcons(R.drawable.feed_filled, feedIcon);
+        showTab(TabType.FEED);
+    }*/
+
+   /* private void loadDefaultFragment() {
+        applyCurrentStateToAppBarIcons(R.drawable.feed_filled, feedIcon);
+        showTab(TabType.FEED);
+    }*/
+
     /*initialize views*/
     private void initializeViews(View view) {
         coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id
-                .coordinatorLayout);
+            .coordinatorLayout);
         createPost = (FloatingActionButton)view.findViewById(R.id.feeds_create_fab);
         feedIcon = (ImageView) view.findViewById(R.id.home_feed);
         socializeIcon = (ImageView) view.findViewById(R.id.home_socialize_icon);
@@ -116,8 +130,7 @@ public class Home extends Fragment implements PostsTypesDialog.CategoryChooserLi
                 categoriesDialog.setTargetFragment(Home.this, 0);
             }
         });
-        }
-
+    }
 
     /* initialize event listeners
     private void initializeEventListeners() {
@@ -129,7 +142,7 @@ public class Home extends Fragment implements PostsTypesDialog.CategoryChooserLi
     }
 */
     private void loadDefaultFragment() {
-        switch(Constants.FRAGMENT_POS){
+        switch (Constants.FRAGMENT_POS) {
             case 0:
                 if (createPost.getVisibility() == View.GONE) {
                     createPost.setVisibility(View.VISIBLE);
@@ -150,22 +163,10 @@ public class Home extends Fragment implements PostsTypesDialog.CategoryChooserLi
                 break;
 
         }
-     //   applyCurrentStateToAppBarIcons(R.drawable.feed_filled, feedIcon);
-       // replaceContainer(Constants.FRAGMENT_POS);
+        //   applyCurrentStateToAppBarIcons(R.drawable.feed_filled, feedIcon);
+        // replaceContainer(Constants.FRAGMENT_POS);
 //        Fragment fragment = new NewPosts();
     }
-
-//        searchIcon.setOnClickListener(this);
-
-   /* private void loadDefaultFragment() {
-        applyCurrentStateToAppBarIcons(R.drawable.feed_filled, feedIcon);
-        showTab(TabType.FEED);
-    }*/
-
-   /* private void loadDefaultFragment() {
-        applyCurrentStateToAppBarIcons(R.drawable.feed_filled, feedIcon);
-        showTab(TabType.FEED);
-    }*/
 
     @Override
     public void onAttach(Activity activity) {
@@ -182,7 +183,6 @@ public class Home extends Fragment implements PostsTypesDialog.CategoryChooserLi
         icon.setImageResource(res);
     }
 
-    private HibourBaseTabFragment activeFragment = null;
     /* replace tab's fragment*/
     private void showTab(TabType type) {
         boolean isNewFragment = false;
@@ -275,8 +275,6 @@ public class Home extends Fragment implements PostsTypesDialog.CategoryChooserLi
     public void onNewPostPosted() {
         closeNewPostFragment();
     }
-
-    private static final String NEW_POST_NAME = "newpost";
 
     private void showNewPost() {
         Fragment fragment = new NewPost();

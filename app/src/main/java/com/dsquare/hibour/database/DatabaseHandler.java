@@ -31,16 +31,16 @@ public class DatabaseHandler {
   }
 
   /* insert posts in posts table*/
-    public void insertFeeds(PostData data){
-        List<Postpojos> feedsData = data.getData();
-        for(Postpojos feed:feedsData){
-            new FeedsTable(feed.getPostId(),feed.getPostDate(),feed.getPostTime(),feed.getPostMessage()
-                    ,feed.getPostImage(),feed.getUser().getId(),feed.getUser().getImage()
-                    ,feed.getPostLikesCount()+"",feed.getUser().getName(),feed.getPostType()
-                    ,feed.getPostComments().size()+"",feed.getPostUserLiked()+"").save();
-        }
-
+  public void insertFeeds(PostData data) {
+    List<Postpojos> feedsData = data.getData();
+    for (Postpojos feed : feedsData) {
+      new FeedsTable(feed.getPostId(), feed.getPostDate(), feed.getPostTime(), feed.getPostMessage()
+          , feed.getPostImage(), feed.getUser().getId(), feed.getUser().getImage()
+          , feed.getPostLikesCount() + "", feed.getUser().getName(), feed.getPostType()
+          , feed.getPostComments().size() + "", feed.getPostUserLiked() + "").save();
     }
+
+  }
     /**/
   public void insertUserMessage(UserMessage userMessage) {
     new UserMessageTable(userMessage, application.getUserId()).save();
@@ -132,14 +132,16 @@ public class DatabaseHandler {
     for (UserDetailTable user : userList) {
       userDetailList.add(new UserDetail(user));
     }
-      return userDetailList;
+    return userDetailList;
   }
-    public void insertUserProfile(UserProfile userProfile){
-        new UserProfileTable(userProfile).save();
-    }
-    public UserProfile getUserProfile(){
-        UserProfileTable user = new Select().from(UserProfileTable.class).executeSingle();
-        return new UserProfile(user);
-    }
+
+  public void insertUserProfile(UserProfile userProfile) {
+    new UserProfileTable(userProfile).save();
+  }
+
+  public UserProfile getUserProfile() {
+    UserProfileTable user = new Select().from(UserProfileTable.class).executeSingle();
+    return new UserProfile(user);
+  }
 
 }

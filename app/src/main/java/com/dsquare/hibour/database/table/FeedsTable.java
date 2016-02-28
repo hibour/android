@@ -35,15 +35,15 @@ public class FeedsTable extends Model {
   @Column(name = "userimgurl")
   public String userimgurl;
   //  @Column(name="timestamp")
-   // public String timestamp;
+  // public String timestamp;
 
   public FeedsTable() {
     super();
   }
 
   public FeedsTable(String postid, String date, String time, String description, String imgurl,
-      String userid,String userimgurl,String likescount,String username, String postType
-          /*,String timestamp*/,String commentscount,String userliked) {
+                    String userid, String userimgurl, String likescount, String username, String postType
+          /*,String timestamp*/, String commentscount, String userliked) {
     super();
     this.postid = postid;
     this.date = date;
@@ -54,9 +54,9 @@ public class FeedsTable extends Model {
     this.userimgurl = userimgurl;
     this.username = username;
     this.posttype = postType;
-     // this.timestamp = timestamp;
-      this.likescount=likescount;
-      this.commentscount = commentscount;
-      this.userliked = userliked;
+    // this.timestamp = timestamp;
+    this.likescount = likescount;
+    this.commentscount = commentscount;
+    this.userliked = userliked;
   }
 }

@@ -9,17 +9,14 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
-import com.crashlytics.android.Crashlytics;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.utils.Hibour;
 import com.onesignal.OneSignal;
 
-import io.fabric.sdk.android.Fabric;
-
 /**
  * Created by Dsquare Android on 1/14/2016.
  */
-public class Splash extends AppCompatActivity{
+public class Splash extends AppCompatActivity {
 
     private static int SPLASH_TIME_OUT = 2000;
     private Hibour application;
@@ -52,7 +49,7 @@ public class Splash extends AppCompatActivity{
                         Intent i = new Intent(Splash.this, LocationSearch.class);
                         startActivity(i);
                     }else{
-                        Intent homeIntent = new Intent(Splash.this,HomeActivity.class);
+                        Intent homeIntent = new Intent(Splash.this, HomeActivity.class);
                         startActivity(homeIntent);
                     }
                     finish();

@@ -11,8 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dsquare.hibour.R;
-import com.dsquare.hibour.adapters.NeighboursAdapter;
 import com.dsquare.hibour.adapters.SocializeAdapter;
+import com.dsquare.hibour.adapters.UserChatListAdapter;
 import com.dsquare.hibour.pojos.posts.Feeds;
 import com.dsquare.hibour.pojos.user.UserDetail;
 import com.dsquare.hibour.utils.Constants;
@@ -32,7 +32,7 @@ public class SocializePager extends Fragment {
   private List<Feeds> postsList = new ArrayList<>();
   private List<String[]> prefsList = new ArrayList<>();
   private List<UserDetail> neighboursList = new ArrayList<>();
-  private NeighboursAdapter postsAdapter1;
+  private UserChatListAdapter postsAdapter1;
   private SocializeAdapter postsAdapter;
   private String categoryName = "";
 
@@ -98,6 +98,6 @@ public class SocializePager extends Fragment {
         neighboursList.add(userDetail);
       }
     }
-    postsRecycler.setAdapter(new NeighboursAdapter(getActivity(), neighboursList, R.layout.adapter_neighbours));
+    postsRecycler.setAdapter(new UserChatListAdapter(getActivity()));
   }
 }

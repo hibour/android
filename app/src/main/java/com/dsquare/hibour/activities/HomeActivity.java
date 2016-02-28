@@ -35,7 +35,6 @@ import com.dsquare.hibour.activities.home.NavActionType;
 import com.dsquare.hibour.adapters.NavigationDrawerAdapter;
 import com.dsquare.hibour.fragments.AboutUs;
 import com.dsquare.hibour.fragments.Home;
-import com.dsquare.hibour.fragments.NewPost;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
 import com.dsquare.hibour.interfaces.SettingsToHomeCallback;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
@@ -77,9 +76,11 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerCallback
   private PostsClient postsClient;
   private ProgressDialog dialog;
   private NetworkDetector networkDetector;
-    private CoordinatorLayout coordinatorLayout;
-    private SharedPreferences sharedPreferences;
-    private ImageLoader imageLoader;
+  private CoordinatorLayout coordinatorLayout;
+  private SharedPreferences sharedPreferences;
+  private ImageLoader imageLoader;
+  private Fragment activeFragment = null;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -94,29 +95,29 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerCallback
   /*initialize views*/
   private void initializeViews() {
     networkDetector = new NetworkDetector(this);
-    application =  Hibour.getInstance(this);
+    application = Hibour.getInstance(this);
     gson = new Gson();
     postsClient = new PostsClient(this);
-      coordinatorLayout = (CoordinatorLayout) findViewById(R.id
-              .coordinatorLayout);
+    coordinatorLayout = (CoordinatorLayout) findViewById(R.id
+        .coordinatorLayout);
     drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     manager = getSupportFragmentManager();
     drawerList = (ListView) findViewById(R.id.left_drawer);
     application = Hibour.getInstance(this);
-    networkDetector=new NetworkDetector(this);
-    gson=new Gson();
-    postsClient=new PostsClient(this);
-    name = (TextView)findViewById(R.id.sidemenu_name);
-    profile = (ImageView)findViewById(R.id.home_user_profile_pic);
+    networkDetector = new NetworkDetector(this);
+    gson = new Gson();
+    postsClient = new PostsClient(this);
+    name = (TextView) findViewById(R.id.sidemenu_name);
+    profile = (ImageView) findViewById(R.id.home_user_profile_pic);
     postsClient = new PostsClient(this);
     networkDetector = new NetworkDetector(this);
-      gson = new Gson();
-      imageLoader = HibourConnector.getInstance(this).getImageLoader();
-      Map<String,String> userDetails = application.getUserDetails();
+    gson = new Gson();
+    imageLoader = HibourConnector.getInstance(this).getImageLoader();
+    Map<String, String> userDetails = application.getUserDetails();
 
-      name.setText(userDetails.get(Constants.SF_FIRST)+" "+userDetails.get(Constants.SF_LAST));
-      imageLoader.get(userDetails.get(Constants.SF_IMAGE), ImageLoader.getImageListener(profile
-              , R.drawable.avatar1, R.drawable.avatar1));
+    name.setText(userDetails.get(Constants.SF_FIRST) + " " + userDetails.get(Constants.SF_LAST));
+    imageLoader.get(userDetails.get(Constants.SF_IMAGE), ImageLoader.getImageListener(profile
+        , R.drawable.avatar1, R.drawable.avatar1));
 
   }
 
@@ -127,7 +128,6 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerCallback
   private void initializeEventListeners() {
     drawerList.setOnItemClickListener(this);
   }
-
 
   @Override
   public void drawerOpen() {
@@ -144,7 +144,6 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerCallback
     handleAction(NavActionType.values()[position]);
   }
 
-  private Fragment activeFragment = null;
   private void handleAction(NavActionType type) {
     switch (type) {
       case HOME:
@@ -209,7 +208,7 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerCallback
       case ABOUT_US:
         return new AboutUs();
       case SETTINGS:
-      //  return new Settings();
+        //  return new Settings();
     }
     return null;
   }
@@ -229,13 +228,13 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerCallback
           return;
         }
         this.doubleBackToExitPressedOnce = true;
-          Snackbar snackbar = Snackbar
-                  .make(coordinatorLayout, "Please Tap BACK again to exit!", Snackbar.LENGTH_LONG);
-          // Changing action button text color
-          View sbView = snackbar.getView();
-          TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-          textView.setTextColor(Color.RED);
-          snackbar.show();
+        Snackbar snackbar = Snackbar
+            .make(coordinatorLayout, "Please Tap BACK again to exit!", Snackbar.LENGTH_LONG);
+        // Changing action button text color
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.RED);
+        snackbar.show();
 
         new Handler().postDelayed(new Runnable() {
 
@@ -321,7 +320,7 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerCallback
   private void getAllCategoriesTypes() {
     if (networkDetector.isConnected()) {
       dialog = ProgressDialog.show(this, "", getResources()
-              .getString(R.string.progress_dialog_text));
+          .getString(R.string.progress_dialog_text));
       postsClient.getAllcategoriesTypes(new WebServiceResponseCallback() {
         @Override
         public void onSuccess(JSONObject jsonObject) {
@@ -336,13 +335,13 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerCallback
         }
       });
     } else {
-        Snackbar snackbar = Snackbar
-                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
-        // Changing action button text color
-        View sbView = snackbar.getView();
-        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-        textView.setTextColor(Color.RED);
-        snackbar.show();
+      Snackbar snackbar = Snackbar
+          .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+      // Changing action button text color
+      View sbView = snackbar.getView();
+      TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+      textView.setTextColor(Color.RED);
+      snackbar.show();
     }
   }
 

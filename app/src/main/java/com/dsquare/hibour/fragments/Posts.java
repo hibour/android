@@ -72,7 +72,7 @@ public class Posts extends HibourBaseTabFragment implements View.OnClickListener
     private FeedsPagerAdapter mPagerAdapter;
     private RelativeLayout searchLayout;
     private TextView textView,invite;
-    private ImageView searchIcon,navigationBack;
+    private ImageView searchIcon, navigationBack;
     private List<String> autocompleteList = new ArrayList<>();
     private Typeface proxima;
     private ViewPager pager;
@@ -108,7 +108,7 @@ public class Posts extends HibourBaseTabFragment implements View.OnClickListener
     private void initializeViews(View view){
         dbHandler = new DatabaseHandler(getActivity().getApplicationContext());
         coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id
-                .coordinatorLayout);
+            .coordinatorLayout);
         noFeedsLayout = (RelativeLayout)view.findViewById(R.id.no_feeds_found_layout);
         proxima = Typeface.createFromAsset(getActivity().getAssets(), Fonts.getTypeFaceName());
         postsClient = new PostsClient(getActivity());
@@ -221,7 +221,7 @@ public class Posts extends HibourBaseTabFragment implements View.OnClickListener
     }
 
     /* get all posts from server*/
-    private void refreshPosts(){
+    private void refreshPosts() {
         if(networkDetector.isConnected()){
             postsClient.getAllPosts(application.getUserId(), new WebServiceResponseCallback() {
                 @Override
@@ -236,7 +236,7 @@ public class Posts extends HibourBaseTabFragment implements View.OnClickListener
             });
         }else{
             Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
             // Changing action button text color
             View sbView = snackbar.getView();
             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
@@ -287,7 +287,7 @@ public class Posts extends HibourBaseTabFragment implements View.OnClickListener
         PostData posts = gson.fromJson(jsonObject.toString(), PostData.class);
         dbHandler.insertFeeds(posts);
         List<FeedsTable> feedsData = dbHandler.getFeeds();
-        Log.d("feeds size",dbHandler.getFeeds().size()+"");
+        Log.d("feeds size", dbHandler.getFeeds().size() + "");
         List<Postpojos> postpojos = posts.getData();
 
         Map<String, List<FeedsTable>> postsMap = new LinkedHashMap<>();
@@ -298,7 +298,7 @@ public class Posts extends HibourBaseTabFragment implements View.OnClickListener
         Map<String, Map<String, String>> postTypesMap = new LinkedHashMap<>();
         Set<String> postTypesSet = new HashSet<>();
 
-        if(feedsData.size()>0){
+        if (feedsData.size() > 0) {
             postTypesSet.add("All");
             for (FeedsTable p : feedsData) {
                 //postlikesMap.put(p., p.getPostLikedUsers());
@@ -310,7 +310,9 @@ public class Posts extends HibourBaseTabFragment implements View.OnClickListener
                 searchMap.put(p.description, p.postid);
 
 
+
                 String postType = p.posttype ;
+
                 List<FeedsTable> postslist = postsMap.get(postType);
                 if (postslist == null) {
                     postslist = new ArrayList<>();
@@ -338,7 +340,7 @@ public class Posts extends HibourBaseTabFragment implements View.OnClickListener
             for (String key : searchMap.keySet()) {
                 autocompleteList.add(key);
             }
-        }else{
+        } else {
             noFeedsLayout.setVisibility(View.VISIBLE);
             tabs.setVisibility(View.GONE);
             pager.setVisibility(View.GONE);
@@ -396,7 +398,7 @@ public class Posts extends HibourBaseTabFragment implements View.OnClickListener
             newpostDialogue = ProgressDialog.show(getActivity(), "", getResources()
                 .getString(R.string.progress_dialog_text));
             postsClient.insertonPost(application.getUserId(), cat_str, "0", postMessage, ""
-                    , "1", "", new WebServiceResponseCallback() {
+                , "1", "", new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parsePostDetails(jsonObject);
@@ -411,7 +413,7 @@ public class Posts extends HibourBaseTabFragment implements View.OnClickListener
             });
         } else {
             Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
             // Changing action button text color
             View sbView = snackbar.getView();
             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
@@ -426,7 +428,7 @@ public class Posts extends HibourBaseTabFragment implements View.OnClickListener
         try {
             JSONObject data = jsonObject.getJSONObject("data");
             Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, "Post update successfully!", Snackbar.LENGTH_LONG);
+                .make(coordinatorLayout, "Post update successfully!", Snackbar.LENGTH_LONG);
             // Changing action button text color
             View sbView = snackbar.getView();
             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
@@ -435,7 +437,7 @@ public class Posts extends HibourBaseTabFragment implements View.OnClickListener
         } catch (JSONException e) {
             e.printStackTrace();
             Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, "Post updation failed!", Snackbar.LENGTH_LONG);
+                .make(coordinatorLayout, "Post updation failed!", Snackbar.LENGTH_LONG);
             // Changing action button text color
             View sbView = snackbar.getView();
             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
@@ -456,7 +458,7 @@ public class Posts extends HibourBaseTabFragment implements View.OnClickListener
     }
 
     /*set pager adapter*/
-    private void updatePager(List<String> postTypes){
+    private void updatePager(List<String> postTypes) {
         if (mPagerAdapter == null) {
             mPagerAdapter = new FeedsPagerAdapter(getFragmentManager());
         }

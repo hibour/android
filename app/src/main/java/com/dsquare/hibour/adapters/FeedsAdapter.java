@@ -103,7 +103,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
       Log.d("image", listItems.get(position).getPostImage());
       try {
         holder.imgUrl = listItems.get(position).getPostImage().replace("\\", "");
-         new DownloadWebpageTask().execute(holder);
+        new DownloadWebpageTask().execute(holder);
       } catch (Exception e) {
         e.printStackTrace();
         holder.feedImage.setVisibility(View.GONE);
@@ -152,25 +152,25 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
             , listItems.get(position).getPostImage());
         break;
       case R.id.feeds_image:
-          openCommentsDialog(listItems.get(position).getPostId(), listItems.get(position).getLikesCount()
-                  , listItems.get(position).isUserLiked(), listItems.get(position).getPostDescription()
-                  , listItems.get(position).getPostImage());
-          break;
+        openCommentsDialog(listItems.get(position).getPostId(), listItems.get(position).getLikesCount()
+            , listItems.get(position).isUserLiked(), listItems.get(position).getPostDescription()
+            , listItems.get(position).getPostImage());
+        break;
 //      case R.id.feeds_likes_layout:
 //        likePost(listItems.get(position).getPostId());
 //        changeLikesCount(position);
 //        break;
       case R.id.feeds_likes:
-        String present_likes_count=viewHolder.likes.getText().toString();
-        int present_likes_count_int=Integer.parseInt(present_likes_count);
+        String present_likes_count = viewHolder.likes.getText().toString();
+        int present_likes_count_int = Integer.parseInt(present_likes_count);
         present_likes_count_int++;
         viewHolder.likes.setText(String.valueOf(present_likes_count_int));
         viewHolder.likesImage.setEnabled(false);
         viewHolder.dislikesImage.setEnabled(true);
         break;
       case R.id.feeds_dislikes:
-        String present_dislikes_count=viewHolder.likes.getText().toString();
-        int present_dislikes_count_int=Integer.parseInt(present_dislikes_count);
+        String present_dislikes_count = viewHolder.likes.getText().toString();
+        int present_dislikes_count_int = Integer.parseInt(present_dislikes_count);
         present_dislikes_count_int--;
         viewHolder.likes.setText(String.valueOf(present_dislikes_count_int));
         viewHolder.dislikesImage.setEnabled(false);
@@ -370,7 +370,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
 
   public static class ViewHolder extends RecyclerView.ViewHolder {
     private TextView timeStamp, message, categoryName, likes, comments, userText, userImageDefault;
-    private ImageView userImage, shareImage, likesImage,dislikesImage, feedImage;
+    private ImageView userImage, shareImage, likesImage, dislikesImage, feedImage;
     private LinearLayout commentsLayout, likesLayout;
     private String imgUrl;
     private Bitmap bitmap;
@@ -385,7 +385,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
       userImage = (ImageView) itemView.findViewById(R.id.feeds_user_image);
       userText = (TextView) itemView.findViewById(R.id.feeds_user_textview);
       likesImage = (ImageView) itemView.findViewById(R.id.feeds_likes);
-      dislikesImage=(ImageView)itemView.findViewById(R.id.feeds_dislikes);
+      dislikesImage = (ImageView) itemView.findViewById(R.id.feeds_dislikes);
       feedImage = (ImageView) itemView.findViewById(R.id.feeds_image);
       commentsLayout = (LinearLayout) itemView.findViewById(R.id.feeds_comments_layout);
 //      likesLayout = (LinearLayout) itemView.findViewById(R.id.feeds_likes_layout);

@@ -18,7 +18,7 @@ public class UserDetail {
   public UserDetail(UserDetailTable user) {
     id = user.user_id;
     Username = user.Username;
-    Log.d("UserDetail",Username);
+    Log.d("UserDetail", Username);
     Image = user.Image;
     Gender = user.Gender;
     Email = user.Email;

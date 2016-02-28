@@ -26,6 +26,12 @@ public class UserMessageTable extends Model {
   @Column(name = "from_user")
   public String from;
 
+  @Column(name = "other_user")
+  public String otherUser;
+
+  @Column(name = "message_type")
+  public String messageType;
+
   @Column(name = "message_time")
   public Date date;
 

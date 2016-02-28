@@ -84,7 +84,7 @@ import java.util.Map;
  * Created by Dsquare Android on 1/14/2016.
  */
 public class LocationSearch extends AppCompatActivity implements View.OnClickListener
-        , GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,OnMapReadyCallback {
+    , GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback {
 
     private static final LatLngBounds BOUNDS_INDIA = new LatLngBounds(new LatLng(8.4, 37.6), new LatLng(68.7, 97.25));
     public Button search, signin;
@@ -96,7 +96,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
     private ProgressDialog pDialog;
     private AutoCompleteTextView autoCompleteTextView, autoCompleteTextView1;
     private double latitude, longitude;
-    private String locAddress,subLocality;
+    private String locAddress, subLocality;
     private LatLng latLng;
     private boolean markerDrag = false;
     private Typeface tf;
@@ -109,15 +109,15 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
     private WebView locMap;
     private TextView locationDisplayTextView, countText;
     private Button next;
-    private RelativeLayout map,locLayout;
-    private RelativeLayout searchLayout,mapLayout;
-    private LinearLayout auto,signInLayout;
+    private RelativeLayout map, locLayout;
+    private RelativeLayout searchLayout, mapLayout;
+    private LinearLayout auto, signInLayout;
     private LocationClient locationClient;
     private GoogleMap mMap;
     private SupportMapFragment mapFragment;
     private CoordinatorLayout coordinatorLayout;
     private SharedPreferences sharedPreferences;
-    private String lat,lng;
+    private String lat, lng;
     private Marker marker;
     private int number;
     private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
@@ -141,9 +141,9 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
             if (place == null)
                 Toast.makeText(LocationSearch.this, "Location Not Changed", Toast.LENGTH_SHORT).show();
             else {
-                lat = latLng.latitude+"";
-                lng = latLng.longitude+"";
-                getAddress(latLng.latitude+"",latLng.longitude+"",locAddress,place.getId());
+                lat = latLng.latitude + "";
+                lng = latLng.longitude + "";
+                getAddress(latLng.latitude + "", latLng.longitude + "", locAddress, place.getId());
                 Log.d("lat and long", latLng.latitude + " " + latLng.longitude);
                 Double[] params = new Double[2];
                 params[0] = latLng.latitude;
@@ -151,7 +151,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 GetCurrentAddress currentadd = new GetCurrentAddress();
                 try {
                     isAutoComplete = true;
-                   // currentadd.execute(params);
+                    // currentadd.execute(params);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -221,11 +221,11 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 .build();
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.loc_map);
+            .findFragmentById(R.id.loc_map);
 //        mapFragment.getMapAsync(this);
-        sharedPreferences=getSharedPreferences("Login Credentials",MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("Login Credentials", MODE_PRIVATE);
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id
-                .coordinatorLayout);
+            .coordinatorLayout);
         locationClient = new LocationClient(this);
         auto = (LinearLayout) findViewById(R.id.loc_search_layout);
         map = (RelativeLayout) findViewById(R.id.relative_map);
@@ -314,10 +314,11 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (autoCompleteTextView.equals(null) || autoCompleteTextView.getText().toString().equals("")) {
                     locAddress = autoCompleteTextView.getText().toString();
-                    Log.d("address",locAddress);
+                    Log.d("address", locAddress);
                 } else {
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -328,10 +329,11 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (autoCompleteTextView.equals(null) || autoCompleteTextView.getText().toString().equals("")) {
                     locAddress = autoCompleteTextView1.getText().toString();
-                    Log.d("address",locAddress);
+                    Log.d("address", locAddress);
                 } else {
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -341,14 +343,16 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
         tf = Typeface.createFromAsset(getAssets(), Fonts.getTypeFaceName());
         autoCompleteTextView.setTypeface(tf);
         autoCompleteTextView1.setTypeface(tf);
-        if(!application.getUserDetails().get(Constants.SF_SUB_LOC).equals("")){
-            Map<String,String> userDetails = application.getUserDetails();
+        if (!application.getUserDetails().get(Constants.SF_SUB_LOC).equals("")) {
+            Map<String, String> userDetails = application.getUserDetails();
             autoCompleteTextView.setText(userDetails.get(Constants.SF_LOCADD));
+
             lat = userDetails.get(Constants.SF_LAT);
             lng = userDetails.get(Constants.SF_LNG);
 
             getAddress(userDetails.get(Constants.SF_LAT),userDetails.get(Constants.SF_LNG)
                     ,userDetails.get(Constants.SF_LOCADD),"");
+
         }
     }
 
@@ -371,13 +375,13 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 Intent intent2 = new Intent(getApplicationContext(), Social.class);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("Address1", subLocality);
-                Log.d("address",autoCompleteTextView1.getText().toString());
+                Log.d("address", autoCompleteTextView1.getText().toString());
                 editor.putString("Address", autoCompleteTextView1.getText().toString());
                 editor.putString("Latitude", lat);
                 editor.putString("Longitude", lng);
                 editor.commit();
-                application.setLocDetails(subLocality,autoCompleteTextView1.getText().toString()
-                        ,lat,lng);
+                application.setLocDetails(subLocality, autoCompleteTextView1.getText().toString()
+                    , lat, lng);
                 startActivity(intent2);
                 this.finish();
                 break;
@@ -395,22 +399,24 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 //                .position(new LatLng(-34, 151))
 //                .title("Marker"));
 
+
         LatLng coords = new LatLng(Double.valueOf(lat), Double.valueOf(lng));
 //        Log.d("double", latLng.latitude + latLng.longitude + "");
         if(marker==null){
             marker = googleMap.addMarker(new MarkerOptions().position(coords).title("There are about "+number+" members registered from your area.").draggable(true));
         }else{
+
             marker.remove();
-            marker = googleMap.addMarker(new MarkerOptions().position(coords).title("There are about "+number+" members registered from your area.").draggable(true));
+            marker = googleMap.addMarker(new MarkerOptions().position(coords).title("There are about " + number + " members registered from your area.").draggable(true));
         }
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coords, 10));
 
         CircleOptions circleOptions = new CircleOptions()
-                .center(coords)
-                .radius(500)
-                .strokeWidth(2)
-                .strokeColor(Color.BLUE)
-                .fillColor(Color.parseColor("#500084d3"));
+            .center(coords)
+            .radius(500)
+            .strokeWidth(2)
+            .strokeColor(Color.BLUE)
+            .fillColor(Color.parseColor("#500084d3"));
         // Supported formats are: #RRGGBB #AARRGGBB
         //   #AA is the alpha, or amount of transparency
 
@@ -470,7 +476,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
             params[1]= mLastLocation.getLongitude();
             GetCurrentAddress currentadd=new GetCurrentAddress();
             try {
-              // currentadd.execute(params);
+                // currentadd.execute(params);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -491,7 +497,242 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
         Log.i("loc", "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
     }
 
+    @SuppressLint("ResourceAsColor")
+    private void getMembersCount(String loc) {
+        if (networkDetector.isConnected()) {
+            locInsertDialog = ProgressDialog.show(this, ""
+                , getResources().getString(R.string.progress_dialog_text));
+            accountsClient.getMembersCount(loc, new WebServiceResponseCallback() {
+                @Override
+                public void onSuccess(JSONObject jsonObject) {
+                    parseLocDetails(jsonObject);
+                    closeLocDialog();
+                }
 
+                @Override
+                public void onFailure(VolleyError error) {
+                    Log.d("loc", error.toString());
+                    closeLocDialog();
+                }
+            });
+        } else {
+            Snackbar snackbar = Snackbar
+                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(getResources().getColor(R.color.newbrand));
+            snackbar.show();
+        }
+    }
+
+    /* parse loc data*/
+    private void parseLocDetails(JSONObject jsonObject) {
+        try {
+            JSONObject data = jsonObject.getJSONObject("data");
+            Log.d("data", data.toString());
+            int count = data.getInt("Count");
+            number = count;
+//            countText.setText("There are about "+count+" members registered from your area.");
+            closeLocDialog();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /* close loc dialog*/
+    private void closeLocDialog() {
+        if (locInsertDialog != null) {
+            if (locInsertDialog.isShowing()) {
+                locInsertDialog.dismiss();
+                locInsertDialog = null;
+            }
+        }
+    }
+
+    /**
+     * Hides the soft keyboard
+     */
+    public void hideSoftKeyboard() {
+        if (getCurrentFocus() != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+    }
+
+    /**
+     * Shows the soft keyboard
+     */
+    public void showSoftKeyboard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        view.requestFocus();
+        inputMethodManager.showSoftInput(view, 0);
+    }
+
+    /* get address from google javascript api*/
+    public void getAddress(String lat, String lng, final String locAddress, final String placeId) {
+        if (networkDetector.isConnected()) {
+            locationClient.getAddress(lat, lng, new WebServiceResponseCallback() {
+                @Override
+                public void onSuccess(JSONObject jsonObject) {
+                    parseLocationDetails(jsonObject, locAddress, placeId);
+                }
+
+                @Override
+                public void onFailure(VolleyError error) {
+                    Log.d("error", error.toString());
+                }
+            });
+        } else {
+
+        }
+    }
+
+    /* parse location details*/
+    public void parseLocationDetails(JSONObject jsonObject, String locAddress, String placeId) {
+        try {
+            Log.d("loc", jsonObject.toString());
+            JSONArray results = jsonObject.getJSONArray("results");
+            JSONObject addressData = results.getJSONObject(0);
+            JSONArray addressComponents = addressData.getJSONArray("address_components");
+            if (addressComponents.toString().contains("sublocality_level_1")) {
+                for (int i = 0; i < addressComponents.length(); i++) {
+                    JSONObject addressObject = addressComponents.getJSONObject(i);
+                    JSONArray types = addressObject.getJSONArray("types");
+                    if (types.toString().contains("sublocality_level_1")) {
+                        String sub_locality = addressObject.getString("long_name");
+                        Log.d("sublocalityIf", sub_locality);
+                        subLocality = sub_locality;
+                        setOnMap(locAddress);
+                    }
+                }
+            } else if (addressComponents.toString().contains("sublocality_level_2")) {
+                for (int i = 0; i < addressComponents.length(); i++) {
+                    JSONObject addressObject = addressComponents.getJSONObject(i);
+                    JSONArray types = addressObject.getJSONArray("types");
+                    if (types.toString().contains("sublocality_level_2")) {
+                        String sub_locality = addressObject.getString("long_name");
+                        Log.d("sublocalityElse", sub_locality);
+                        subLocality = sub_locality;
+                        setOnMap(locAddress);
+                    }
+                }
+            } else {
+                for (int i = 0; i < addressComponents.length(); i++) {
+                    JSONObject addressObject = addressComponents.getJSONObject(i);
+                    JSONArray types = addressObject.getJSONArray("types");
+                    if (types.toString().contains("locality")) {
+                        String sub_locality = addressObject.getString("long_name");
+                        Log.d("localityElse", sub_locality);
+                        subLocality = sub_locality;
+                        setOnMap(locAddress);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void startMap(String address) {
+        TranslateAnimation anim = new TranslateAnimation(0, 0, 0, -200);
+        anim.setDuration(1000);
+        auto.setAnimation(anim);
+        autoCompleteTextView1.setText(autoCompleteTextView.getText().toString());
+        if (mapFragment.getView().getVisibility() == View.GONE) {
+            Log.d("visibility", "yes");
+            mapFragment.getView().setVisibility(View.VISIBLE);
+        }
+        LatLng sydney = new LatLng(latLng.latitude, latLng.longitude);
+        mMap.addMarker(new MarkerOptions().position(sydney).title(autoCompleteTextView1.getText().toString()));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+        anim.setAnimationListener(new TranslateAnimation.AnimationListener() {
+
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                searchLayout.setVisibility(View.GONE);
+            }
+        });
+
+        getMembersCount(autoCompleteTextView1.getText().toString());
+    }
+
+    /* set map*/
+    @SuppressLint("ResourceAsColor")
+    public void setOnMap(String address) {
+        searchLayout.setVisibility(View.GONE);
+        map.setVisibility(View.VISIBLE);
+        autoCompleteTextView1.setText(autoCompleteTextView.getText().toString());
+        if (searchLayout.getVisibility() == View.VISIBLE) {
+        }
+        Constants.userAddress = locAddress;
+//        TranslateAnimation anim = new TranslateAnimation(0, 0, 0, -200);
+//        anim.setDuration(1000);
+//        auto.setAnimation(anim);
+        if (networkDetector.isConnected()) {
+//            try {
+//                URL url = new URL("http://hibour.com/test.php?area="+autoCompleteTextView1.getText().toString());
+//                URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
+//                        , url.getPath(), url.getQuery(), url.getRef());
+//                url = uri.toURL();
+//                locMap.loadUrl(url.toString());
+//                locMap.getSettings().setJavaScriptEnabled(true);
+//            } catch (Malforme
+// dURLException e) {
+//                e.printStackTrace();
+//            } catch (URISyntaxException e) {
+//                e.printStackTrace();
+//            }
+
+            mapFragment.getMapAsync(this);
+//            LatLng sydney = new LatLng(latLng.latitude, latLng.longitude);
+//            Log.d("double1", latLng.latitude+latLng.longitude+"");
+//            mMap.addMarker(new MarkerOptions().position(sydney).title(autoCompleteTextView1.getText().toString()));
+//            mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+//            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 10));
+
+//            // Add a marker in Sydney, Australia, and move the camera.
+//            LatLng sydney = new LatLng(latLng.latitude, latLng.longitude);
+//            mMap.addMarker(new MarkerOptions().position(sydney).title(autoCompleteTextView1.getText().toString()));
+//            mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+        } else {
+            Snackbar snackbar = Snackbar
+                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
+        }
+//        anim.setAnimationListener(new TranslateAnimation.AnimationListener() {
+//
+//            @Override
+//            public void onAnimationStart(Animation animation) {
+//            }
+//
+//            @Override
+//            public void onAnimationRepeat(Animation animation) {
+//            }
+//
+//            @Override
+//            public void onAnimationEnd(Animation animation) {
+//                searchLayout.setVisibility(View.GONE);
+//            }
+//        });
+
+
+        getMembersCount(autoCompleteTextView.getText().toString());
+    }
 
     /* async task for getting address*/
     private class GetCurrentAddress extends AsyncTask<Double, Void, String> {
@@ -499,17 +740,17 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
         protected String doInBackground(Double... params) {
             try {
                 Geocoder geocoder = new Geocoder(LocationSearch.this, Locale.getDefault());
-                List<Address> addresses=null;
+                List<Address> addresses = null;
                 addresses = geocoder.getFromLocation(params[0], params[1], 5);
                 if (addresses.size() > 0) {
                     Address address = addresses.get(0);
-                    String ad = address.getAddressLine(0)+" "+address.getAddressLine(1)
-                            +" "+address.getAddressLine(2);
-                    Log.d("address",address.toString());
-                    Log.d("address",address.getLocality()+" "+address.getSubLocality());
+                    String ad = address.getAddressLine(0) + " " + address.getAddressLine(1)
+                        + " " + address.getAddressLine(2);
+                    Log.d("address", address.toString());
+                    Log.d("address", address.getLocality() + " " + address.getSubLocality());
                     // locAddress = ad;
                     locAddress = address.getAddressLine(1);
-                    latitude=params[0];
+                    latitude = params[0];
                     longitude = params[1];
                     Constants.latitude = "";
                     Constants.longitude = "";
@@ -519,10 +760,10 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                     Constants.longitude = String.valueOf(longitude);
 //                    Constants.locationaddress = autoCompleteTextView.getText().toString();
                     Constants.locationaddress1 = locAddress;
-                    Constants.Latitude=latitude;
-                    Constants.Longitude=longitude;
-                    Constants.LocationAddress=locAddress;
-                   Log.d("latitude", String.valueOf(latitude));
+                    Constants.Latitude = latitude;
+                    Constants.Longitude = longitude;
+                    Constants.LocationAddress = locAddress;
+                    Log.d("latitude", String.valueOf(latitude));
                     Log.d("longitude", String.valueOf(longitude));
                     //autoLoc = address.getLocality();
                     return address.getLocality();
@@ -532,12 +773,13 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
             }
             return "";
         }
+
         @SuppressLint("ResourceAsColor")
         @Override
 
         protected void onPostExecute(String resultString) {
 
-            if(isAutoComplete){
+            if (isAutoComplete) {
                 map.setVisibility(View.VISIBLE);
 //                signin.setVisibility(View.VISIBLE);
                 autoCompleteTextView1.setText(autoCompleteTextView.getText().toString());
@@ -560,7 +802,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                     }
                 } else {
                     Snackbar snackbar = Snackbar
-                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
                     // Changing action button text color
                     View sbView = snackbar.getView();
                     TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
@@ -589,236 +831,5 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
                 getMembersCount(autoCompleteTextView1.getText().toString());
             }
         }
-    }
-    @SuppressLint("ResourceAsColor")
-    private void getMembersCount(String loc){
-        if(networkDetector.isConnected()){
-            locInsertDialog = ProgressDialog.show(this,""
-                    ,getResources().getString(R.string.progress_dialog_text));
-            accountsClient.getMembersCount(loc, new WebServiceResponseCallback() {
-                @Override
-                public void onSuccess(JSONObject jsonObject) {
-                    parseLocDetails(jsonObject);
-                    closeLocDialog();
-                }
-
-                @Override
-                public void onFailure(VolleyError error) {
-                    Log.d("loc", error.toString());
-                    closeLocDialog();
-                }
-            });
-        }else{
-            Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
-            // Changing action button text color
-            View sbView = snackbar.getView();
-            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-            textView.setTextColor(getResources().getColor(R.color.newbrand));
-            snackbar.show();
-        }
-    }
-
-    /* parse loc data*/
-    private void parseLocDetails(JSONObject jsonObject){
-        try {
-            JSONObject data = jsonObject.getJSONObject("data");
-            Log.d("data",data.toString());
-            int count = data.getInt("Count");
-            number = count;
-//            countText.setText("There are about "+count+" members registered from your area.");
-            closeLocDialog();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /* close loc dialog*/
-    private void closeLocDialog(){
-        if(locInsertDialog!=null){
-            if(locInsertDialog.isShowing()){
-                locInsertDialog.dismiss();
-                locInsertDialog=null;
-            }
-        }
-    }
-
-    /**
-            * Hides the soft keyboard
-    */
-    public void hideSoftKeyboard() {
-        if(getCurrentFocus()!=null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-        }
-    }
-
-    /**
-     * Shows the soft keyboard
-     */
-    public void showSoftKeyboard(View view) {
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        view.requestFocus();
-        inputMethodManager.showSoftInput(view, 0);
-    }
-    /* get address from google javascript api*/
-    public void getAddress(String lat,String lng, final String locAddress, final String placeId){
-        if(networkDetector.isConnected()){
-            locationClient.getAddress(lat, lng, new WebServiceResponseCallback() {
-                @Override
-                public void onSuccess(JSONObject jsonObject) {
-                    parseLocationDetails(jsonObject,locAddress,placeId);
-                }
-
-                @Override
-                public void onFailure(VolleyError error) {
-                    Log.d("error",error.toString());
-                }
-            });
-        }else{
-
-        }
-    }
-    /* parse location details*/
-    public void parseLocationDetails(JSONObject jsonObject,String locAddress,String placeId){
-        try {
-            Log.d("loc",jsonObject.toString());
-            JSONArray results = jsonObject.getJSONArray("results");
-            JSONObject addressData = results.getJSONObject(0);
-            JSONArray addressComponents = addressData.getJSONArray("address_components");
-            if(addressComponents.toString().contains("sublocality_level_1")){
-                for(int i=0;i<addressComponents.length();i++) {
-                    JSONObject addressObject = addressComponents.getJSONObject(i);
-                    JSONArray types = addressObject.getJSONArray("types");
-                    if(types.toString().contains("sublocality_level_1")){
-                        String sub_locality = addressObject.getString("long_name");
-                        Log.d("sublocalityIf",sub_locality);
-                        subLocality = sub_locality;
-                        setOnMap(locAddress);
-                    }
-                }
-            }else if(addressComponents.toString().contains("sublocality_level_2")){
-                for(int i=0;i<addressComponents.length();i++) {
-                    JSONObject addressObject = addressComponents.getJSONObject(i);
-                    JSONArray types = addressObject.getJSONArray("types");
-                    if(types.toString().contains("sublocality_level_2")){
-                        String sub_locality = addressObject.getString("long_name");
-                        Log.d("sublocalityElse", sub_locality);
-                        subLocality = sub_locality;
-                        setOnMap(locAddress);                    }
-                }
-            }else{
-                for(int i=0;i<addressComponents.length();i++) {
-                    JSONObject addressObject = addressComponents.getJSONObject(i);
-                    JSONArray types = addressObject.getJSONArray("types");
-                    if(types.toString().contains("locality")){
-                        String sub_locality = addressObject.getString("long_name");
-                        Log.d("localityElse",sub_locality);
-                        subLocality = sub_locality;
-                        setOnMap(locAddress);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    private void startMap(String address){
-        TranslateAnimation anim = new TranslateAnimation(0, 0, 0, -200);
-        anim.setDuration(1000);
-        auto.setAnimation(anim);
-        autoCompleteTextView1.setText(autoCompleteTextView.getText().toString());
-        if( mapFragment.getView().getVisibility() == View.GONE){
-            Log.d("visibility","yes");
-            mapFragment.getView().setVisibility(View.VISIBLE);
-        }
-            LatLng sydney = new LatLng(latLng.latitude, latLng.longitude);
-            mMap.addMarker(new MarkerOptions().position(sydney).title(autoCompleteTextView1.getText().toString()));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
-        anim.setAnimationListener(new TranslateAnimation.AnimationListener() {
-
-            @Override
-            public void onAnimationStart(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                searchLayout.setVisibility(View.GONE);
-            }
-        });
-
-        getMembersCount(autoCompleteTextView1.getText().toString());
-    }
-    /* set map*/
-    @SuppressLint("ResourceAsColor")
-    public void setOnMap(String address){
-        searchLayout.setVisibility(View.GONE);
-        map.setVisibility(View.VISIBLE);
-        autoCompleteTextView1.setText(autoCompleteTextView.getText().toString());
-        if(searchLayout.getVisibility()==View.VISIBLE){
-        }
-        Constants.userAddress = locAddress;
-//        TranslateAnimation anim = new TranslateAnimation(0, 0, 0, -200);
-//        anim.setDuration(1000);
-//        auto.setAnimation(anim);
-        if(networkDetector.isConnected()){
-//            try {
-//                URL url = new URL("http://hibour.com/test.php?area="+autoCompleteTextView1.getText().toString());
-//                URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
-//                        , url.getPath(), url.getQuery(), url.getRef());
-//                url = uri.toURL();
-//                locMap.loadUrl(url.toString());
-//                locMap.getSettings().setJavaScriptEnabled(true);
-//            } catch (Malforme
-// dURLException e) {
-//                e.printStackTrace();
-//            } catch (URISyntaxException e) {
-//                e.printStackTrace();
-//            }
-
-            mapFragment.getMapAsync(this);
-//            LatLng sydney = new LatLng(latLng.latitude, latLng.longitude);
-//            Log.d("double1", latLng.latitude+latLng.longitude+"");
-//            mMap.addMarker(new MarkerOptions().position(sydney).title(autoCompleteTextView1.getText().toString()));
-//            mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-//            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 10));
-
-//            // Add a marker in Sydney, Australia, and move the camera.
-//            LatLng sydney = new LatLng(latLng.latitude, latLng.longitude);
-//            mMap.addMarker(new MarkerOptions().position(sydney).title(autoCompleteTextView1.getText().toString()));
-//            mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
-        }else{
-            Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
-            // Changing action button text color
-            View sbView = snackbar.getView();
-            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-            textView.setTextColor(Color.RED);
-            snackbar.show();
-        }
-//        anim.setAnimationListener(new TranslateAnimation.AnimationListener() {
-//
-//            @Override
-//            public void onAnimationStart(Animation animation) {
-//            }
-//
-//            @Override
-//            public void onAnimationRepeat(Animation animation) {
-//            }
-//
-//            @Override
-//            public void onAnimationEnd(Animation animation) {
-//                searchLayout.setVisibility(View.GONE);
-//            }
-//        });
-
-
-        getMembersCount(autoCompleteTextView.getText().toString());
     }
 }

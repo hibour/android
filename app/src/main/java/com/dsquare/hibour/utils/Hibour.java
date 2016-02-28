@@ -51,9 +51,36 @@ public class Hibour {
         editor.putString(Constants.SF_LOCADD, details[6]);
         editor.commit();
     }
+
+    /* get user details*/
+    public Map<String, String> getUserDetails() {
+        Map<String, String> details = new HashMap<>();
+        details.put(Constants.PREFERENCE_USER_ID
+            , sharedPreferences.getString(Constants.PREFERENCE_USER_ID, ""));
+        details.put(Constants.SF_FIRST, sharedPreferences.getString(Constants.SF_FIRST, ""));
+        details.put(Constants.SF_LAST, sharedPreferences.getString(Constants.SF_LAST, ""));
+        details.put(Constants.SF_EMAIL, sharedPreferences.getString(Constants.SF_EMAIL, ""));
+        details.put(Constants.SF_GENDER, sharedPreferences.getString(Constants.SF_GENDER, ""));
+        details.put(Constants.SF_REGTYPE, sharedPreferences.getString(Constants.SF_REGTYPE, ""));
+        details.put(Constants.SF_LOCADD, sharedPreferences.getString(Constants.SF_LOCADD, ""));
+        details.put(Constants.SF_SUB_LOC, sharedPreferences.getString(Constants.SF_SUB_LOC, ""));
+        details.put(Constants.SF_LAT, sharedPreferences.getString(Constants.SF_LAT, ""));
+        details.put(Constants.SF_LNG, sharedPreferences.getString(Constants.SF_LNG, ""));
+        details.put(Constants.SF_PASS, sharedPreferences.getString(Constants.SF_PASS, ""));
+        details.put(Constants.SF_DOB, sharedPreferences.getString(Constants.SF_DOB, ""));
+        details.put(Constants.SF_NOTIF, sharedPreferences.getString(Constants.SF_NOTIF, ""));
+        details.put(Constants.SF_IMAGE, sharedPreferences.getString(Constants.SF_IMAGE, ""));
+        details.put(Constants.SF_MOBILE, sharedPreferences.getString(Constants.SF_MOBILE, ""));
+        return details;
+    }
+
     /* set user details*/
-    public void setUserDetails(Map<String,String> userDetails){
+    public void setUserDetails(Map<String, String> userDetails) {
         initializeSharedPrefs();
+        Log.e(LOG_TAG, userDetails.get(Constants.PREFERENCE_USER_ID));
+        Log.e(LOG_TAG, userDetails.get(Constants.SF_FIRST));
+        Log.e(LOG_TAG, userDetails.get(Constants.SF_LAST));
+        Log.e(LOG_TAG, userDetails.get(Constants.SF_EMAIL));
         editor.putString(Constants.PREFERENCE_USER_ID, userDetails.get(Constants.PREFERENCE_USER_ID));
         editor.putString(Constants.SF_FIRST, userDetails.get(Constants.SF_FIRST));
         editor.putString(Constants.SF_LAST, userDetails.get(Constants.SF_LAST));
@@ -71,28 +98,8 @@ public class Hibour {
         editor.putString(Constants.SF_MOBILE, userDetails.get(Constants.SF_MOBILE));
         editor.commit();
     }
-    /* get user details*/
-    public  Map<String,String> getUserDetails(){
-        Map<String,String> details = new HashMap<>();
-        details.put(Constants.PREFERENCE_USER_ID
-                ,sharedPreferences.getString(Constants.PREFERENCE_USER_ID,""));
-        details.put(Constants.SF_FIRST,sharedPreferences.getString(Constants.SF_FIRST,""));
-        details.put(Constants.SF_LAST,sharedPreferences.getString(Constants.SF_LAST,""));
-        details.put(Constants.SF_EMAIL,sharedPreferences.getString(Constants.SF_EMAIL,""));
-        details.put(Constants.SF_GENDER,sharedPreferences.getString(Constants.SF_GENDER,""));
-        details.put(Constants.SF_REGTYPE,sharedPreferences.getString(Constants.SF_REGTYPE,""));
-        details.put(Constants.SF_LOCADD,sharedPreferences.getString(Constants.SF_LOCADD,""));
-        details.put(Constants.SF_SUB_LOC,sharedPreferences.getString(Constants.SF_SUB_LOC,""));
-        details.put(Constants.SF_LAT,sharedPreferences.getString(Constants.SF_LAT,""));
-        details.put(Constants.SF_LNG,sharedPreferences.getString(Constants.SF_LNG,""));
-        details.put(Constants.SF_PASS,sharedPreferences.getString(Constants.SF_PASS,""));
-        details.put(Constants.SF_DOB,sharedPreferences.getString(Constants.SF_DOB,""));
-        details.put(Constants.SF_NOTIF,sharedPreferences.getString(Constants.SF_NOTIF,""));
-        details.put(Constants.SF_IMAGE,sharedPreferences.getString(Constants.SF_IMAGE,""));
-        details.put(Constants.SF_MOBILE,sharedPreferences.getString(Constants.SF_MOBILE,""));
-        return details;
-    }
-    public void setLocDetails(String subLocality,String loc,String lat,String lng){
+
+    public void setLocDetails(String subLocality, String loc, String lat, String lng) {
         initializeSharedPrefs();
         editor.putString(Constants.SF_LAT, lat);
         editor.putString(Constants.SF_LNG, lng);
@@ -128,7 +135,7 @@ public class Hibour {
         editor.apply();
         //editor.remove(Constants.PREFERENCE_USER_ID);
         //editor.apply();
-       // sharedPreferences = null;
+        // sharedPreferences = null;
     }
 
     public boolean getIsFirst() {
