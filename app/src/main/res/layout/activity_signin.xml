@@ -129,7 +129,6 @@
                         android:hint="@string/signup_email_hint"
                         android:inputType="textEmailAddress"
                         android:singleLine="true"
-                        android:text="ashok@dsquarelabs.com"
                         android:textColor="@color/black_1"
                         android:textColorHint="@color/gray"/>
                 </android.support.design.widget.TextInputLayout>
@@ -154,7 +153,6 @@
                         android:imeOptions="actionDone"
                         android:inputType="textPassword"
                         android:singleLine="true"
-                        android:text="ashokashok"
                         android:textColor="@color/black_1"
                         android:textColorHint="@color/gray"/>
                 </android.support.design.widget.TextInputLayout>
