@@ -41,7 +41,8 @@ public class DatabaseHandler {
     }
 
   }
-    /**/
+
+  /**/
   public void insertUserMessage(UserMessage userMessage) {
     new UserMessageTable(userMessage, application.getUserId()).save();
   }
@@ -61,7 +62,28 @@ public class DatabaseHandler {
       userMessageList.add(new UserMessage(message.local_id, message.from, message.to, message.message, message.message_state, message.date));
     }
     return userMessageList;
+  }
+
+  public UserMessage getRecentUserMessage(String user_1, String user_2) {
+    List<UserMessageTable> userMessageTableList = new Select().from(UserMessageTable.class)
+        .where("((to_user = \"" + user_1 + "\" and from_user = \"" + user_2 + "\") or (to_user = \""
+            + user_2 + "\" and from_user = \"" + user_1 + "\") ) and session_user = "
+            + application.getUserId()).orderBy("message_time DESC")
+        .limit(1)
+        .execute();
+    for (UserMessageTable message : userMessageTableList) {
+      return new UserMessage(message.local_id, message.from, message.to, message.message, message.message_state, message.date);
     }
+    return null;
+  }
+
+  public void deleteUserMessage(String user_1, String user_2) {
+    new Delete().from(UserMessageTable.class)
+        .where("((to_user = \"" + user_1 + "\" and from_user = \"" + user_2 + "\") or (to_user = \""
+            + user_2 + "\" and from_user = \"" + user_1 + "\") ) and session_user = "
+            + application.getUserId())
+        .execute();
+  }
 
   public List<UserDetail> getChartUserList() {
     List<UserDetail> userDetailList = new ArrayList<>();
@@ -97,14 +119,14 @@ public class DatabaseHandler {
       tempUser = new UserDetail();
       tempUser.id = user_id;
       tempUser.Username = "Hibour User";
-        }
-    userDetailList.add(tempUser);
     }
+    userDetailList.add(tempUser);
+  }
 
   /* insert notifications into database*/
   public void insertNotificationIntoDatabase(String message) {
     new NotificationTable(message).save();
-    }
+  }
 
   /*get notifications from database*/
   public List<NotificationTable> getListOfNotifications() {
