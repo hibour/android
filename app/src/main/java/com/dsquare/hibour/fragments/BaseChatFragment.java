@@ -2,16 +2,16 @@ package com.dsquare.hibour.fragments;
 
 import android.support.v4.app.Fragment;
 
-import com.dsquare.hibour.adapters.UserChatListAdapter;
+import com.dsquare.hibour.adapters.NearByUserChatListAdapter;
 import com.dsquare.hibour.database.DatabaseHandler;
 
 public abstract class BaseChatFragment extends Fragment {
 
-  public UserChatListAdapter adapterUserSearch;
+  public NearByUserChatListAdapter adapterUserSearch;
   public DatabaseHandler dbHandler;
 
   public void initializeBaseChatFragment() {
-    adapterUserSearch = new UserChatListAdapter(getActivity());
+    adapterUserSearch = new NearByUserChatListAdapter(getActivity());
     dbHandler = new DatabaseHandler(getContext());
   }
 

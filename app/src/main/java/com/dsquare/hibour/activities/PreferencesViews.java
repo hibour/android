@@ -17,7 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dsquare.hibour.R;
-import com.dsquare.hibour.adapters.UserChatListAdapter;
+import com.dsquare.hibour.adapters.NearByUserChatListAdapter;
 import com.dsquare.hibour.interfaces.NavDrawerCallback;
 import com.dsquare.hibour.network.NetworkDetector;
 import com.dsquare.hibour.pojos.Socialize.ChoosedUser;
@@ -35,7 +35,7 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
     private ImageView menuIcon, searchIcon;
     private RelativeLayout searchLayout;
     private RecyclerView neighboursRecycler;
-    private UserChatListAdapter adapter;
+    private NearByUserChatListAdapter adapter;
     private List<UserDetail> neighboursList = new ArrayList<>();
     private NetworkDetector networkDetector;
     private ProgressDialog dialog;
@@ -73,7 +73,7 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         neighboursRecycler.setLayoutManager(layoutManager);
         neighboursRecycler.setHasFixedSize(true);
-        adapter = new UserChatListAdapter(this);
+        adapter = new NearByUserChatListAdapter(this);
         neighboursRecycler.setAdapter(adapter);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>
             (this, android.R.layout.simple_dropdown_item_1line,

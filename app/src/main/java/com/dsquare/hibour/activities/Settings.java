@@ -455,6 +455,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener,
       String image = data.getString("profileimage");
 
       Map<String, String> userDetails = new HashMap<>();
+        userDetails.put(Constants.PREFERENCE_USER_ID,data.getString("userId"));
       userDetails.put(Constants.SF_FIRST, firstname);
       userDetails.put(Constants.SF_LAST, lastname);
       userDetails.put(Constants.SF_EMAIL, email);

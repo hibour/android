@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
-import com.dsquare.hibour.adapters.UserChatListAdapter;
+import com.dsquare.hibour.adapters.NearByUserChatListAdapter;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.SocializeClient;
 import com.dsquare.hibour.pojos.user.UserDetail;
@@ -39,7 +39,7 @@ public class NearByUserChat extends BaseChatFragment {
   private static final String LOG_TAG = NearByUserChat.class.getSimpleName();
   SwipeRefreshLayout swipeRefreshLayout;
   private RecyclerView recyclerView;
-  private UserChatListAdapter adapter;
+  private NearByUserChatListAdapter adapter;
   private SocializeClient socializeClient;
   private Hibour application;
   private WebServiceResponseCallback nearbyUserResultCallBack = new WebServiceResponseCallback() {
@@ -111,7 +111,7 @@ public class NearByUserChat extends BaseChatFragment {
     layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
     recyclerView.setLayoutManager(layoutManager);
     recyclerView.setHasFixedSize(true);
-    adapter = new UserChatListAdapter(getActivity());
+    adapter = new NearByUserChatListAdapter(getActivity());
     recyclerView.setAdapter(adapter);
 
     swipeRefreshLayout.setColorSchemeColors(

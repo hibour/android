@@ -11,8 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.adapters.NearByUserChatListAdapter;
 import com.dsquare.hibour.adapters.SocializeAdapter;
-import com.dsquare.hibour.adapters.UserChatListAdapter;
 import com.dsquare.hibour.pojos.posts.Feeds;
 import com.dsquare.hibour.pojos.user.UserDetail;
 import com.dsquare.hibour.utils.Constants;
@@ -33,7 +33,7 @@ public class SocializePager extends Fragment {
   private List<Feeds> postsList = new ArrayList<>();
   private List<String[]> prefsList = new ArrayList<>();
   private List<UserDetail> neighboursList = new ArrayList<>();
-  private UserChatListAdapter postsAdapter1;
+  private NearByUserChatListAdapter postsAdapter1;
   private SocializeAdapter postsAdapter;
   private String categoryName = "";
   private GridLayoutManager layoutManager;
@@ -148,6 +148,6 @@ public class SocializePager extends Fragment {
         neighboursList.add(userDetail);
       }
     }
-    postsRecycler.setAdapter(new UserChatListAdapter(getActivity()));
+    postsRecycler.setAdapter(new NearByUserChatListAdapter(getActivity()));
   }
 }
