@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dsquare.hibour.R;
-import com.dsquare.hibour.adapters.UserChatListAdapter;
+import com.dsquare.hibour.adapters.NearByUserChatListAdapter;
 import com.dsquare.hibour.pojos.user.UserDetail;
 import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Fonts;
@@ -30,7 +30,7 @@ public class SearchInChats extends AppCompatActivity implements View.OnClickList
 
   private ImageView backIcon, searchIcon;
   private RecyclerView searchChats;
-  private UserChatListAdapter chatsAdapter;
+  private NearByUserChatListAdapter chatsAdapter;
   private Intent data;
   private String name = "", id = "";
   private AutoCompleteTextView autoCompleteTextView;
@@ -61,7 +61,7 @@ public class SearchInChats extends AppCompatActivity implements View.OnClickList
     layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
     searchChats.setLayoutManager(layoutManager);
     searchChats.setHasFixedSize(true);
-    chatsAdapter = new UserChatListAdapter(this);
+    chatsAdapter = new NearByUserChatListAdapter(this);
     searchChats.setAdapter(chatsAdapter);
     parseUserDetails();
     autoCompleteTextView.setText(name);
