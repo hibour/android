@@ -9,8 +9,8 @@
 
     <LinearLayout
         android:id="@+id/pref_linear_layout"
-        android:layout_width="@dimen/dp_100"
-        android:layout_height="@dimen/dp_100"
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="@dimen/dp_80"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/dp_10"
         android:background="@drawable/social_prefs_unselected_state"
