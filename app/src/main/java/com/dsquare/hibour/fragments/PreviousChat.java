@@ -3,6 +3,7 @@ package com.dsquare.hibour.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dsquare.hibour.R;
-import com.dsquare.hibour.adapters.UserChatListAdapter;
+import com.dsquare.hibour.adapters.PreviousChatListAdapter;
 import com.dsquare.hibour.database.DatabaseHandler;
 import com.dsquare.hibour.network.SocializeClient;
 import com.dsquare.hibour.pojos.user.UserDetail;
@@ -28,7 +29,7 @@ public class PreviousChat extends BaseChatFragment {
 
   private static final String LOG_TAG = PreviousChat.class.getSimpleName();
   private RecyclerView recyclerView;
-  private UserChatListAdapter adapter;
+  private PreviousChatListAdapter adapter;
   private SocializeClient socializeClient;
   private DatabaseHandler dbHandler;
 
@@ -79,7 +80,7 @@ public class PreviousChat extends BaseChatFragment {
     layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
     recyclerView.setLayoutManager(layoutManager);
     recyclerView.setHasFixedSize(true);
-    adapter = new UserChatListAdapter(getActivity());
+    adapter = new PreviousChatListAdapter((AppCompatActivity) getActivity());
     recyclerView.setAdapter(adapter);
   }
 
