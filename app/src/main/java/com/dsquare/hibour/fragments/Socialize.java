@@ -102,20 +102,22 @@ public class Socialize extends HibourBaseTabFragment implements View.OnClickList
 //        tabs.setTabsBackgroundColor(getResources().getColor(R.color.white));
         prefsRecycler = (RecyclerView)view.findViewById(R.id.social_prefs_list);
         layoutManager = new GridLayoutManager(getActivity(), 3);
-//        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-//            @Override
-//            public int getSpanSize(int position) {
-////                return socializeAdapter.getItemViewType(position);
-//                int mod = position % 3;
-//                if (position == 0 || position == 1 ||position == 2)
-//                    return 3;
-//                else if(mod == 0 || mod == 1 || mod == 2)
-//                    return 3;
-//                else if(mod == 0 || mod == 1);
-//                    return 2;
-//
-//            }
-//        });
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return prefsRecycler.getAdapter().getItemViewType(position);
+               /* int mod = position % 3;
+                Log.d("position",position+"");
+                Log.d("mod",mod+"");
+                if (position == 0 || position == 1 ||position == 2)
+                    return 3;
+                else if(mod == 0 || mod == 1 || mod == 2)
+                    return 3;
+                else if(mod == 0 || mod == 1);
+                    return 2;*/
+
+            }
+        });
         prefsRecycler.setLayoutManager(layoutManager);
         prefsRecycler.setHasFixedSize(true);
         prefsRecycler.addItemDecoration(new GridLayoutSpacing(3, 5, true));
