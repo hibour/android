@@ -46,6 +46,10 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+//        int listViewItemType = getItemViewType(position);
+//        String.valueOf(listViewItemType).equals(Integer.parseInt("8"));{
+//
+//        }
         holder.prefCount.setVisibility(View.VISIBLE);
         if(listItems.get(position)[4].equals("false")){
             try {
@@ -124,4 +128,19 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
             prefCount = (TextView)itemView.findViewById(R.id.pref_count);
         }
     }
+
+    @Override
+    public int getItemViewType(int position) {
+        // Just as an example, return 0 or 2 depending on position
+        // Note that unlike in ListView adapters, types don't have to be contiguous
+        int mod = position % 3;
+          if(position == 0 || position == 1 || position == 2)
+            return 3;
+          else if(mod == 0 || mod == 1 || mod == 2)
+            return 3;
+          else if(mod == 0 || mod == 1)
+            return 2;
+          else
+            return 1;
+   }
 }

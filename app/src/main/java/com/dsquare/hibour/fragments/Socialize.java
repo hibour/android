@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ import com.dsquare.hibour.pojos.Socialize.Data;
 import com.dsquare.hibour.pojos.preference.Datum;
 import com.dsquare.hibour.pojos.preference.Preference;
 import com.dsquare.hibour.utils.Constants;
+import com.dsquare.hibour.utils.GridLayoutSpacing;
 import com.dsquare.hibour.utils.Hibour;
 import com.dsquare.hibour.utils.SlidingTabLayout;
 import com.google.gson.Gson;
@@ -47,7 +49,7 @@ public class Socialize extends HibourBaseTabFragment implements View.OnClickList
 
     private SocializeTabsPager mPagerAdapter;
     private Button doneButton,previous;
-    private RecyclerView prefsRecycler;
+    private RecyclerView prefsRecycler,prefsRecycler1;
     private List<String[]> prefsList = new ArrayList<>();
     private PreferencesAdapter adapter;
     private NetworkDetector networkDetector;
@@ -60,6 +62,8 @@ public class Socialize extends HibourBaseTabFragment implements View.OnClickList
     private SlidingTabLayout tabs;
     private List<String> tabsList = new ArrayList<>();
     private CoordinatorLayout coordinatorLayout;
+    private GridLayoutManager layoutManager;
+    private SocializeAdapter socializeAdapter;
     public Socialize() {
         // Required empty public constructor
     }
@@ -71,7 +75,7 @@ public class Socialize extends HibourBaseTabFragment implements View.OnClickList
         initializeViews(view);
         initializeEventListeners();
         getMembers(application.getUserId());
-        //getAllPrefs();
+//        getAllPrefs();
         return view;
     }
     /* initialize views*/
@@ -85,20 +89,36 @@ public class Socialize extends HibourBaseTabFragment implements View.OnClickList
             .coordinatorLayout);
 //        doneButton = (Button)view.findViewById(R.id.socialize_done_button);
 //        previous = (Button)view.findViewById(R.id.socialize_prev_button);
-        pager = (ViewPager) view.findViewById(R.id.socialize_pager);
-        tabsList.add("PREFERENCES");
-        tabsList.add("ALL");
-        tabs = (SlidingTabLayout) view.findViewById(R.id.socialize_tabs);
-        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
-            @Override
-            public int getIndicatorColor(int position) {
-                return getResources().getColor(R.color.newbrand);
-            }
-        });
-        tabs.setTabsBackgroundColor(getResources().getColor(R.color.white));
-//        prefsRecycler = (RecyclerView)view.findViewById(R.id.social_prefs_list);
-//        prefsRecycler.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-//        prefsRecycler.addItemDecoration(new GridLayoutSpacing(3, 5, true));
+//        pager = (ViewPager) view.findViewById(R.id.socialize_pager);
+//        tabsList.add("PREFERENCES");
+//        tabsList.add("ALL");
+//        tabs = (SlidingTabLayout) view.findViewById(R.id.socialize_tabs);
+//        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+//            @Override
+//            public int getIndicatorColor(int position) {
+//                return getResources().getColor(R.color.newbrand);
+//            }
+//        });
+//        tabs.setTabsBackgroundColor(getResources().getColor(R.color.white));
+        prefsRecycler = (RecyclerView)view.findViewById(R.id.social_prefs_list);
+        layoutManager = new GridLayoutManager(getActivity(), 3);
+//        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+//            @Override
+//            public int getSpanSize(int position) {
+////                return socializeAdapter.getItemViewType(position);
+//                int mod = position % 3;
+//                if (position == 0 || position == 1 ||position == 2)
+//                    return 3;
+//                else if(mod == 0 || mod == 1 || mod == 2)
+//                    return 3;
+//                else if(mod == 0 || mod == 1);
+//                    return 2;
+//
+//            }
+//        });
+        prefsRecycler.setLayoutManager(layoutManager);
+        prefsRecycler.setHasFixedSize(true);
+        prefsRecycler.addItemDecoration(new GridLayoutSpacing(3, 5, true));
 //        prefsRecycler.setHasFixedSize(true);
     }
     /* initialize event listeners*/
@@ -214,7 +234,7 @@ public class Socialize extends HibourBaseTabFragment implements View.OnClickList
 //                String[] detail={"Preference","All"};
 
             }
-//           setAdapters(prefsList);
+           setAdapters();
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
@@ -233,8 +253,11 @@ public class Socialize extends HibourBaseTabFragment implements View.OnClickList
                     ,Constants.socialPrefsMap.get(s).get(4)
                     ,Constants.socialPrefsMap.get(s).get(5)};
             prefsList.add(details);
+            Log.d("dd", String.valueOf(prefsList.size() % 3 == 0));
         }
+//        if(String.valueOf(prefsList.size() % 3 == 0))
         prefsRecycler.setAdapter(new SocializeAdapter(getActivity(), prefsList));
+
     }
 
     /*set pager adapter*/
@@ -306,7 +329,7 @@ public class Socialize extends HibourBaseTabFragment implements View.OnClickList
                     Constants.membersList.add(ch);
                 }
             }
-            setPager();
+            setAdapters();
         } catch (Exception e) {
             e.printStackTrace();
         }

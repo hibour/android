@@ -91,7 +91,7 @@ public class PostsTypesDialog extends DialogFragment implements View.OnClickList
     if (Constants.postTypesMap.size() > 0) {
       categoriesList.clear();
       for (String type : Constants.postTypesMap.keySet()) {
-        categoriesList.add(type);
+        categoriesList.add(Constants.postTypesMap.get(type).get("name"));
       }
       CategoriesAdapter adapter = new CategoriesAdapter(getActivity(), categoriesList);
       adapter.setCallback(this);

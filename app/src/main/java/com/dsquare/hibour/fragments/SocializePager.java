@@ -11,12 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dsquare.hibour.R;
+import com.dsquare.hibour.adapters.NearByUserChatListAdapter;
 import com.dsquare.hibour.adapters.SocializeAdapter;
-import com.dsquare.hibour.adapters.UserChatListAdapter;
 import com.dsquare.hibour.pojos.posts.Feeds;
 import com.dsquare.hibour.pojos.user.UserDetail;
 import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.GridLayoutSpacing;
+import com.dsquare.hibour.utils.MySpanSizeLookup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,10 +33,10 @@ public class SocializePager extends Fragment {
   private List<Feeds> postsList = new ArrayList<>();
   private List<String[]> prefsList = new ArrayList<>();
   private List<UserDetail> neighboursList = new ArrayList<>();
-  private UserChatListAdapter postsAdapter1;
+  private NearByUserChatListAdapter postsAdapter1;
   private SocializeAdapter postsAdapter;
   private String categoryName = "";
-
+  private GridLayoutManager layoutManager;
   public SocializePager() {
     // Required empty public constructor
   }
@@ -55,9 +56,36 @@ public class SocializePager extends Fragment {
     postsRecycler = (RecyclerView) view.findViewById(R.id.post_posts_list);
     if (categoryName.equals("PREFERENCES")) {
       Log.d("catg1", "PREFERENCES");
-      postsRecycler.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-      postsRecycler.addItemDecoration(new GridLayoutSpacing(3, 5, true));
-      postsRecycler.setHasFixedSize(true);
+//      layoutManager = new GridLayoutManager(getActivity(), 3);
+//      layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+//        @Override
+//        public int getSpanSize(int position) {
+//          int mod = position % 3;
+//          Log.d("size",prefsList.size()+"");
+////          if(prefsList.size()%3==0) {
+////            return 3;
+////          }
+////          else if(prefsList.size()%3==2) {
+////            return 2;
+////          }
+////          else {
+////            return 1;
+////          }
+//
+//          if (position % 3 == 0) {
+//            return 3;
+//          }
+//          else if (position % 3 == 2)
+//            return 2;
+////          else if (position % 3 == 1)
+////            return 1;
+//          else
+//            return 1;
+//        }
+//      });
+//      postsRecycler.setLayoutManager(layoutManager);
+//      postsRecycler.addItemDecoration(new GridLayoutSpacing(3, 5, true));
+//      postsRecycler.setHasFixedSize(true);
       setAdapter();
     } else {
       Log.d("catg2", "All");
@@ -79,6 +107,28 @@ public class SocializePager extends Fragment {
           , Constants.socialPrefsMap.get(s).get(5)};
       prefsList.add(details);
     }
+    layoutManager = new GridLayoutManager(getActivity(), 3);
+    layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+      @Override
+      public int getSpanSize(int position) {
+        int mod = position % 3;
+//        Log.d("size",prefsList.size()+"");
+//          if(position == 0 || position == 1 || position == 2)
+//            return 3;
+//          else if(mod == 0 || mod == 1 || mod == 2)
+//            return 3;
+//          else if(mod == 0 || mod == 1)
+//            return 2;
+//          else
+//            return 3;
+        return postsAdapter.getItemViewType(position);
+      }
+    });
+//    layoutManager.setSpanSizeLookup(new MySpanSizeLookup(9, 1, 3));
+//    layoutManager.setSpanSizeLookup(new MySpanSizeLookup(10, 1, 3));
+    postsRecycler.setLayoutManager(layoutManager);
+//    postsRecycler.addItemDecoration(new GridLayoutSpacing(3, 5, true));
+//    postsRecycler.setHasFixedSize(true);
     postsRecycler.setAdapter(new SocializeAdapter(getActivity(), prefsList));
   }
 
@@ -98,6 +148,6 @@ public class SocializePager extends Fragment {
         neighboursList.add(userDetail);
       }
     }
-    postsRecycler.setAdapter(new UserChatListAdapter(getActivity()));
+    postsRecycler.setAdapter(new NearByUserChatListAdapter(getActivity()));
   }
 }

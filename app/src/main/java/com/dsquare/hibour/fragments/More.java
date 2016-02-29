@@ -110,6 +110,7 @@ public class More extends HibourBaseTabFragment implements View.OnClickListener 
         inviteFriends(getString(R.string.invite_msg));
         break;
       case R.id.more_logoutlayout:
+          application.removeUserDetails();
         Intent openSignin = new Intent(getActivity(), SignIn.class);
         startActivity(openSignin);
         break;

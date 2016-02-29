@@ -731,7 +731,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 //        });
 
 
-        getMembersCount(autoCompleteTextView.getText().toString());
+        getMembersCount(autoCompleteTextView1.getText().toString());
     }
 
     /* async task for getting address*/

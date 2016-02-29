@@ -29,4 +29,10 @@ public class UserMessage {
   public void setRead(boolean isRead) {
     this.isRead = isRead;
   }
+
+  public Calendar getTime() {
+    Calendar messageTime = Calendar.getInstance();
+    messageTime.setTime(time);
+    return messageTime;
+  }
 }

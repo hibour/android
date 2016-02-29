@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
@@ -91,6 +92,8 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
 
   @Override
   public void onBindViewHolder(ViewHolder holder, int position) {
+    Log.d("likesCount",listItems.get(position).getLikesCount());
+    holder.likes.setText(listItems.get(position).getLikesCount());
     holder.message.setText(listItems.get(position).getPostDescription());
     String categoryString = "";
     if (Constants.categoriesMap.containsKey(listItems.get(position).getPostyType()))
@@ -145,6 +148,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
   public void onClick(View view) {
     final ViewHolder viewHolder = (ViewHolder) view.getTag();
     final int position = viewHolder.getAdapterPosition();
+    Feeds feed = new Feeds();
     switch (view.getId()) {
       case R.id.feeds_comments_layout:
         openCommentsDialog(listItems.get(position).getPostId(), listItems.get(position).getLikesCount()
@@ -156,26 +160,50 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
             , listItems.get(position).isUserLiked(), listItems.get(position).getPostDescription()
             , listItems.get(position).getPostImage());
         break;
-//      case R.id.feeds_likes_layout:
-//        likePost(listItems.get(position).getPostId());
-//        changeLikesCount(position);
-//        break;
       case R.id.feeds_likes:
-        String present_likes_count = viewHolder.likes.getText().toString();
+        /*String present_likes_count = viewHolder.likes.getText().toString();
         int present_likes_count_int = Integer.parseInt(present_likes_count);
         present_likes_count_int++;
         viewHolder.likes.setText(String.valueOf(present_likes_count_int));
         viewHolder.likesImage.setEnabled(false);
-        viewHolder.dislikesImage.setEnabled(true);
+        viewHolder.dislikesImage.setEnabled(true);*/
+
+        Log.d("pos", position + "");
+        Log.d("feedsadapter", listItems.get(position).getPostId());
+        Log.d("fa", listItems.get(position).isUserLiked());
+        Log.d("Likes Count", listItems.get(position).getLikesCount());
+        if (listItems.get(position).isUserLiked().equals("false")) {
+          Log.d("IF","if condition");
+         // feed.setUserLiked("true");
+          int likesCount = Integer.parseInt(listItems.get(position).getLikesCount()) + 1;
+          Log.d("likes",Integer.parseInt(listItems.get(position).getLikesCount())+1 +"");
+         // feed.setLikesCount(likesCount + "");
+          viewHolder.likes.setText(likesCount + "");
+          likePost(listItems.get(position).getPostId());
+          changeLikesCount(position,likesCount,"true");
+        }
+
         break;
       case R.id.feeds_dislikes:
-        String present_dislikes_count = viewHolder.likes.getText().toString();
+       /* String present_dislikes_count = viewHolder.likes.getText().toString();
         int present_dislikes_count_int = Integer.parseInt(present_dislikes_count);
         present_dislikes_count_int--;
         viewHolder.likes.setText(String.valueOf(present_dislikes_count_int));
         viewHolder.dislikesImage.setEnabled(false);
-        viewHolder.likesImage.setEnabled(true);
+        viewHolder.likesImage.setEnabled(true);*/
+
+
+        if (listItems.get(position).isUserLiked().equals("true")) {
+          //feed.setUserLiked("false");
+          int likesCount = Integer.valueOf(listItems.get(position).getLikesCount()) - 1;
+          //feed.setLikesCount(likesCount + "");
+          viewHolder.likes.setText(likesCount + "");
+          likePost(listItems.get(position).getPostId());
+          changeLikesCount(position,likesCount,"false");
+        }
+
         break;
+
       case R.id.feeds_user_image:
         openUserProfile(listItems.get(position).getPostedUserId());
         break;
@@ -190,8 +218,10 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
   }
 
   /* change likes count*/
-  private void changeLikesCount(int position) {
+  private void changeLikesCount(int position,int likesCount,String result) {
     Feeds feed = new Feeds();
+    feed.setUserLiked("false");
+    feed.setLikesCount(likesCount + "");
     feed.setPostId(listItems.get(position).getPostId());
     feed.setCommentsCount(listItems.get(position).getCommentsCount());
     feed.setPostDate(listItems.get(position).getPostDate());
@@ -201,7 +231,9 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
     feed.setPostedUserId(listItems.get(position).getPostedUserId());
     feed.setPostedUserImage(listItems.get(position).getPostedUserImage());
     feed.setPostedUserName(listItems.get(position).getPostedUserName());
-    if (listItems.get(position).isUserLiked().equals("true")) {
+    feed.setUserLiked(listItems.get(position).isUserLiked());
+
+   /* if (listItems.get(position).isUserLiked().equals("true")) {
       feed.setUserLiked("false");
       int likesCount = Integer.valueOf(listItems.get(position).getLikesCount()) - 1;
       feed.setLikesCount(likesCount + "");
@@ -209,7 +241,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
       feed.setUserLiked("true");
       int likesCount = Integer.valueOf(listItems.get(position).getLikesCount()) + 1;
       feed.setLikesCount(likesCount + "");
-    }
+    }*/
     listItems.set(position, feed);
     notifyItemChanged(position);
   }
