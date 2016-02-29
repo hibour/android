@@ -33,6 +33,7 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.database.DatabaseHandler;
+import com.dsquare.hibour.dialogs.SignupDialog;
 import com.dsquare.hibour.gcm.GcmRegistration;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
@@ -69,7 +70,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SignUp extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+public class SignUp extends AppCompatActivity implements View.OnClickListener
+        , GoogleApiClient.OnConnectionFailedListener,SignupDialog.SignUpInterface {
 
     private static final int RC_SIGN_IN = 9001;
     private static final String intentText = "pintent";
@@ -543,7 +545,11 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     private void parseSigUpDetails(JSONObject jsonObject){
         try {
             closeSignUpDialog();
-            Log.d("details", jsonObject.toString());
+            if(jsonObject.getJSONObject("data").getString("status").equals("Failed")){
+
+            }else {
+
+            }
             SignupPojo registers = gson.fromJson(jsonObject.toString(), SignupPojo.class);
             Data data = registers.getData();
 //            Integer integer = data.getId();
@@ -578,6 +584,8 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
         }catch (final IllegalArgumentException e) {
             // Handle or log or ignore
             e.printStackTrace();
+        }catch (JSONException e){
+            e.printStackTrace();
         }
     }
     /* close signup dialog*/
@@ -609,5 +617,13 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener, G
     }
 
 
+    @Override
+    public void onPositiveButtonClick() {
+        Toast.makeText(this,"positive",Toast.LENGTH_LONG);
+    }
 
+    @Override
+    public void onNegetiveButtonClick() {
+        Toast.makeText(this,"negetive",Toast.LENGTH_LONG);
+    }
 }
