@@ -10,6 +10,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -284,6 +285,7 @@ public class Home extends Fragment implements PostsTypesDialog.CategoryChooserLi
         Fragment fragment = new NewPost();
         Bundle args = new Bundle();
         args.putString(NewPost.CATEGORY_BUNDLE_ARG, categoryName);
+        Log.d("Home",categoryName);
         fragment.setArguments(args);
         fragment.setTargetFragment(Home.this, 0);
 
