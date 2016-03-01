@@ -10,6 +10,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -201,18 +202,22 @@ public class Home extends Fragment implements PostsTypesDialog.CategoryChooserLi
         }
 
 
-        createPost.setVisibility(View.VISIBLE);
+        //createPost.setVisibility(View.VISIBLE);
         switch (type) {
             case FEED:
+                createPost.setVisibility(View.VISIBLE);
                 applyCurrentStateToAppBarIcons(R.drawable.feed_filled, feedIcon);
                 break;
             case SOCIALIZE:
+                createPost.setVisibility(View.GONE);
                 applyCurrentStateToAppBarIcons(R.drawable.socialize_filled, socializeIcon);
                 break;
             case MESSAGE:
+                createPost.setVisibility(View.GONE);
                 applyCurrentStateToAppBarIcons(R.mipmap.ic_chat_filed, channelsIcon);
                 break;
             case MORE:
+                createPost.setVisibility(View.GONE);
                 applyCurrentStateToAppBarIcons(R.drawable.more_filled, moreIcon);
                 break;
         }
@@ -280,6 +285,7 @@ public class Home extends Fragment implements PostsTypesDialog.CategoryChooserLi
         Fragment fragment = new NewPost();
         Bundle args = new Bundle();
         args.putString(NewPost.CATEGORY_BUNDLE_ARG, categoryName);
+        Log.d("Home",categoryName);
         fragment.setArguments(args);
         fragment.setTargetFragment(Home.this, 0);
 
