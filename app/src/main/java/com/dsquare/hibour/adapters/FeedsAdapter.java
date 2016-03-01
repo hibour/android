@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
@@ -179,7 +178,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
           Log.d("likes",Integer.parseInt(listItems.get(position).getLikesCount())+1 +"");
          // feed.setLikesCount(likesCount + "");
           viewHolder.likes.setText(likesCount + "");
-          likePost(listItems.get(position).getPostId());
+          likePost(listItems.get(position).getPostId(),"1");
           changeLikesCount(position,likesCount,"true");
         }
 
@@ -198,7 +197,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
           int likesCount = Integer.valueOf(listItems.get(position).getLikesCount()) - 1;
           //feed.setLikesCount(likesCount + "");
           viewHolder.likes.setText(likesCount + "");
-          likePost(listItems.get(position).getPostId());
+          likePost(listItems.get(position).getPostId(),"0");
           changeLikesCount(position,likesCount,"false");
         }
 
@@ -330,10 +329,10 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
   }
 
   /* like a post*/
-  private void likePost(String postId) {
+  private void likePost(String postId,String likes) {
     if (networkDetector.isConnected()) {
       dialog = ProgressDialog.show(context, "", "Please Wait...");
-      postsClient.likePost(application.getUserId(), postId, new WebServiceResponseCallback() {
+      postsClient.likePost(application.getUserId(), postId,likes, new WebServiceResponseCallback() {
         @Override
         public void onSuccess(JSONObject jsonObject) {
           parseLike(jsonObject);
@@ -354,6 +353,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
   /* parse likes */
   private void parseLike(JSONObject jsonObject) {
     Log.d("data", jsonObject.toString());
+      closeDialog();
   }
 
   /* close likes dialog*/

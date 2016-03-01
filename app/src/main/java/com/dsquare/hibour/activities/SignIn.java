@@ -1,5 +1,6 @@
 package com.dsquare.hibour.activities;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +17,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -23,6 +25,7 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.database.DatabaseHandler;
+import com.dsquare.hibour.dialogs.NetworkDialogue;
 import com.dsquare.hibour.dialogs.SignInDialog;
 import com.dsquare.hibour.gcm.GcmRegistration;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
@@ -57,7 +60,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SignIn extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, SignInDialog.SignInCallback {
+public class SignIn extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener,
+        SignInDialog.SignInCallback,NetworkDialogue.NetworkCallback {
 
   private static final String LOG_TAG = SignIn.class.getSimpleName();
   private static final int RC_SIGN_IN = 9001;
@@ -82,7 +86,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
   private Hibour application;
   private CoordinatorLayout coordinatorLayout;
   private SignInDialog signInDialogs;
-
+    private NetworkDialogue networkDialogues;
   private String userName = "", userNumber = "", userMail = "", socialType = "", userpassword = "", userfirst = "", userlast = "";
   private WebServiceResponseCallback userDetailCallbackListener = new WebServiceResponseCallback() {
     @Override
@@ -122,7 +126,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
     passText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
       @Override
       public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-
+          hideKeyboard();
         boolean handled = false;
         if (i == EditorInfo.IME_ACTION_DONE) {
           validateSignInData();
@@ -458,13 +462,15 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
         }
       });
     } else {
-      Snackbar snackbar = Snackbar
-          .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
-      // Changing action button text color
-      View sbView = snackbar.getView();
-      TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-      textView.setTextColor(Color.RED);
-      snackbar.show();
+        networkDialogues = new NetworkDialogue();
+        networkDialogues.show(getFragmentManager(), "chooser dialog");
+//      Snackbar snackbar = Snackbar
+//          .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+//      // Changing action button text color
+//      View sbView = snackbar.getView();
+//      TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+//      textView.setTextColor(Color.RED);
+//      snackbar.show();
 
     }
   }
@@ -576,4 +582,15 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
   public void closeDialog(SignInDialog dialogFragment) {
     signInDialogs.dismiss();
   }
+
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //  imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+    }
+
+    @Override
+    public void closeDialog(NetworkDialogue networkDialogue) {
+        networkDialogues.dismiss();
+    }
 }

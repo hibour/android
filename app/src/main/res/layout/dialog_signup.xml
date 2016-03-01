@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:background="@color/white">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"
@@ -14,15 +15,57 @@
             android:textSize="@dimen/sp_18"
             android:text="@string/app_name"/>
     </RelativeLayout>
-    <RelativeLayout
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/dp_100"-->
+        <!--android:background="@color/white">-->
+        <!--<com.dsquare.hibour.utils.ProximaLight-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="@dimen/dp_20"-->
+            <!--android:id="@+id/signup_dialog_text"/>-->
+        <!--</RelativeLayout>-->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_100"
-        android:background="@color/white">
-        <com.dsquare.hibour.utils.ProximaLight
+        android:layout_gravity="center"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.dsquare.hibour.utils.ProximaExtraBold
+            android:id="@+id/signdailog_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp_20"
-            android:id="@+id/signup_dialog_text"/>
-        </RelativeLayout>
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="User Already Exits"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dp_22"
+            />
 
+        <com.dsquare.hibour.utils.Proxima
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp_5"
+            android:gravity="center"
+            android:text="Please Register another Email!"
+            android:textSize="@dimen/sp_18"
+            android:id="@+id/signup_text1"
+            />
+
+    </LinearLayout>
+
+    <com.dsquare.hibour.utils.ProximaExtraBold
+        android:id="@+id/signdailog_ok"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="OK"
+        android:textColor="@color/black"
+        android:textSize="@dimen/dp_22"
+        android:background="@color/gray"
+        />
 </LinearLayout>

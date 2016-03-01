@@ -259,10 +259,10 @@ public class PostsClient {
         }
     }
 
-    public void likePost(String userId, String postId, final WebServiceResponseCallback callback) {
+    public void likePost(String userId, String postId,String liked, final WebServiceResponseCallback callback) {
         try {
             String urlStr = Constants.URL_POST_LIKE + Constants.KEYWORD_USER_ID + "=" + userId + "&"
-                + Constants.KEYWORD_POST_ID + "=" + postId + "&" + Constants.KEYWORD_SIGNATURE + "="
+                + Constants.KEYWORD_POST_ID + "=" + postId + "&" +"liked="+ liked +"&" + Constants.KEYWORD_SIGNATURE + "="
                 + Constants.SIGNATURE_VALUE;
             URL url = new URL(urlStr);
             URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()

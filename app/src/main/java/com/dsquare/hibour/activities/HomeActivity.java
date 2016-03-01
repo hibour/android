@@ -307,7 +307,7 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerCallback
           Log.d("categoryId", d.getId() + "");
           Log.d("category name", d.getPosttypename());
           postsTypesMap.put("placeholder", d.getPlaceholder());
-          Constants.postTypesMap.put((d.getId() + "").replace(" ", ""), postsTypesMap);
+          Constants.postTypesMap.put((d.getId() + ""), postsTypesMap);
         }
       }
       handleAction(NavActionType.HOME);

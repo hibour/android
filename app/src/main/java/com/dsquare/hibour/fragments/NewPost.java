@@ -117,6 +117,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_post_screen, container, false);
         catFrmPre = getArguments().getString(CATEGORY_BUNDLE_ARG, "");
+        Log.d("New Post",catFrmPre);
         initializeViews(view);
         initializeEventListeners();
         //  getNeighbourHoods(application.getUserId());
@@ -128,6 +129,7 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     public void onResume() {
         super.onResume();
         catFrmPre = getArguments().getString(CATEGORY_BUNDLE_ARG, "");
+
     }
 
     private void initializeEventListeners() {
@@ -592,15 +594,18 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         chooserDialog.dismiss();
     }
 
-    /* set categories*/
+    // set categories
     private void setCategories() {
+        Map<String, String> postsTypesMap = new LinkedHashMap<>();
         if (Constants.postTypesMap.size() > 0) {
-            categoriesList.clear();
-            categoriesMap.clear();
+          //  categoriesList.clear();
+          // categoriesMap.clear();
 
             int i = 0;
             int j = 0;
             for (String type : Constants.postTypesMap.keySet()) {
+                Log.d("New post","for loop");
+                Log.d("New post values", String.valueOf(Constants.postTypesMap.get(type)));
                 categoriesList.add(type);
                 if (catFrmPre.equals(type)) {
                     j = i;
@@ -611,6 +616,10 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                 , android.R.layout.simple_dropdown_item_1line, categoriesList);
             categoriesSpinner.setAdapter(categoriesAdapter);
             categoriesSpinner.setSelection(j);
+            Log.d("catFrmPre",catFrmPre);
+            Log.d("map id", String.valueOf(Constants.postTypesMap.get(catFrmPre).get("id")));
+            Log.d("map name", String.valueOf(Constants.postTypesMap.get(catFrmPre).get("name")));
+            Log.d("map placeholder",String.valueOf(Constants.postTypesMap.get(catFrmPre).get("placeholder")));
             categoriesTypeId = Constants.postTypesMap.get(catFrmPre).get("id");
         }
     }
@@ -639,7 +648,6 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
 
     public interface PostsListener {
         void onNewPostCancelled();
-
         void onNewPostPosted();
     }
 

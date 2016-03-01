@@ -3,6 +3,7 @@ package com.dsquare.hibour.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
     private Context context;
     private ImageLoader imageLoader;
     private String userprefer;
+    private int numColumns;
     public SocializeAdapter(Context context,List<String[]> listItems) {
         this.context = context;
         this.listItems = listItems;
@@ -41,15 +43,17 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
         final ViewHolder holder = new ViewHolder(v);
         holder.itemView.setOnClickListener(this);
         holder.itemView.setTag(holder);
+//         numColumns = ((RecyclerView) parent).getNumColumns();
         return holder;
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-//        int listViewItemType = getItemViewType(position);
-//        String.valueOf(listViewItemType).equals(Integer.parseInt("8"));{
-//
-//        }
+        int listViewItemType = getItemViewType(position);
+        Log.d("size",listViewItemType+"");
+        boolean isLast = (position % listViewItemType) == 0;
+        Log.d("islast",isLast+"");
+
         holder.prefCount.setVisibility(View.VISIBLE);
         if(listItems.get(position)[4].equals("false")){
             try {
@@ -140,7 +144,7 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
             return 3;
           else if(mod == 0 || mod == 1)
             return 2;
-          else
+          else if(mod == 0);
             return 1;
    }
 }

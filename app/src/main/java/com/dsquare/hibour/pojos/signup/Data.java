@@ -51,16 +51,23 @@ public class Data {
     @SerializedName("mobile")
     @Expose
     private String mobile;
+    @SerializedName("status")
+    @Expose
+    private String status;
 
     /**
-     * @return The id
+     *
+     * @return
+     * The id
      */
     public Integer getId() {
         return id;
     }
 
     /**
-     * @param id The id
+     *
+     * @param id
+     * The id
      */
     public void setId(Integer id) {
         this.id = id;
@@ -283,31 +290,57 @@ public class Data {
     }
 
     /**
-     * @return The dob
+     *
+     * @return
+     * The dob
      */
     public String getDob() {
         return dob;
     }
 
     /**
-     * @param dob The dob
+     *
+     * @param dob
+     * The dob
      */
     public void setDob(String dob) {
         this.dob = dob;
     }
 
     /**
-     * @return The mobile
+     *
+     * @return
+     * The mobile
      */
     public String getMobile() {
         return mobile;
     }
 
     /**
-     * @param mobile The mobile
+     *
+     * @param mobile
+     * The mobile
      */
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    /**
+     *
+     * @return
+     * The status
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     *
+     * @param status
+     * The status
+     */
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 }
