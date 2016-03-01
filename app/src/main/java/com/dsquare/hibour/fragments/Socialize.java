@@ -62,7 +62,7 @@ public class Socialize extends HibourBaseTabFragment implements View.OnClickList
     private SlidingTabLayout tabs;
     private List<String> tabsList = new ArrayList<>();
     private CoordinatorLayout coordinatorLayout;
-    private GridLayoutManager layoutManager;
+    private GridLayoutManager layoutManager,layoutManager1;
     private SocializeAdapter socializeAdapter;
     public Socialize() {
         // Required empty public constructor
@@ -87,41 +87,20 @@ public class Socialize extends HibourBaseTabFragment implements View.OnClickList
         application = Hibour.getInstance(getActivity());
         coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id
             .coordinatorLayout);
-//        doneButton = (Button)view.findViewById(R.id.socialize_done_button);
-//        previous = (Button)view.findViewById(R.id.socialize_prev_button);
-//        pager = (ViewPager) view.findViewById(R.id.socialize_pager);
-//        tabsList.add("PREFERENCES");
-//        tabsList.add("ALL");
-//        tabs = (SlidingTabLayout) view.findViewById(R.id.socialize_tabs);
-//        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
-//            @Override
-//            public int getIndicatorColor(int position) {
-//                return getResources().getColor(R.color.newbrand);
-//            }
-//        });
-//        tabs.setTabsBackgroundColor(getResources().getColor(R.color.white));
         prefsRecycler = (RecyclerView)view.findViewById(R.id.social_prefs_list);
         layoutManager = new GridLayoutManager(getActivity(), 3);
-        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                return prefsRecycler.getAdapter().getItemViewType(position);
-               /* int mod = position % 3;
-                Log.d("position",position+"");
-                Log.d("mod",mod+"");
-                if (position == 0 || position == 1 ||position == 2)
-                    return 3;
-                else if(mod == 0 || mod == 1 || mod == 2)
-                    return 3;
-                else if(mod == 0 || mod == 1);
-                    return 2;*/
-
-            }
-        });
         prefsRecycler.setLayoutManager(layoutManager);
         prefsRecycler.setHasFixedSize(true);
         prefsRecycler.addItemDecoration(new GridLayoutSpacing(3, 5, true));
+        prefsRecycler1 = (RecyclerView)view.findViewById(R.id.social_prefs_list1);
 //        prefsRecycler.setHasFixedSize(true);
+    }
+    public void setSecondRecycler(int count,List<String[]> list){
+        layoutManager1 = new GridLayoutManager(getActivity(), count);
+        prefsRecycler1.setLayoutManager(layoutManager1);
+        prefsRecycler1.setHasFixedSize(true);
+        prefsRecycler1.addItemDecoration(new GridLayoutSpacing(count, 5, true));
+        prefsRecycler1.setAdapter(new SocializeAdapter(getActivity(),list));
     }
     /* initialize event listeners*/
     private void initializeEventListeners(){
@@ -257,8 +236,23 @@ public class Socialize extends HibourBaseTabFragment implements View.OnClickList
             prefsList.add(details);
             Log.d("dd", String.valueOf(prefsList.size() % 3 == 0));
         }
+
 //        if(String.valueOf(prefsList.size() % 3 == 0))
         prefsRecycler.setAdapter(new SocializeAdapter(getActivity(), prefsList));
+        if(!(prefsList.size()%3==0)){
+            int count = prefsList.size()%3;
+            Log.d("count",count+"");
+            List<String[]> list = new ArrayList<>();
+            for(int i=(prefsList.size()-count);i<(prefsList.size());i++){
+                list.add(prefsList.get(i));
+            }
+            Log.d("prefslength",prefsList.size()+"");
+            for(int i=(prefsList.size()-count-1);i<(prefsList.size());i++){
+                Log.d("i",i+"");
+                prefsList.remove(i);
+            }
+            setSecondRecycler(count,list);
+        }
 
     }
 
