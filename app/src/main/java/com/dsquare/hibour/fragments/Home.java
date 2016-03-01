@@ -201,18 +201,22 @@ public class Home extends Fragment implements PostsTypesDialog.CategoryChooserLi
         }
 
 
-        createPost.setVisibility(View.VISIBLE);
+        //createPost.setVisibility(View.VISIBLE);
         switch (type) {
             case FEED:
+                createPost.setVisibility(View.VISIBLE);
                 applyCurrentStateToAppBarIcons(R.drawable.feed_filled, feedIcon);
                 break;
             case SOCIALIZE:
+                createPost.setVisibility(View.GONE);
                 applyCurrentStateToAppBarIcons(R.drawable.socialize_filled, socializeIcon);
                 break;
             case MESSAGE:
+                createPost.setVisibility(View.GONE);
                 applyCurrentStateToAppBarIcons(R.mipmap.ic_chat_filed, channelsIcon);
                 break;
             case MORE:
+                createPost.setVisibility(View.GONE);
                 applyCurrentStateToAppBarIcons(R.drawable.more_filled, moreIcon);
                 break;
         }

@@ -14,7 +14,14 @@
         android:id="@+id/settings_app_bar"
         android:layout_width="match_parent"
         android:layout_height="?android:actionBarSize"
-        android:background="@color/white">
+        android:background="@color/brand">
+
+        <ImageView
+            android:id="@+id/Settings_back_icon"
+            android:layout_width="@dimen/dp_40"
+            android:paddingLeft="@dimen/dp_10"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_back_white"/>
 
 
         <com.dsquare.hibour.utils.ProximaExtraBold
@@ -22,30 +29,22 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/title_settings_fragment"
-            android:textColor="@color/brand"
+            android:textColor="@color/white"
             android:textSize="@dimen/app_bar_title_text_size" />
-
-        <RelativeLayout
-            android:id="@+id/nav_drawer_bottom_line"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/nav_bottom_line_height"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:background="@color/common_action_bar_splitter" />
+        
 
         <ImageView
             android:id="@+id/settings_notif_icon"
             android:layout_width="@dimen/dp_30"
-            android:layout_height="@dimen/dp_30"
+            android:layout_height="@dimen/dp_35"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_20"
             android:padding="@dimen/dp_3"
-            android:src="@drawable/ic_notification_gray" />
+            android:src="@mipmap/ic_notification_white" />
     </RelativeLayout>
 
-    <LinearLayout
+   <!-- <LinearLayout
         android:id="@+id/settings_bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="?android:actionBarSize"
@@ -162,11 +161,10 @@
                 android:textSize="12sp"/>
         </LinearLayout>
     </LinearLayout>
-
+-->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/settings_bottom_bar"
         android:layout_below="@id/settings_app_bar">
 
         <LinearLayout

@@ -66,7 +66,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener,
   private static final int REQUEST_IMAGE_SELECTOR = 100;
   private static final int REQUEST_IMAGE_CAPTURE = 200;
   private static EditText dob;
-  private ImageView menuIcon, notifIcon, inputImage, imageUploaded, dobimage;
+  private ImageView menuIcon, notifIcon, inputImage, imageUploaded, dobimage,backIcon;
   private RadioGroup gender;
   private RadioButton male, female;
   private EditText name, lastname;
@@ -149,6 +149,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener,
     soclize = (TextView) findViewById(R.id.settings_prefernce);
     male = (RadioButton) findViewById(R.id.radioMale);
     female = (RadioButton) findViewById(R.id.radioFemale);
+    backIcon=(ImageView)findViewById(R.id.Settings_back_icon);
     String text = "<u>Change Location</u>";
     String text1 = "<u>Change SocialPrefernce</u>";
     proof.setText(Html.fromHtml(text));
@@ -178,10 +179,10 @@ public class Settings extends AppCompatActivity implements View.OnClickListener,
     });
     imageLoader = HibourConnector.getInstance(this).getImageLoader();
     sharedPreferences = getSharedPreferences("Login Credentials", Context.MODE_PRIVATE);
-    moreLayout = (LinearLayout) findViewById(R.id.settings_more_layout);
+   /* moreLayout = (LinearLayout) findViewById(R.id.settings_more_layout);
     feedsLayout = (LinearLayout) findViewById(R.id.settings_feed_layout);
     socializeLayout = (LinearLayout) findViewById(R.id.settings_socialize_layout);
-    messagesLayout = (LinearLayout) findViewById(R.id.settings_message_layout);
+    messagesLayout = (LinearLayout) findViewById(R.id.settings_message_layout);*/
   }
 
   /* initialize event listeners*/
@@ -194,10 +195,11 @@ public class Settings extends AppCompatActivity implements View.OnClickListener,
     soclize.setOnClickListener(this);
     dobimage.setOnClickListener(this);
     dob.setOnClickListener(this);
-    moreLayout.setOnClickListener(this);
+/*    moreLayout.setOnClickListener(this);
     feedsLayout.setOnClickListener(this);
     messagesLayout.setOnClickListener(this);
-    socializeLayout.setOnClickListener(this);
+    socializeLayout.setOnClickListener(this);*/
+    backIcon.setOnClickListener(this);
   }
 
   /*prepare cards list*/
@@ -208,7 +210,10 @@ public class Settings extends AppCompatActivity implements View.OnClickListener,
   @Override
   public void onClick(View view) {
     switch (view.getId()) {
-      case R.id.settings_socialize_layout:
+      case R.id.Settings_back_icon:
+        this.finish();
+        break;
+     /* case R.id.settings_socialize_layout:
         Constants.FRAGMENT_POS = 4;
         settingsCallback.onTabsChoosed(0);
         break;
@@ -222,7 +227,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener,
         break;
       case R.id.settings_more_layout:
         callback.drawerOpen();
-        break;
+        break;*/
       case R.id.settings_notif_icon:
         openNotifications();
         break;
