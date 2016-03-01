@@ -177,13 +177,13 @@
             android:id="@+id/social_prefs_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/socialize_button_bar"
-            android:layout_below="@id/home_app_bar"
+            android:layout_below="@+id/home_app_bar"
             android:layout_marginTop="@dimen/dp_20"
             android:background="@android:color/white"
-            android:scrollbars="vertical"
-            android:visibility="visible">
+           >
+
         </android.support.v7.widget.RecyclerView>
+
 
     </RelativeLayout>
     <android.support.design.widget.FloatingActionButton

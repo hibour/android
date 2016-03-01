@@ -33,6 +33,7 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.database.DatabaseHandler;
+import com.dsquare.hibour.dialogs.NetworkDialogue;
 import com.dsquare.hibour.dialogs.SignupDialog;
 import com.dsquare.hibour.gcm.GcmRegistration;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
@@ -71,7 +72,7 @@ import java.util.List;
 import java.util.Map;
 
 public class SignUp extends AppCompatActivity implements View.OnClickListener
-        , GoogleApiClient.OnConnectionFailedListener,SignupDialog.SignUpInterface {
+        , GoogleApiClient.OnConnectionFailedListener,SignupDialog.SignUpCallback,NetworkDialogue.NetworkCallback {
 
     private static final int RC_SIGN_IN = 9001;
     private static final String intentText = "pintent";
@@ -103,7 +104,8 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener
     private SharedPreferences preferences;
     private Bitmap bitmap;
     private String imageString = "a";
-
+    private SignupDialog signupDialogs;
+    private NetworkDialogue networkDialogues;
     private WebServiceResponseCallback userDetailCallbackListener = new WebServiceResponseCallback() {
         @Override
         public void onSuccess(JSONObject jsonObject) {
@@ -532,61 +534,65 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener
                 }
             });
         }else{
-            Snackbar snackbar = Snackbar
-                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
-            // Changing action button text color
-            View sbView = snackbar.getView();
-            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-            textView.setTextColor(Color.RED);
-            snackbar.show();
+            networkDialogues = new NetworkDialogue();
+            networkDialogues.show(getFragmentManager(), "chooser dialog");
+//            Snackbar snackbar = Snackbar
+//                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+//            // Changing action button text color
+//            View sbView = snackbar.getView();
+//            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+//            textView.setTextColor(Color.RED);
+//            snackbar.show();
         }
     }
     /* parse sign up details*/
     private void parseSigUpDetails(JSONObject jsonObject){
+        closeSignUpDialog();
         try {
-            closeSignUpDialog();
-            if(jsonObject.getJSONObject("data").getString("status").equals("Failed")){
-
-            }else {
-
-            }
             SignupPojo registers = gson.fromJson(jsonObject.toString(), SignupPojo.class);
             Data data = registers.getData();
+            String status = data.getStatus();
+
+            if (status.equals("Failed")) {
+                signupDialogs = new SignupDialog();
+                signupDialogs.show(getFragmentManager(), "chooser dialog");
+
+            } else {
 //            Integer integer = data.getId();
-            String s = String.valueOf(data.getId());
-            Log.d("integer", s);
-            Map<String, String> userDetails = new HashMap<>();
-            userDetails.put(Constants.PREFERENCE_USER_ID, data.getId() + "");
-            userDetails.put(Constants.SF_FIRST, data.getFirstName());
-            userDetails.put(Constants.SF_LAST, data.getLastName());
-            userDetails.put(Constants.SF_EMAIL, data.getEmail());
-            userDetails.put(Constants.SF_LOCADD, data.getAddress());
-            userDetails.put(Constants.SF_SUB_LOC, data.getAddress1());
-            userDetails.put(Constants.SF_LAT, data.getLattiude());
-            userDetails.put(Constants.SF_LNG, data.getLongittude());
-            userDetails.put(Constants.SF_PASS, data.getPassword());
-            userDetails.put(Constants.SF_DOB, data.getDob());
-            userDetails.put(Constants.SF_IMAGE, data.getImage());
-            userDetails.put(Constants.SF_GENDER, data.getGender());
-            userDetails.put(Constants.SF_REGTYPE, data.getRegtype());
-            userDetails.put(Constants.SF_MOBILE, data.getMobile());
-            application.setUserDetails(userDetails);
-            accountsClient.getUserDetails(data.getId() + "", userDetailCallbackListener);
+                String s = String.valueOf(data.getId());
+                Log.d("integer", s);
+                Map<String, String> userDetails = new HashMap<>();
+                userDetails.put(Constants.PREFERENCE_USER_ID, data.getId() + "");
+                userDetails.put(Constants.SF_FIRST, data.getFirstName());
+                userDetails.put(Constants.SF_LAST, data.getLastName());
+                userDetails.put(Constants.SF_EMAIL, data.getEmail());
+                userDetails.put(Constants.SF_LOCADD, data.getAddress());
+                userDetails.put(Constants.SF_SUB_LOC, data.getAddress1());
+                userDetails.put(Constants.SF_LAT, data.getLattiude());
+                userDetails.put(Constants.SF_LNG, data.getLongittude());
+                userDetails.put(Constants.SF_PASS, data.getPassword());
+                userDetails.put(Constants.SF_DOB, data.getDob());
+                userDetails.put(Constants.SF_IMAGE, data.getImage());
+                userDetails.put(Constants.SF_GENDER, data.getGender());
+                userDetails.put(Constants.SF_REGTYPE, data.getRegtype());
+                userDetails.put(Constants.SF_MOBILE, data.getMobile());
+                application.setUserDetails(userDetails);
+                accountsClient.getUserDetails(data.getId() + "", userDetailCallbackListener);
 
 //            String[] regidetails = {String.valueOf(data.getId()), data.getFirstName(), data.getLastName(), data.getEmail(), data.getGender(), data.getRegtype(), Constants.locationaddress};
 //            application.setLoginDetails(regidetails);
-            application.setIsFirst(true);
-            Intent homeIntent = new Intent(this, MobileNumber.class);
-            startActivity(homeIntent);
-            this.finish();
-        } catch (JsonSyntaxException e) {
-            e.printStackTrace();
-        }catch (final IllegalArgumentException e) {
-            // Handle or log or ignore
-            e.printStackTrace();
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
+                application.setIsFirst(true);
+                Intent homeIntent = new Intent(this, MobileNumber.class);
+                startActivity(homeIntent);
+                this.finish();
+            }}
+            catch(JsonSyntaxException e){
+                e.printStackTrace();
+            }catch( final IllegalArgumentException e){
+                // Handle or log or ignore
+                e.printStackTrace();
+            }
+
     }
     /* close signup dialog*/
     private void closeSignUpDialog(){
@@ -616,14 +622,24 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener
 
     }
 
-
     @Override
-    public void onPositiveButtonClick() {
-        Toast.makeText(this,"positive",Toast.LENGTH_LONG);
+    public void closeDialog(SignupDialog signupDialog) {
+        signupDialogs.dismiss();
     }
 
     @Override
-    public void onNegetiveButtonClick() {
-        Toast.makeText(this,"negetive",Toast.LENGTH_LONG);
+    public void closeDialog(NetworkDialogue networkDialogue) {
+        networkDialogues.dismiss();
     }
+
+
+//    @Override
+//    public void onPositiveButtonClick() {
+//        Toast.makeText(this,"positive",Toast.LENGTH_LONG);
+//    }
+//
+//    @Override
+//    public void onNegetiveButtonClick() {
+//        Toast.makeText(this,"negetive",Toast.LENGTH_LONG);
+//    }
 }

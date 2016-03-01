@@ -292,10 +292,10 @@ public class PostComments extends AppCompatActivity implements View.OnClickListe
     }
 
     /* like a post*/
-    private void likePost(String postId) {
+    private void likePost(String postId,String liked) {
         if (networkDetector.isConnected()) {
             dialog = ProgressDialog.show(this, "", "Please Wait...");
-            postsClient.likePost(application.getUserId(), postId, new WebServiceResponseCallback() {
+            postsClient.likePost(application.getUserId(), postId,liked, new WebServiceResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
                     parseLike(jsonObject);

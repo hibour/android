@@ -639,7 +639,6 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
 
     public interface PostsListener {
         void onNewPostCancelled();
-
         void onNewPostPosted();
     }
 

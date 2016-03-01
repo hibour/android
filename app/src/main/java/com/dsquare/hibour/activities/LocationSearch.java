@@ -409,7 +409,7 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
             marker.remove();
             marker = googleMap.addMarker(new MarkerOptions().position(coords).title("There are about " + number + " members registered from your area.").draggable(true));
         }
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coords, 10));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coords, 14));
 
         CircleOptions circleOptions = new CircleOptions()
             .center(coords)
