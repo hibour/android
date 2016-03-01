@@ -90,8 +90,7 @@ public class Socialize extends HibourBaseTabFragment implements View.OnClickList
             .coordinatorLayout);
         prefsRecycler = (RecyclerView)view.findViewById(R.id.social_prefs_list);
         layoutManager = new GridLayoutManager(getActivity(), 3);
-<<<<<<< HEAD
-=======
+
 //        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
 //            @Override
 //            public int getSpanSize(int position) {
@@ -109,7 +108,6 @@ public class Socialize extends HibourBaseTabFragment implements View.OnClickList
 //            }
 //        });
 //        layoutManager.setSpanSizeLookup(new MySpanSizeLookup(9, 2, 3));
->>>>>>> e76ff6e5f0ab285ee63dadfba06244195b556723
         prefsRecycler.setLayoutManager(layoutManager);
         prefsRecycler.setHasFixedSize(true);
         prefsRecycler.addItemDecoration(new GridLayoutSpacing(3, 5, true));
