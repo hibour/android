@@ -108,7 +108,6 @@ public class Socialize extends HibourBaseTabFragment implements View.OnClickList
 //            }
 //        });
 //        layoutManager.setSpanSizeLookup(new MySpanSizeLookup(9, 2, 3));
-
         prefsRecycler.setLayoutManager(layoutManager);
         prefsRecycler.setHasFixedSize(true);
         prefsRecycler.addItemDecoration(new GridLayoutSpacing(3, 5, true));
