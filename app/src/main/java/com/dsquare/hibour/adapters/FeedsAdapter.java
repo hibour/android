@@ -160,13 +160,6 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
             , listItems.get(position).getPostImage());
         break;
       case R.id.feeds_likes:
-        /*String present_likes_count = viewHolder.likes.getText().toString();
-        int present_likes_count_int = Integer.parseInt(present_likes_count);
-        present_likes_count_int++;
-        viewHolder.likes.setText(String.valueOf(present_likes_count_int));
-        viewHolder.likesImage.setEnabled(false);
-        viewHolder.dislikesImage.setEnabled(true);*/
-
         Log.d("pos", position + "");
         Log.d("feedsadapter", listItems.get(position).getPostId());
         Log.d("fa", listItems.get(position).isUserLiked());

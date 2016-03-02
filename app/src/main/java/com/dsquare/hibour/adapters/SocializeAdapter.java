@@ -2,6 +2,10 @@ package com.dsquare.hibour.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,18 +47,91 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
         final ViewHolder holder = new ViewHolder(v);
         holder.itemView.setOnClickListener(this);
         holder.itemView.setTag(holder);
-//         numColumns = ((RecyclerView) parent).getNumColumns();
         return holder;
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         int listViewItemType = getItemViewType(position);
-        Log.d("size",listViewItemType+"");
+        Log.d("size", listViewItemType + "");
         boolean isLast = (position % listViewItemType) == 0;
-        Log.d("islast",isLast+"");
+        Log.d("islast", isLast + "");
 
         holder.prefCount.setVisibility(View.VISIBLE);
+        Drawable bgShape = holder.prefLinearLayout.getBackground().mutate();
+        Log.d("name",listItems.get(position)[1]);
+        switch (listItems.get(position)[1]){
+            case "Fitness":
+                holder.topLayout.setBackgroundColor(context.getResources().getColor(R.color.col_fitness));
+                break;
+            case "Movies":
+                holder.topLayout.setBackgroundColor(context.getResources().getColor(R.color.col_movies));
+                break;
+            case "Sports":
+                holder.topLayout.setBackgroundColor(context.getResources().getColor(R.color.col_sports));
+                Log.d("sports", "yes");
+              //  bgShape.getPaint().setColor(context.getResources().getColor(R.color.col_sports));
+                break;
+            case "Fashion":
+                if (bgShape instanceof ShapeDrawable) {
+                    Log.d("drawable","shape");
+                    ((ShapeDrawable)bgShape).getPaint().setColor(context.getResources().getColor(R.color.col_fashion));
+                } else if (bgShape instanceof GradientDrawable) {
+                    Log.d("drawable","gradient");
+                    ((GradientDrawable)bgShape).setColor(Color.BLACK);
+                }
+               // bgShape.getPaint().setColor(context.getResources().getColor(R.color.col_fashion));
+                break;
+            case "Music":
+                if (bgShape instanceof ShapeDrawable) {
+                    ((ShapeDrawable)bgShape).getPaint().setColor(context.getResources().getColor(R.color.col_music));
+                } else if (bgShape instanceof GradientDrawable) {
+                    ((GradientDrawable)bgShape).setColor(0xff999999);
+                    bgShape.invalidateSelf();
+                }
+               // bgShape.getPaint().setColor(context.getResources().getColor(R.color.col_music));
+                break;
+            case "Outdoor":
+                if (bgShape instanceof ShapeDrawable) {
+                    ((ShapeDrawable)bgShape).getPaint().setColor(context.getResources().getColor(R.color.col_outdoor));
+                } else if (bgShape instanceof GradientDrawable) {
+                    ((GradientDrawable)bgShape).setColor(0xff999999);
+                }
+               // bgShape.getPaint().setColor(context.getResources().getColor(R.color.col_outdoor));
+                break;
+            case "Books":
+                if (bgShape instanceof ShapeDrawable) {
+                    ((ShapeDrawable)bgShape).getPaint().setColor(context.getResources().getColor(R.color.col_books));
+                } else if (bgShape instanceof GradientDrawable) {
+                    ((GradientDrawable)bgShape).setColor(0xff999999);
+                }
+               // bgShape.getPaint().setColor(context.getResources().getColor(R.color.col_books));
+                break;
+            case "Parties":
+                if (bgShape instanceof ShapeDrawable) {
+                    ((ShapeDrawable)bgShape).getPaint().setColor(context.getResources().getColor(R.color.col_parties));
+                } else if (bgShape instanceof GradientDrawable) {
+                    ((GradientDrawable)bgShape).setColor(0xff999999);
+                }
+                //bgShape.getPaint().setColor(context.getResources().getColor(R.color.col_parties));
+                break;
+            case "Dance":
+                if (bgShape instanceof ShapeDrawable) {
+                    ((ShapeDrawable)bgShape).getPaint().setColor(context.getResources().getColor(R.color.col_dance));
+                } else if (bgShape instanceof GradientDrawable) {
+                    ((GradientDrawable)bgShape).setColor(0xff999999);
+                }
+               // bgShape.getPaint().setColor(context.getResources().getColor(R.color.col_dance));
+                break;
+            case "Food":
+                if (bgShape instanceof ShapeDrawable) {
+                    ((ShapeDrawable)bgShape).getPaint().setColor(context.getResources().getColor(R.color.col_food));
+                } else if (bgShape instanceof GradientDrawable) {
+                    ((GradientDrawable)bgShape).setColor(0xff999999);
+                }
+              //  bgShape.getPaint().setColor(context.getResources().getColor(R.color.col_food));
+                break;
+        }
         if(listItems.get(position)[4].equals("false")){
             try {
                 imageLoader.get(listItems.get(position)[2], ImageLoader.getImageListener(holder.prefImage
@@ -122,6 +199,7 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
         private TextView prefName, prefCount;
         private RelativeLayout layout;
         private LinearLayout prefLinearLayout;
+        private RelativeLayout topLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -130,6 +208,7 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
             layout = (RelativeLayout)itemView.findViewById(R.id.pref_layout);
             prefLinearLayout = (LinearLayout)itemView.findViewById(R.id.pref_linear_layout);
             prefCount = (TextView)itemView.findViewById(R.id.pref_count);
+            topLayout = (RelativeLayout)itemView.findViewById(R.id.pref_layout);
         }
     }
 

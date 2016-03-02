@@ -84,44 +84,65 @@
             android:layout_height="@dimen/horiz_line_height"
             android:layout_below="@+id/home_app_bar"
             android:background="@color/newbrand"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/views"
+            android:layout_marginTop="@dimen/dp_5"
+            android:id="@+id/socialize_title_layout">
+            <com.dsquare.hibour.utils.ProximaExtraBold
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/title"
+            android:text="Suggest a Headline"
+            android:layout_centerHorizontal="true"
+            android:textSize="@dimen/text_size_level2"/>
+            <com.dsquare.hibour.utils.ProximaLight
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:id="@+id/title1"
+                android:text="Start connecting with people who"
+                android:layout_below="@id/title"
+                android:layout_centerHorizontal="true"
+                android:textSize="@dimen/text_size_level4"/>
+            <com.dsquare.hibour.utils.ProximaLight
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/title2"
+                android:layout_below="@id/title1"
+                android:text="shares similar interests"
+                android:layout_centerHorizontal="true"
+                android:textSize="@dimen/text_size_level4"/>
+        </RelativeLayout>
+
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:layout_below="@id/views">
-            <RelativeLayout
+            android:layout_below="@id/socialize_title_layout">
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/social_prefs_list"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/dp_20"
                     android:background="@android:color/white"
                     android:visibility="visible">
-                </android.support.v7.widget.RecyclerView>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:id="@+id/bottom_linear"
-                    android:visibility="visible"
-                    android:layout_alignParentBottom="true"
-                    android:orientation="horizontal">
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/social_prefs_list1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@android:color/white"
-                        android:visibility="visible">
-
                     </android.support.v7.widget.RecyclerView>
-                </LinearLayout>
-
-            </RelativeLayout>
-
-
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/social_prefs_list1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:visibility="visible">
+                </android.support.v7.widget.RecyclerView>
+            </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
+
+
 
 
     </RelativeLayout>

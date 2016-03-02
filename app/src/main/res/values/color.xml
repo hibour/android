@@ -43,5 +43,17 @@
 
     <color name="custom_fb_blue">#4876c6</color>
     <color name="more_divider">#eeeeee</color>
+    <color name="col_fitness">#412f43</color>
+    <color name="col_books">#269bf8</color>
+    <color name="col_movies">#f750ba</color>
+    <color name="col_sports">#46c1d1</color>
+    <color name="col_outdoor">#a4d795</color>
+    <color name="col_fashion">#FCACAE</color>
+    <color name="col_parties">#573e86</color>
+    <color name="col_food">#e15c86</color>
+    <color name="col_parenting">#a3445d</color>
+    <color name="col_dance">#28d1bc</color>
+    <color name="col_music">#E27B61</color>
+
 
 </resources>
