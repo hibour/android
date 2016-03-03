@@ -1,13 +1,20 @@
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:innerRadius="0dp"
-    android:shape="ring"
-    android:thicknessRatio="2"
-    android:useLevel="false" >
-
-    <solid
-        android:color="@color/white"/>
-    <stroke
-        android:width="0dp"
-        android:color="@android:color/black" />
-
-</shape>
+<level-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:maxLevel="0">
+        <shape android:shape="ring">
+            <solid android:color="@color/col_fitness"/>
+            <stroke android:width="0sp" android:color="@color/green" />
+        </shape>
+    </item>
+    <item android:maxLevel="1">
+        <shape android:shape="ring">
+            <solid android:color="@color/col_books"/>
+            <stroke android:width="0sp" android:color="@color/green" />
+        </shape>
+    </item>
+    <item android:maxLevel="2">
+        <shape android:shape="ring">
+            <solid android:color="@color/col_dance"/>
+            <stroke android:width="0sp" android:color="@color/green" />
+        </shape>
+    </item>
+</level-list>

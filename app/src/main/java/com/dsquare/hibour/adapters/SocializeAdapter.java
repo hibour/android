@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -52,86 +53,65 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        int listViewItemType = getItemViewType(position);
-        Log.d("size", listViewItemType + "");
-        boolean isLast = (position % listViewItemType) == 0;
-        Log.d("islast", isLast + "");
+      //  int listViewItemType = getItemViewType(position);
+    //    Log.d("size", listViewItemType + "");
+//        boolean isLast = (position % listViewItemType) == 0;
+  //      Log.d("islast", isLast + "");
 
         holder.prefCount.setVisibility(View.VISIBLE);
-        Drawable bgShape = holder.prefLinearLayout.getBackground().mutate();
-        Log.d("name",listItems.get(position)[1]);
+        Log.d("name", listItems.get(position)[1]);
+        ShapeDrawable shape = new ShapeDrawable(new OvalShape());
+        shape.setIntrinsicHeight(10);
+        shape.setIntrinsicWidth(10);
+
         switch (listItems.get(position)[1]){
             case "Fitness":
-                holder.topLayout.setBackgroundColor(context.getResources().getColor(R.color.col_fitness));
+                shape.getPaint().setColor(context.getResources().getColor(R.color.col_fitness));
                 break;
             case "Movies":
-                holder.topLayout.setBackgroundColor(context.getResources().getColor(R.color.col_movies));
+                shape.getPaint().setColor(context.getResources().getColor(R.color.col_movies));
                 break;
             case "Sports":
-                holder.topLayout.setBackgroundColor(context.getResources().getColor(R.color.col_sports));
+                shape.getPaint().setColor(context.getResources().getColor(R.color.col_sports));
                 Log.d("sports", "yes");
               //  bgShape.getPaint().setColor(context.getResources().getColor(R.color.col_sports));
                 break;
             case "Fashion":
-                if (bgShape instanceof ShapeDrawable) {
-                    Log.d("drawable","shape");
-                    ((ShapeDrawable)bgShape).getPaint().setColor(context.getResources().getColor(R.color.col_fashion));
-                } else if (bgShape instanceof GradientDrawable) {
-                    Log.d("drawable","gradient");
-                    ((GradientDrawable)bgShape).setColor(Color.BLACK);
-                }
+                shape.getPaint().setColor(context.getResources().getColor(R.color.col_fashion));
                // bgShape.getPaint().setColor(context.getResources().getColor(R.color.col_fashion));
                 break;
             case "Music":
-                if (bgShape instanceof ShapeDrawable) {
-                    ((ShapeDrawable)bgShape).getPaint().setColor(context.getResources().getColor(R.color.col_music));
-                } else if (bgShape instanceof GradientDrawable) {
-                    ((GradientDrawable)bgShape).setColor(0xff999999);
-                    bgShape.invalidateSelf();
-                }
+                shape.getPaint().setColor(context.getResources().getColor(R.color.col_music));
                // bgShape.getPaint().setColor(context.getResources().getColor(R.color.col_music));
                 break;
             case "Outdoor":
-                if (bgShape instanceof ShapeDrawable) {
-                    ((ShapeDrawable)bgShape).getPaint().setColor(context.getResources().getColor(R.color.col_outdoor));
-                } else if (bgShape instanceof GradientDrawable) {
-                    ((GradientDrawable)bgShape).setColor(0xff999999);
-                }
+                shape.getPaint().setColor(context.getResources().getColor(R.color.col_outdoor));
                // bgShape.getPaint().setColor(context.getResources().getColor(R.color.col_outdoor));
                 break;
             case "Books":
-                if (bgShape instanceof ShapeDrawable) {
-                    ((ShapeDrawable)bgShape).getPaint().setColor(context.getResources().getColor(R.color.col_books));
-                } else if (bgShape instanceof GradientDrawable) {
-                    ((GradientDrawable)bgShape).setColor(0xff999999);
-                }
+                shape.getPaint().setColor(context.getResources().getColor(R.color.col_books));
                // bgShape.getPaint().setColor(context.getResources().getColor(R.color.col_books));
                 break;
             case "Parties":
-                if (bgShape instanceof ShapeDrawable) {
-                    ((ShapeDrawable)bgShape).getPaint().setColor(context.getResources().getColor(R.color.col_parties));
-                } else if (bgShape instanceof GradientDrawable) {
-                    ((GradientDrawable)bgShape).setColor(0xff999999);
-                }
+                shape.getPaint().setColor(context.getResources().getColor(R.color.col_parties));
                 //bgShape.getPaint().setColor(context.getResources().getColor(R.color.col_parties));
                 break;
             case "Dance":
-                if (bgShape instanceof ShapeDrawable) {
-                    ((ShapeDrawable)bgShape).getPaint().setColor(context.getResources().getColor(R.color.col_dance));
-                } else if (bgShape instanceof GradientDrawable) {
-                    ((GradientDrawable)bgShape).setColor(0xff999999);
-                }
+                shape.getPaint().setColor(context.getResources().getColor(R.color.col_dance));
                // bgShape.getPaint().setColor(context.getResources().getColor(R.color.col_dance));
                 break;
             case "Food":
-                if (bgShape instanceof ShapeDrawable) {
-                    ((ShapeDrawable)bgShape).getPaint().setColor(context.getResources().getColor(R.color.col_food));
-                } else if (bgShape instanceof GradientDrawable) {
-                    ((GradientDrawable)bgShape).setColor(0xff999999);
-                }
+                shape.getPaint().setColor(context.getResources().getColor(R.color.col_food));
               //  bgShape.getPaint().setColor(context.getResources().getColor(R.color.col_food));
                 break;
         }
+        final int sdk = android.os.Build.VERSION.SDK_INT;
+        if(sdk<16){
+            holder.circleImage.setBackgroundDrawable(shape);
+        }else{
+            holder.circleImage.setBackground(shape);
+        }
+
         if(listItems.get(position)[4].equals("false")){
             try {
                 imageLoader.get(listItems.get(position)[2], ImageLoader.getImageListener(holder.prefImage
@@ -139,9 +119,9 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            holder.prefName.setTextColor(context.getResources().getColor(R.color.brand));
-            holder.prefCount.setTextColor(context.getResources().getColor(R.color.brand));
-            final int sdk = android.os.Build.VERSION.SDK_INT;
+           // holder.prefName.setTextColor(context.getResources().getColor(R.color.brand));
+            //holder.prefCount.setTextColor(context.getResources().getColor(R.color.brand));
+
             if(sdk <16) {
                 holder.prefLinearLayout.setBackgroundDrawable(context.getResources()
                         .getDrawable(R.drawable.social_prefs_unselected_state));
@@ -156,9 +136,8 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            holder.prefName.setTextColor(context.getResources().getColor(R.color.white));
-            holder.prefCount.setTextColor(context.getResources().getColor(R.color.white));
-            final int sdk = android.os.Build.VERSION.SDK_INT;
+           // holder.prefName.setTextColor(context.getResources().getColor(R.color.white));
+            //holder.prefCount.setTextColor(context.getResources().getColor(R.color.white));
             if(sdk <16) {
                 holder.prefLinearLayout.setBackgroundDrawable(context.getResources()
                         .getDrawable(R.drawable.social_prefs_selected_state));
@@ -195,7 +174,7 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView prefImage;
+        public ImageView prefImage,circleImage;
         private TextView prefName, prefCount;
         private RelativeLayout layout;
         private LinearLayout prefLinearLayout;
@@ -203,6 +182,7 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
 
         public ViewHolder(View itemView) {
             super(itemView);
+            circleImage = (ImageView)itemView.findViewById(R.id.socialize_circle);
             prefName = (TextView) itemView.findViewById(R.id.pref_name);
             prefImage = (ImageView) itemView.findViewById(R.id.pref_icon);
             layout = (RelativeLayout)itemView.findViewById(R.id.pref_layout);
@@ -212,7 +192,7 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
         }
     }
 
-    @Override
+    /*@Override
     public int getItemViewType(int position) {
         // Just as an example, return 0 or 2 depending on position
         // Note that unlike in ListView adapters, types don't have to be contiguous
@@ -225,5 +205,5 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
             return 2;
           else if(mod == 0);
             return 1;
-   }
+   }*/
 }

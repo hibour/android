@@ -345,50 +345,6 @@ public class Posts extends HibourBaseTabFragment implements View.OnClickListener
             tabs.setVisibility(View.GONE);
             pager.setVisibility(View.GONE);
         }
-        /*if(postpojos.size()>0){
-            postTypesSet.add("All");
-            for (Postpojos p : postpojos) {
-                postlikesMap.put(p.getPostId(), p.getPostLikedUsers());
-
-                List<Postpojos> data1 = new ArrayList<>();
-                data1.add(p);
-                postpojosMap.put(p.getPostId(), data1);
-
-                searchMap.put(p.getPostMessage(), p.getPostId());
-
-                String postType = p.getPostTypeName() ;
-                List<Postpojos> postslist = postsMap.get(postType);
-                if (postslist == null) {
-                    postslist = new ArrayList<>();
-                    postsMap.put(postType, postslist);
-                }
-                postslist.add(p);
-
-                if (!TextUtils.isEmpty(postType)) {
-                    postTypesSet.add(postType);
-                }
-            }
-
-            List<String> postTypeList = new ArrayList<>();
-            postTypeList.addAll(postTypesSet);
-            Collections.sort(postTypeList);
-
-            Constants.postsMap = postsMap;
-            Constants.postpojosMap = postpojosMap;
-            Constants.postlikesMap = postlikesMap;
-            Constants.searchMap = searchMap;
-
-            updatePager(postTypeList);
-
-            autocompleteList.clear();
-            for (String key : searchMap.keySet()) {
-                autocompleteList.add(key);
-            }
-        }else{
-            noFeedsLayout.setVisibility(View.VISIBLE);
-            tabs.setVisibility(View.GONE);
-            pager.setVisibility(View.GONE);
-        }*/
     }
 
     //  send data to server
