@@ -88,7 +88,7 @@ public class HomeActivity extends AppCompatActivity implements NavDrawerCallback
     initializeViews();
     initializeDrawerAdapter();
     initializeEventListeners();
-    handleAction(NavActionType.HOME);
+
     getAllCategoriesTypes();
   }
 

@@ -89,6 +89,8 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
     holder.likesImage.setTag(holder);
     holder.dislikesImage.setOnClickListener(this);
     holder.dislikesImage.setTag(holder);
+      holder.userImageDefault.setTag(holder);
+      holder.userImageDefault.setOnClickListener(this);
     return holder;
   }
 
@@ -194,6 +196,9 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
       case R.id.feeds_user_image:
         openUserProfile(listItems.get(position).getPostedUserId());
         break;
+        case R.id.feeds_user_image_text:
+            openUserProfile(listItems.get(position).getPostedUserId());
+            break;
     }
   }
 
@@ -219,8 +224,9 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
     //feed.setPostedUserImage(listItems.get(position).getPostedUserImage());
     //feed.setPostedUserName(listItems.get(position).getPostedUserName());
     //feed.setUserLiked(listItems.get(position).isUserLiked());
-    listItems.set(position, feed);
+      listItems.set(position, feed);
       databaseHandler.updateFeedsData(likesCount+"",result,listItems.get(position).getPostId());
+      //Constants.postpojosMap.put(listItems.get(position).getPostId(),listItems);
       //Constants.postpojosMap
     notifyItemChanged(position);
   }
