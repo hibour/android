@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
+import com.activeandroid.query.Update;
 import com.dsquare.hibour.database.table.FeedsTable;
 import com.dsquare.hibour.database.table.NotificationTable;
 import com.dsquare.hibour.database.table.UserDetailTable;
@@ -166,4 +167,12 @@ public class DatabaseHandler {
     return new UserProfile(user);
   }
 
+    /* update feeds data*/
+    public void updateFeedsData(String likesCount,String isUserLiked,String postId){
+        new Update(FeedsTable.class)
+                .set("likescount ="+likesCount,"userliked = "+isUserLiked)
+                .where("post_id = ?", postId)
+                .execute();
+
+    }
 }

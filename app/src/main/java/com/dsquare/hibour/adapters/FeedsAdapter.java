@@ -20,6 +20,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.activities.PostComments;
 import com.dsquare.hibour.activities.Profile;
+import com.dsquare.hibour.database.DatabaseHandler;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.HibourConnector;
 import com.dsquare.hibour.network.NetworkDetector;
@@ -55,8 +56,10 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
   private Hibour application;
   private ProgressDialog dialog;
   private ImageLoader imageLoader;
+    private DatabaseHandler databaseHandler;
 
   public FeedsAdapter(Context context, List<Feeds> listItems) {
+      databaseHandler = new DatabaseHandler(context);
     this.context = context;
     this.listItems = listItems;
     networkDetector = new NetworkDetector(context);
@@ -147,7 +150,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
   public void onClick(View view) {
     final ViewHolder viewHolder = (ViewHolder) view.getTag();
     final int position = viewHolder.getAdapterPosition();
-    Feeds feed = new Feeds();
+    //Feeds feed = new Feeds();
     switch (view.getId()) {
       case R.id.feeds_comments_layout:
         openCommentsDialog(listItems.get(position).getPostId(), listItems.get(position).getLikesCount()
@@ -177,10 +180,10 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
 
         break;
       case R.id.feeds_dislikes:
+        Log.d("disliked","yes");
         if (listItems.get(position).isUserLiked().equals("true")) {
-          //feed.setUserLiked("false");
+          Log.d("indisliked","in true");
           int likesCount = Integer.valueOf(listItems.get(position).getLikesCount()) - 1;
-          //feed.setLikesCount(likesCount + "");
           viewHolder.likes.setText(likesCount + "");
           likePost(listItems.get(position).getPostId(),"0");
           changeLikesCount(position,likesCount,"false");
@@ -203,20 +206,22 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
 
   /* change likes count*/
   private void changeLikesCount(int position,int likesCount,String result) {
-    Feeds feed = new Feeds();
+    Feeds feed = listItems.get(position);
     feed.setUserLiked(result);
     feed.setLikesCount(likesCount + "");
-    feed.setPostId(listItems.get(position).getPostId());
-    feed.setCommentsCount(listItems.get(position).getCommentsCount());
-    feed.setPostDate(listItems.get(position).getPostDate());
-    feed.setPostTime(listItems.get(position).getPostTime());
-    feed.setPostDescription(listItems.get(position).getPostDescription());
-    feed.setPostImage(listItems.get(position).getPostImage());
-    feed.setPostedUserId(listItems.get(position).getPostedUserId());
-    feed.setPostedUserImage(listItems.get(position).getPostedUserImage());
-    feed.setPostedUserName(listItems.get(position).getPostedUserName());
-    feed.setUserLiked(listItems.get(position).isUserLiked());
+    //feed.setPostId(listItems.get(position).getPostId());
+    //feed.setCommentsCount(listItems.get(position).getCommentsCount());
+    //feed.setPostDate(listItems.get(position).getPostDate());
+    //feed.setPostTime(listItems.get(position).getPostTime());
+    //feed.setPostDescription(listItems.get(position).getPostDescription());
+    //feed.setPostImage(listItems.get(position).getPostImage());
+    //feed.setPostedUserId(listItems.get(position).getPostedUserId());
+    //feed.setPostedUserImage(listItems.get(position).getPostedUserImage());
+    //feed.setPostedUserName(listItems.get(position).getPostedUserName());
+    //feed.setUserLiked(listItems.get(position).isUserLiked());
     listItems.set(position, feed);
+      databaseHandler.updateFeedsData(likesCount+"",result,listItems.get(position).getPostId());
+      //Constants.postpojosMap
     notifyItemChanged(position);
   }
 
