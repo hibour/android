@@ -1,11 +1,13 @@
 package com.dsquare.hibour.activities;
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -13,8 +15,10 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
@@ -46,6 +51,7 @@ import com.dsquare.hibour.pojos.settings.Settingspojo;
 import com.dsquare.hibour.utils.Constants;
 import com.dsquare.hibour.utils.Fonts;
 import com.dsquare.hibour.utils.Hibour;
+import com.dsquare.hibour.utils.MarshMallowPermissions;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
@@ -95,6 +101,8 @@ public class Settings extends AppCompatActivity implements View.OnClickListener,
   private CoordinatorLayout coordinatorLayout;
   private LinearLayout moreLayout, feedsLayout, socializeLayout, messagesLayout;
   private SettingsToHomeCallback settingsCallback;
+    private MarshMallowPermissions permissions;
+    public static final int CAMERA_PERMISSION_REQUEST_CODE = 3;
 
   public Settings() {
     // Required empty public constructor
@@ -125,6 +133,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener,
 
   /* initialize views*/
   private void initializeViews() {
+      permissions = new MarshMallowPermissions(this);
     accountsClient = new AccountsClient(this);
     networkDetector = new NetworkDetector(this);
     gson = new Gson();
@@ -278,7 +287,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener,
 
   private void openImageChooser() {
     chooserDialog = new ImagePickerDialog();
-    chooserDialog.show(getSupportFragmentManager(), "chooser dialog");
+      chooserDialog.show(getSupportFragmentManager(), "chooser dialog");
     //   chooserDialog.setTargetFragment(getApplicationContext(), 3);
   }
 
@@ -287,17 +296,14 @@ public class Settings extends AppCompatActivity implements View.OnClickListener,
     Log.d("Settings", "open gallery");
     Intent galleryIntent = new Intent(Intent.ACTION_PICK,
         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-    this.startActivityForResult(galleryIntent, REQUEST_IMAGE_SELECTOR);
+      this.startActivityForResult(galleryIntent, REQUEST_IMAGE_SELECTOR);
   }
 
   /* open camera*/
   private void openCamera() {
+      checkCameraPermission();
     Log.d("Settings", "open camera");
-    Intent intent = new Intent(
-        android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-    if (intent.resolveActivity(getPackageManager()) != null) {
-      this.startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
-    }
+
 
   }
 
@@ -583,6 +589,73 @@ public class Settings extends AppCompatActivity implements View.OnClickListener,
                     , R.drawable.avatar, R.drawable.avatar));
         }*/
   }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case CAMERA_PERMISSION_REQUEST_CODE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    Intent intent = new Intent(
+                            android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    if (intent.resolveActivity(getPackageManager()) != null) {
+                        this.startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+                    }
+
+                } else {
+                    Toast.makeText(this, "Access denied to use Camera", Toast.LENGTH_LONG).show();
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+        }
+    }
+
+    /* check camera permission*/
+    private void checkCameraPermission(){
+        if (!permissions.checkPermissionForCamera()) {
+            permissions.requestPermissionForCamera();
+        } else {
+            Intent intent = new Intent(
+                    android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                this.startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+            }
+           /* if (!marshMallowPermission.checkPermissionForExternalStorage()) {
+                marshMallowPermission.requestPermissionForExternalStorage();
+            } else {
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                File mediaStorageDir = new File(
+                        Environment.getExternalStorageDirectory()
+                                + File.separator
+                                + getString(R.string.directory_name_corp_chat)
+                                + File.separator
+                                + getString(R.string.directory_name_images)
+                );
+
+                if (!mediaStorageDir.exists()) {
+                    mediaStorageDir.mkdirs();
+                }
+
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+                        Locale.getDefault()).format(new Date());
+                try {
+                    mediaFile = File.createTempFile(
+                            "IMG_" + timeStamp,  *//* prefix *//*
+                            ".jpg",         *//* suffix *//*
+                            mediaStorageDir      *//* directory *//*
+                    );
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mediaFile));
+                    startActivityForResult(takePictureIntent, PICK_FROM_CAMERA);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }*/
+        }
+    }
 
 
 }
