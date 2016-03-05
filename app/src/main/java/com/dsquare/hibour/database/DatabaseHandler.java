@@ -175,4 +175,14 @@ public class DatabaseHandler {
                 .execute();
 
     }
+    /* get users with the given id*/
+    public UserDetail getUser(String userId){
+        UserDetail userDetails = null;
+        List<UserDetailTable> userDetail = new Select().from(UserDetailTable.class)
+                .where("user_id = "+userId).execute();
+        for(UserDetailTable user:userDetail){
+            return new UserDetail(user);
+        }
+        return userDetails;
+    }
 }

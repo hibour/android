@@ -126,7 +126,6 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
         Log.d("New Post",catFrmPre);
         initializeViews(view);
         initializeEventListeners();
-        //  getNeighbourHoods(application.getUserId());
         setCategories();
         return view;
     }
@@ -141,7 +140,6 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
     private void initializeEventListeners() {
         gallary.setOnClickListener(this);
         delete.setOnClickListener(this);
-        // done.setOnClickListener(this);
         cancel.setOnClickListener(this);
     }
 
@@ -211,29 +209,6 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                 getActivity().getWindow().setSoftInputMode(
                         WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
             }
-            Log.d("bitmap", "camera");
-            Log.d("bitmap", bitmap + "");
-            Log.d("camera", "yes");
-//            Uri filePath = data.getData();
-//            try {
-//                //Getting the Bitmap from Gallery
-//                bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
-//                int nh = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
-//                Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
-//                if (layout.getVisibility() == View.GONE) {
-//                    layout.setVisibility(View.VISIBLE);
-//                    postImage.setAdjustViewBounds(true);
-//                    postImage.setScaleType(ImageView.ScaleType.FIT_XY);
-//                    postImage.setImageBitmap(scaled);
-//                    gallary.setVisibility(View.GONE);
-//                    getActivity().getWindow().setSoftInputMode(
-//                        WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-//                }
-//                postimagesstring = getStringImage(bitmap);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-
         }else if(requestCode == REQUEST_IMAGE_SELECTOR && resultCode == Activity.RESULT_OK
                 &&  data != null && data.getData() != null){
             Log.d("gallery", "yes");
@@ -608,13 +583,15 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
           //  categoriesList.clear();
           // categoriesMap.clear();
 
+            //Log.d("catfromprev",Constants.postTypesMap.get(catFrmPre).get("id"));
             int i = 0;
             int j = 0;
             for (String type : Constants.postTypesMap.keySet()) {
-                Log.d("New post","for loop");
-                Log.d("New post values", String.valueOf(Constants.postTypesMap.get(type)));
-                categoriesList.add(type);
-                if (catFrmPre.equals(type)) {
+                Log.d("mat",type+" "+catFrmPre);
+                categoriesList.add(Constants.postTypesMap.get(type).get("name"));
+                if (catFrmPre.equals(Constants.postTypesMap.get(type).get("name"))) {
+                    Log.d("matched",type+" "+catFrmPre);
+                    categoriesTypeId = Constants.postTypesMap.get(type).get("id");
                     j = i;
                 }
                 i++;
@@ -623,11 +600,6 @@ public class NewPost extends android.support.v4.app.Fragment implements View.OnC
                 , android.R.layout.simple_dropdown_item_1line, categoriesList);
             categoriesSpinner.setAdapter(categoriesAdapter);
             categoriesSpinner.setSelection(j);
-            Log.d("catFrmPre",catFrmPre);
-            Log.d("map id", String.valueOf(Constants.postTypesMap.get(catFrmPre).get("id")));
-            Log.d("map name", String.valueOf(Constants.postTypesMap.get(catFrmPre).get("name")));
-            Log.d("map placeholder",String.valueOf(Constants.postTypesMap.get(catFrmPre).get("placeholder")));
-            categoriesTypeId = Constants.postTypesMap.get(catFrmPre).get("id");
         }
     }
 

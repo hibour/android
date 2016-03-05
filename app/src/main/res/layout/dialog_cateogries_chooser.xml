@@ -10,7 +10,7 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <TextView
+        <com.dsquare.hibour.utils.Proxima
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"

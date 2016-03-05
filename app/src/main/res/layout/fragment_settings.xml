@@ -19,9 +19,11 @@
         <ImageView
             android:id="@+id/Settings_back_icon"
             android:layout_width="@dimen/dp_40"
-            android:paddingLeft="@dimen/dp_10"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_back_white"/>
+            android:padding="@dimen/dp_5"
+            android:layout_marginLeft="@dimen/dp_5"
+            android:layout_height="@dimen/dp_40"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_arrow_back_white"/>
 
 
         <com.dsquare.hibour.utils.ProximaExtraBold

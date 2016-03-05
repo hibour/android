@@ -606,8 +606,6 @@ public class Settings extends AppCompatActivity implements View.OnClickListener,
 
                 } else {
                     Toast.makeText(this, "Access denied to use Camera", Toast.LENGTH_LONG).show();
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
                 }
                 return;
             }

@@ -74,6 +74,7 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
         neighboursRecycler.setLayoutManager(layoutManager);
         neighboursRecycler.setHasFixedSize(true);
         adapter = new NearByUserChatListAdapter(this);
+        adapter.getUserList().addAll(neighboursList);
         neighboursRecycler.setAdapter(adapter);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>
             (this, android.R.layout.simple_dropdown_item_1line,

@@ -90,24 +90,6 @@ public class Socialize extends HibourBaseTabFragment implements View.OnClickList
             .coordinatorLayout);
         prefsRecycler = (RecyclerView)view.findViewById(R.id.social_prefs_list);
         layoutManager = new GridLayoutManager(getActivity(), 3);
-
-//        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-//            @Override
-//            public int getSpanSize(int position) {
-//                return prefsRecycler.getAdapter().getItemViewType(position);
-//               /* int mod = position % 3;
-//                Log.d("position",position+"");
-//                Log.d("mod",mod+"");
-//                if (position == 0 || position == 1 ||position == 2)
-//                    return 3;
-//                else if(mod == 0 || mod == 1 || mod == 2)
-//                    return 3;
-//                else if(mod == 0 || mod == 1);
-//                    return 2;*/
-//
-//            }
-//        });
-//        layoutManager.setSpanSizeLookup(new MySpanSizeLookup(9, 2, 3));
         prefsRecycler.setLayoutManager(layoutManager);
         prefsRecycler.setHasFixedSize(true);
         prefsRecycler.addItemDecoration(new GridLayoutSpacing(3, 5, true));
@@ -254,8 +236,6 @@ public class Socialize extends HibourBaseTabFragment implements View.OnClickList
                     ,Constants.socialPrefsMap.get(s).get(5)};
             prefsList.add(details);
         }
-
-
         prefsRecycler.setAdapter(new SocializeAdapter(getActivity(), prefsList));
         if(!(prefsList.size()%3==0)){
             int count = prefsList.size()%3;
@@ -338,6 +318,7 @@ public class Socialize extends HibourBaseTabFragment implements View.OnClickList
                 dd.add(d.getChoosedUsers().size()+"");
                 Constants.socialPrefsMap.put(d.getPreferenceId(),dd);
                 Constants.prefsMap.put(d.getPreferenceId(),d);
+               // Constants.nearByUsersMap.put(d.getPreferenceId(),d.getChoosedUsers());
                 for(ChoosedUser ch:d.getChoosedUsers()){
                     Constants.membersList.add(ch);
                 }

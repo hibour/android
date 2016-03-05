@@ -73,36 +73,27 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
                 break;
             case "Sports":
                 shape.getPaint().setColor(context.getResources().getColor(R.color.col_sports));
-                Log.d("sports", "yes");
-              //  bgShape.getPaint().setColor(context.getResources().getColor(R.color.col_sports));
                 break;
             case "Fashion":
                 shape.getPaint().setColor(context.getResources().getColor(R.color.col_fashion));
-               // bgShape.getPaint().setColor(context.getResources().getColor(R.color.col_fashion));
                 break;
             case "Music":
                 shape.getPaint().setColor(context.getResources().getColor(R.color.col_music));
-               // bgShape.getPaint().setColor(context.getResources().getColor(R.color.col_music));
                 break;
             case "Outdoor":
                 shape.getPaint().setColor(context.getResources().getColor(R.color.col_outdoor));
-               // bgShape.getPaint().setColor(context.getResources().getColor(R.color.col_outdoor));
                 break;
             case "Books":
                 shape.getPaint().setColor(context.getResources().getColor(R.color.col_books));
-               // bgShape.getPaint().setColor(context.getResources().getColor(R.color.col_books));
                 break;
             case "Parties":
                 shape.getPaint().setColor(context.getResources().getColor(R.color.col_parties));
-                //bgShape.getPaint().setColor(context.getResources().getColor(R.color.col_parties));
                 break;
             case "Dance":
                 shape.getPaint().setColor(context.getResources().getColor(R.color.col_dance));
-               // bgShape.getPaint().setColor(context.getResources().getColor(R.color.col_dance));
                 break;
             case "Food":
                 shape.getPaint().setColor(context.getResources().getColor(R.color.col_food));
-              //  bgShape.getPaint().setColor(context.getResources().getColor(R.color.col_food));
                 break;
         }
         final int sdk = android.os.Build.VERSION.SDK_INT;

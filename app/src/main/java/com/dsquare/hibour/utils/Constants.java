@@ -151,6 +151,7 @@ public class Constants {
     public static List<Datum> socialPrefsList = new ArrayList<>();
     public static Map<String, Datum> prefsMap = new LinkedHashMap<>();
     public static List<ChoosedUser> membersList = new ArrayList<>();
+    public static Map<String,List<UserDetail>> nearByUsersMap = new LinkedHashMap<>();
 
 
     // message state
