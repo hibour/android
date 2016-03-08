@@ -7,13 +7,13 @@ import com.google.gson.annotations.SerializedName;
  * Created by ASHOK on 1/26/2016.
  */
 public class ChoosedUser {
-    @SerializedName("id")
+    @SerializedName("user_id")
     @Expose
     private String userId;
-    @SerializedName("Username")
+    @SerializedName("user_name")
     @Expose
     private String userName;
-    @SerializedName("image")
+    @SerializedName("user_image")
     @Expose
     private String userImage;
 

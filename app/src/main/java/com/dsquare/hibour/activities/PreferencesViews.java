@@ -80,7 +80,7 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
             (this, android.R.layout.simple_dropdown_item_1line,
                 autocompleteList);
         autoCompleteTextView.setAdapter(adapter);
-        autoCompleteTextView.setThreshold(3);
+        autoCompleteTextView.setThreshold(1);
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -131,6 +131,8 @@ public class PreferencesViews extends AppCompatActivity implements View.OnClickL
     /* prepare neighbours list*/
     private void prepareNeighboursList() {
         UserDetail userDetail;
+        Log.d("id",getIntent()
+                .getStringExtra("prefId"));
         int i;
         //for (i = 0; i < 10; i++) {
         if (frmAdapter) {

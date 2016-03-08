@@ -5,10 +5,7 @@
               android:background="@color/feed_bg"
               android:orientation="vertical">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/feed_bg">
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,6 +29,14 @@
                     android:textSize="@dimen/app_bar_title_text_size"/>
             </RelativeLayout>
 
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/feed_bg">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
             <RelativeLayout
                 android:id="@+id/more_userLayout"
                 android:layout_width="match_parent"
@@ -128,7 +133,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="horizontal"
-                android:padding="@dimen/dp_10">
+                android:padding="@dimen/dp_10"
+                android:id="@+id/more_rateus">
 
                 <ImageView
                     android:id="@+id/rate_ic"
@@ -332,7 +338,8 @@
                     android:text="Logout"
                     android:textSize="@dimen/sp_16"/>
             </RelativeLayout>
-
+            </LinearLayout>
+            </ScrollView>
         </LinearLayout>
-    </ScrollView>
+
 </LinearLayout>

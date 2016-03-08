@@ -2,9 +2,6 @@ package com.dsquare.hibour.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.support.v7.widget.RecyclerView;
@@ -35,6 +32,7 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
     private ImageLoader imageLoader;
     private String userprefer;
     private int numColumns;
+    private String[] bgColors;
     public SocializeAdapter(Context context,List<String[]> listItems) {
         this.context = context;
         this.listItems = listItems;
@@ -63,7 +61,6 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
         ShapeDrawable shape = new ShapeDrawable(new OvalShape());
         shape.setIntrinsicHeight(10);
         shape.setIntrinsicWidth(10);
-
         switch (listItems.get(position)[1]){
             case "Fitness":
                 shape.getPaint().setColor(context.getResources().getColor(R.color.col_fitness));
@@ -103,7 +100,14 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
             holder.circleImage.setBackground(shape);
         }
 
-        if(listItems.get(position)[4].equals("false")){
+        try {
+            imageLoader.get(listItems.get(position)[2], ImageLoader.getImageListener(holder.prefImage
+                    , R.mipmap.ic_launcher, R.mipmap.ic_launcher));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+       /* if(listItems.get(position)[4].equals("false")){
             try {
                 imageLoader.get(listItems.get(position)[2], ImageLoader.getImageListener(holder.prefImage
                         , R.mipmap.ic_launcher, R.mipmap.ic_launcher));
@@ -136,7 +140,7 @@ public class SocializeAdapter extends RecyclerView.Adapter<SocializeAdapter.View
                 holder.prefLinearLayout.setBackground(context.getResources()
                         .getDrawable(R.drawable.social_prefs_selected_state));
             }
-        }
+        }*/
         holder.prefName.setText(listItems.get(position)[1]);
         holder.prefCount.setText(listItems.get(position)[5]);
     }

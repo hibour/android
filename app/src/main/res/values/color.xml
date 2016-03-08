@@ -26,12 +26,18 @@
     <color name="textColor_discoverneighbourhood">#687897</color>
     <color name="default_user_img_bg">#fd9757</color>
     <string-array name="movie_serial_bg">
-        <item>#ff484d</item>
-        <item>#57dd86</item>
-        <item>#ad7dcf</item>
-        <item>#24c6d5</item>
-        <item>#fcba59</item>
-        <item>#24c6d5</item>
+        <item>#412f43</item>
+        <item>#f750ba</item>
+        <item>#46c1d1</item>
+        <item>#FCACAE</item>
+        <item>#E27B61</item>
+        <item>#a4d795</item>
+        <item>#269bf8</item>
+        <item>#573e86</item>
+        <item>#e15c86</item>
+        <item>#28d1bc</item>
+        <item>#a4d795</item>
+        <item>#E27B61</item>
     </string-array>
 
     <color name="tabsScrollColor">#FFFFFF</color>

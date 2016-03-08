@@ -46,8 +46,15 @@ import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -68,7 +75,7 @@ import java.util.Map;
 /**
  * Created by Dsquare Android on 2/22/2016.
  */
-public class UpdateLocation extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+public class UpdateLocation extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener,OnMapReadyCallback {
 
   private static final LatLngBounds BOUNDS_INDIA = new LatLngBounds(new LatLng(8.4, 37.6), new LatLng(68.7, 97.25));
   public Button search, signin;
@@ -96,6 +103,9 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
   private ImageView back;
   private LocationClient locationClient;
   private CoordinatorLayout coordinatorLayout;
+    private Marker marker;
+    private int number;
+    private SupportMapFragment mapFragment;
   private SharedPreferences sharedPreferences;
   private String subLocality = "", address = "", lat = "", lng = "";
   private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
@@ -193,12 +203,15 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
         .addApi(Places.PLACE_DETECTION_API)
         .addApi(LocationServices.API)
         .build();
+      mapFragment = (SupportMapFragment) getSupportFragmentManager()
+              .findFragmentById(R.id.loc_map);
+      sharedPreferences = getSharedPreferences("Login Credentials", MODE_PRIVATE);
     coordinatorLayout = (CoordinatorLayout) findViewById(R.id
         .coordinatorLayout);
     locationClient = new LocationClient(this);
-    locMap = (WebView) findViewById(R.id.map);
-    countText = (TextView) findViewById(R.id.loc_members_count);
-    back = (ImageView) findViewById(R.id.change_location_back);
+//    locMap = (WebView) findViewById(R.id.map);
+//    countText = (TextView) findViewById(R.id.loc_members_count);
+//    back = (ImageView) findViewById(R.id.change_location_back);
     accountsClient = new AccountsClient(this);
     application = Hibour.getInstance(this);
     application.initializeSharedPrefs();
@@ -243,31 +256,41 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
 
     tf = Typeface.createFromAsset(getAssets(), Fonts.getTypeFaceName());
     autoCompleteTextView.setTypeface(tf);
+      if (!application.getUserDetails().get(Constants.SF_SUB_LOC).equals("")) {
+          Map<String, String> userDetails1 = application.getUserDetails();
+          autoCompleteTextView.setText(userDetails1.get(Constants.SF_LOCADD));
 
-    if (networkDetector.isConnected()) {
-      try {
-        URL url = new URL("http://hibour.com/test.php?area=" + autoCompleteTextView.getText().toString());
-        URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
-            , url.getPath(), url.getQuery(), url.getRef());
-        url = uri.toURL();
-        locMap.loadUrl(url.toString());
-        locMap.getSettings().setJavaScriptEnabled(true);
-      } catch (MalformedURLException e) {
-        e.printStackTrace();
-      } catch (URISyntaxException e) {
-        e.printStackTrace();
+          lat = userDetails1.get(Constants.SF_LAT);
+          lng = userDetails1.get(Constants.SF_LNG);
+
+          getAddress(userDetails1.get(Constants.SF_LAT),userDetails1.get(Constants.SF_LNG)
+                  ,userDetails1.get(Constants.SF_LOCADD),"");
+
       }
-    } else {
-      Toast.makeText(getApplicationContext(), "Can't connect to network.", Toast.LENGTH_LONG).show();
-    }
-    getMembersCount(autoCompleteTextView.getText().toString());
-
-    sharedPreferences = getSharedPreferences("Login Credentials", MODE_PRIVATE);
+//    if (networkDetector.isConnected()) {
+//      try {
+//        URL url = new URL("http://hibour.com/test.php?area=" + autoCompleteTextView.getText().toString());
+//        URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
+//            , url.getPath(), url.getQuery(), url.getRef());
+//        url = uri.toURL();
+//        locMap.loadUrl(url.toString());
+//        locMap.getSettings().setJavaScriptEnabled(true);
+//      } catch (MalformedURLException e) {
+//        e.printStackTrace();
+//      } catch (URISyntaxException e) {
+//        e.printStackTrace();
+//      }
+//    } else {
+//      Toast.makeText(getApplicationContext(), "Can't connect to network.", Toast.LENGTH_LONG).show();
+//    }
+//    getMembersCount(autoCompleteTextView.getText().toString());
+//
+//    sharedPreferences = getSharedPreferences("Login Credentials", MODE_PRIVATE);
   }
 
   private void initializeEventListeners() {
     next.setOnClickListener(this);
-    back.setOnClickListener(this);
+//    back.setOnClickListener(this);
   }
 
   @Override
@@ -280,9 +303,9 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
           updateUserLocation();
         }
         break;
-      case R.id.change_location_back:
-        this.finish();
-        break;
+//      case R.id.change_location_back:
+//        this.finish();
+//        break;
     }
   }
 
@@ -364,7 +387,9 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
       JSONObject data = jsonObject.getJSONObject("data");
       Log.d("data", data.toString());
       int count = data.getInt("Count");
-      countText.setText("There are about " + count + " members registered from your area.");
+        number = count;
+        mapFragment.getMapAsync(this);
+//      countText.setText("There are about " + count + " members registered from your area.");
       closeLocDialog();
     } catch (JSONException e) {
       e.printStackTrace();
@@ -518,18 +543,19 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
 
     Constants.userAddress = locAddress;
     if (networkDetector.isConnected()) {
-      try {
-        URL url = new URL("http://hibour.com/test.php?area=" + autoCompleteTextView.getText().toString());
-        URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
-            , url.getPath(), url.getQuery(), url.getRef());
-        url = uri.toURL();
-        locMap.loadUrl(url.toString());
-        locMap.getSettings().setJavaScriptEnabled(true);
-      } catch (MalformedURLException e) {
-        e.printStackTrace();
-      } catch (URISyntaxException e) {
-        e.printStackTrace();
-      }
+        getMembersCount(autoCompleteTextView.getText().toString());
+//      try {
+//        URL url = new URL("http://hibour.com/test.php?area=" + autoCompleteTextView.getText().toString());
+//        URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort()
+//            , url.getPath(), url.getQuery(), url.getRef());
+//        url = uri.toURL();
+//        locMap.loadUrl(url.toString());
+//        locMap.getSettings().setJavaScriptEnabled(true);
+//      } catch (MalformedURLException e) {
+//        e.printStackTrace();
+//      } catch (URISyntaxException e) {
+//        e.printStackTrace();
+//      }
     } else {
       Snackbar snackbar = Snackbar
           .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
@@ -539,7 +565,7 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
       textView.setTextColor(Color.RED);
       snackbar.show();
     }
-    getMembersCount(autoCompleteTextView.getText().toString());
+
   }
 
   /* async task for getting address*/
@@ -611,4 +637,48 @@ public class UpdateLocation extends AppCompatActivity implements GoogleApiClient
       }
     }
   }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        Log.d("double", "hhhh");
+//        googleMap.addMarker(new MarkerOptions()
+//                .position(new LatLng(-34, 151))
+//                .title("Marker"));
+
+
+        LatLng coords = new LatLng(Double.valueOf(lat), Double.valueOf(lng));
+//        Log.d("double", latLng.latitude + latLng.longitude + "");
+        if(marker==null){
+            marker = googleMap.addMarker(new MarkerOptions().position(coords).title("There are about "+number+" members registered from your area.").draggable(true));
+        }else{
+
+            marker.remove();
+            marker = googleMap.addMarker(new MarkerOptions().position(coords).title("There are about " + number + " members registered from your area.").draggable(true));
+        }
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coords, 14));
+
+        CircleOptions circleOptions = new CircleOptions()
+                .center(coords)
+                .radius(500)
+                .strokeWidth(2)
+                .strokeColor(Color.BLUE)
+                .fillColor(Color.parseColor("#500084d3"));
+        // Supported formats are: #RRGGBB #AARRGGBB
+        //   #AA is the alpha, or amount of transparency
+
+        googleMap.addCircle(circleOptions);
+
+//        LatLng coords = new LatLng(latLng.latitude, latLng.longitude);
+//        mMap.addMarker(new MarkerOptions().position(coords).title(autoCompleteTextView1.getText().toString()));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(coords));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coords, 10));
+//
+////        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coords, 10));
+//        if (pDialog != null) {
+//            if (pDialog.isShowing()) {
+//                pDialog.dismiss();
+//            }
+//        }
+    }
+
 }

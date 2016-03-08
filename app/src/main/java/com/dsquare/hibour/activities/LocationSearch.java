@@ -528,11 +528,13 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 
     /* parse loc data*/
     private void parseLocDetails(JSONObject jsonObject) {
+        closeLocDialog();
         try {
             JSONObject data = jsonObject.getJSONObject("data");
             Log.d("data", data.toString());
             int count = data.getInt("Count");
             number = count;
+            mapFragment.getMapAsync(this);
 //            countText.setText("There are about "+count+" members registered from your area.");
             closeLocDialog();
         } catch (JSONException e) {
@@ -692,8 +694,8 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 //            } catch (URISyntaxException e) {
 //                e.printStackTrace();
 //            }
-
-            mapFragment.getMapAsync(this);
+            getMembersCount(autoCompleteTextView1.getText().toString());
+//            mapFragment.getMapAsync(this);
 //            LatLng sydney = new LatLng(latLng.latitude, latLng.longitude);
 //            Log.d("double1", latLng.latitude+latLng.longitude+"");
 //            mMap.addMarker(new MarkerOptions().position(sydney).title(autoCompleteTextView1.getText().toString()));
@@ -731,7 +733,6 @@ public class LocationSearch extends AppCompatActivity implements View.OnClickLis
 //        });
 
 
-        getMembersCount(autoCompleteTextView1.getText().toString());
     }
 
     /* async task for getting address*/

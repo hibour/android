@@ -1,8 +1,10 @@
 package com.dsquare.hibour.adapters;
 
-import android.app.ProgressDialog;
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.graphics.Color;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +18,6 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.network.HibourConnector;
-import com.dsquare.hibour.pojos.preference.Datum;
 import com.dsquare.hibour.utils.Constants;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class PreferencesAdapter extends RecyclerView.Adapter<PreferencesAdapter.
 
     @Override
     public PreferencesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_social_prefs,parent
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_prefernces_views,parent
                 ,false);
         final ViewHolder holder = new ViewHolder(v);
         holder.itemView.setOnClickListener(this);
@@ -47,9 +48,15 @@ public class PreferencesAdapter extends RecyclerView.Adapter<PreferencesAdapter.
         return holder;
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         Log.d("size", listItems.get(position)[0]);
+        ShapeDrawable shape = new ShapeDrawable(new OvalShape());
+        shape.getPaint().setColor(Color.WHITE);
+//        shape.setColorFilter(R.color.white, PorterDuff.Mode.ADD);
+        shape.setIntrinsicHeight(10);
+        shape.setIntrinsicWidth(10);
         if(listItems.get(position)[4].equals("false")){
             try {
                 imageLoader.get(listItems.get(position)[2], ImageLoader.getImageListener(holder.prefImage
@@ -58,13 +65,12 @@ public class PreferencesAdapter extends RecyclerView.Adapter<PreferencesAdapter.
                 e.printStackTrace();
             }
             holder.prefName.setTextColor(context.getResources().getColor(R.color.brand));
-            final int sdk = android.os.Build.VERSION.SDK_INT;
-            if(sdk <16) {
-                holder.prefLinearLayout.setBackgroundDrawable(context.getResources()
-                        .getDrawable(R.drawable.social_prefs_unselected_state));
+            final int sdk1 = android.os.Build.VERSION.SDK_INT;
+
+            if(sdk1 <16) {
+                holder.prefLinearLayout.setBackgroundDrawable(shape);
             } else {
-                holder.prefLinearLayout.setBackground(context.getResources()
-                        .getDrawable(R.drawable.social_prefs_unselected_state));
+                holder.prefLinearLayout.setBackground(shape);
             }
         }else{
             try {
@@ -74,13 +80,43 @@ public class PreferencesAdapter extends RecyclerView.Adapter<PreferencesAdapter.
                 e.printStackTrace();
             }
             holder.prefName.setTextColor(context.getResources().getColor(R.color.white));
-            final int sdk = android.os.Build.VERSION.SDK_INT;
-            if(sdk <16) {
-                holder.prefLinearLayout.setBackgroundDrawable(context.getResources()
-                        .getDrawable(R.drawable.social_prefs_selected_state));
+            final int sdk2 = android.os.Build.VERSION.SDK_INT;
+            switch (listItems.get(position)[1]){
+                case "Fitness":
+                    shape.getPaint().setColor(context.getResources().getColor(R.color.col_fitness));
+                    break;
+                case "Movies":
+                    shape.getPaint().setColor(context.getResources().getColor(R.color.col_movies));
+                    break;
+                case "Sports":
+                    shape.getPaint().setColor(context.getResources().getColor(R.color.col_sports));
+                    break;
+                case "Fashion":
+                    shape.getPaint().setColor(context.getResources().getColor(R.color.col_fashion));
+                    break;
+                case "Music":
+                    shape.getPaint().setColor(context.getResources().getColor(R.color.col_music));
+                    break;
+                case "Outdoor":
+                    shape.getPaint().setColor(context.getResources().getColor(R.color.col_outdoor));
+                    break;
+                case "Books":
+                    shape.getPaint().setColor(context.getResources().getColor(R.color.col_books));
+                    break;
+                case "Parties":
+                    shape.getPaint().setColor(context.getResources().getColor(R.color.col_parties));
+                    break;
+                case "Dance":
+                    shape.getPaint().setColor(context.getResources().getColor(R.color.col_dance));
+                    break;
+                case "Food":
+                    shape.getPaint().setColor(context.getResources().getColor(R.color.col_food));
+                    break;
+            }
+            if(sdk2 <16) {
+                holder.prefLinearLayout.setBackgroundDrawable(shape);
             } else {
-                holder.prefLinearLayout.setBackground(context.getResources()
-                        .getDrawable(R.drawable.social_prefs_selected_state));
+                holder.prefLinearLayout.setBackground(shape);
             }
         }
         holder.prefName.setText(listItems.get(position)[1]);

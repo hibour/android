@@ -2,7 +2,6 @@ package com.dsquare.hibour.fragments;
 
 import android.content.ComponentName;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
@@ -17,7 +16,7 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.dsquare.hibour.R;
-import com.dsquare.hibour.activities.LocationSearch;
+import com.dsquare.hibour.activities.RateHibour;
 import com.dsquare.hibour.activities.Settings;
 import com.dsquare.hibour.activities.SignIn;
 import com.dsquare.hibour.network.HibourConnector;
@@ -37,11 +36,11 @@ public class More extends HibourBaseTabFragment implements View.OnClickListener 
 
   private UIHelper uiHelper;
   private TextView inviteNbours, logout, settings, name;
-  private RelativeLayout userLayout, inviteLayout, logoutLayout;
+  private RelativeLayout userLayout, inviteLayout, logoutLayout,rateLayout;
   private ImageView profile;
   private Hibour application;
   private ImageLoader imageLoader;
-
+  private RateHibour rateHibour;
 
   public More() {
     // Required empty public constructor
@@ -75,6 +74,7 @@ public class More extends HibourBaseTabFragment implements View.OnClickListener 
     userLayout = (RelativeLayout) view.findViewById(R.id.more_userLayout);
     inviteLayout = (RelativeLayout) view.findViewById(R.id.more_inviteFriendslayout);
     logoutLayout = (RelativeLayout) view.findViewById(R.id.more_logoutlayout);
+      rateLayout = (RelativeLayout) view.findViewById(R.id.more_rateus);
     imageLoader = HibourConnector.getInstance(getActivity()).getImageLoader();
   }
 
@@ -83,6 +83,7 @@ public class More extends HibourBaseTabFragment implements View.OnClickListener 
     userLayout.setOnClickListener(this);
     inviteLayout.setOnClickListener(this);
     logoutLayout.setOnClickListener(this);
+      rateLayout.setOnClickListener(this);
   }
 
   private void getDetails() {
@@ -114,6 +115,10 @@ public class More extends HibourBaseTabFragment implements View.OnClickListener 
         Intent openSignin = new Intent(getActivity(), SignIn.class);
         startActivity(openSignin);
         break;
+        case R.id.more_rateus:
+            rateHibour = new RateHibour();
+            rateHibour.show(getActivity().getFragmentManager(), "chooser dialog");
+            break;
     }
   }
 

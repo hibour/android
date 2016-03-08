@@ -30,6 +30,7 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.dsquare.hibour.R;
 import com.dsquare.hibour.database.DatabaseHandler;
+import com.dsquare.hibour.dialogs.SignupDialog;
 import com.dsquare.hibour.gcm.GcmRegistration;
 import com.dsquare.hibour.interfaces.WebServiceResponseCallback;
 import com.dsquare.hibour.network.AccountsClient;
@@ -76,7 +77,7 @@ import java.util.Map;
  * Created by Aditya Ravikanti on 2/5/2016.
  */
 public class Social extends FragmentActivity implements View.OnClickListener
-    , GoogleApiClient.OnConnectionFailedListener, ViewPager.OnPageChangeListener {
+    , GoogleApiClient.OnConnectionFailedListener, ViewPager.OnPageChangeListener,SignupDialog.SignUpCallback {
   public static final String[] IMAGE_NAME = {"presignup_img1", "presignup_img1", "presignup_img1", "presignup_img1",};
   static final int NUM_ITEMS = 4;
   private static final int RC_SIGN_IN = 9001;
@@ -97,12 +98,13 @@ public class Social extends FragmentActivity implements View.OnClickListener
   private Gson gson;
   private int pos = 0;
   private Hibour application;
-  private String Useremail = "", Userfname = "", Userlname = "", Usergender = "";
+  private String Useremail = "", Userfname = "", Userlname = "", Usergender = "", UserCat = " ";
   private View dot1, dot2, dot3, dot4;
   private LinearLayout socialSignIn;
   private CoordinatorLayout coordinatorLayout;
   private Bitmap bitmap;
   private String imageString = "a";
+    private SignupDialog signupDialogs;
   private View.OnClickListener facebookConnectListener = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
@@ -351,6 +353,7 @@ public class Social extends FragmentActivity implements View.OnClickListener
                     Userlname = object.optString("last_name");
                     Useremail = object.optString("email");
                     String profilePicUrl = "https://graph.facebook.com/" + object.optString("id") + "/picture";
+                    UserCat = "fb";
                     new LoadProfileImage(imageString).execute(profilePicUrl);
 
 //                      bitmap = getBitmapFromURL(profilePicUrl);
@@ -473,7 +476,7 @@ public class Social extends FragmentActivity implements View.OnClickListener
         String profilePicUrl = person.getImage().getUrl();
         Log.d("profilePicUrl", profilePicUrl);
 //          bitmap = getBitmapFromURL(profilePicUrl);
-
+       UserCat="gp";
         new LoadProfileImage(imageString).execute(profilePicUrl);
 //          imageString = getStringImage(bitmap);
         Log.d("bitmap", bitmap + "");
@@ -587,31 +590,36 @@ public class Social extends FragmentActivity implements View.OnClickListener
       Log.d("details", jsonObject.toString());
       SignupPojo registers = gson.fromJson(jsonObject.toString(), SignupPojo.class);
       Data data = registers.getData();
-//            Integer integer = data.getId();
-      String s = String.valueOf(data.getId());
-      Log.d("integer", s);
-      Map<String, String> userDetails = new HashMap<>();
-      userDetails.put(Constants.PREFERENCE_USER_ID, data.getId() + "");
-      userDetails.put(Constants.SF_FIRST, data.getFirstName());
-      userDetails.put(Constants.SF_LAST, data.getLastName());
-      userDetails.put(Constants.SF_EMAIL, data.getEmail());
-      userDetails.put(Constants.SF_LOCADD, data.getAddress());
-      userDetails.put(Constants.SF_SUB_LOC, data.getAddress1());
-      userDetails.put(Constants.SF_LAT, data.getLattiude());
-      userDetails.put(Constants.SF_LNG, data.getLongittude());
-      userDetails.put(Constants.SF_PASS, data.getPassword());
-      userDetails.put(Constants.SF_DOB, data.getDob());
-      userDetails.put(Constants.SF_IMAGE, data.getImage());
-      userDetails.put(Constants.SF_GENDER, data.getGender());
-      userDetails.put(Constants.SF_REGTYPE, data.getRegtype());
-      userDetails.put(Constants.SF_MOBILE, data.getMobile());
-      application.setUserDetails(userDetails);
-      accountsClient.getUserDetails(data.getId() + "", userDetailCallbackListener);
+        String status = data.getStatus();
+
+        if (status.equals("Failed")) {
+            signupDialogs = new SignupDialog();
+            signupDialogs.show(getFragmentManager(), "chooser dialog");
+
+        }else {
+            Map<String, String> userDetails = new HashMap<>();
+            userDetails.put(Constants.PREFERENCE_USER_ID, data.getId() + "");
+            userDetails.put(Constants.SF_FIRST, data.getFirstName());
+            userDetails.put(Constants.SF_LAST, data.getLastName());
+            userDetails.put(Constants.SF_EMAIL, data.getEmail());
+            userDetails.put(Constants.SF_LOCADD, data.getAddress());
+            userDetails.put(Constants.SF_SUB_LOC, data.getAddress1());
+            userDetails.put(Constants.SF_LAT, data.getLattiude());
+            userDetails.put(Constants.SF_LNG, data.getLongittude());
+            userDetails.put(Constants.SF_PASS, data.getPassword());
+            userDetails.put(Constants.SF_DOB, data.getDob());
+            userDetails.put(Constants.SF_IMAGE, data.getImage());
+            userDetails.put(Constants.SF_GENDER, data.getGender());
+            userDetails.put(Constants.SF_REGTYPE, data.getRegtype());
+            userDetails.put(Constants.SF_MOBILE, data.getMobile());
+            application.setUserDetails(userDetails);
+            accountsClient.getUserDetails(data.getId() + "", userDetailCallbackListener);
 //      String[] regidetails = {String.valueOf(data.getId()), data.getFirstName(), data.getLastName(), data.getEmail(), data.getGender(), data.getRegtype(), Constants.locationaddress};
 //      application.setLoginDetails(regidetails);
-      Intent homeIntent = new Intent(this, MobileNumber.class);
-      startActivity(homeIntent);
-      this.finish();
+            Intent homeIntent = new Intent(this, MobileNumber.class);
+            startActivity(homeIntent);
+            this.finish();
+        }
     } catch (JsonSyntaxException e) {
       e.printStackTrace();
     } catch (final IllegalArgumentException e) {
@@ -644,7 +652,12 @@ public class Social extends FragmentActivity implements View.OnClickListener
     return encodedImage;
   }
 
-  public static class ImageFragmentPagerAdapter extends FragmentPagerAdapter {
+    @Override
+    public void closeDialog(SignupDialog signupDialog) {
+        signupDialogs.dismiss();
+    }
+
+    public static class ImageFragmentPagerAdapter extends FragmentPagerAdapter {
     public ImageFragmentPagerAdapter(FragmentManager fm) {
       super(fm);
     }
@@ -709,7 +722,7 @@ public class Social extends FragmentActivity implements View.OnClickListener
       imageString = getStringImage(result);
       Log.d("string", imageString);
       signUpUser(Userfname, Userlname, Useremail
-          , "", Usergender, "gp");
+          , "", Usergender, UserCat);
     }
   }
 }

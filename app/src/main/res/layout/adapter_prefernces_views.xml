@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/pref_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/light_gray">
+
+    <FrameLayout
+        android:layout_width="@dimen/dp_80"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_height="@dimen/dp_80">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/socialize_circle"/>
+        <LinearLayout
+            android:id="@+id/pref_linear_layout"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_80"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/pref_icon"
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dp_10"
+                android:src="@drawable/avatar"/>
+            <com.dsquare.hibour.utils.Avenir
+                android:id="@+id/pref_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/pref_icon"
+                android:layout_gravity="center"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_12"
+                android:visibility="gone"/>
+            <com.dsquare.hibour.utils.Avenir
+                android:id="@+id/pref_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/pref_count"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:text="Software"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_12"/>
+        </LinearLayout>
+
+    </FrameLayout>
+
+</RelativeLayout>

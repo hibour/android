@@ -216,7 +216,7 @@ public class Socialize extends HibourBaseTabFragment implements View.OnClickList
 //                String[] detail={"Preference","All"};
 
             }
-           setAdapters();
+//           setAdapters();
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }
@@ -318,7 +318,7 @@ public class Socialize extends HibourBaseTabFragment implements View.OnClickList
                 dd.add(d.getChoosedUsers().size()+"");
                 Constants.socialPrefsMap.put(d.getPreferenceId(),dd);
                 Constants.prefsMap.put(d.getPreferenceId(),d);
-               // Constants.nearByUsersMap.put(d.getPreferenceId(),d.getChoosedUsers());
+//               Constants.nearByUsersMap.put(d.getPreferenceId(),d.getChoosedUsers());
                 for(ChoosedUser ch:d.getChoosedUsers()){
                     Constants.membersList.add(ch);
                 }

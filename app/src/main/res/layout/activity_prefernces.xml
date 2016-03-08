@@ -14,12 +14,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
                 android:id="@+id/socialize_toolbar"
-                android:background="@color/white">
+                android:background="@color/brand">
 
                 <ImageView
-                    android:layout_width="@dimen/app_bar_icon_size"
-                    android:layout_height="@dimen/app_bar_icon_size"
-                    android:src="@mipmap/ic_back_gray"
+                    android:layout_width="@dimen/dp_30"
+                    android:layout_height="@dimen/dp_30"
+                    android:src="@mipmap/ic_back_white"
                     android:id="@+id/socillize_menu_icon"
                     android:layout_marginLeft="@dimen/dp_20"
                     android:layout_centerVertical="true"/>
@@ -27,17 +27,71 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/title_activity_social_categories"
-                    android:textColor="@color/brand"
+                    android:textColor="@color/white"
                     android:layout_centerInParent="true"
                     android:textSize="@dimen/app_bar_title_text_size"/>
-                <RelativeLayout
+
+
+                <ImageView
+                    android:id="@+id/home_search_icon"
+                    android:layout_width="@dimen/dp_30"
+                    android:layout_height="@dimen/dp_30"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp_20"
+                    android:padding="@dimen/dp_3"
+                    android:src="@mipmap/ic_search_white"/>
+
+                <LinearLayout
+                    android:id="@+id/messages_search_bar"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/nav_bottom_line_height"
-                    android:background="@color/common_action_bar_splitter"
-                    android:id="@+id/nav_drawer_bottom_line"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:layout_alignParentBottom="true"/>
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/newbrand"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/navigation_back"
+                        android:layout_width="?android:actionBarSize"
+                        android:layout_height="?android:actionBarSize"
+                        android:adjustViewBounds="true"
+                        android:padding="@dimen/dp_10"
+                        android:src="@mipmap/ic_back_white"/>
+
+                    <RelativeLayout
+                        android:id="@+id/home_search_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_35"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="@dimen/dp_50"
+                        android:background="@drawable/loc_search_rectangle"
+                        android:gravity="center"
+                        >
+
+                        <AutoCompleteTextView
+                            android:id="@+id/home_search_autocomplete"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_30"
+                            android:layout_centerInParent="true"
+                            android:background="@null"
+                            android:gravity="center"
+                            android:hint="search posts"
+                            android:textColor="@color/black_1"
+                            android:textColorHint="@color/gray"
+                            android:textSize="@dimen/edit_text_size"/>
+
+                        <ImageView
+                            android:layout_width="?android:actionBarSize"
+                            android:layout_height="?android:actionBarSize"
+                            android:layout_alignParentRight="true"
+                            android:adjustViewBounds="true"
+                            android:padding="@dimen/dp_5"
+                            android:src="@mipmap/ic_search_red_icon"/>
+                    </RelativeLayout>
+
+                </LinearLayout>
 
         </RelativeLayout>
 
@@ -49,7 +103,8 @@
             android:descendantFocusability="beforeDescendants"
             android:focusableInTouchMode="true"
             android:layout_marginTop="@dimen/dp_10"
-            android:background="@drawable/loc_search_rectangle">
+            android:background="@drawable/loc_search_rectangle"
+            android:visibility="gone">
             <RelativeLayout
                 android:layout_width="48dp"
                 android:layout_height="48dp"
@@ -156,16 +211,63 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dp_20" />
 
-        <android.support.v7.widget.RecyclerView
-            android:scrollbars="vertical"
-            android:background="@android:color/white"
+        <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:scrollbars="vertical"-->
+            <!--android:background="@android:color/white"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:id="@+id/social_prefs_list"-->
+            <!--android:layout_marginTop="@dimen/dp_20"-->
+            <!--android:layout_below="@+id/social_text1"-->
+            <!--android:layout_above="@+id/socialize_button_bar">-->
+        <!--</android.support.v7.widget.RecyclerView>-->
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/social_prefs_list"
-            android:layout_marginTop="@dimen/dp_20"
             android:layout_below="@+id/social_text1"
-            android:layout_above="@+id/socialize_button_bar">
-        </android.support.v7.widget.RecyclerView>
+            android:layout_above="@+id/update_prefernces"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/social_prefs_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:background="@color/light_gray"
+                    android:visibility="visible">
+                </android.support.v7.widget.RecyclerView>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/social_prefs_list1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/light_gray"
+                    android:visibility="visible">
+                </android.support.v7.widget.RecyclerView>
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:layout_alignParentBottom="true"
+            android:background="@color/brand"
+            android:id="@+id/update_prefernces"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <com.dsquare.hibour.utils.ProximaSemiBold
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Update Your Interests"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="@dimen/sp_18"/>
+            </LinearLayout>
+
     </RelativeLayout>
     <android.support.design.widget.FloatingActionButton
         android:layout_width="@dimen/fab_govt_radius"
